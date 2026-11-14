@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-14T16:34:38.591Z",
- "total": 21,
- "added": 21,
+ "updated": "2026-11-14T17:51:05.545Z",
+ "total": 22,
+ "added": 1,
  "sources": [
   {
    "id": "ie",
@@ -16,15 +16,15 @@
    "name": "Hindustan Times",
    "ok": true,
    "found": 7,
-   "added": 7,
+   "added": 0,
    "note": ""
   },
   {
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 4,
-   "added": 4,
+   "found": 5,
+   "added": 1,
    "note": ""
   },
   {
@@ -32,7 +32,7 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -46,17 +46,17 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 500"
+   "note": ""
   },
   {
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -64,7 +64,7 @@
    "name": "TV9 Marathi",
    "ok": true,
    "found": 6,
-   "added": 6,
+   "added": 0,
    "note": ""
   },
   {
@@ -72,15 +72,15 @@
    "name": "ABP Majha",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 1,
-   "added": 1,
+   "found": 0,
+   "added": 0,
    "note": ""
   }
  ]
