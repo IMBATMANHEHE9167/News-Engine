@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14T19:55:53.106Z",
+ "updated": "2026-11-14T20:55:24.175Z",
  "total": 23,
  "added": 0,
  "sources": [
@@ -46,16 +46,16 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 500"
+   "note": ""
   },
   {
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
