@@ -1,0 +1,87 @@
+{
+ "updated": "2026-11-14T16:34:38.591Z",
+ "total": 21,
+ "added": 21,
+ "sources": [
+  {
+   "id": "ie",
+   "name": "Indian Express",
+   "ok": false,
+   "found": 0,
+   "added": 0,
+   "note": "HTTP 403"
+  },
+  {
+   "id": "ht",
+   "name": "Hindustan Times",
+   "ok": true,
+   "found": 7,
+   "added": 7,
+   "note": ""
+  },
+  {
+   "id": "toi",
+   "name": "Times of India",
+   "ok": true,
+   "found": 4,
+   "added": 4,
+   "note": ""
+  },
+  {
+   "id": "ptm",
+   "name": "Pune Times Mirror",
+   "ok": true,
+   "found": 1,
+   "added": 1,
+   "note": ""
+  },
+  {
+   "id": "pkn",
+   "name": "Punekar News",
+   "ok": true,
+   "found": 0,
+   "added": 0,
+   "note": ""
+  },
+  {
+   "id": "ppl",
+   "name": "Pune Pulse",
+   "ok": false,
+   "found": 0,
+   "added": 0,
+   "note": "HTTP 500"
+  },
+  {
+   "id": "fpj",
+   "name": "Free Press Journal",
+   "ok": true,
+   "found": 1,
+   "added": 1,
+   "note": ""
+  },
+  {
+   "id": "tv9",
+   "name": "TV9 Marathi",
+   "ok": true,
+   "found": 6,
+   "added": 6,
+   "note": ""
+  },
+  {
+   "id": "abp",
+   "name": "ABP Majha",
+   "ok": true,
+   "found": 1,
+   "added": 1,
+   "note": ""
+  },
+  {
+   "id": "prb",
+   "name": "Dainik Prabhat",
+   "ok": true,
+   "found": 1,
+   "added": 1,
+   "note": ""
+  }
+ ]
+}
