@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-14T19:02:55.448Z",
+ "updated": "2026-11-14T19:55:53.106Z",
  "total": 23,
- "added": 1,
+ "added": 0,
  "sources": [
   {
    "id": "ie",
@@ -23,8 +23,8 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 6,
-   "added": 1,
+   "found": 5,
+   "added": 0,
    "note": ""
   },
   {
@@ -46,10 +46,10 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": true,
+   "ok": false,
    "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 500"
   },
   {
    "id": "fpj",
