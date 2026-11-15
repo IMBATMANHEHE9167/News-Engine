@@ -1,17 +1,17 @@
 {
- "updated": "2026-11-15T13:54:11.820Z",
+ "updated": "2026-11-15T14:07:55.313Z",
  "total": 45,
- "added": 3,
- "removed": 19,
+ "added": 0,
+ "removed": 0,
  "rules": 2,
  "sources": [
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 25,
-   "added": 3,
-   "note": ""
+   "ok": false,
+   "found": 0,
+   "added": 0,
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
