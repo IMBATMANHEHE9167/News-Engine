@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '17 * * * *'   # hourly
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['collector/**']   # re-run when the sorting rules change
 
 permissions:
   contents: write
@@ -15,7 +18,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,4 +31,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data
           git diff --cached --quiet || git commit -m "data: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase
           git push
