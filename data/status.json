@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-15T03:04:40.598Z",
- "total": 27,
- "added": 4,
+ "updated": "2026-11-15T04:12:20.172Z",
+ "total": 28,
+ "added": 1,
  "sources": [
   {
    "id": "ie",
@@ -16,7 +16,7 @@
    "name": "Hindustan Times",
    "ok": true,
    "found": 9,
-   "added": 4,
+   "added": 0,
    "note": ""
   },
   {
@@ -46,10 +46,10 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": true,
+   "ok": false,
    "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 500"
   },
   {
    "id": "fpj",
@@ -63,8 +63,8 @@
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 6,
-   "added": 0,
+   "found": 7,
+   "added": 1,
    "note": ""
   },
   {
