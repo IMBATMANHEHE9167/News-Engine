@@ -1,15 +1,15 @@
 {
- "updated": "2026-11-15T10:02:22.367Z",
- "total": 56,
- "added": 0,
+ "updated": "2026-11-15T10:59:14.262Z",
+ "total": 57,
+ "added": 1,
  "sources": [
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 26,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -31,7 +31,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 0,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -55,8 +55,8 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 2,
+   "added": 1,
    "note": ""
   },
   {
