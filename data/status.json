@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-15T14:54:54.901Z",
- "total": 109,
+ "updated": "2026-11-15T14:59:25.812Z",
+ "total": 134,
  "added": 0,
- "removed": 10,
- "rules": 6,
+ "removed": 1,
+ "rules": 7,
  "history": {
-  "reachedBack": "2026-11-01",
+  "reachedBack": "2026-10-28",
   "target": "2026-05-19",
-  "kept": 72,
+  "kept": 98,
   "note": ""
  },
  "sources": [
