@@ -4,8 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#E6E6E6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#131313" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" id="themeColor" content="#E6E6E6">
+<script>
+// Decide the theme before first paint: the saved choice, else the device setting.
+(function(){var t;try{t=localStorage.getItem('vidraksh-theme')}catch(e){}
+if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+document.documentElement.dataset.theme=t;})();
+</script>
 <title>विद्रक्ष · Live · Pune</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E6E6E6'/%3E%3Crect x='8' y='15' width='16' height='2' fill='%239C5A2B'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,10 +25,10 @@
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
   --serif:"Newsreader","Tiro Devanagari Marathi",Georgia,serif;
 }
-@media (prefers-color-scheme:dark){:root{
+:root[data-theme="dark"]{
   --paper:#131313; --raised:#1B1B1B; --ink:#ECECEC; --ink-2:#B4B4B4; --ink-3:#808080; --rule:#2E2E2E;
   --copper:#C98652; --copper-text:#D2925F; --copper-wash:rgba(201,134,82,.16);
-}}
+}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
@@ -32,7 +37,13 @@ button,select{font:inherit;color:inherit}
 .wrap{max-width:680px;margin:0 auto;padding:0 20px}
 
 /* Masthead */
-.mast{text-align:center;padding:30px 20px 18px}
+.mast{position:relative;text-align:center;padding:30px 20px 18px}
+.switch{position:absolute;top:16px;right:18px;appearance:none;background:none;border:0;padding:6px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+.switch i{display:block;position:relative;width:30px;height:16px;border:1px solid var(--ink-3);border-radius:8px;transition:border-color .2s}
+.switch i::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--ink-3);transition:transform .2s,background .2s}
+:root[data-theme="dark"] .switch i{border-color:var(--copper)}
+:root[data-theme="dark"] .switch i::after{transform:translateX(14px);background:var(--copper)}
+.switch:focus-visible{outline:1px solid var(--copper);outline-offset:2px}
 .mark{font-size:38px;font-weight:500;line-height:1.15;letter-spacing:.01em;margin:0}
 .mark span{color:var(--copper)}
 .mast hr{width:38px;height:1px;border:0;background:var(--copper);margin:9px auto 11px}
@@ -128,6 +139,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
 </head>
 <body>
 <header class="mast">
+  <button class="switch" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span id="themeWord">Light</span><i></i></button>
   <h1 class="mark" lang="mr" aria-label="Vidraksh">विद्र<span>क्ष</span></h1>
   <hr>
   <div class="kicker">Live · Pune</div>
@@ -184,7 +196,7 @@ const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
 const SRC = Object.fromEntries(FEEDS.map(f => [f.id, f.name]));
 const BANDS = ['morning', 'afternoon', 'evening', 'night'];
 const BAND_NAME = { morning: 'Morning · 6am–12', afternoon: 'Afternoon · 12–5pm', evening: 'Evening · 5–9pm', night: 'Night · 9pm–6am' };
-const darkMode = matchMedia('(prefers-color-scheme:dark)').matches;
+const isDarkTheme = () => document.documentElement.dataset.theme === 'dark';
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const IST = 19800000;
 const istDay = d => new Date(new Date(d).getTime() + IST).toISOString().slice(0, 10);
@@ -239,19 +251,19 @@ $('newsFilter').onclick = e => { const b = e.target.closest('button'); if (b) { 
 $('newsList').onclick = e => { if (e.target.id === 'more') { newsN += 60; drawNews(); } };
 
 /* ---------- Map ---------- */
-let MAP, LAYER, picked = null;
+let MAP, LAYER, BASE, picked = null;
 function initMap() {
   MAP = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([18.53, 73.86], 11);
   MAP.attributionControl.setPrefix(false);
-  let vector = false;
-  try {
-    if (window.maplibregl && L.maplibreGL) {
-      L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/' + (darkMode ? 'dark' : 'positron'), attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap' }).addTo(MAP);
-      vector = true;
-    }
-  } catch {}
-  if (!vector) L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(MAP);
+  setBase();
   LAYER = L.layerGroup().addTo(MAP);
+}
+function setBase() {
+  if (BASE) { MAP.removeLayer(BASE); BASE = null; }
+  try {
+    if (window.maplibregl && L.maplibreGL) BASE = L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/' + (isDarkTheme() ? 'dark' : 'positron'), attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap' }).addTo(MAP);
+  } catch {}
+  if (!BASE) BASE = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(MAP);
 }
 
 function current() {
@@ -357,6 +369,16 @@ function show(tab) {
   if (tab === 'map') { drawMap(); setTimeout(() => MAP.invalidateSize(), 80); }
   try { history.replaceState(null, '', '#' + tab); } catch {}
 }
+function applyTheme(t, save) {
+  document.documentElement.dataset.theme = t;
+  if (save) try { localStorage.setItem('vidraksh-theme', t); } catch {}
+  $('themeSwitch').setAttribute('aria-checked', t === 'dark');
+  $('themeWord').textContent = t === 'dark' ? 'Dark' : 'Light';
+  $('themeColor').content = t === 'dark' ? '#131313' : '#E6E6E6';
+  if (MAP) { setBase(); if (!$('mapv').classList.contains('hide')) drawMap(); }
+}
+$('themeSwitch').onclick = () => applyTheme(isDarkTheme() ? 'light' : 'dark', true);
+applyTheme(document.documentElement.dataset.theme, false);
 $('tabNews').onclick = () => show('news');
 $('tabMap').onclick = () => show('map');
 await load();
