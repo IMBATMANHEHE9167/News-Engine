@@ -86,7 +86,7 @@ export const AREAS = [
   ['shikrapur','Shikrapur / Ranjangaon',18.6930,74.1380,'rural',['shikrapur','ranjangaon','शिक्रापूर','रांजणगाव']],
   ['shirur','Shirur',18.8270,74.3730,'rural',['shirur','nhavare','शिरूर','शिरुर','न्हावरे']],
   ['khed','Rajgurunagar / Khed',18.8540,73.8880,'rural',['rajgurunagar','khed taluka','khed police','राजगुरुनगर','राजगुरूनगर']],
-  ['junnar','Junnar / Narayangaon',19.2000,73.8750,'rural',['junnar','narayangaon','manchar','जुन्नर','नारायणगाव','मंचर']],
+  ['junnar','Junnar / Narayangaon',19.2000,73.8750,'rural',['junnar','narayangaon','manchar','otur','alephata','ale phata','जुन्नर','नारायणगाव','मंचर','ओतूर','आळेफाटा']],
   ['mulshi','Mulshi / Pirangut',18.5100,73.6800,'rural',['mulshi','pirangut','paud','मुळशी','पिरंगुट','पौड']],
   ['bhor','Bhor',18.1530,73.8450,'rural',['bhor','भोर तालुक','भोर पोलीस','भोर पोलिस','भोरमध्ये','भोर येथे']],
   ['velhe','Velhe / Rajgad',18.2950,73.6400,'rural',['velhe','rajgad','torna','pabe ghat','वेल्हे','राजगड','तोरणा','पाबे घाट']],
@@ -111,7 +111,7 @@ export const CATS = [
   { id: 'fire',      name: 'Fire' },
 ];
 
-export const RULES_VERSION = 5;
+export const RULES_VERSION = 6;
 
 /* ------------------------------------------------------------------------------------------------
    Sorting rules, version 3 (English and Marathi).
@@ -123,7 +123,7 @@ export const RULES_VERSION = 5;
    ------------------------------------------------------------------------------------------------ */
 
 // Compounds that contain an incident word but mean something else. Removed before matching.
-const FIGURATIVE = /आत्महत्य\S*|टांगती तलवार|घटस्फोट\S*|गांधीहत्य\S*|मतचोरी|वोट ?चोरी|मतांची चोरी|करचोरी|वीज ?चोरी|पाणी ?चोरी|गौप्यस्फोट|आगपाखड|हल्लाबोल|शाब्दिक हल्ल\S*|जीवन संपव\S*|लोकसंख्येचा स्फोट|heart attack|panic attack|cyber ?attack|under fire|fire sale|vote theft|daylight robbery/gi;
+const FIGURATIVE = /आत्महत्य\S*|(आमदार|खासदार|नगरसेवक|कार्यकर्त|मंत्र्य)\S*\s(\S+\s)?राडा|(सभागृहात|सभेत|विधानसभेत|बैठकीत|कार्यक्रमात)\s(\S+\s){0,3}राडा|टांगती तलवार|घटस्फोट\S*|गांधीहत्य\S*|मतचोरी|वोट ?चोरी|मतांची चोरी|करचोरी|वीज ?चोरी|पाणी ?चोरी|गौप्यस्फोट|आगपाखड|हल्लाबोल|शाब्दिक हल्ल\S*|जीवन संपव\S*|लोकसंख्येचा स्फोट|heart attack|panic attack|cyber ?attack|under fire|fire sale|vote theft|daylight robbery/gi;
 const norm = s => String(s).replace(FIGURATIVE, ' ');
 
 const VEH = '(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)';
@@ -143,9 +143,9 @@ const RULES = [
     /\b(food and drugs?|fda|drug[- ]free|de-?addiction|pharma\w*|medicines?|chemist|drug store|awareness)\b|अन्न व औषध|व्यसनमुक्ती|जनजागृती/i],
   ['cyber', /\b(cyber ?(crime|fraud\w*|crook\w*|cheat\w*|scam\w*|thie\w+)|fraud(s|sters?)?|cheat(ed|ing|s)|duped?|dupes|scam(s|mers?|med)?|digital arrest|swindl\w+|ponzi|phishing|fake call cent(re|er)|embezzl\w+|misappropriat\w+|siphon\w+|loses? (rs|₹))\b|फसवणूक|फसवणुक|फसवणुकी|फसवले|गंडा|सायबर चोर|सायबर भामट|डिजिटल अरेस्ट|अपहार/i,
     /\b(warns?|warning|advisory|awareness|beware|cautions?|tips|fraudulent job offers|dues|auction|property tax|voter|voters|election|poll)\b|सावध|आवाहन|जनजागृती|इशारा|मतदार|भरती|होऊ नये|स्पष्टीकरण|पारदर्शक|सावट|पार्श्वभूमीवर/i],
-  ['violence', /\b(assault(ed|s|ing)?|attack(ed|s|ers?)?|stabb?(ed|ing|s)?|koyta|sickles?|firing|fired (at|on|upon|shots?)|opens? fire|shot at|gunshot|gunmen|beaten (up|by|with|over)|thrash(ed|es|ing)|vandalis\w+|vandaliz\w+|rioting|clash(es|ed)?|brawl|pistols?|firearms?|sword|machete|gang ?war|mcoca|tadipaar|externed|road rage|hurl(s|ed|ing)?)\b|हल्ला|हल्ल्या|मारहाण|कोयता|कोयत्या|गोळीबार|तोडफोड|पिस्तूल|पिस्तुल|मोक्का|चाकूने|तलवार|वार केले|वार करून|(गटांत|गटात|टोळक्या\S*|तरुणां\S*|गुंडां\S*) राडा|हाणामारी|दगडफेक|तडीपार|दहशत माजव|अग्निशस्त्र|काडतुस|गावठी कट्ट|चॉपर|कुऱ्हाड/i,
+  ['violence', /\b(assault(ed|s|ing)?|attack(ed|s|ers?)?|stabb?(ed|ing|s)?|koyta|sickles?|firing|fired (at|on|upon|shots?)|opens? fire|shot at|gunshot|gunmen|beaten (up|by|with|over)|thrash(ed|es|ing)|vandalis\w+|vandaliz\w+|rioting|clash(es|ed)?|brawl|pistols?|firearms?|sword|machete|gang ?war|road rage|hurl(s|ed|ing)?)\b|हल्ला|हल्ले|हल्ल्या|जीवे मारण्याची धमकी|राडा|मारहाण|कोयता|कोयत्या|गोळीबार|तोडफोड|पिस्तूल|पिस्तुल|चाकूने|तलवार|वार केले|वार करून|(गटांत|गटात|टोळक्या\S*|तरुणां\S*|गुंडां\S*) राडा|हाणामारी|दगडफेक|दहशत माजव|अग्निशस्त्र|काडतुस|गावठी कट्ट|चॉपर|कुऱ्हाड/i,
     /\b(slams?|hits? out|lash(es|ed)? out|verbal|jibe|dig at|criticis\w+|leopards?|stray dogs?|dogs?|rabid|bees?|monkeys?|tigers?|opposition|devotees|after .{0,30}(firing|attack) incident)\b|टोला|टीका|टीके|निशाणा|हृदयविकार|बिबट्या|बिबट्याचा|कुत्र्य|मधमाश|राजकीय|माकड|वाघा|वाघाची|गव्या|हत्तीच्या|अस्वल/i],
-  ['theft', /\b(theft|thefts|stolen|steal(s|ing)?|stole|thie(f|ves)|pickpocket\w*|shoplift\w*)\b|घेऊन पसार|लांबवले|लांबविले|डल्ला|चोरी|चोऱ्या|चोरट|चोरले|चोरून|चोरां|चोराला|चोर(?![ऀ-ॿ])|लंपास/i, /चोरी नाही|पाणी|वीज/i],
+  ['theft', /\b(theft|thefts|stolen|steal(s|ing)?|stole|thie(f|ves)|pickpocket\w*|shoplift\w*)\b|घेऊन पसार|घेऊन [^.।;]{0,25}पसार|लांबवले|लांबविले|डल्ला|चोरी|चोऱ्या|चोरट|चोरले|चोरून|चोरां|चोराला|चोर(?![ऀ-ॿ])|लंपास/i, /\b(water|electricity|power|sand|prevention)\b|चोरी नाही|पाणी|वीज/i],
   ['fire', /\b(fire breaks? out|fire broke out|caught fire|catches fire|blaze|gutted|major fire|massive fire|fire (at|in) (a |an |the )?\w+|cylinder blast|explosion)\b|आग लाग|भीषण आग|आगीत|आगीच्या|आग भडक|जळून खाक|स्फोट/i,
     /\b(firing|fire safety|fire audit|firecrackers?)\b|अग्निसुरक्षा|फटाके|फटाक्या/i],
 ];
@@ -158,8 +158,8 @@ const NOISE = new RegExp([
   '\\b(election|poll|manifesto|rally|budget|minister says|alleges|demands?|protest(s|ed|ers)?|morcha|remembrance|statue)\\b',
   // court stages, policy, aftermath, advisories, statistics
   '\\b(trial|bail|verdict|convict\\w*|sentenc\\w+|acquit\\w*|charge ?sheet\\w*|hearing|high court|supreme court|hc|plea|life imprisonment)\\b',
-  '\\b(months? after|years? after|compensation|ex[- ]gratia|free (homes|flats)|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar|workshop|meeting|todays latest)\\b',
-  'अजित पवार|विमान|मोफत|घरांचा आधार|मदत जाहीर|भरपाई|खटला|खटल्या|फाशी|खेळाडू|अंत्यसंस्कार|पडसाद|सवाल|अभिनेत्|आकडेवारी|नेमके चित्र|सत्कार|युक्तीवाद|युक्तिवाद|जामीन|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|जन्मठेप|सक्तमजुरी|शिक्षा सुनाव|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|नुकसानभरपाई|जनजागृती|चित्रपट|अभिनेत्री|अभिनेता|क्रिकेट|स्पर्धा|पुण्यतिथी|जयंती|अधिवेशन',
+  '\\b(months? after|years? after|compensation|ex[- ]gratia|free (homes|flats)|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar|workshop|meeting|todays latest|followup|follow up|txt|crime rates?|prevention)\\b',
+  'अजित पवार|विमान|हजारी पार|गुन्ह्यांची संख्या|गुन्ह्यांत वाढ|गुन्ह्यांमध्ये वाढ|पुन्हा गजबजणार|मोफत|घरांचा आधार|मदत जाहीर|भरपाई|खटला|खटल्या|फाशी|खेळाडू|अंत्यसंस्कार|पडसाद|सवाल|अभिनेत्|आकडेवारी|नेमके चित्र|सत्कार|युक्तीवाद|युक्तिवाद|जामीन|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|जन्मठेप|सक्तमजुरी|शिक्षा सुनाव|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|नुकसानभरपाई|जनजागृती|चित्रपट|अभिनेत्री|अभिनेता|क्रिकेट|स्पर्धा|पुण्यतिथी|जयंती|अधिवेशन',
 ].join('|'), 'i');
 
 // Police / casualty language. A summary may assign a type only when this is present.
@@ -355,13 +355,19 @@ function ruledOut(title) {
 // The article opening says it is in Pune: "पुण्यात", "पुणे पोलिस", or a dateline such as "पुणे, ता. १४" / "पुणे - ".
 const SAYS_PUNE = /पुण्यात(?!ील)|पुणे शहरात|पुणे पोलिस|पुणे पोलीस|(^|[.।:;\s])पुणे\s*[,:]|(^|[.।:;\s])पुणे\s+[-–]\s|\bin pune\b|\bpune (police|city)\b/i;
 
+
+// A headline that itself reports an event: a crime/accident label, or an arrest, death or injury.
+const EVENT = /^\W*(pune |pimpri chinchwad )?(crime|road accident|accident|theft|fire|fraud)\b|\b(arrest\w*|held|booked|killed|dies|died|dead|injured)\b|अटक|गुन्हा दाखल|गुन्हे दाखल|मृत्यू|ठार|जखमी|जेरबंद|गजाआड|लंपास/i;
+
 // One decision for a story that came from an index without headlines, given its Marathi headline, the English
 // words of its address, and its text. The Marathi headline and text outrank the address words, which are
 // machine-written and sometimes name the wrong place.
 function judge(title, slug, text) {
   if (ruledOut(title) || NOISE.test(slug)) return null;
   if (!inPune(title, text) || !inPune(slug, text)) return null;
-  const c = classify(title, text) || classify(slug, text);
+  // The headline decides. The article's opening may decide only for a headline that itself reports an event
+  // (an arrest, a death, an injury), never for a general piece that merely mentions crime.
+  const c = classify(title) || (EVENT.test(title) ? classify(title, text) : null);
   if (!c) return null;
   const a = locate(title, text) || locate(slug);
   // Sakal and Lokmat file other districts under "Pune" too: without an area, the story itself must say Pune.
@@ -381,7 +387,7 @@ export function recheck(rec, text) {
     ({ c, a } = j);
   } else {
     if (!inPune(rec.t, text)) return false;
-    c = classify(rec.t, text) || (fromIndex ? classify(slug) : null);
+    c = fromIndex ? classify(rec.t) : classify(rec.t, text);
     if (!c) return false;
     a = text ? (locate(rec.t, text) || locate(slug)) : (locate(rec.t) || locate(slug) || rec.a || null);
   }
@@ -469,7 +475,7 @@ const STOP = new Set('police arrested arrest accused registered against people p
 const tokens = t => {
   const s = t.replace(/[०-९]/g, d => '०१२३४५६७८९'.indexOf(d)).toLowerCase();
   const nums = (s.match(/\d[\d,]*/g) || []).map(n => n.replace(/,/g, '')).filter(n => n.length >= 3 && !/^20\d\d$/.test(n));
-  const words = (s.match(/[a-z]{6,}/g) || []).filter(w => !STOP.has(w));
+  const words = (s.match(/[a-z]{6,}|[ऀ-ॿ]{6,}/g) || []).filter(w => !STOP.has(w) && !/^(पोलिस|पोलीस|गुन्ह|आरोपी|प्रकरण|पुण्या|घटना)/.test(w));
   return { nums: new Set(nums), words: new Set(words) };
 };
 const istDay = d => new Date(new Date(d).getTime() + 19800000).toISOString().slice(0, 10);
@@ -490,7 +496,7 @@ export function groupEvents(items) {
     } else {
       for (const e of byArea[r.a] || []) {
         if (Math.abs(new Date(r.d) - new Date(e.last)) > 48 * 3600e3) continue;
-        const sameDay = e.c === r.c && e.days.has(istDay(r.d));
+        const sameDay = e.c === r.c && (e.days.has(istDay(r.d)) || r.c === 'murder' || r.c === 'kidnap');
         const fam = e.c === r.c || (FAMILY[e.c] && FAMILY[e.c] === FAMILY[r.c]);
         const shared = [...tk.nums].some(n => e.nums.has(n)) || [...tk.words].filter(w => e.words.has(w)).length >= 2;
         if (sameDay || (fam && shared)) { ev = e; break; }

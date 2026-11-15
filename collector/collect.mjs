@@ -5,7 +5,7 @@ import { FEEDS, RULES_VERSION, extract, finish, merge, pageText, enrich, recheck
 
 const DATA = new URL('../data/', import.meta.url);
 const UA = 'Mozilla/5.0 (compatible; FeedFetcher/1.0)';
-const MAX_PAGES = 80;            // article pages read per run for new items and re-checks
+const MAX_PAGES = 150;           // article pages read per run for new items and re-checks
 const BACKFILL_DAYS = 4;         // archive days read per run
 const BACKFILL_PAGES = 90;       // article pages read per run for the archive
 const BACKFILL_SPAN = 180;       // how far back the archive read goes, in days
