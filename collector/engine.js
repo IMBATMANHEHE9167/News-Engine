@@ -111,7 +111,7 @@ export const CATS = [
   { id: 'fire',      name: 'Fire' },
 ];
 
-export const RULES_VERSION = 6;
+export const RULES_VERSION = 7;
 
 /* ------------------------------------------------------------------------------------------------
    Sorting rules, version 3 (English and Marathi).
@@ -129,7 +129,7 @@ const norm = s => String(s).replace(FIGURATIVE, ' ');
 const VEH = '(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)';
 const WOMAN_MR = '(महिले|महिला|मुली|मुलगी|तरुणी|युवती|अल्पवयीन|विद्यार्थिनी|बालिके|चिमुकली|विवाहिते)';
 const RULES = [
-  ['murder', /\b(murder(s|ed|er|ing)?)\b|खून|खुना|हत्या|हत्ये/i, null],
+  ['murder', /\b(murder(s|ed|er|ing)?)\b|खून|खुना|हत्या(?!र)|हत्ये/i, null],
   ['accident', new RegExp('\\b(accident|hit[- ]and[- ]run|run over|mowed down|mows down|collision|collides?|collided|rams? into|rammed|overturn(s|ed)?|plunges?|knocked down|drunk[- ]driv\\w+)\\b|अपघात|हिट अँड रन|चिरडले|चिरडून|भरधाव|\\b' + VEH + '\\b[^.;:]{0,70}\\bcrash(es|ed)?\\b|\\bcrash(es|ed)?\\b[^.;:]{0,40}\\b' + VEH + '\\b', 'i'),
     /\b(online|website|site|server|app|portal|booking|system|market|stocks?|shares?|prices?|safety|awareness|helmet|leopards?)\b|जनजागृती|सुरक्षा सप्ताह|प्रतीक्षा|घटले|धोका|निमंत्रण|बिबट्या/i],
   ['murder', /\b(hacked to death|stabbed to death|beaten to death|shot dead|strangled|strangulat\w+|bludgeon\w*|killed (over|by|for|after|in (a )?(fight|dispute|quarrel|attack|brawl))|kills? (his |her )?(wife|husband|friend|father|mother|son|daughter|brother|sister|man|woman|youth|lover|neighbour|girlfriend|boyfriend)|body found|found murdered|chopp\w+ .{0,20}(to|into) pieces)\b|ठार मारले|ठार केले|गळा (दाबून|चिरून|आवळून)|भोसकून|निर्घृण/i, null],
@@ -143,7 +143,7 @@ const RULES = [
     /\b(food and drugs?|fda|drug[- ]free|de-?addiction|pharma\w*|medicines?|chemist|drug store|awareness)\b|अन्न व औषध|व्यसनमुक्ती|जनजागृती/i],
   ['cyber', /\b(cyber ?(crime|fraud\w*|crook\w*|cheat\w*|scam\w*|thie\w+)|fraud(s|sters?)?|cheat(ed|ing|s)|duped?|dupes|scam(s|mers?|med)?|digital arrest|swindl\w+|ponzi|phishing|fake call cent(re|er)|embezzl\w+|misappropriat\w+|siphon\w+|loses? (rs|₹))\b|फसवणूक|फसवणुक|फसवणुकी|फसवले|गंडा|सायबर चोर|सायबर भामट|डिजिटल अरेस्ट|अपहार/i,
     /\b(warns?|warning|advisory|awareness|beware|cautions?|tips|fraudulent job offers|dues|auction|property tax|voter|voters|election|poll)\b|सावध|आवाहन|जनजागृती|इशारा|मतदार|भरती|होऊ नये|स्पष्टीकरण|पारदर्शक|सावट|पार्श्वभूमीवर/i],
-  ['violence', /\b(assault(ed|s|ing)?|attack(ed|s|ers?)?|stabb?(ed|ing|s)?|koyta|sickles?|firing|fired (at|on|upon|shots?)|opens? fire|shot at|gunshot|gunmen|beaten (up|by|with|over)|thrash(ed|es|ing)|vandalis\w+|vandaliz\w+|rioting|clash(es|ed)?|brawl|pistols?|firearms?|sword|machete|gang ?war|road rage|hurl(s|ed|ing)?)\b|हल्ला|हल्ले|हल्ल्या|जीवे मारण्याची धमकी|राडा|मारहाण|कोयता|कोयत्या|गोळीबार|तोडफोड|पिस्तूल|पिस्तुल|चाकूने|तलवार|वार केले|वार करून|(गटांत|गटात|टोळक्या\S*|तरुणां\S*|गुंडां\S*) राडा|हाणामारी|दगडफेक|दहशत माजव|अग्निशस्त्र|काडतुस|गावठी कट्ट|चॉपर|कुऱ्हाड/i,
+  ['violence', /\b(assault(ed|s|ing)?|attack(ed|s|ers?)?|stabb?(ed|ing|s)?|koyta|sickles?|firing|fired (at|on|upon|shots?)|opens? fire|shot at|gunshot|gunmen|beaten (up|by|with|over)|thrash(ed|es|ing)|vandalis\w+|vandaliz\w+|rioting|clash(es|ed)?|brawl|pistols?|firearms?|sword|machete|gang ?war|road rage|hurl(s|ed|ing)?)\b|हत्यार|शस्त्र बाळग|हल्ला|हल्ले|हल्ल्या|जीवे मारण्याची धमकी|राडा|मारहाण|कोयता|कोयत्या|गोळीबार|तोडफोड|पिस्तूल|पिस्तुल|चाकूने|तलवार|वार केले|वार करून|(गटांत|गटात|टोळक्या\S*|तरुणां\S*|गुंडां\S*) राडा|हाणामारी|दगडफेक|दहशत माजव|अग्निशस्त्र|काडतुस|गावठी कट्ट|चॉपर|कुऱ्हाड/i,
     /\b(slams?|hits? out|lash(es|ed)? out|verbal|jibe|dig at|criticis\w+|leopards?|stray dogs?|dogs?|rabid|bees?|monkeys?|tigers?|opposition|devotees|after .{0,30}(firing|attack) incident)\b|टोला|टीका|टीके|निशाणा|हृदयविकार|बिबट्या|बिबट्याचा|कुत्र्य|मधमाश|राजकीय|माकड|वाघा|वाघाची|गव्या|हत्तीच्या|अस्वल/i],
   ['theft', /\b(theft|thefts|stolen|steal(s|ing)?|stole|thie(f|ves)|pickpocket\w*|shoplift\w*)\b|घेऊन पसार|घेऊन [^.।;]{0,25}पसार|लांबवले|लांबविले|डल्ला|चोरी|चोऱ्या|चोरट|चोरले|चोरून|चोरां|चोराला|चोर(?![ऀ-ॿ])|लंपास/i, /\b(water|electricity|power|sand|prevention)\b|चोरी नाही|पाणी|वीज/i],
   ['fire', /\b(fire breaks? out|fire broke out|caught fire|catches fire|blaze|gutted|major fire|massive fire|fire (at|in) (a |an |the )?\w+|cylinder blast|explosion)\b|आग लाग|भीषण आग|आगीत|आगीच्या|आग भडक|जळून खाक|स्फोट/i,
@@ -159,7 +159,7 @@ const NOISE = new RegExp([
   // court stages, policy, aftermath, advisories, statistics
   '\\b(trial|bail|verdict|convict\\w*|sentenc\\w+|acquit\\w*|charge ?sheet\\w*|hearing|high court|supreme court|hc|plea|life imprisonment)\\b',
   '\\b(months? after|years? after|compensation|ex[- ]gratia|free (homes|flats)|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar|workshop|meeting|todays latest|followup|follow up|txt|crime rates?|prevention)\\b',
-  'अजित पवार|विमान|हजारी पार|गुन्ह्यांची संख्या|गुन्ह्यांत वाढ|गुन्ह्यांमध्ये वाढ|पुन्हा गजबजणार|मोफत|घरांचा आधार|मदत जाहीर|भरपाई|खटला|खटल्या|फाशी|खेळाडू|अंत्यसंस्कार|पडसाद|सवाल|अभिनेत्|आकडेवारी|नेमके चित्र|सत्कार|युक्तीवाद|युक्तिवाद|जामीन|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|जन्मठेप|सक्तमजुरी|शिक्षा सुनाव|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|नुकसानभरपाई|जनजागृती|चित्रपट|अभिनेत्री|अभिनेता|क्रिकेट|स्पर्धा|पुण्यतिथी|जयंती|अधिवेशन',
+  'अजित पवार|विमान|चोऱ्यांमध्ये वाढ|चोऱ्यांत वाढ|हजारी पार|गुन्ह्यांची संख्या|गुन्ह्यांत वाढ|गुन्ह्यांमध्ये वाढ|पुन्हा गजबजणार|मोफत|घरांचा आधार|मदत जाहीर|भरपाई|खटला|खटल्या|फाशी|खेळाडू|अंत्यसंस्कार|पडसाद|सवाल|अभिनेत्|आकडेवारी|नेमके चित्र|सत्कार|युक्तीवाद|युक्तिवाद|जामीन|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|जन्मठेप|सक्तमजुरी|शिक्षा सुनाव|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|नुकसानभरपाई|जनजागृती|चित्रपट|अभिनेत्री|अभिनेता|क्रिकेट|स्पर्धा|पुण्यतिथी|जयंती|अधिवेशन',
 ].join('|'), 'i');
 
 // Police / casualty language. A summary may assign a type only when this is present.
