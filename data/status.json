@@ -1,21 +1,23 @@
 {
- "updated": "2026-11-15T13:14:27.610Z",
- "total": 61,
+ "updated": "2026-11-15T13:54:11.820Z",
+ "total": 45,
  "added": 3,
+ "removed": 19,
+ "rules": 2,
  "sources": [
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
-   "added": 0,
-   "note": "HTTP 403"
+   "ok": true,
+   "found": 25,
+   "added": 3,
+   "note": ""
   },
   {
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
-   "found": 9,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -23,7 +25,7 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 4,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -55,15 +57,15 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 3,
-   "added": 1,
+   "found": 0,
+   "added": 0,
    "note": ""
   },
   {
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 7,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -71,8 +73,8 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 2,
-   "added": 2,
+   "found": 0,
+   "added": 0,
    "note": ""
   },
   {
