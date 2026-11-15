@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-15T10:59:14.262Z",
- "total": 57,
+ "updated": "2026-11-15T11:56:22.359Z",
+ "total": 58,
  "added": 1,
  "sources": [
   {
@@ -32,7 +32,7 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 1,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -56,7 +56,7 @@
    "name": "Free Press Journal",
    "ok": true,
    "found": 2,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
