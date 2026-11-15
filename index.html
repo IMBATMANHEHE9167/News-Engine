@@ -55,6 +55,8 @@ nav{position:sticky;top:0;z-index:1000;background:var(--paper);border-bottom:1px
 nav div{display:flex;justify-content:center;gap:34px}
 nav button{appearance:none;background:none;border:0;padding:13px 0 11px;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid transparent;margin-bottom:-1px;cursor:pointer}
 nav button.on{color:var(--ink);border-bottom-color:var(--copper)}
+nav .period{gap:22px;border-top:1px solid var(--rule)}
+nav .period button{padding:8px 0 7px;font-size:13.5px;font-weight:400;letter-spacing:.01em;text-transform:none}
 
 .label{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
 
@@ -80,7 +82,7 @@ nav button.on{color:var(--ink);border-bottom-color:var(--copper)}
 
 /* Map */
 .mapgrid{max-width:1180px;margin:0 auto;padding:0 20px}
-.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:16px 0 8px}
+.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:16px 0 8px}
 .controls label{display:block}
 select{width:100%;appearance:none;background:transparent;border:0;border-bottom:1px solid var(--rule);border-radius:0;padding:5px 16px 6px 0;font-size:14.5px;
   background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 7px) 55%,calc(100% - 3px) 55%;background-size:4px 4px;background-repeat:no-repeat}
@@ -131,8 +133,8 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
   .mast{padding-top:40px}
   .mark{font-size:46px}
   .mapgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:44px;align-items:start}
-  .mapcol{position:sticky;top:60px}
-  #map{height:calc(100vh - 190px)}
+  .mapcol{position:sticky;top:92px}
+  #map{height:calc(100vh - 225px)}
   .sidecol .sec:first-child{border-top:0;margin-top:0;padding-top:16px}
 }
 </style>
@@ -149,7 +151,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
 <nav><div>
   <button id="tabNews" class="on">Reports</button>
   <button id="tabMap">Map &amp; patterns</button>
-</div></nav>
+</div><div class="period" id="period" role="group" aria-label="Period"></div></nav>
 
 <main id="news" class="wrap">
   <div class="filter" id="newsFilter"></div>
@@ -160,8 +162,6 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
   <div class="mapgrid">
     <div class="mapcol">
       <div class="controls">
-        <label><span class="label">Period</span>
-          <select id="fPeriod"><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="0" selected>All history</option></select></label>
         <label><span class="label">Type</span><select id="fCat"></select></label>
         <label><span class="label">Time</span>
           <select id="fTime"><option value="">Any time</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
@@ -224,13 +224,29 @@ async function load() {
 }
 
 /* ---------- Reports ---------- */
+// One period for both tabs: today (since midnight, India time), or the last N days.
+const PERIODS = [['1', 'Today'], ['7', '1 week'], ['30', '1 month'], ['90', '3 months'], ['0', 'All']];
+let period = '0';
+const since = () => period === '0' ? 0 : period === '1' ? new Date(istDay(Date.now()) + 'T00:00:00+05:30').getTime() : Date.now() - (+period) * 864e5;
+const inPeriod = e => new Date(e.last).getTime() >= since();
+function drawPeriod() {
+  $('period').innerHTML = PERIODS.map(([p, name]) => `<button class="${p === period ? 'on' : ''}" data-p="${p}" aria-pressed="${p === period}">${name}</button>`).join('');
+}
+$('period').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  period = b.dataset.p; newsN = 60; drawPeriod(); drawNews();
+  if (!$('mapv').classList.contains('hide')) drawMap();
+};
+
 let newsCat = '', newsN = 60;
 function drawNews() {
-  const used = new Set(EVENTS.map(e => e.c));
+  const inP = EVENTS.filter(inPeriod);
+  const used = new Set(inP.map(e => e.c));
+  if (newsCat && !used.has(newsCat)) newsCat = '';
   $('newsFilter').innerHTML = `<button class="${newsCat ? '' : 'on'}" data-c="">All</button>` +
     CATS.filter(c => used.has(c.id)).map(c => `<button class="${newsCat === c.id ? 'on' : ''}" data-c="${c.id}">${esc(c.name)}</button>`).join('');
-  const rows = EVENTS.filter(e => !newsCat || e.c === newsCat);
-  if (!rows.length) { $('newsList').innerHTML = '<div class="empty">Nothing here yet.</div>'; return; }
+  const rows = inP.filter(e => !newsCat || e.c === newsCat);
+  if (!rows.length) { $('newsList').innerHTML = `<div class="empty">${EVENTS.length ? 'No incidents reported in this period.' : 'Nothing here yet.'}</div>`; return; }
   const today = istDay(Date.now()), yest = istDay(Date.now() - 864e5);
   let html = '', day = '';
   for (const e of rows.slice(0, newsN)) {
@@ -267,10 +283,9 @@ function setBase() {
 }
 
 function current() {
-  const days = +$('fPeriod').value, cat = $('fCat').value, t = $('fTime').value, wide = $('fWide').checked;
-  const since = days ? Date.now() - days * 864e5 : 0;
+  const cat = $('fCat').value, t = $('fTime').value, wide = $('fWide').checked;
   return EVENTS.filter(e =>
-    new Date(e.last) >= since && (!cat || e.c === cat) &&
+    inPeriod(e) && (!cat || e.c === cat) &&
     (!t || (t === 'dark' ? isDark(e) : e.b === t)) &&
     (wide || !e.a || AREA[e.a].r === 'city'));
 }
@@ -362,7 +377,8 @@ function drawSources() {
 
 /* ---------- Wiring ---------- */
 $('fCat').innerHTML = '<option value="">All types</option>' + CATS.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
-for (const id of ['fPeriod', 'fCat', 'fTime', 'fWide']) $(id).onchange = drawMap;
+drawPeriod();
+for (const id of ['fCat', 'fTime', 'fWide']) $(id).onchange = drawMap;
 function show(tab) {
   $('tabNews').classList.toggle('on', tab === 'news'); $('tabMap').classList.toggle('on', tab === 'map');
   $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map');

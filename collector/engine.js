@@ -12,6 +12,13 @@ export const FEEDS = [
   { id: 'tv9',  name: 'TV9 Marathi',      url: 'https://www.tv9marathi.com/maharashtra/pune/feed', pune: true },
   { id: 'abp',  name: 'ABP Majha',        url: 'https://marathi.abplive.com/news/pune/feed', pune: true },
   { id: 'prb',  name: 'Dainik Prabhat',   url: 'https://www.dainikprabhat.com/feed/', pune: false },
+  // Marathi dailies without feeds: read from their article indexes.
+  //   newsmap = index carries headlines; urlmap = addresses only, so each candidate page is read for its headline.
+  //   path    = the paper's Pune / Pimpri-Chinchwad section.
+  { id: 'lks',  name: 'Loksatta',         url: 'https://www.loksatta.com/news-sitemap.xml', kind: 'newsmap', path: /loksatta\.com\/(pune|pimpri-chinchwad)\//i },
+  { id: 'pud',  name: 'Pudhari',          url: 'https://pudhari.news/news_sitemap.xml', kind: 'newsmap', path: /pudhari\.news\/maharashtra\/(pune|pimpri-chinchwad)\//i },
+  { id: 'lkm',  name: 'Lokmat',           url: 'https://www.lokmat.com/sitemap.xml', kind: 'urlmap', path: /lokmat\.com\/(pune|pimpri-chinchwad)\//i },
+  { id: 'skl',  name: 'Sakal',            url: 'https://www.esakal.com/sitemap/sitemap-daily-{date}.xml', kind: 'urlmap', daily: true, path: /esakal\.com\/(pune|pimpri-chinchwad)\//i },
 ];
 
 // Area list. Coordinates are approximate locality centres (area-level only, never an incident spot).
@@ -19,10 +26,10 @@ export const FEEDS = [
 export const AREAS = [
   ['shivajinagar','Shivajinagar',18.5308,73.8475,'city',['shivajinagar','shivaji nagar','शिवाजीनगर']],
   ['deccan','Deccan / FC Road',18.5180,73.8410,'city',['deccan','fc road','fergusson college road','jm road','jangli maharaj road','डेक्कन']],
-  ['camp','Camp',18.5110,73.8800,'city',['pune camp','camp area','mg road','lashkar police','cantonment','लष्कर','कॅम्प']],
+  ['camp','Camp',18.5110,73.8800,'city',['pune camp','camp area','mg road','lashkar police','cantonment','लष्कर पोलीस','लष्कर पोलिस','कॅम्प परिसर']],
   ['kp','Koregaon Park',18.5362,73.8939,'city',['koregaon park','कोरेगाव पार्क']],
-  ['mundhwa','Mundhwa',18.5320,73.9300,'city',['mundhwa','मुंढवा']],
-  ['yerawada','Yerawada',18.5510,73.8800,'city',['yerawada','yerwada','येरवडा']],
+  ['mundhwa','Mundhwa',18.5320,73.9300,'city',['mundhwa','मुंढवा','मुंढव्या']],
+  ['yerawada','Yerawada',18.5510,73.8800,'city',['yerawada','yerwada','येरवडा','येरवड्या']],
   ['kharadi','Kharadi',18.5510,73.9430,'city',['kharadi','खराडी']],
   ['chandannagar','Chandan Nagar',18.5610,73.9330,'city',['chandan nagar','chandannagar','चंदननगर']],
   ['vimannagar','Viman Nagar',18.5679,73.9143,'city',['viman nagar','vimannagar','vimantal','विमाननगर','विमानतळ']],
@@ -33,7 +40,7 @@ export const AREAS = [
   ['kothrud','Kothrud',18.5074,73.8077,'city',['kothrud','कोथरूड','कोथरुड']],
   ['karvenagar','Karve Nagar',18.4900,73.8200,'city',['karve nagar','karvenagar','karve road','कर्वेनगर']],
   ['erandwane','Erandwane',18.5100,73.8300,'city',['erandwane','erandwana','एरंडवणे']],
-  ['warje','Warje',18.4810,73.8000,'city',['warje','वारजे']],
+  ['warje','Warje',18.4810,73.8000,'city',['warje','वारजे','वारज्या']],
   ['bavdhan','Bavdhan',18.5150,73.7780,'city',['bavdhan','बावधन']],
   ['pashan','Pashan',18.5400,73.7930,'city',['pashan','पाषाण']],
   ['baner','Baner',18.5590,73.7790,'city',['baner','बाणेर']],
@@ -52,13 +59,13 @@ export const AREAS = [
   ['katraj','Katraj',18.4483,73.8578,'city',['katraj','कात्रज']],
   ['ambegaon','Ambegaon / Narhe',18.4480,73.8300,'city',['ambegaon','narhe','आंबेगाव','नऱ्हे']],
   ['sinhgadroad','Sinhgad Road',18.4680,73.8200,'city',['sinhgad road','sinhagad road','vadgaon budruk','dhayari','anandnagar','nanded city','सिंहगड रस्ता','सिंहगड रोड','धायरी','वडगाव बुद्रुक']],
-  ['kondhwa','Kondhwa',18.4636,73.8927,'city',['kondhwa','yewalewadi','कोंढवा','येवलेवाडी']],
+  ['kondhwa','Kondhwa',18.4636,73.8927,'city',['kondhwa','yewalewadi','कोंढवा','कोंढव्या','येवलेवाडी']],
   ['nibm','NIBM / Undri',18.4560,73.9010,'city',['nibm','undri','pisoli','mohammadwadi','mohammedwadi','उंड्री']],
   ['wanowrie','Wanowrie',18.4860,73.8990,'city',['wanowrie','wanawadi','wanwadi','वानवडी']],
   ['hadapsar','Hadapsar',18.5089,73.9260,'city',['hadapsar','magarpatta','हडपसर','मगरपट्टा']],
-  ['manjri','Manjri / Fursungi',18.4900,73.9700,'city',['manjri','fursungi','uruli devachi','मांजरी','फुरसुंगी']],
+  ['manjri','Manjri / Fursungi',18.4900,73.9700,'city',['manjri','fursungi','uruli devachi','मांजरी बुद्रुक','मांजरी खुर्द','मांजरी परिसर','फुरसुंगी']],
   ['lonikalbhor','Loni Kalbhor',18.4850,74.0250,'city',['loni kalbhor','loni-kalbhor','uruli kanchan','लोणी काळभोर','उरुळी कांचन']],
-  ['uttamnagar','Uttamnagar / Shivane',18.4640,73.7700,'city',['uttamnagar','uttam nagar','shivane','khadakwasla','उत्तमनगर','शिवणे','खडकवासला']],
+  ['uttamnagar','Uttamnagar / Shivane',18.4640,73.7700,'city',['uttamnagar','uttam nagar','shivane','khadakwasla','उत्तमनगर','शिवणे','खडकवासला','खडकवासल्या']],
   ['sus','Sus / Mahalunge',18.5600,73.7500,'city',['sus road','sus gaon','mhalunge','म्हाळुंगे']],
   // Pimpri-Chinchwad
   ['pimpri','Pimpri',18.6298,73.7997,'pcmc',['pimpri','पिंपरी']],
@@ -75,13 +82,13 @@ export const AREAS = [
   ['chakan','Chakan',18.7600,73.8630,'pcmc',['chakan','mahalunge','nighoje','चाकण']],
   ['talegaon','Talegaon Dabhade',18.7350,73.6760,'pcmc',['talegaon','तळेगाव']],
   // Pune district
-  ['lonavala','Lonavala / Maval',18.7540,73.4060,'rural',['lonavala','lonavla','kamshet','vadgaon maval','लोणावळा','कामशेत']],
+  ['lonavala','Lonavala / Maval',18.7540,73.4060,'rural',['lonavala','lonavla','kamshet','vadgaon maval','लोणावळा','लोणावळ्या','कामशेत']],
   ['shikrapur','Shikrapur / Ranjangaon',18.6930,74.1380,'rural',['shikrapur','ranjangaon','शिक्रापूर','रांजणगाव']],
   ['shirur','Shirur',18.8270,74.3730,'rural',['shirur','nhavare','शिरूर','शिरुर','न्हावरे']],
   ['khed','Rajgurunagar / Khed',18.8540,73.8880,'rural',['rajgurunagar','khed taluka','khed police','राजगुरुनगर','राजगुरूनगर']],
   ['junnar','Junnar / Narayangaon',19.2000,73.8750,'rural',['junnar','narayangaon','manchar','जुन्नर','नारायणगाव','मंचर']],
   ['mulshi','Mulshi / Pirangut',18.5100,73.6800,'rural',['mulshi','pirangut','paud','मुळशी','पिरंगुट','पौड']],
-  ['bhor','Bhor',18.1530,73.8450,'rural',['bhor','भोर']],
+  ['bhor','Bhor',18.1530,73.8450,'rural',['bhor','भोर तालुक','भोर पोलीस','भोर पोलिस','भोरमध्ये','भोर येथे']],
   ['velhe','Velhe / Rajgad',18.2950,73.6400,'rural',['velhe','rajgad','torna','pabe ghat','वेल्हे','राजगड','तोरणा','पाबे घाट']],
   ['baramati','Baramati',18.1520,74.5770,'rural',['baramati','बारामती']],
   ['indapur','Indapur',18.1150,75.0230,'rural',['indapur','इंदापूर']],
@@ -104,59 +111,69 @@ export const CATS = [
   { id: 'fire',      name: 'Fire' },
 ];
 
-export const RULES_VERSION = 2;
+export const RULES_VERSION = 3;
 
 /* ------------------------------------------------------------------------------------------------
-   Sorting rules, version 2.
+   Sorting rules, version 3 (English and Marathi).
    A word alone is not enough: "drug" appears in "Food and Drug Administration", "crash" in a website
-   crash, "attack" in a political speech. So each type has (1) words that signal it, and (2) a guard:
-   words that, when present, mean the signal is being used in another sense. The headline decides.
-   The article summary may decide only when it also carries police/casualty language.
+   crash, "attack" in a political speech, "हत्या" inside "आत्महत्या". So each type has (1) words that
+   signal it, and (2) a guard: words that, when present, mean the signal is used in another sense.
+   The headline decides. The article summary may decide only when it also carries police/casualty
+   language.
    ------------------------------------------------------------------------------------------------ */
+
+// Compounds that contain an incident word but mean something else. Removed before matching.
+const FIGURATIVE = /आत्महत्य\S*|टांगती तलवार|घटस्फोट\S*|गांधीहत्य\S*|मतचोरी|वोट ?चोरी|मतांची चोरी|करचोरी|वीज ?चोरी|पाणी ?चोरी|गौप्यस्फोट|आगपाखड|हल्लाबोल|शाब्दिक हल्ल\S*|जीवन संपव\S*|लोकसंख्येचा स्फोट|heart attack|panic attack|cyber ?attack|under fire|fire sale|vote theft|daylight robbery/gi;
+const norm = s => String(s).replace(FIGURATIVE, ' ');
+
 const VEH = '(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)';
+const WOMAN_MR = '(महिले|महिला|मुली|मुलगी|तरुणी|युवती|अल्पवयीन|विद्यार्थिनी|बालिके|चिमुकली|विवाहिते)';
 const RULES = [
-  ['murder', /\b(murder(s|ed|er|ing)?)\b|खून|हत्या/i, null],
-  ['accident', new RegExp('\\b(accident|hit[- ]and[- ]run|run over|mowed down|mows down|collision|collides?|collided|rams? into|rammed|overturn(s|ed)?|plunges?|knocked down|drunk[- ]driv\\w+)\\b|अपघात|\\b' + VEH + '\\b[^.;:]{0,70}\\bcrash(es|ed)?\\b|\\bcrash(es|ed)?\\b[^.;:]{0,40}\\b' + VEH + '\\b', 'i'),
-    /\b(online|website|site|server|app|portal|booking|system|market|stocks?|shares?|prices?)\b/i],
-  ['murder', /\b(hacked to death|stabbed to death|beaten to death|shot dead|strangled|strangulat\w+|bludgeon\w*|killed (over|by|for|after|in (a )?(fight|dispute|quarrel|attack|brawl))|kills? (his |her )?(wife|husband|friend|father|mother|son|daughter|brother|sister|man|woman|youth|lover|neighbour|girlfriend|boyfriend)|body found|found murdered|chopp\w+ .{0,20}(to|into) pieces)\b/i, null],
-  ['women', /\b(rape[ds]?|raping|gang[- ]?rape\w*|molest\w*|sexual(ly)? (assault|harass|abus|exploit)\w*|stalk(ed|ing|er)|dowry|outrag\w+ (her |the )?modesty|pocso|eve[- ]teasing|domestic violence|acid attack|voyeur\w*)\b|बलात्कार|विनयभंग|लैंगिक अत्याचार|लैंगिक छळ|पोक्सो|हुंडा|छेडछाड/i, null],
+  ['murder', /\b(murder(s|ed|er|ing)?)\b|खून|खुना|हत्या|हत्ये/i, null],
+  ['accident', new RegExp('\\b(accident|hit[- ]and[- ]run|run over|mowed down|mows down|collision|collides?|collided|rams? into|rammed|overturn(s|ed)?|plunges?|knocked down|drunk[- ]driv\\w+)\\b|अपघात|हिट अँड रन|चिरडले|चिरडून|भरधाव|\\b' + VEH + '\\b[^.;:]{0,70}\\bcrash(es|ed)?\\b|\\bcrash(es|ed)?\\b[^.;:]{0,40}\\b' + VEH + '\\b', 'i'),
+    /\b(online|website|site|server|app|portal|booking|system|market|stocks?|shares?|prices?|safety|awareness|helmet|leopards?)\b|जनजागृती|सुरक्षा सप्ताह|प्रतीक्षा|घटले|धोका|निमंत्रण|बिबट्या/i],
+  ['murder', /\b(hacked to death|stabbed to death|beaten to death|shot dead|strangled|strangulat\w+|bludgeon\w*|killed (over|by|for|after|in (a )?(fight|dispute|quarrel|attack|brawl))|kills? (his |her )?(wife|husband|friend|father|mother|son|daughter|brother|sister|man|woman|youth|lover|neighbour|girlfriend|boyfriend)|body found|found murdered|chopp\w+ .{0,20}(to|into) pieces)\b|ठार मारले|ठार केले|गळा (दाबून|चिरून|आवळून)|भोसकून|निर्घृण/i, null],
+  ['women', new RegExp('\\b(rape[ds]?|raping|gang[- ]?rape\\w*|molest\\w*|sexual(ly)? (assault|harass|abus|exploit)\\w*|stalk(ed|ing|er)|dowry|outrag\\w+ (her |the )?modesty|pocso|eve[- ]teasing|domestic violence|acid attack|voyeur\\w*)\\b|बलात्कार|विनयभंग|लैंगिक अत्याचार|लैंगिक छळ|लैंगिक शोषण|पोक्सो|पॉक्सो|हुंडा|हुंड्या|छेडछाड|छेड काढ|' + WOMAN_MR + '[^.।]{0,40}अत्याचार|अत्याचार[^.।]{0,40}' + WOMAN_MR, 'i'), null],
   ['kidnap', /\b(kidnap\w*|abduct\w*)\b|अपहरण/i, null],
-  ['extortion', /\b(extort\w*|ransom|protection money|sextortion|blackmail\w*)\b|खंडणी/i, null],
-  ['robbery', /\b(robb(ed|ery|ers?|eries|ing)|loot(ed|ing|s)?|heist|dacoit\w*|chain[- ]snatch\w*|snatch(es|ed|ing|ers?)?|mugg(ed|ing)|at knife[- ]?point|at gun[- ]?point)\b|दरोडा|लुटले|लुटून|जबरी चोरी|सोनसाखळी|हिसकाव/i, null],
-  ['burglary', /\b(burglar\w*|burgl\w+|house[- ]?break\w*|break[- ]in|broke into|breaking into)\b|घरफोड/i, null],
-  ['drugs', /\b(mephedrone|ganja|cannabis|cocaine|heroin|charas|hashish|opium|narcotics?|ndps|meth|contraband|peddlers?|drugs? (peddl\w+|racket|cartel|bust|haul|trafficking|smuggl\w+|seizure|seized|worth|party|den|syndicate|supplier|case)|(seiz\w+|smuggl\w+|peddl\w+|supply\w*|sell\w*|sold) (of )?drugs)\b|गांजा|अमली पदार्थ|अंमली पदार्थ|मेफेड्रोन|ड्रग्ज/i,
-    /\b(food and drugs?|fda|drug[- ]free|de-?addiction|pharma\w*|medicines?|chemist|drug store|awareness)\b|अन्न व औषध/i],
-  ['cyber', /\b(cyber ?(crime|fraud\w*|crook\w*|cheat\w*|scam\w*|thie\w+)|fraud(s|sters?)?|cheat(ed|ing|s)|duped?|dupes|scam(s|mers?|med)?|digital arrest|swindl\w+|ponzi|phishing|fake call cent(re|er)|embezzl\w+|misappropriat\w+|siphon\w+|loses? (rs|₹))\b|फसवणूक|फसवणुक|सायबर चोर|गंडा घात/i,
-    /\b(warns?|warning|advisory|awareness|beware|cautions?|tips|fraudulent job offers|dues|auction|property tax)\b/i],
-  ['violence', /\b(assault(ed|s|ing)?|attack(ed|s|ers?)?|stabb?(ed|ing|s)?|koyta|sickles?|firing|fired (at|on|upon|shots?)|opens? fire|shot at|gunshot|gunmen|beaten (up|by|with|over)|thrash(ed|es|ing)|vandalis\w+|vandaliz\w+|rioting|clash(es|ed)?|brawl|pistols?|firearms?|sword|machete|gang ?war|mcoca|tadipaar|externed|road rage|hurl(s|ed|ing)?)\b|हल्ला|मारहाण|कोयता|कोयत्या|गोळीबार|तोडफोड|पिस्तूल|मोक्का/i,
-    /\b(slams?|hits? out|lash(es|ed)? out|verbal|jibe|dig at|criticis\w+|heart attack|cyber ?attack|leopard|stray dogs?|dog attack|bee attack|opposition|after .{0,30}(firing|attack) incident)\b|हल्लाबोल|टोला|टीका|निशाणा|हृदयविकार|बिबट्या/i],
-  ['theft', /\b(theft|thefts|stolen|steal(s|ing)?|stole|thie(f|ves)|pickpocket\w*|shoplift\w*)\b|चोरी|चोरट/i, null],
-  ['fire', /\b(fire breaks? out|fire broke out|caught fire|catches fire|blaze|gutted|major fire|massive fire|fire (at|in) (a |an |the )?\w+|cylinder blast|explosion)\b|आग लाग|भीषण आग|आगीत|स्फोट/i,
-    /\b(under fire|fire sale|firing)\b/i],
+  ['extortion', /\b(extort\w*|ransom|protection money|sextortion|blackmail\w*)\b|खंडणी|ब्लॅकमेल/i, null],
+  ['robbery', /\b(robb(ed|ery|ers?|eries|ing)|loot(ed|ing|s)?|heist|dacoit\w*|chain[- ]snatch\w*|snatch(es|ed|ing|ers?)?|mugg(ed|ing)|at knife[- ]?point|at gun[- ]?point)\b|दरोडा|दरोड्या|लुटले|लुटून|लूटमार|लुटमार|जबरी चोरी|सोनसाखळी|मंगळसूत्र|हिसकाव|धाक दाखव/i,
+    /\b(loot the|looting (public|farmers|customers))\b|ग्राहकांची लूट|आर्थिक लूट|जनतेची लूट|शेतकऱ्यांची लूट/i],
+  ['burglary', /\b(burglar\w*|burgl\w+|house[- ]?break\w*|break[- ]in|broke into|breaking into)\b|घरफोड|कुलूप तोडून[^.।]{0,50}(चोरी|लंपास|ऐवज)|कडीकोयंडा/i, null],
+  ['drugs', /\b(mephedrone|ganja|cannabis|cocaine|heroin|charas|hashish|opium|narcotics?|ndps|meth|contraband|peddlers?|drugs? (peddl\w+|racket|cartel|bust|haul|trafficking|smuggl\w+|seizure|seized|worth|party|den|syndicate|supplier|case)|(seiz\w+|smuggl\w+|peddl\w+|supply\w*|sell\w*|sold) (of )?drugs)\b|गांजा|गांजाची|अमली पदार्थ|अंमली पदार्थ|मेफेड्रोन|ड्रग्ज|ड्रग्स|एमडी ड्रग|चरस|अफू|कोकेन/i,
+    /\b(food and drugs?|fda|drug[- ]free|de-?addiction|pharma\w*|medicines?|chemist|drug store|awareness)\b|अन्न व औषध|व्यसनमुक्ती|जनजागृती/i],
+  ['cyber', /\b(cyber ?(crime|fraud\w*|crook\w*|cheat\w*|scam\w*|thie\w+)|fraud(s|sters?)?|cheat(ed|ing|s)|duped?|dupes|scam(s|mers?|med)?|digital arrest|swindl\w+|ponzi|phishing|fake call cent(re|er)|embezzl\w+|misappropriat\w+|siphon\w+|loses? (rs|₹))\b|फसवणूक|फसवणुक|फसवणुकी|फसवले|गंडा|सायबर चोर|सायबर भामट|डिजिटल अरेस्ट|अपहार/i,
+    /\b(warns?|warning|advisory|awareness|beware|cautions?|tips|fraudulent job offers|dues|auction|property tax|voter|voters|election|poll)\b|सावध|आवाहन|जनजागृती|इशारा|मतदार|भरती|होऊ नये|स्पष्टीकरण|पारदर्शक/i],
+  ['violence', /\b(assault(ed|s|ing)?|attack(ed|s|ers?)?|stabb?(ed|ing|s)?|koyta|sickles?|firing|fired (at|on|upon|shots?)|opens? fire|shot at|gunshot|gunmen|beaten (up|by|with|over)|thrash(ed|es|ing)|vandalis\w+|vandaliz\w+|rioting|clash(es|ed)?|brawl|pistols?|firearms?|sword|machete|gang ?war|mcoca|tadipaar|externed|road rage|hurl(s|ed|ing)?)\b|हल्ला|हल्ल्या|मारहाण|कोयता|कोयत्या|गोळीबार|तोडफोड|पिस्तूल|पिस्तुल|मोक्का|चाकूने|तलवार|वार केले|वार करून|(गटांत|गटात|टोळक्या\S*|तरुणां\S*|गुंडां\S*) राडा|हाणामारी|दगडफेक|तडीपार|दहशत माजव|अग्निशस्त्र|काडतुस|गावठी कट्ट|चॉपर|कुऱ्हाड/i,
+    /\b(slams?|hits? out|lash(es|ed)? out|verbal|jibe|dig at|criticis\w+|leopards?|stray dogs?|dogs?|rabid|bees?|monkeys?|tigers?|opposition|devotees|after .{0,30}(firing|attack) incident)\b|टोला|टीका|टीके|निशाणा|हृदयविकार|बिबट्या|बिबट्याचा|कुत्र्य|मधमाश|राजकीय|माकड|वाघा|वाघाची|गव्या|हत्तीच्या|अस्वल/i],
+  ['theft', /\b(theft|thefts|stolen|steal(s|ing)?|stole|thie(f|ves)|pickpocket\w*|shoplift\w*)\b|चोरी|चोऱ्या|चोरट|चोरले|चोरून|चोरां|चोराला|चोर(?![ऀ-ॿ])|लंपास/i, /चोरी नाही|पाणी|वीज/i],
+  ['fire', /\b(fire breaks? out|fire broke out|caught fire|catches fire|blaze|gutted|major fire|massive fire|fire (at|in) (a |an |the )?\w+|cylinder blast|explosion)\b|आग लाग|भीषण आग|आगीत|आगीच्या|आग भडक|जळून खाक|स्फोट/i,
+    /\b(firing|fire safety|fire audit|firecrackers?)\b|अग्निसुरक्षा|फटाके|फटाक्या/i],
 ];
 
 // Headlines that use incident words but are not reports of an incident.
 const NOISE = new RegExp([
   // entertainment, sport, markets
-  '\\b(movie|film|trailer|box office|web series|actors?|actress|bollywood|co-star|celebrit\\w+|poses|ott|album|concert|cricket|ipl|wicket|marathon|run for unity|tournament|horoscope|recipe|sensex|nifty)\\b',
+  '\\b(viral video|movie|film|trailer|box office|web series|actors?|actress|bollywood|co-star|celebrit\\w+|poses|ott|album|concert|cricket|ipl|wicket|marathon|run for unity|tournament|cup|football|tennis|horoscope|recipe|sensex|nifty|poetry|lit fest)\\b',
   // politics and statements
-  '\\b(election|poll|manifesto|rally|budget|minister says|alleges|demands?|protest(s|ed|ers)?|morcha)\\b',
+  '\\b(election|poll|manifesto|rally|budget|minister says|alleges|demands?|protest(s|ed|ers)?|morcha|remembrance|statue)\\b',
   // court stages, policy, aftermath, advisories, statistics
-  '\\b(trial|bail|verdict|convict\\w*|sentenc\\w+|acquit\\w*|charge ?sheet\\w*|hearing|high court|supreme court|hc|plea)\\b',
-  '\\b(months? after|years? after|compensation|ex[- ]gratia|free homes|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar)\\b',
-  'अजित पवार|विमान|युक्तीवाद|जामीन|हल्लाबोल|टोला|निवडणूक|मोर्चा',
+  '\\b(trial|bail|verdict|convict\\w*|sentenc\\w+|acquit\\w*|charge ?sheet\\w*|hearing|high court|supreme court|hc|plea|life imprisonment)\\b',
+  '\\b(months? after|years? after|compensation|ex[- ]gratia|free homes|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar|workshop|meeting|todays latest)\\b',
+  'अजित पवार|विमान|खटला|खटल्या|फाशी|खेळाडू|अंत्यसंस्कार|पडसाद|सवाल|अभिनेत्|आकडेवारी|नेमके चित्र|सत्कार|युक्तीवाद|युक्तिवाद|जामीन|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|जन्मठेप|सक्तमजुरी|शिक्षा सुनाव|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|नुकसानभरपाई|जनजागृती|चित्रपट|अभिनेत्री|अभिनेता|क्रिकेट|स्पर्धा|पुण्यतिथी|जयंती|अधिवेशन',
 ].join('|'), 'i');
 
 // Police / casualty language. A summary may assign a type only when this is present.
-const CONTEXT = /\b(police|cops?|arrest\w*|held|booked|nabbed|detained|fir|case (has been |was |is )?registered|accused|complain\w+|crime branch|victim|injured|died|dead|hospitalis\w+|hospitaliz\w+)\b|पोलीस|पोलिस|अटक|गुन्हा|आरोपी|जखमी|मृत्यू/i;
+const CONTEXT = /\b(police|cops?|arrest\w*|held|booked|nabbed|detained|fir|case (has been |was |is )?registered|accused|complain\w+|crime branch|victim|injured|died|dead|hospitalis\w+|hospitaliz\w+)\b|पोलीस|पोलिस|अटक|गुन्हा|गुन्हे|आरोपी|जखमी|मृत्यू|ताब्यात|जेरबंद|गजाआड|ठार/i;
 
-const OTHER_EN = 'mumbai|thane|navi mumbai|kalamboli|panvel|kalyan|dombivli|vasai|virar|juhu|andheri|bandra|nagpur|nashik|chhatrapati sambhajinagar|sambhajinagar|aurangabad|karmad|kolhapur|solapur|satara|sangli|dharashiv|beed|jalna|parbhani|raigad|ratnagiri|palghar|gadchiroli|chandrapur|karjat|ahilyanagar|ahmednagar|jalgaon|latur|amravati|akola|belgaum|belagavi|delhi|bengaluru|bangalore|hyderabad|chennai|kolkata|goa|gujarat|uttar pradesh|bihar|kerala|punjab|rajasthan|karnataka|pakistan|bangladesh|china|dubai';
-const OTHER_MR = 'मुंबई|ठाणे|नागपूर|नाशिक|संभाजीनगर|कोल्हापूर|सोलापूर|सातारा|सांगली|बेळगाव|दिल्ली|कर्नाटक';
+// Pune roads and highways named after other cities. Stripped before asking "did this happen elsewhere?".
+const ROADS = /(पोलीस|पोलिस)\s*ठाण\S*|\b(pune|mumbai)\s*[-–]\s*[a-z]+( (highway|expressway|road))?|\b(satara|solapur|nagar|ahmednagar|nashik|mumbai|bangalore|bengaluru|paud|saswad|alandi|sinhgad) (road|highway|phata)\b|सातारा (रस्ता|रस्त्या\S*|रोड)|सोलापूर (रस्ता|रस्त्या\S*|रोड)|नगर (रस्ता|रस्त्या\S*|रोड)|नाशिक फाटा|मुंबई[- ]पुणे|पुणे[- ]मुंबई|पुणे[- ](सोलापूर|सातारा|नाशिक|नगर|बंगळुरू|बेंगळुरू)\s?(महामार्ग\S*|रस्ता|रस्त्या\S*|रोड)?|मुंबई[- ]बंगळुरू/gi;
+const OTHER_EN = 'mumbai|thane|navi mumbai|kalamboli|panvel|kalyan|dombivli|ulhasnagar|vasai|virar|juhu|andheri|bandra|nagpur|nashik|malegaon|chhatrapati sambhajinagar|sambhajinagar|aurangabad|karmad|kolhapur|ichalkaranji|solapur|barshi|sangola|mangalvedha|pandharpur|satara|karad|sangli|miraj|dharashiv|beed|jalna|parbhani|hingoli|raigad|ratnagiri|sindhudurg|palghar|gadchiroli|chandrapur|bhandara|gondia|wardha|yavatmal|buldhana|washim|dhule|nandurbar|karjat|ahilyanagar|ahmednagar|sangamner|shirdi|parner|jalgaon|latur|amravati|akola|belgaum|belagavi|delhi|bengaluru|bangalore|hyderabad|chennai|kolkata|goa|gujarat|uttar pradesh|bihar|kerala|punjab|rajasthan|karnataka|pakistan|bangladesh|china|dubai';
+const OTHER_MR = 'मुंबई|ठाणे|झारखंड|बिहार|उत्तर प्रदेश|गुजरात|राजस्थान|मध्य प्रदेश|केरळ|पंजाब|हरियाणा|तेलंगण|गोवा|गोव्या|अमेरिके|नेरुळ|नालासोपार|गोरेगाव|भिवंडी|अंबरनाथ|बदलापूर|नागपूर|नागपुर|नाशिक|मालेगाव|संभाजीनगर|कोल्हापूर|कोल्हापुर|इचलकरंजी|सोलापूर|सोलापुर|बार्शी|सांगोला|पंढरपूर|सातारा|साताऱ्या|कराड|सांगली|मिरज|धाराशिव|बीड|जालना|परभणी|हिंगोली|रायगड|रत्नागिरी|सिंधुदुर्ग|पालघर|गडचिरोली|चंद्रपूर|भंडारा|गोंदिया|वर्धा|यवतमाळ|बुलढाणा|वाशीम|धुळे|नंदुरबार|अहिल्यानगर|अहमदनगर|संगमनेर|शिर्डी|जळगाव|लातूर|नांदेड|अमरावती|अकोला|बेळगाव|दिल्ली|कर्नाटक|कल्याण|डोंबिवली|उल्हासनगर|पनवेल|वसई|विरार';
 const ELSEWHERE = new RegExp('\\b(' + OTHER_EN + ')\\b|' + OTHER_MR, 'i');
 // The other place is where it happened: "Kalamboli hit-and-run: ...", "... near Karmad", "बेळगावमध्ये ..."
-const HAPPENED_ELSEWHERE = new RegExp('^\\W*(' + OTHER_EN + ')\\b[^:]{0,30}:|\\b(in|at|near|on|off)\\s+(the\\s+)?(' + OTHER_EN + ')\\b|(' + OTHER_MR + ')(मध्ये|त|जवळ|येथे)', 'i');
-const PUNE = /\bpune\b|\bpimpri\b|\bpcmc\b|\bpmc\b|पुणे|पुण्यात|पिंपरी/i;
-const IN_PUNE = /\bin pune\b|\bpune (police|city|crime|station|airport|court|jewell\w+|school|college|techie|businessman)\b|पुण्यात(?!ील)|पुणे पोलिस/i;
+const HAPPENED_ELSEWHERE = new RegExp('^\\W*(' + OTHER_EN + ')\\b[^:]{0,30}:|\\b(in|at|near|on|off)\\s+(the\\s+)?(' + OTHER_EN + ')\\b|(' + OTHER_MR + ')(मध्ये|मधील|त |तील|जवळ|येथे|येथील| जिल्ह)', 'i');
+const PUNE = /\bpune\b|\bpimpri\b|\bpcmc\b|\bpmc\b|पुणे|पुण्या|पिंपरी/i;
+const IN_PUNE = /^\W*pune\b|^\W*(पुणे|पिंपरी)|\bin pune\b|\bpune (police|city|crime|station|airport|court|jewell\w+|school|college|techie|businessman)\b|पुण्यात(?!ील)|पुणे पोलिस|पुणे पोलीस|पुणे शहरात/i;
 
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', ndash: '–', mdash: '—', hellip: '…' };
 export function decode(s) {
@@ -186,47 +203,88 @@ export function parseFeed(xml) {
   return out;
 }
 
+// A newspaper's article index (sitemap). Entries may carry a headline (news sitemaps) or only a URL.
+export function parseSitemap(xml) {
+  const out = [];
+  for (const m of String(xml).matchAll(/<url>[\s\S]*?<\/url>/gi)) {
+    const b = m[0];
+    const link = strip(tag(b, 'loc'));
+    if (!/^https?:\/\//.test(link)) continue;
+    const date = new Date(strip(tag(b, 'news:publication_date')) || strip(tag(b, 'lastmod')));
+    out.push({ title: strip(tag(b, 'news:title')), link: link.split('#')[0].split('?')[0], date: isNaN(date) ? null : date, text: '' });
+  }
+  return out;
+}
+
+// The English words in an article address, e.g. ".../pune/four-accused-arrested-for-theft-pjp78" -> "four accused arrested for theft".
+export function slugTitle(url) {
+  const seg = decodeURIComponent(url.replace(/\/+$/, '').split('/').pop() || '');
+  const words = seg.split('-').filter(Boolean);
+  while (words.length && /^(([a-z]{0,4}\d+[a-z]*)|\d+|txt|print|news)$/i.test(words[words.length - 1])) words.pop();
+  return words.join(' ');
+}
+
+const metaOf = (html, key) => (String(html).match(new RegExp('<meta[^>]+(?:property|name)=["\']' + key + '["\'][^>]*content=["\']([^"\']*)["\']', 'i')) ||
+  String(html).match(new RegExp('<meta[^>]+content=["\']([^"\']*)["\'][^>]+(?:property|name)=["\']' + key + '["\']', 'i')) || [])[1] || '';
+// Headline and publication time of an article page.
+export function pageHead(html) {
+  let title = strip(metaOf(html, 'og:title')) || strip(tag(String(html), 'title'));
+  title = title.replace(/\s*[|\-–]\s*(Sakal|eSakal|Lokmat|Lokmat\.com|Loksatta|Pudhari|Latest Marathi News[^|]*|Marathi News[^|]*)\s*$/i, '').trim();
+  const d = new Date(metaOf(html, 'article:published_time') || (String(html).match(/"datePublished"\s*:\s*"([^"]+)"/) || [])[1] || '');
+  return { title, date: isNaN(d) ? null : d };
+}
+
+const CRIME_WORDS = /\b(crime|police|cops?|arrest\w*|accused|booked|nabbed|detained|gang|thie\w+|stolen|jewel\w+|kill\w+|dead|death|dies|died|injured|weapon\w*|knife|sickle|koyta)\b/i;
 const pick = s => { for (const [id, re, guard] of RULES) if (re.test(s) && !(guard && guard.test(s))) return id; return null; };
 
 // Returns a type id, or null when the item is not a report of an incident.
 export function classify(title, text = '') {
   if (NOISE.test(title)) return null;
-  const c = pick(title);
+  const t = norm(title);
+  const c = pick(t);
   if (c) return c;
   // A guard that fires on the headline rules the item out, whatever the summary says.
-  for (const [, re, guard] of RULES) if (guard && re.test(title) && guard.test(title)) return null;
-  const sum = text.slice(0, 300);
-  if (!sum || !CONTEXT.test(title + ' ' + sum)) return null;
+  for (const [, re, guard] of RULES) if (guard && re.test(t) && guard.test(t)) return null;
+  const sum = norm(text.slice(0, 300));
+  if (!sum.trim() || !CONTEXT.test(t + ' ' + sum)) return null;
   return pick(sum);
 }
 
 // False when the headline places the incident outside Pune district.
 export function inPune(title, text = '') {
-  const route = s => s.replace(/\bpune\s*[-–]\s*[a-z]+/gi, ' ');   // "Pune-Nagpur bus" is a route
-  const t = route(title);
+  const t = title.replace(ROADS, ' ');
   if (HAPPENED_ELSEWHERE.test(t)) return false;
   if (ELSEWHERE.test(t) && !IN_PUNE.test(t)) return false;
   // Headline silent on place: let the opening of the article say it happened elsewhere.
-  if (!IN_PUNE.test(t) && !locate(title) && HAPPENED_ELSEWHERE.test(route(text.slice(0, 300)))) return false;
+  if (!IN_PUNE.test(t) && !locate(title) && HAPPENED_ELSEWHERE.test(text.slice(0, 300).replace(ROADS, ' '))) return false;
   return true;
 }
 
 const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const AREA_RE = AREAS.map(a => ({
-  a,
-  src: a.alias.map(x => /[a-z]/i.test(x) ? '\\b' + esc(x).replace(/ /g, '[ -]?') + '\\b' : esc(x)).join('|'),
-}));
+const DEV = '\\u0900-\\u097F';
+// Marathi place names take endings (कोथरूडमध्ये, हडपसरला) but must not match inside another word (कॅम्प in कॅम्पस).
+const MR_END = 'ा?(?:मध्ये|मधील|मधून|मधल्या|त|तील|तून|ला|जवळ|जवळील|चा|ची|चे|च्या|येथे|येथील|हून|वर|वरील|कडे|साठी)?(?![' + DEV + '])';
+let AREA_RE = null;
+function areaRes() {
+  return AREA_RE || (AREA_RE = AREAS.map(a => ({
+    a,
+    src: a.alias.map(x => /[a-z]/i.test(x)
+      ? '(?:^|[^a-z])(' + esc(x).replace(/ /g, '[ -]?') + ')(?![a-z])'
+      : '(?:^|[^' + DEV + '])(' + esc(x) + ')' + MR_END).join('|'),
+  })));
+}
 // "Pimpri-Chinchwad police" names the force, not the place.
 const cleanPlace = s => s.replace(/pimpri[- ]chinchwad|पिंपरी[- ]चिंचवड/gi, ' ');
-const LIVES = /(residents? of|resident,|native of|natives of|hails? from|hailing from|lives? in|living in|based in|from|रा\.|राहणार|रहिवासी|येथील रहिवासी)\s*$/i;
+const LIVES = /(residents? of|resident,|native of|natives of|hails? from|hailing from|lives? in|living in|based in|from|रा\.|राहणार|रहिवासी)\s*$/i;
 const AT = /\b(in|at|near|on|outside|opposite|towards)\s+(the\s+)?$/i;
+const AT_MR = /^(मध्ये|मधील|मधल्या|त|तील|जवळ|जवळील|येथे|येथील|\s*(परिसरात|भागात|हद्दीत|येथे|येथील))/;
 
 // Area of the incident. The headline wins. In the article body a place counts only when the wording
-// ties it to the incident ("in Kothrud", "Kothrud police"), never when it is where someone lives.
+// ties it to the incident ("in Kothrud", "Kothrud police", "कोथरूडमध्ये"), never when it is where someone lives.
 export function locate(title, text = '') {
   const t = cleanPlace(title);
   let best = null, pos = Infinity;
-  for (const { a, src } of AREA_RE) {
+  for (const { a, src } of areaRes()) {
     const m = new RegExp(src, 'i').exec(t);
     if (m && m.index < pos) { pos = m.index; best = a; }
   }
@@ -234,13 +292,15 @@ export function locate(title, text = '') {
 
   const body = cleanPlace(text.slice(0, 2500));
   let score = 1;                                  // a bare mention (score 1) is not enough
-  for (const { a, src } of AREA_RE) {
+  for (const { a, src } of areaRes()) {
     for (const m of body.matchAll(new RegExp(src, 'gi'))) {
-      const before = body.slice(Math.max(0, m.index - 28), m.index);
-      const after = body.slice(m.index + m[0].length, m.index + m[0].length + 22);
+      const name = m.slice(1).find(Boolean) || '';
+      const start = m.index + m[0].indexOf(name), end = start + name.length;
+      const before = body.slice(Math.max(0, start - 28), start);
+      const after = body.slice(end, end + 24);
       if (LIVES.test(before)) continue;
-      const s = /^\s*(police|पोलीस|पोलिस)/i.test(after) ? 3 : (AT.test(before) || /^(त |मध्ये| येथे| परिसरात| भागात)/.test(after)) ? 2 : 1;
-      if (s > score || (s === score && s > 1 && m.index < pos)) { score = s; pos = m.index; best = a; }
+      const s = /^\S{0,6}\s*(police|पोलीस|पोलिस)/i.test(after) ? 3 : (AT.test(before) || AT_MR.test(after)) ? 2 : 1;
+      if (s > score || (s === score && s > 1 && start < pos)) { score = s; pos = start; best = a; }
     }
   }
   return best ? best.id : null;
@@ -259,7 +319,7 @@ export function whenOf(title, text = '') {
   }
   if (/\b(night|midnight|wee hours|early hours|overnight)\b|मध्यरात्री|रात्री|पहाटे/i.test(s)) return { h: null, b: 'night' };
   if (/\b(evening)\b|सायंकाळी|संध्याकाळी/i.test(s)) return { h: null, b: 'evening' };
-  if (/\b(afternoon|noon|broad daylight)\b|दुपारी|दिवसाढवळ्या/i.test(s)) return { h: null, b: 'afternoon' };
+  if (/\b(afternoon|noon|broad daylight)\b|दुपारी|दिवसाढवळ्या|भरदिवसा/i.test(s)) return { h: null, b: 'afternoon' };
   if (/\b(morning)\b|सकाळी/i.test(s)) return { h: null, b: 'morning' };
   return { h: null, b: null };
 }
@@ -267,7 +327,7 @@ export function whenOf(title, text = '') {
 // Readable paragraph text of an article page (used once per article to find the area and time; never stored).
 export function pageText(html) {
   const body = String(html).replace(/<(script|style|noscript|header|footer|nav|aside)[\s\S]*?<\/\1>/gi, ' ');
-  const meta = (body.match(/<meta[^>]+(?:name|property)=["'](?:description|og:description)["'][^>]*content=["']([^"']*)["']/i) || [])[1] || '';
+  const meta = metaOf(html, 'description') || metaOf(html, 'og:description');
   const ld = (String(html).match(/"articleBody"\s*:\s*"((?:[^"\\]|\\.)*)"/) || [])[1] || '';
   const paras = [...body.matchAll(/<p[\s>][\s\S]*?<\/p>/gi)].map(m => strip(m[0])).filter(p => p.length > 60).join(' ');
   return (strip(meta) + ' . ' + strip(ld.replace(/\\[nrt]/g, ' ').replace(/\\"/g, '"')) + ' . ' + paras).slice(0, 4000);
@@ -301,18 +361,57 @@ export function hashId(s) {
   return (h >>> 0).toString(36);
 }
 
-// One feed's XML -> incident records (only items that look like incidents in or around Pune).
+const record = (feed, it, c, a) => {
+  const w = whenOf(it.title, it.text);
+  return { id: hashId(it.link), t: it.title, u: it.link, s: feed.id, d: it.date.toISOString(), c, a, h: w.h, b: w.b, r: RULES_VERSION };
+};
+
+// One source's feed or index -> incident records (only items that look like incidents in or around Pune).
+// For indexes without headlines the result is a list of candidates {link, slug, date}; the collector reads
+// each page and calls finish().
 export function extract(feed, xml) {
   const out = [];
-  for (const it of parseFeed(xml)) {
+  const items = feed.kind ? parseSitemap(xml) : parseFeed(xml);
+  for (const it of items) {
+    const home = feed.path ? feed.path.test(it.link) : feed.pune;       // filed under the paper's Pune section
+    // Other sections of the paper: only stories whose address or headline names Pune or one of its areas.
+    if (feed.path && !home && !/pune|pimpri/i.test(it.link) && !locate(feed.kind === 'urlmap' ? slugTitle(it.link) : it.title)) continue;
+    if (feed.kind === 'urlmap') {
+      const slug = slugTitle(it.link);
+      // Wide net here; the page's own headline and text make the real decision in finish().
+      if ((classify(slug) || CRIME_WORDS.test(slug)) && !NOISE.test(slug) && inPune(slug)) out.push({ cand: 1, link: it.link, slug, date: it.date, home });
+      continue;
+    }
+    if (!it.title || !it.date) continue;
     const c = classify(it.title, it.text);
     if (!c || !inPune(it.title, it.text)) continue;
     const a = locate(it.title, it.text);
-    if (!a && !feed.pune && !PUNE.test(it.title + ' ' + it.text.slice(0, 400))) continue;   // general feed, no Pune signal
-    const w = whenOf(it.title, it.text);
-    out.push({ id: hashId(it.link), t: it.title, u: it.link, s: feed.id, d: it.date.toISOString(), c, a, h: w.h, b: w.b, r: RULES_VERSION });
+    // Area names repeat across cities (Shivajinagar, Camp): outside the Pune section the story must also say Pune.
+    if (feed.path && !home && !PUNE.test(it.title + ' ' + it.link)) continue;
+    // Outside the paper's Pune section, "Pune" in passing is not enough ("a Pune family, in Karnataka").
+    if (!a && !home && !IN_PUNE.test(it.title) && !IN_PUNE.test(it.text.slice(0, 300))) continue;
+    out.push(record(feed, it, c, a));
   }
   return out;
+}
+
+// Turn a candidate from a headline-less index into a record, using the article page. Null when it fails the checks.
+// The English address words are the paper's own summary of the story, so they set the type; the page gives the
+// Marathi headline, the place and the time.
+export function finish(feed, cand, html, fallbackDate) {
+  const head = pageHead(html), text = pageText(html);
+  if (!head.title) return null;
+  const c = classify(head.title, text) || classify(cand.slug, text);
+  if (!c || NOISE.test(head.title) || !inPune(cand.slug, text) || !inPune(head.title, text)) return null;
+  const a = locate(head.title + ' . ' + cand.slug, text);
+  // Sakal and Lokmat file other districts under "Pune" too: without an area, the story must say Pune itself.
+  if (!a && !PUNE.test(head.title + ' ' + cand.slug)) return null;
+  if (!cand.home && !PUNE.test(head.title + ' ' + cand.slug + ' ' + text.slice(0, 600))) return null;
+  const it = { title: head.title, link: cand.link, date: head.date || cand.date || fallbackDate, text };
+  if (!it.date) return null;
+  const rec = record(feed, it, c, a);
+  rec.e = 1;
+  return rec;
 }
 
 export function merge(existing, incoming, rejected = new Set()) {
