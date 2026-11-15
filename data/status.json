@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-15T19:57:15.222Z",
- "total": 218,
- "added": 1,
+ "updated": "2026-11-15T20:56:41.720Z",
+ "total": 233,
+ "added": 0,
  "removed": 0,
  "rules": 7,
  "history": {
-  "reachedBack": "2026-10-08",
+  "reachedBack": "2026-10-04",
   "target": "2026-05-19",
-  "kept": 175,
+  "kept": 190,
   "note": ""
  },
  "sources": [
@@ -32,7 +32,7 @@
    "name": "Times of India",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
