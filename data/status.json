@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-15T14:40:11.516Z",
- "total": 67,
- "added": 7,
- "removed": 0,
- "rules": 3,
+ "updated": "2026-11-15T14:48:24.513Z",
+ "total": 102,
+ "added": 0,
+ "removed": 5,
+ "rules": 5,
  "history": {
-  "reachedBack": "2026-11-09",
+  "reachedBack": "2026-11-05",
   "target": "2026-05-19",
-  "kept": 15,
+  "kept": 55,
   "note": ""
  },
  "sources": [
@@ -104,14 +104,14 @@
    "name": "Pudhari",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 4,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -119,8 +119,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 10,
-   "added": 6,
+   "found": 8,
+   "added": 0,
    "note": ""
   }
  ]
