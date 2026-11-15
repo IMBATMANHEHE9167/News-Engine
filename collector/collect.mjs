@@ -75,7 +75,11 @@ for (const rec of items) {
   if (budget.left <= 0) break;
   budget.left--; changed = true;
   let text = '';
-  try { text = pageText(await get(rec.u)); } catch { /* unreadable: judge on the headline */ }
+  try { text = pageText(await get(rec.u)); } catch { /* unreadable */ }
+  // A page that cannot be read right now is not evidence against the record: try again on later runs,
+  // and only after three failures judge on the headline alone.
+  if (!text && (rec.x = (rec.x || 0) + 1) < 3) { await sleep(300); continue; }
+  delete rec.x;
   if (old) {
     if (!recheck(rec, text)) { rec.drop = 1; rejected.add(rec.id); removed++; console.log('removed: ' + rec.t.slice(0, 90)); }
   } else if (text) enrich(rec, text);
