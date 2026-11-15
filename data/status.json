@@ -1,9 +1,15 @@
 {
- "updated": "2026-11-15T14:07:55.313Z",
- "total": 45,
- "added": 0,
+ "updated": "2026-11-15T14:40:11.516Z",
+ "total": 67,
+ "added": 7,
  "removed": 0,
- "rules": 2,
+ "rules": 3,
+ "history": {
+  "reachedBack": "2026-11-09",
+  "target": "2026-05-19",
+  "kept": 15,
+  "note": ""
+ },
  "sources": [
   {
    "id": "ie",
@@ -83,6 +89,38 @@
    "ok": true,
    "found": 0,
    "added": 0,
+   "note": ""
+  },
+  {
+   "id": "lks",
+   "name": "Loksatta",
+   "ok": false,
+   "found": 0,
+   "added": 0,
+   "note": "HTTP 403"
+  },
+  {
+   "id": "pud",
+   "name": "Pudhari",
+   "ok": true,
+   "found": 1,
+   "added": 1,
+   "note": ""
+  },
+  {
+   "id": "lkm",
+   "name": "Lokmat",
+   "ok": true,
+   "found": 4,
+   "added": 0,
+   "note": ""
+  },
+  {
+   "id": "skl",
+   "name": "Sakal",
+   "ok": true,
+   "found": 10,
+   "added": 6,
    "note": ""
   }
  ]
