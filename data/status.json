@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-15T04:12:20.172Z",
+ "updated": "2026-11-15T05:12:15.898Z",
  "total": 28,
- "added": 1,
+ "added": 0,
  "sources": [
   {
    "id": "ie",
@@ -46,10 +46,10 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 500"
+   "note": ""
   },
   {
    "id": "fpj",
@@ -64,7 +64,7 @@
    "name": "TV9 Marathi",
    "ok": true,
    "found": 7,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
