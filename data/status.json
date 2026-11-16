@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-16T17:34:18.948Z",
- "total": 413,
- "added": 0,
- "removed": 20,
+ "updated": "2026-11-16T19:18:27.696Z",
+ "total": 429,
+ "added": 1,
+ "removed": 0,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-08-17",
+  "reachedBack": "2026-08-13",
   "target": "2026-05-19",
-  "kept": 392,
+  "kept": 407,
   "note": ""
  },
  "sources": [
@@ -31,8 +31,8 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 4,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -119,9 +119,9 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 19,
+   "found": 12,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   }
  ]
 }
