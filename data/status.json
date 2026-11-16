@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-16T21:05:38.883Z",
- "total": 456,
+ "updated": "2026-11-16T22:06:06.198Z",
+ "total": 488,
  "added": 0,
  "removed": 0,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-08-09",
+  "reachedBack": "2026-08-05",
   "target": "2026-05-19",
-  "kept": 434,
+  "kept": 466,
   "note": ""
  },
  "sources": [
@@ -54,10 +54,10 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 500"
   },
   {
    "id": "fpj",
