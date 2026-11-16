@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-16T15:27:23.465Z",
- "total": 397,
- "added": 5,
- "removed": 0,
- "rules": 7,
+ "updated": "2026-11-16T17:21:02.601Z",
+ "total": 392,
+ "added": 3,
+ "removed": 24,
+ "rules": 8,
  "history": {
-  "reachedBack": "2026-08-25",
+  "reachedBack": "2026-08-21",
   "target": "2026-05-19",
-  "kept": 335,
+  "kept": 351,
   "note": ""
  },
  "sources": [
@@ -31,7 +31,7 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 5,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -47,7 +47,7 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -56,22 +56,22 @@
    "name": "Pune Pulse",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 1,
-   "added": 1,
+   "found": 0,
+   "added": 0,
    "note": ""
   },
   {
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 4,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -79,7 +79,7 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -87,8 +87,8 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -104,7 +104,7 @@
    "name": "Pudhari",
    "ok": true,
    "found": 4,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -119,8 +119,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 14,
-   "added": 3,
+   "found": 19,
+   "added": 1,
    "note": ""
   }
  ]
