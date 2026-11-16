@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-16T01:44:31.386Z",
- "total": 272,
- "added": 0,
+ "updated": "2026-11-16T03:17:40.005Z",
+ "total": 285,
+ "added": 1,
  "removed": 0,
  "rules": 7,
  "history": {
-  "reachedBack": "2026-09-18",
+  "reachedBack": "2026-09-14",
   "target": "2026-05-19",
-  "kept": 229,
+  "kept": 241,
   "note": ""
  },
  "sources": [
@@ -23,8 +23,8 @@
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -121,7 +121,7 @@
    "ok": true,
    "found": 7,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   }
  ]
 }
