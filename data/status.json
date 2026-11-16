@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-16T17:21:02.601Z",
- "total": 392,
- "added": 3,
- "removed": 24,
+ "updated": "2026-11-16T17:34:18.948Z",
+ "total": 413,
+ "added": 0,
+ "removed": 20,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-08-21",
+  "reachedBack": "2026-08-17",
   "target": "2026-05-19",
-  "kept": 351,
+  "kept": 392,
   "note": ""
  },
  "sources": [
@@ -88,7 +88,7 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -104,7 +104,7 @@
    "name": "Pudhari",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -120,7 +120,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 19,
-   "added": 1,
+   "added": 0,
    "note": ""
   }
  ]
