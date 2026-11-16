@@ -1,23 +1,23 @@
 {
- "updated": "2026-11-16T04:58:01.892Z",
- "total": 306,
- "added": 3,
+ "updated": "2026-11-16T06:49:31.566Z",
+ "total": 326,
+ "added": 4,
  "removed": 0,
  "rules": 7,
  "history": {
-  "reachedBack": "2026-09-10",
+  "reachedBack": "2026-09-06",
   "target": "2026-05-19",
-  "kept": 259,
+  "kept": 275,
   "note": ""
  },
  "sources": [
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 25,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -39,7 +39,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -47,16 +47,16 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 2,
-   "added": 2,
+   "found": 0,
+   "added": 0,
    "note": ""
   },
   {
@@ -94,17 +94,17 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 3,
+   "added": 3,
    "note": ""
   },
   {
@@ -120,7 +120,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 8,
-   "added": 1,
+   "added": 0,
    "note": ""
   }
  ]
