@@ -71,6 +71,7 @@ nav .period button{padding:8px 0 7px;font-size:13.5px;font-weight:400;letter-spa
 .item:last-child{border-bottom:0}
 .item .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
 .cat{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--copper-text)}
+.cat.fu{color:var(--ink-3)}
 .when{font-size:12.5px;color:var(--ink-3);white-space:nowrap}
 .head{display:block;font-family:var(--serif);font-size:20px;line-height:1.28;font-weight:400;text-decoration:none;margin:5px 0 6px;text-wrap:pretty}
 .head:hover{text-decoration:underline;text-decoration-color:var(--copper);text-underline-offset:3px;text-decoration-thickness:1px}
@@ -205,7 +206,7 @@ const ago = d => { const m = (Date.now() - new Date(d)) / 60000; return m < 60 ?
 const isDark = e => e.h != null ? (e.h >= 19 || e.h < 6) : e.b === 'night';
 const link = (r, text) => `<a href="${esc(r.u)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
 
-let ITEMS = [], STATUS = null, EVENTS = [];
+let ITEMS = [], STATUS = null, EVENTS = [], INCIDENTS = [];
 const bust = '?t=' + Date.now();
 const j = async u => { const r = await fetch(u + bust, { cache: 'no-store' }); if (!r.ok) throw 0; return r.json(); };
 
@@ -215,10 +216,16 @@ async function load() {
   if (/^(localhost|127\.)/.test(location.hostname) && location.search === '?test') {   // local layout testing only
     try { ITEMS = await j('_samples/test.json'); } catch {}
   }
+  if (/^(localhost|127\.)/.test(location.hostname) && location.search === '?preview') {   // local check of re-judged data before publishing
+    try { ITEMS = JSON.parse(sessionStorage.getItem('vidraksh-preview')) || ITEMS; } catch {}
+  }
   ITEMS = ITEMS.filter(r => CAT[r.c]);
+  // EVENTS: everything, newest report first (the Reports tab). INCIDENTS: without follow-ups that could not be
+  // tied to an incident; only these are counted and mapped.
   EVENTS = groupEvents(ITEMS).sort((x, y) => (x.last < y.last ? 1 : -1));
+  INCIDENTS = EVENTS.filter(e => !e.orphan);
   $('stamp').textContent = ITEMS.length
-    ? `${EVENTS.length} incidents from ${ITEMS.length} reports, since ${fmtDay(ITEMS[ITEMS.length - 1].d)}` + (STATUS ? ` · checked ${ago(STATUS.updated)}` : '')
+    ? `${INCIDENTS.length} incidents from ${ITEMS.length} reports, since ${fmtDay(ITEMS[ITEMS.length - 1].d)}` + (STATUS ? ` · checked ${ago(STATUS.updated)}` : '')
     : 'Nothing collected yet. The collector runs every hour.';
   drawNews(); drawSources();
 }
@@ -228,7 +235,11 @@ async function load() {
 const PERIODS = [['1', 'Today'], ['7', '1 week'], ['30', '1 month'], ['90', '3 months'], ['0', 'All']];
 let period = '0';
 const since = () => period === '0' ? 0 : period === '1' ? new Date(istDay(Date.now()) + 'T00:00:00+05:30').getTime() : Date.now() - (+period) * 864e5;
+// Reports are filtered by when they were published; the map and patterns by when the incident happened.
 const inPeriod = e => new Date(e.last).getTime() >= since();
+const happenedInPeriod = e => new Date(e.d).getTime() + 12 * 3600e3 >= since();
+// The report that best stands for an incident: the latest one about the incident itself, not a follow-up.
+const lead = e => e.reports.find(r => r.k !== 'f') || e.reports[0];
 function drawPeriod() {
   $('period').innerHTML = PERIODS.map(([p, name]) => `<button class="${p === period ? 'on' : ''}" data-p="${p}" aria-pressed="${p === period}">${name}</button>`).join('');
 }
@@ -252,12 +263,14 @@ function drawNews() {
   for (const e of rows.slice(0, newsN)) {
     const d = istDay(e.last);
     if (d !== day) { day = d; html += `<div class="day label">${d === today ? 'Today' : d === yest ? 'Yesterday' : fmtDay(e.last)}</div>`; }
-    const rs = [...e.reports].sort((x, y) => (x.d < y.d ? 1 : -1)), r = rs[0];
-    const others = rs.slice(1).filter((x, i, a) => a.findIndex(y => y.s === x.s) === i && x.s !== r.s);
+    const r = lead(e);
+    const others = e.reports.filter(x => x !== r).filter((x, i, a) => a.findIndex(y => y.s === x.s) === i && x.s !== r.s);
+    const follows = e.orphan ? 0 : e.reports.filter(x => x.k === 'f').length;
+    const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? ` · happened ${fmtDay(e.d)}` : '';
     html += `<article class="item">
-      <div class="top"><span class="cat">${esc(CAT[e.c].name)}</span><span class="when">${ago(e.last)}</span></div>
+      <div class="top"><span class="cat${e.orphan ? ' fu' : ''}">${e.orphan ? 'Follow-up · ' : ''}${esc(CAT[e.c].name)}</span><span class="when">${ago(e.last)}</span></div>
       ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
-      <div class="by"><b>${e.a ? esc(AREA[e.a].name) : 'Area not stated'}</b> · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}</div>
+      <div class="by"><b>${e.a ? esc(AREA[e.a].name) : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${follows ? ` · ${follows} follow-up${follows > 1 ? 's' : ''}` : ''}</div>
     </article>`;
   }
   if (rows.length > newsN) html += '<button class="more" id="more">Show earlier</button>';
@@ -284,8 +297,8 @@ function setBase() {
 
 function current() {
   const cat = $('fCat').value, t = $('fTime').value, wide = $('fWide').checked;
-  return EVENTS.filter(e =>
-    inPeriod(e) && (!cat || e.c === cat) &&
+  return INCIDENTS.filter(e =>
+    happenedInPeriod(e) && (!cat || e.c === cat) &&
     (!t || (t === 'dark' ? isDark(e) : e.b === t)) &&
     (wide || !e.a || AREA[e.a].r === 'city'));
 }
@@ -322,7 +335,7 @@ function drawArea() {
       <div><div class="label">By time of day</div>${timed.length ? rowsOf(BANDS.map(b => [b, timed.filter(e => e.b === b).length]), k => BAND_NAME[k]) : ''}
         <p class="note">${timed.length ? `${list.length - timed.length} of ${list.length} did not state a time.` : 'No report here stated a time of day.'}</p></div>
     </div>
-    <div style="margin-top:18px">${[...list].sort((x, y) => (x.last < y.last ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${fmtDay(e.last)} · ${esc(CAT[e.c].name)}<br>${link(e.reports[0], esc(e.reports[0].t))}${e.reports.length > 1 ? ` <span style="color:var(--ink-3)">· ${e.reports.length} reports</span>` : ''}</div>`).join('')}</div>
+    <div style="margin-top:18px">${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${fmtDay(e.d)} · ${esc(CAT[e.c].name)}<br>${link(lead(e), esc(lead(e).t))}${e.reports.length > 1 ? ` <span style="color:var(--ink-3)">· ${e.reports.length} reports</span>` : ''}</div>`).join('')}</div>
   </section>`;
 }
 

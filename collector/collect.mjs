@@ -1,11 +1,11 @@
 // Runs on GitHub Actions every hour: read the feeds and newspaper indexes, keep the incident items,
 // append to data/incidents.json. Also works backwards through Sakal's archive a few days per run.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { FEEDS, RULES_VERSION, extract, finish, merge, pageText, enrich, recheck, hashId } from './engine.js';
+import { FEEDS, RULES_VERSION, extract, finish, merge, pageText, recheck, hashId } from './engine.js';
 
 const DATA = new URL('../data/', import.meta.url);
 const UA = 'Mozilla/5.0 (compatible; FeedFetcher/1.0)';
-const MAX_PAGES = 150;           // article pages read per run for new items and re-checks
+const MAX_PAGES = 260;           // article pages read per run for new items and re-checks
 const BACKFILL_DAYS = 4;         // archive days read per run
 const BACKFILL_PAGES = 90;       // article pages read per run for the archive
 const BACKFILL_SPAN = 180;       // how far back the archive read goes, in days
@@ -43,7 +43,7 @@ async function readCandidates(feed, cands, budget, fallbackDate) {
     if (rec) kept += merge(items, [rec], rejected);
     else if (!failed) rejected.add(id);          // unreadable pages are retried next run
     else if (++fails >= 3) break;                // the site is refusing us right now: stop asking
-    await sleep(900);
+    await sleep(600);
   }
   return kept;
 }
@@ -67,11 +67,11 @@ for (const feed of FEEDS) {
   console.log(`${feed.id.padEnd(4)} ${row.ok ? 'ok ' : 'ERR'} found=${row.found} new=${row.added} ${row.note}`);
 }
 
-// Read each article once. New items: find area and time. Items stored under older rules: re-check fully.
+// Every record is judged once with its full article text: type, place, the day and time it happened, and whether it is
+// a fresh incident or a follow-up. Records judged under older rules are judged again.
 let removed = 0;
 for (const rec of items) {
-  const old = rec.r !== RULES_VERSION;
-  if (!old && (rec.e || (rec.a && rec.b))) continue;
+  if (rec.e && rec.r === RULES_VERSION) continue;
   if (budget.left <= 0) break;
   budget.left--; changed = true;
   let text = '';
@@ -80,11 +80,9 @@ for (const rec of items) {
   // and only after three failures judge on the headline alone.
   if (!text && (rec.x = (rec.x || 0) + 1) < 3) { await sleep(300); continue; }
   delete rec.x;
-  if (old) {
-    if (!recheck(rec, text)) { rec.drop = 1; rejected.add(rec.id); removed++; console.log('removed: ' + rec.t.slice(0, 90)); }
-  } else if (text) enrich(rec, text);
+  if (!recheck(rec, text)) { rec.drop = 1; rejected.add(rec.id); removed++; console.log('removed: ' + rec.t.slice(0, 90)); }
   rec.e = 1;
-  await sleep(900);
+  await sleep(600);
 }
 items = items.filter(r => !r.drop);
 
