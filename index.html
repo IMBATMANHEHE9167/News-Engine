@@ -133,7 +133,9 @@ nav > div:first-child button{flex:none;white-space:nowrap}
 .ocname{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.15;margin:8px 0 6px}
 .spark{display:flex;align-items:flex-end;gap:2px;height:48px}
 .spark i{flex:1;background:var(--copper);opacity:.7;min-width:3px}
-.scan{margin:28px 0 0;padding-top:12px;border-top:1px solid var(--rule);font-size:13px;line-height:1.6;color:var(--ink-3)}
+.scanline{text-align:right;padding:5px 20px 6px;font-size:12px;line-height:1.45;color:var(--ink-3);border-top:1px solid var(--rule)}
+.scanline b{font-weight:500;color:var(--ink-2)}
+.scanline .late{color:var(--copper-text)}
 
 /* Map */
 .mapgrid{max-width:1180px;margin:0 auto;padding:0 20px}
@@ -213,7 +215,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
   <button id="tabSit">Situations</button>
   <button id="tabOc">Organised crime</button>
   <button id="tabAn">Analytics</button>
-</div><div class="period views" id="views" role="group" aria-label="Area"></div><div class="period" id="period" role="group" aria-label="Period"></div></nav>
+</div><div class="period views" id="views" role="group" aria-label="Area"></div><div class="period" id="period" role="group" aria-label="Period"></div><p class="scanline" id="scanLine" aria-live="polite"></p></nav>
 
 <main id="news" class="wrap">
   <div class="filter" id="newsFilter"></div>
@@ -253,7 +255,6 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
 <main id="sitv" class="wrap hide">
   <p class="note" id="sitIntro" style="margin:16px 0 0"></p>
   <div id="sitList"></div>
-  <p class="scan" id="sitScan"></p>
 </main>
 
 <div id="gTip" class="gtip"></div>
@@ -305,7 +306,7 @@ async function load() {
   $('stamp').textContent = EVENTS.length
     ? `${INCIDENTS.length} incidents from ${nReports} reports, since ${fmtDay(first)}` + (STATUS ? ` · checked ${ago(STATUS.updated)}` : '')
     : 'Nothing collected yet. The collector runs every hour.';
-  drawNews(); drawSources();
+  drawNews(); drawSources(); drawScan();
 }
 
 /* ---------- Views ---------- */
@@ -528,18 +529,33 @@ function drawSits() {
   const block = (title, arr, empty) => `<div class="day label">${title}</div>` + (arr.length ? arr.map(item).join('') : `<p class="note" style="margin:10px 0 0">${empty}</p>`);
   $('sitIntro').textContent = `${planned.length} planned · ${now.length} today or ongoing · ${recent.length} recent. Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News.`;
   $('sitList').innerHTML = block('Planned', planned, 'Nothing announced for the coming days.') + block('Today & ongoing', now, 'Nothing reported for today.') + block('Recent', recent, 'Nothing in this period.');
-  drawScan();
 }
-// How fresh this tab is. Scans run every SITSTATUS.every minutes, at :00, :15, :30 and :45; GitHub sometimes starts one late.
+// How fresh the Reports and Situations tabs are, shown at the top right under the period.
+// Situations: scans every SITSTATUS.every minutes at :00, :15, :30, :45. Reports: the hourly collector starts at :17 past
+// each hour (status.json "updated" is when it finished). GitHub often starts scheduled runs late.
+let scanTab = 'news';
 function drawScan() {
-  if (!SITSTATUS) { $('sitScan').innerHTML = 'Last scan: not yet run.<br>Next scan: within 15 minutes.'; return; }
-  const every = (SITSTATUS.every || 15) * 60e3, last = new Date(SITSTATUS.scanned).getTime();
-  const next = Math.ceil((last + 60e3) / every) * every;
-  const t = ms => new Date(ms).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' });
-  const late = Date.now() > next + 10 * 60e3;
-  $('sitScan').innerHTML = `Last scan: ${t(last)} (${ago(SITSTATUS.scanned)}).<br>` +
-    (late ? `Next scan: due since ${t(next)}; GitHub is running it late.` : `Next scan due around ${t(next)}, then every ${SITSTATUS.every || 15} minutes.`);
+  const el = $('scanLine');
+  if (scanTab !== 'news' && scanTab !== 'sit') { el.classList.add('hide'); return; }
+  el.classList.remove('hide');
+  const t = ms => { const d = new Date(ms); return (istDay(ms) === istDay(Date.now()) ? '' : fmtDay(ms) + ', ') + d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' }); };
+  let lastIso, next, grace, every;
+  if (scanTab === 'sit') {
+    if (!SITSTATUS) { el.innerHTML = 'Last scan: not yet run<br>Next scan: within 15 min'; return; }
+    every = SITSTATUS.every || 15; lastIso = SITSTATUS.scanned; grace = 10;
+    const step = every * 60e3; next = Math.ceil((new Date(lastIso).getTime() + 60e3) / step) * step;
+  } else {
+    if (!STATUS) { el.innerHTML = 'Last scan: not yet run<br>Next scan: within the hour'; return; }
+    every = 60; lastIso = STATUS.updated; grace = 30;
+    const h = 3600e3, off = 17 * 60e3, last = new Date(lastIso).getTime();
+    next = Math.floor((last - off) / h) * h + off + h; // the next :17 after the run that produced this
+  }
+  const late = Date.now() > next + grace * 60e3;
+  el.innerHTML = `Last scan <b>${t(new Date(lastIso).getTime())}</b> · ${ago(lastIso)}<br>` +
+    (late ? `<span class="late">Next scan was due ${t(next)}, GitHub is running it late</span>`
+          : `Next scan around <b>${t(next)}</b> · every ${every === 60 ? 'hour' : every + ' min'}`);
 }
+setInterval(drawScan, 60e3);
 
 /* ---------- Organised crime ---------- */
 // Groups as publicly reported, from the engine's incidents and each group's own searches (groups.json, hourly).
@@ -885,6 +901,7 @@ function show(tab) {
   if (tab === 'oc') drawOc();
   if (tab === 'an') drawAn();
   if (tab === 'map') { const first = !MAP; drawMap(); setTimeout(() => { MAP.invalidateSize(); if (first) fitView(); }, 80); }
+  scanTab = tab; drawScan();
   try { history.replaceState(null, '', '#' + tab); } catch {}
 }
 function applyTheme(t, save) {
