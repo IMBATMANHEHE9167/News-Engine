@@ -83,6 +83,10 @@ ITEM = {
 SCHEMA = {'type': 'ARRAY', 'items': ITEM}
 
 
+class Busy(Exception):
+    """The model is overloaded right now (HTTP 500/503): try again shortly or use the next model. Not counted."""
+
+
 class Limit(Exception):
     """The model's allowance is used up for now."""
 
@@ -99,6 +103,8 @@ def call(key, model, payload, timeout=120):
             return json.loads(r.read().decode('utf-8'))
     except urllib.error.HTTPError as e:
         body = e.read().decode('utf-8', 'replace')[:300]
+        if e.code in (500, 503):
+            raise Busy(body) from None
         if e.code == 429:
             raise Limit(body) from None
         raise RuntimeError('HTTP %d %s' % (e.code, body)) from None
@@ -173,8 +179,10 @@ def run(items, texts, get):
         models = state.get('models') or {'readers': CFG['readers'], 'experts': CFG['experts']}
         state['errors'] = (state.get('errors', []) + ['model list: %s' % str(e)[:100]])[-10:]
 
+    busy = {}
+
     def has(model, role):
-        return state['used'].get(model, 0) < CFG['rpd'][role] and not state['rested'].get(model)
+        return state['used'].get(model, 0) < CFG['rpd'][role] and not state['rested'].get(model) and busy.get(model, 0) < 2
 
     def take(role):
         return next((m for m in models.get(role, []) if has(m, role)), None)
@@ -216,6 +224,10 @@ def run(items, texts, get):
         except Limit:
             state['rested'][model] = True
             i -= len(batch)                          # same articles again with the next model
+        except Busy:
+            busy[model] = busy.get(model, 0) + 1     # overloaded: wait, retry once, then the next model; not counted
+            i -= len(batch)
+            time.sleep(20)
         except Exception as e:
             spend(model)
             requests_left -= 1
@@ -251,6 +263,9 @@ def run(items, texts, get):
             k += CFG['batch']
         except Limit:
             state['rested'][model] = True
+        except Busy:
+            busy[model] = busy.get(model, 0) + 1
+            time.sleep(20)
         except Exception as e:
             spend(model)
             left -= 1
