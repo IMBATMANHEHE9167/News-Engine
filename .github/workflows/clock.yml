@@ -6,6 +6,9 @@ name: Scan clock
 # it ever stops; a second clock always steps aside for the one already running.
 on:
   workflow_dispatch:
+  push:                       # also starts when this file changes
+    branches: [main]
+    paths: ['.github/workflows/clock.yml']
   schedule:
     - cron: '7,37 * * * *'
 
