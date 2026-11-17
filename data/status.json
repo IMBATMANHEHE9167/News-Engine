@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-17T13:23:13.170Z",
- "total": 1980,
- "added": 1,
- "removed": 0,
+ "updated": "2026-11-17T13:42:04.359Z",
+ "total": 2140,
+ "added": 0,
+ "removed": 2,
  "rules": 11,
  "history": {
-  "reachedBack": "2026-06-06",
+  "reachedBack": "2026-06-02",
   "target": "2026-05-19",
-  "kept": 746,
+  "kept": 760,
   "note": "",
   "from": "2026-05-19",
   "archives": {
@@ -18,21 +18,21 @@
     "note": ""
    },
    "ht": {
-    "done": false,
-    "reached": "july 2026",
-    "kept": 134,
+    "done": true,
+    "reached": "may 2026",
+    "kept": 219,
     "note": ""
    },
    "ptm": {
     "done": false,
-    "reached": "2026-08-31",
-    "kept": 212,
+    "reached": "2026-08-21",
+    "kept": 250,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-09-08",
-    "kept": 164,
+    "reached": "2026-08-29",
+    "kept": 189,
     "note": ""
    },
    "pcl": {
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 20,
-   "added": 1,
+   "added": 0,
    "note": ""
   }
  ]
