@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-17T16:37:25.001Z",
- "total": 2491,
+ "updated": "2026-11-17T17:41:43.286Z",
+ "total": 2520,
  "added": 1,
- "removed": 2,
+ "removed": 4,
  "rules": 11,
  "history": {
   "reachedBack": "2026-05-18",
@@ -25,14 +25,14 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-06-30",
-    "kept": 427,
-    "note": ""
+    "reached": "2026-06-26",
+    "kept": 443,
+    "note": "The read operation timed out"
    },
    "pkn": {
     "done": false,
-    "reached": "2026-07-14",
-    "kept": 301,
+    "reached": "2026-07-06",
+    "kept": 317,
     "note": ""
    },
    "pcl": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 25,
-   "added": 1,
-   "note": ""
+   "ok": false,
+   "found": 0,
+   "added": 0,
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -80,8 +80,8 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -135,16 +135,16 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 7,
+   "found": 6,
    "added": 0,
    "note": ""
   },
@@ -160,7 +160,7 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 22,
+   "found": 23,
    "added": 0,
    "note": ""
   }

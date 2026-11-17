@@ -1,11 +1,11 @@
 {
  "day": "2026-11-17",
  "used": {
-  "gemini-3.5-flash-lite": 45,
-  "gemini-3.6-flash": 6,
-  "gemini-3.1-flash-lite": 31,
+  "gemini-3.5-flash-lite": 50,
+  "gemini-3.6-flash": 9,
+  "gemini-3.1-flash-lite": 40,
   "gemini-3-flash-preview": 2,
-  "gemini-2.5-flash-lite": 19
+  "gemini-2.5-flash-lite": 32
  },
  "rested": {},
  "errors": [
@@ -18,7 +18,7 @@
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available ",
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available ",
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available ",
-  "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available "
+  "gemini-3.6-flash: The read operation timed out"
  ],
  "models": {
   "readers": [
@@ -32,9 +32,9 @@
    "gemini-2.5-flash"
   ]
  },
- "read": 198,
- "waiting": 2293,
- "disputes": 18,
- "settled": 12,
- "updated": "2026-11-17T16:37:24.994Z"
+ "read": 254,
+ "waiting": 2266,
+ "disputes": 26,
+ "settled": 20,
+ "updated": "2026-11-17T17:41:43.275Z"
 }

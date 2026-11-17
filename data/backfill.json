@@ -52,17 +52,17 @@
   },
   "ptm": {
    "done": false,
-   "kept": 427,
-   "note": "",
-   "page": 326,
-   "reached": "2026-06-30"
+   "kept": 443,
+   "note": "The read operation timed out",
+   "page": 333,
+   "reached": "2026-06-26"
   },
   "pkn": {
    "done": false,
-   "kept": 301,
+   "kept": 317,
    "note": "",
-   "page": 326,
-   "reached": "2026-07-14"
+   "page": 351,
+   "reached": "2026-07-06"
   },
   "pcl": {
    "done": true,
