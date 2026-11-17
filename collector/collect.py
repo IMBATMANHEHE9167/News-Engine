@@ -292,3 +292,10 @@ try:
     oc.build(events, get)
 except Exception as ex:
     print('organised crime step failed: %s' % str(ex)[:200])
+
+# ---- 8. Analytics (insights.json): findings per area view. A failure here never stops the data from being saved.
+try:
+    import analytics
+    analytics.build(events, vec, read_json('situations.json', []), read_json('groups.json', {}))
+except Exception as ex:
+    print('analytics step failed: %s' % str(ex)[:200])

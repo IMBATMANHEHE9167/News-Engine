@@ -352,7 +352,8 @@ _MR_SUFFIX = sorted(['मध्ये', 'मधील', 'मधल्या', '�
                      'वर', 'वरील', 'कडे', 'साठी', 'ने', 'ना', 'पर्यंत', 'हून', 'मधून', 'वरून', 'तून', 'ावर', 'ात', 'ाजवळ'], key=len, reverse=True)
 _EN_STOP = set('the a an of in at on near to from and for with by police station road pune city area village chowk bridge hill '
                'temple mandir hospital school college market society nagar colony new old east west north south main '
-               'case youth man woman girl boy accused arrested held booked killed dies dead attack fire theft crime'.split())
+               'case youth man woman girl boy accused arrested held booked killed dies dead attack fire theft crime '
+               'house home shop office building apartment apartments flat flats hotel room street lane gate park garden ground'.split())
 
 
 def skeleton(s):
@@ -854,6 +855,30 @@ def share_count(a, b):
     return sum(1 for x in a if x in b)
 
 
+COMMON_NAMES = set('''patil pawar shinde jadhav kale more gaikwad kamble deshmukh kulkarni joshi shaikh sheikh khan sayyad syed
+sharma singh yadav gupta jagtap bhosale chavan salunkhe mane kadam thorat waghmare sathe lokhande mohite nikam sawant gawade
+shirke kokate dhumal gore pathan mulla inamdar tambe deshpande apte gokhale bapat rahul amit sachin sunil anil vijay santosh
+ganesh mahesh suresh ramesh prakash sandeep ajay akash rohit nilesh pooja priya neha sneha kiran pune pimpri chinchwad police
+accused arrested murder death woman youth minor gang crime case court'''.split())
+
+
+def name_skeletons(title):
+    """Consonant skeletons of the distinctive words in an English headline, for linking reports of one case (two must match)
+    whose names are spelt differently ("Jhambare", "Zambre", "झांबरे")."""
+    out = set()
+    for w in re.findall(r'[A-Za-z]{4,}', title):           # Latin only: Marathi endings change a word's spelling
+        if w.lower() in COMMON_NAMES:
+            continue
+        sk = skeleton(w)
+        if len(sk) >= 3:
+            out.add(sk)
+    return out
+
+
+CASE_DAYS = 30          # reports of one case that share a rare name can be this far apart
+RARE = 8                # a name skeleton found in more reports than this across everything is too common to link
+
+
 def group_events(items, vec=None):
     """Join reports into incidents: same place, kind of crime and day, AND a shared hard detail.
     Follow-ups never start an incident; they join the incident whose details they share, or stand apart (orphan)."""
@@ -863,17 +888,29 @@ def group_events(items, vec=None):
                  day=num(r['i']) if r.get('i') else day_of(r['d']), stated=bool(r.get('ip')), follow=r.get('k') == 'f',
                  p=r['p'][0] if r.get('p') and r['p'][3] == 'x' else None)
             for r in items]
+    # Rare names: skeletons that occur in few reports overall, minus area names (which repeat by nature).
+    # A word written in small letters anywhere ("overturns", "freshers") is an ordinary word, not a name.
+    ordinary = {skeleton(w) for x in recs for w in re.findall(r'(?<![A-Za-z])[a-z]{4,}', x['r']['t'])}
+    freq = {}
+    for x in recs:
+        x['names'] = name_skeletons(x['r']['t']) - ordinary
+        for k in x['names']:
+            freq[k] = freq.get(k, 0) + 1
+    common = {k for k, n in freq.items() if n > RARE} | {s[2:] for s in area_keys() if s.startswith('s:')}
+    for x in recs:
+        x['names'] -= common
     events = []
 
     def start(x):
         e = dict(c=x['r']['c'], a=x['r'].get('a'), day=x['day'], stated=x['stated'], h=None, b=None, reports=[], fp={}, src=set(),
-                 spots=set(), ids=[], late=False, orphan=False)
+                 spots=set(), ids=[], names=set(), late=False, orphan=False)
         events.append(e)
         return e
 
     def join(e, x, anchor):
         e['reports'].append(x['r'])
         e['ids'].append(x['r']['id'])
+        e['names'] |= x['names']
         e['src'].add(x['r']['s'])
         if x['p']:
             e['spots'].add(x['p'])
@@ -919,6 +956,9 @@ def group_events(items, vec=None):
             # The same named spot, same kind of crime, within a day.
             if x['p'] and x['p'] in e['spots'] and gap <= 1 and e['c'] == xc:
                 ev = e; break
+            # One case followed over days: a rare name both reports share (however it is spelt), same kind of crime.
+            if (same_area or one_unplaced) and gap <= CASE_DAYS and len(x['names'] & e['names']) >= 2 and not ages_differ(x['fp'], e['fp']):
+                ev = e; break
             # The same story told again (another paper, or the same paper twice): headlines that mean the same thing,
             # unless their hard details (ages, sums) contradict each other.
             if (same_area or one_unplaced) and gap <= 2 and not ages_differ(x['fp'], e['fp']) \
@@ -937,7 +977,7 @@ def group_events(items, vec=None):
             same_area = bool(xa) and e['a'] == xa
             one_unplaced = not xa or not e['a']
             sure = shares(x['fp'], e['fp'], big_sum) or share_count(x['fp'], e['fp']) >= 2 \
-                or (not ages_differ(x['fp'], e['fp']) and similarity(vec, x['r']['id'], e['ids']) >= SAME_CASE)
+                or (not ages_differ(x['fp'], e['fp']) and (similarity(vec, x['r']['id'], e['ids']) >= SAME_CASE or len(x['names'] & e['names']) >= 2))
             if (same_area or one_unplaced) and sure and (not ev or e['day'] > ev['day']):
                 ev = e
         if not ev:

@@ -86,6 +86,14 @@ nav .views button:last-child{margin-right:auto}
 .by .chk{color:var(--copper-text);font-style:italic}
 .more{display:block;margin:22px auto 0;appearance:none;background:none;border:1px solid var(--rule);padding:9px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);cursor:pointer}
 .empty{padding:44px 0;text-align:center;color:var(--ink-3);font-family:var(--serif);font-size:17px}
+.how{font-size:12.5px;color:var(--ink-3);margin-top:6px}
+.ev{margin-top:8px}
+.ev details summary{cursor:pointer;margin-top:6px;list-style:none}
+.ev details summary::-webkit-details-marker{display:none}
+nav > div:first-child{overflow-x:auto;scrollbar-width:none;padding:0 20px}
+nav > div:first-child::-webkit-scrollbar{display:none}
+nav > div:first-child button{flex:none;white-space:nowrap}
+@media (max-width:720px){nav > div:first-child{justify-content:flex-start;gap:24px}}
 .search{width:100%;margin:18px 0 0;padding:9px 0 8px;background:transparent;border:0;border-bottom:1px solid var(--rule);color:var(--ink);font:16px var(--sans);outline:0;border-radius:0}
 .search:focus{border-bottom-color:var(--copper)}
 .acc{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
@@ -171,6 +179,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
   <button id="tabMap">Map &amp; patterns</button>
   <button id="tabSit">Situations</button>
   <button id="tabOc">Organised crime</button>
+  <button id="tabAn">Analytics</button>
 </div><div class="period views" id="views" role="group" aria-label="Area"></div><div class="period" id="period" role="group" aria-label="Period"></div></nav>
 
 <main id="news" class="wrap">
@@ -195,6 +204,10 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
       <section class="sec"><h3 class="label">Sources</h3><div id="sources"></div></section>
     </div>
   </div>
+</main>
+
+<main id="anv" class="wrap hide">
+  <div id="anBody"></div>
 </main>
 
 <main id="ocv" class="wrap hide">
@@ -249,6 +262,7 @@ async function load() {
   try { SITS = await j('data/situations.json'); } catch { SITS = []; }
   try { SITSTATUS = await j('data/sitstatus.json'); } catch { SITSTATUS = null; }
   try { OC = await j('data/groups.json'); } catch { OC = null; }
+  try { INS = await j('data/insights.json'); } catch { INS = null; }
   EVENTS = EVENTS.filter(e => CAT[e.c]);
   INCIDENTS = EVENTS.filter(e => !e.orphan);
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
@@ -272,7 +286,7 @@ function drawViews() {
 }
 $('views').onclick = e => {
   const b = e.target.closest('button'); if (!b) return;
-  view = b.dataset.v; picked = null; newsN = 60; drawViews(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits(); if (!$('ocv').classList.contains('hide')) drawOc();
+  view = b.dataset.v; picked = null; newsN = 60; drawViews(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits(); if (!$('ocv').classList.contains('hide')) drawOc(); if (!$('anv').classList.contains('hide')) drawAn();
   if (!$('mapv').classList.contains('hide')) { fitView(); drawMap(); }
 };
 function fitView() {
@@ -296,7 +310,7 @@ function drawPeriod() {
 }
 $('period').onclick = e => {
   const b = e.target.closest('button'); if (!b) return;
-  period = b.dataset.p; newsN = 60; drawPeriod(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits(); if (!$('ocv').classList.contains('hide')) drawOc();
+  period = b.dataset.p; newsN = 60; drawPeriod(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits(); if (!$('ocv').classList.contains('hide')) drawOc(); if (!$('anv').classList.contains('hide')) drawAn();
   if (!$('mapv').classList.contains('hide')) drawMap();
 };
 
@@ -558,17 +572,57 @@ $('ocBody').onclick = e => {
 };
 $('ocQ').oninput = () => { ocOpen = null; drawOc(); };
 
+/* ---------- Analytics ---------- */
+// Findings per area view (insights.json, hourly): one sentence each, with the evidence and the test behind it.
+// Nothing is shown below its minimum amount of data; an empty section says so.
+let INS = null;
+const TREND = { rising: 'Rising', steady: 'Steady', falling: 'Falling' };
+function anEvidence(list) {
+  if (!list || !list.length) return '';
+  return `<div class="ev">${list.slice(0, 3).map(r => `<div class="mini">${fmtDay(r.d + 'T06:30:00Z')}${r.a && AREA[r.a] ? ' · ' + esc(AREA[r.a].name) : ''}<br>${link(r, esc(r.t))}</div>`).join('')}${list.length > 3 ? `<details><summary class="label">${list.length - 3} more</summary>${list.slice(3).map(r => `<div class="mini">${fmtDay(r.d + 'T06:30:00Z')}<br>${link(r, esc(r.t))}</div>`).join('')}</details>` : ''}</div>`;
+}
+function anCard(x) {
+  return `<article class="item">
+    ${x.trend ? `<div class="top"><span class="cat">${TREND[x.trend]}</span></div>` : ''}
+    <p class="say" style="margin:4px 0 6px">${esc(x.title)}</p>
+    ${(x.facts || []).length ? `<div class="by">${x.facts.map(esc).join(' · ')}</div>` : ''}
+    ${x.test ? `<div class="how">How we know: ${esc(x.test)}</div>` : ''}
+    ${anEvidence(x.evidence)}
+  </article>`;
+}
+function drawAn() {
+  if (!INS) { $('anBody').innerHTML = '<div class="empty">The first analysis has not run yet. It runs with every hourly collection.</div>'; return; }
+  const v = INS.views[view] || INS.views.all, cov = v.coverage;
+  const sec = (title, items, empty) => `<section class="sec"><h3 class="label">${title}</h3>${items.length ? items.map(anCard).join('') : `<p class="note" style="margin-top:0">${empty}</p>`}</section>`;
+  const watch = [...v.watch,
+    ...INS.gang.map(g => ({ title: g.title, evidence: g.evidence })),
+    ...INS.planned.filter(p => view === 'all' || !p.a || areaInView(p.a)).map(p => ({ title: p.title + ' (' + fmtDay(p.d + 'T06:30:00Z') + ')', evidence: [{ t: 'Source report', u: p.u, d: p.d }] }))];
+  $('anBody').innerHTML =
+    `<p class="note" style="margin:16px 0 0">Last ${INS.window} days, ${cov.incidents} incidents in this view. Updated ${ago(INS.updated)}.</p>` +
+    sec('Problems', v.problems, 'No problem in this view yet has enough incidents (four of one kind in one area in 90 days).') +
+    sec('Watch', watch, 'No surge, gang violence or planned situation right now.') +
+    sec('Possible series', v.series, 'No chain of three or more alike incidents close in place and time.') +
+    sec('When', v.timing, 'No kind of incident yet differs from an even spread across the day or week (it needs about 30 incidents with a stated time).') +
+    sec('Repeat places', v.places, 'No named spot has had more than one incident in 90 days.') +
+    `<section class="sec"><h3 class="label">What this data can say</h3><p class="note" style="margin-top:0">${cov.spot} of ${cov.incidents} incidents are placed at a named spot, ${cov.timed} have a stated hour. ${cov.top_share}% of reports in this view come from one source (${esc(SRC[cov.top_source] || cov.top_source)}). ${esc(cov.note)}</p></section>`;
+}
+
 /* ---------- Wiring ---------- */
 $('fCat').innerHTML = '<option value="">All types</option>' + CATS.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
 drawPeriod();
 drawViews();
 for (const id of ['fCat', 'fTime']) $(id).onchange = drawMap;
 function show(tab) {
-  for (const [b, v] of [['tabNews', 'news'], ['tabMap', 'map'], ['tabSit', 'sit'], ['tabOc', 'oc']]) $(b).classList.toggle('on', tab === v);
+  for (const [b, v] of [['tabNews', 'news'], ['tabMap', 'map'], ['tabSit', 'sit'], ['tabOc', 'oc'], ['tabAn', 'an']]) {
+    $(b).classList.toggle('on', tab === v);
+    if (tab === v) { const row = $(b).parentElement; row.scrollLeft = $(b).offsetLeft - (row.clientWidth - $(b).offsetWidth) / 2; }
+  }
   $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map'); $('sitv').classList.toggle('hide', tab !== 'sit');
   $('ocv').classList.toggle('hide', tab !== 'oc');
   if (tab === 'sit') drawSits();
+  $('anv').classList.toggle('hide', tab !== 'an');
   if (tab === 'oc') drawOc();
+  if (tab === 'an') drawAn();
   if (tab === 'map') { const first = !MAP; drawMap(); setTimeout(() => { MAP.invalidateSize(); if (first) fitView(); }, 80); }
   try { history.replaceState(null, '', '#' + tab); } catch {}
 }
@@ -586,8 +640,9 @@ $('tabNews').onclick = () => show('news');
 $('tabMap').onclick = () => show('map');
 $('tabSit').onclick = () => show('sit');
 $('tabOc').onclick = () => show('oc');
+$('tabAn').onclick = () => show('an');
 await load();
-show({ '#map': 'map', '#sit': 'sit', '#oc': 'oc' }[location.hash] || 'news');
+show({ '#map': 'map', '#sit': 'sit', '#oc': 'oc', '#an': 'an' }[location.hash] || 'news');
 </script>
 </body>
 </html>
