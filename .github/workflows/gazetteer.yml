@@ -18,13 +18,20 @@ concurrency:
 jobs:
   places:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python collector/gazetteer.py
+      - name: Cut OpenStreetMap down to named places in Pune district
+        run: |
+          sudo apt-get install -y -qq osmium-tool > /dev/null
+          curl -sSL -o /tmp/west.osm.pbf https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf
+          osmium extract -b 73.30,17.85,75.25,19.40 /tmp/west.osm.pbf -o /tmp/pune.osm.pbf
+          osmium tags-filter /tmp/pune.osm.pbf nwr/name -o /tmp/named.osm.pbf
+          osmium export /tmp/named.osm.pbf -f geojsonseq -o /tmp/named.geojsonseq
+      - run: python collector/gazetteer.py /tmp/named.geojsonseq
       - name: Save place list
         run: |
           git config user.name "vidraksh-collector"
