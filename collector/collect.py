@@ -2,6 +2,7 @@
 data/incidents.json, read the city papers' and Sakal's history a little each run, and write the files the page reads
 (events.json: reports joined into incidents; meta.json: areas, types, sources)."""
 import json
+import os
 import re
 import time
 import urllib.request
@@ -264,10 +265,65 @@ if added or changed:
     (DATA / 'incidents.json').write_text(dump_lines(items), 'utf-8')
     (DATA / 'rejected.json').write_text(json.dumps(list(rejected)[-20000:], separators=(',', ':')), 'utf-8')
 
+# ---- 6. Machine reading (ML). Optional: without it the engine works exactly as before.
+#   Meaning-fingerprints of every headline (one multilingual model, Marathi and English alike): used to join reports that
+#   tell the same story, and to train a second opinion on type. The second opinion never changes a type; where it
+#   confidently disagrees with the rules, the report is listed in review.json and marked on the page for checking.
+MODEL = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+
+
+def embed(rows):
+    try:
+        import numpy as np
+        from fastembed import TextEmbedding
+        m = TextEmbedding(MODEL, cache_dir=os.path.expanduser('~/.cache/fastembed'))
+        out = {}
+        for r, v in zip(rows, m.embed([r['t'] for r in rows], batch_size=64)):
+            v = np.asarray(v, dtype=float)
+            out[r['id']] = (v / (np.linalg.norm(v) or 1.0)).tolist()
+        return out
+    except Exception as e:
+        print('machine reading unavailable: %s' % str(e)[:120])
+        return None
+
+
+def second_opinion(rows, vec, min_conf=0.8):
+    try:
+        import numpy as np
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.model_selection import cross_val_predict
+        rows = [r for r in rows if r['id'] in vec]
+        y = np.array([r['c'] for r in rows])
+        if len(rows) < 200 or min(np.unique(y, return_counts=True)[1]) < 5:
+            return {}
+        X = np.array([vec[r['id']] for r in rows])
+        # Each report is judged by a model that never saw it (5-fold), so it cannot simply echo the rules back.
+        P = cross_val_predict(LogisticRegression(max_iter=2000, C=4.0, class_weight='balanced'), X, y, cv=5, method='predict_proba')
+        classes = sorted(set(y))
+        out = {}
+        for r, p in zip(rows, P):
+            k = int(p.argmax())
+            if classes[k] != r['c'] and p[k] >= min_conf:
+                out[r['id']] = dict(id=r['id'], t=r['t'], u=r['u'], rule=r['c'], model=classes[k], conf=round(float(p[k]), 2))
+        return out
+    except Exception as e:
+        print('second opinion unavailable: %s' % str(e)[:120])
+        return {}
+
+
 cats = {c['id'] for c in E.CATS}
-events = E.group_events([r for r in items if r.get('c') in cats])
+judged = [r for r in items if r.get('c') in cats]
+vec = embed(judged)
+review = second_opinion(judged, vec) if vec else {}
+(DATA / 'review.json').write_text(dump_lines(sorted(review.values(), key=lambda x: -x['conf'])), 'utf-8')
+print('machine reading: %s, second opinion flags %d' % ('on' if vec else 'off', len(review)))
+
+events = E.group_events(judged, vec)
 events.sort(key=lambda e: e['last'], reverse=True)
-keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'reports')
+for e in events:                     # the second opinion on the report that stands for the incident, when it differs
+    lead = next((r for r in e['reports'] if r.get('k') != 'f'), e['reports'][0])
+    e['q'] = review[lead['id']]['model'] if lead['id'] in review else None
+keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'reports')
 (DATA / 'events.json').write_text(dump_lines([{k: e[k] for k in keep} for e in events]), 'utf-8')
 meta = dict(rules=E.RULES_VERSION, cats=E.CATS, areas=[{k: a[k] for k in ('id', 'name', 'lat', 'lon', 'r')} for a in E.AREAS],
             feeds=[dict(id=f['id'], name=f['name']) for f in E.FEEDS])

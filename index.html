@@ -83,6 +83,7 @@ nav .views button:last-child{margin-right:auto}
 .by{font-size:13px;color:var(--ink-3)}
 .by b{font-weight:500;color:var(--ink-2)}
 .by a{text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px}
+.by .chk{color:var(--copper-text);font-style:italic}
 .more{display:block;margin:22px auto 0;appearance:none;background:none;border:1px solid var(--rule);padding:9px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);cursor:pointer}
 .empty{padding:44px 0;text-align:center;color:var(--ink-3);font-family:var(--serif);font-size:17px}
 
@@ -296,7 +297,7 @@ function drawNews() {
     html += `<article class="item">
       <div class="top"><span class="cat${e.orphan ? ' fu' : ''}">${e.orphan ? 'Follow-up · ' : ''}${esc(label(e))}</span><span class="when">${ago(e.last)}</span></div>
       ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
-      <div class="by"><b>${e.a ? esc(AREA[e.a].name) + (e.p ? ' · ' + esc(e.p[0]) : '') : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${follows ? ` · ${follows} follow-up${follows > 1 ? 's' : ''}` : ''}</div>
+      <div class="by"><b>${e.a ? esc(AREA[e.a].name) + (e.p ? ' · ' + esc(e.p[0]) : '') : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${follows ? ` · ${follows} follow-up${follows > 1 ? 's' : ''}` : ''}${e.q && CAT[e.q] ? ` · <span class="chk" title="The machine reading of this headline disagrees with the rules">check type: reads as ${esc(CAT[e.q].name.toLowerCase())}</span>` : ''}</div>
     </article>`;
   }
   if (rows.length > newsN) html += '<button class="more" id="more">Show earlier</button>';

@@ -1,0 +1,4 @@
+# Machine reading (optional: the collector runs without these)
+fastembed>=0.4
+scikit-learn>=1.4
+numpy>=1.26

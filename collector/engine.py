@@ -821,11 +821,39 @@ def ages_differ(a, b):
     return bool(x and y and not x & y)
 
 
+def sums_differ(a, b):
+    """Both reports state sums of money (or gold) and none of them match: different cases."""
+    x, y = {t for t in a if is_sum(t)}, {t for t in b if is_sum(t)}
+    return bool(x and y and not x & y)
+
+
+def is_sum(t):
+    return bool(re.match(r'^\d+(\.\d+)?[LCKT]$', t))
+
+
+SAME_STORY = 0.85      # headline meaning-fingerprints this close are the same story (tuned on stored reports)
+SAME_CASE = 0.80       # a follow-up this close to a report of a case belongs to that case
+
+
+def similarity(vec, a_id, ids):
+    """Highest cosine similarity between report a_id and any of ids (vectors are unit length). 0 without vectors."""
+    va = vec.get(a_id) if vec else None
+    if va is None:
+        return 0.0
+    best = 0.0
+    for i in ids:
+        vb = vec.get(i)
+        if vb is not None:
+            s = sum(p * q for p, q in zip(va, vb))
+            best = max(best, s)
+    return best
+
+
 def share_count(a, b):
     return sum(1 for x in a if x in b)
 
 
-def group_events(items):
+def group_events(items, vec=None):
     """Join reports into incidents: same place, kind of crime and day, AND a shared hard detail.
     Follow-ups never start an incident; they join the incident whose details they share, or stand apart (orphan)."""
     def num(s):
@@ -838,12 +866,13 @@ def group_events(items):
 
     def start(x):
         e = dict(c=x['r']['c'], a=x['r'].get('a'), day=x['day'], stated=x['stated'], h=None, b=None, reports=[], fp={}, src=set(),
-                 spots=set(), late=False, orphan=False)
+                 spots=set(), ids=[], late=False, orphan=False)
         events.append(e)
         return e
 
     def join(e, x, anchor):
         e['reports'].append(x['r'])
+        e['ids'].append(x['r']['id'])
         e['src'].add(x['r']['s'])
         if x['p']:
             e['spots'].add(x['p'])
@@ -889,6 +918,11 @@ def group_events(items):
             # The same named spot, same kind of crime, within a day.
             if x['p'] and x['p'] in e['spots'] and gap <= 1 and e['c'] == xc:
                 ev = e; break
+            # The same story told again (another paper, or the same paper twice): headlines that mean the same thing,
+            # unless their hard details (ages, sums) contradict each other.
+            if (same_area or one_unplaced) and gap <= 2 and not ages_differ(x['fp'], e['fp']) \
+                    and not sums_differ(x['fp'], e['fp']) and similarity(vec, x['r']['id'], e['ids']) >= SAME_STORY:
+                ev = e; break
             if one_unplaced and big and gap <= 3:
                 ev = e; break
         join(ev or start(x), x, True)
@@ -901,7 +935,8 @@ def group_events(items):
                 continue
             same_area = bool(xa) and e['a'] == xa
             one_unplaced = not xa or not e['a']
-            sure = shares(x['fp'], e['fp'], big_sum) or share_count(x['fp'], e['fp']) >= 2
+            sure = shares(x['fp'], e['fp'], big_sum) or share_count(x['fp'], e['fp']) >= 2 \
+                or (not ages_differ(x['fp'], e['fp']) and similarity(vec, x['r']['id'], e['ids']) >= SAME_CASE)
             if (same_area or one_unplaced) and sure and (not ev or e['day'] > ev['day']):
                 ev = e
         if not ev:

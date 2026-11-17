@@ -1,5 +1,5 @@
 {
- "version": 10,
+ "version": 11,
  "regex": {
   "FIGURATIVE": [
    "आत्महत्य\\S*|(आमदार|खासदार|नगरसेवक|कार्यकर्त|मंत्र्य)\\S*\\s(\\S+\\s)?राडा|(सभागृहात|सभेत|विधानसभेत|बैठकीत|कार्यक्रमात)\\s(\\S+\\s){0,3}राडा|टांगती तलवार|घटस्फोट\\S*|गांधीहत्य\\S*|मतचोरी|वोट ?चोरी|मतांची चोरी|करचोरी|वीज ?चोरी|पाणी ?चोरी|गौप्यस्फोट|आगपाखड|हल्लाबोल|शाब्दिक हल्ल\\S*|लोकसंख्येचा स्फोट|heart attack|panic attack|cyber ?attack|under fire|fire sale|vote theft|daylight robbery",
@@ -362,7 +362,10 @@
     "\\b(burglar\\w*|burgl\\w+|house[- ]?break\\w*|break[- ]in|broke into|breaking into|breaks? into)\\b|घरफोड|(सदनिका|फ्लॅट|घरे|घर|दुकाने|दुकान|बंगला|बंगले|दानपेटी)\\s*फोड|कुलूप तोडून[^.।]{0,50}(चोरी|लंपास|ऐवज)|कडीकोयंडा",
     "i"
    ],
-   null
+   [
+    "\\b(no break|break[- ]in (water|supply|discharge|power|electricity|rain|rainfall|services?|the monsoon)|without a break|tie[- ]break\\w*|breaks? into (tears|song|dance|a smile|the top|the market|records?))\\b",
+    "i"
+   ]
   ],
   [
    "drugs",
