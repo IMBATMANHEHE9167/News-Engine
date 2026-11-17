@@ -86,6 +86,7 @@ nav .views button:last-child{margin-right:auto}
 .by .chk{color:var(--copper-text);font-style:italic}
 .more{display:block;margin:22px auto 0;appearance:none;background:none;border:1px solid var(--rule);padding:9px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);cursor:pointer}
 .empty{padding:44px 0;text-align:center;color:var(--ink-3);font-family:var(--serif);font-size:17px}
+.scan{margin:28px 0 0;padding-top:12px;border-top:1px solid var(--rule);font-size:13px;line-height:1.6;color:var(--ink-3)}
 
 /* Map */
 .mapgrid{max-width:1180px;margin:0 auto;padding:0 20px}
@@ -192,6 +193,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
 <main id="sitv" class="wrap hide">
   <p class="note" id="sitIntro" style="margin:16px 0 0"></p>
   <div id="sitList"></div>
+  <p class="scan" id="sitScan"></p>
 </main>
 
 <footer>
@@ -232,6 +234,7 @@ async function load() {
   try { EVENTS = await j('data/events.json'); } catch { EVENTS = []; }
   try { STATUS = await j('data/status.json'); } catch { STATUS = null; }
   try { SITS = await j('data/situations.json'); } catch { SITS = []; }
+  try { SITSTATUS = await j('data/sitstatus.json'); } catch { SITSTATUS = null; }
   EVENTS = EVENTS.filter(e => CAT[e.c]);
   INCIDENTS = EVENTS.filter(e => !e.orphan);
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
@@ -437,7 +440,7 @@ function drawSources() {
 /* ---------- Situations (public order) ---------- */
 // Protests, bandhs, road blockades, strikes, unrest, prohibitory orders: from our papers and Google News searches.
 // Planned = announced for a later day; Today & ongoing = today, or a report says it continues; Recent = the rest.
-let SITS = [];
+let SITS = [], SITSTATUS = null;
 const SITK = Object.fromEntries((META.sitkinds || []).map(k => [k.id, k.name]));
 // A situation that names no area but says Pune belongs to the Pune City view.
 const sitInView = g => view === 'all' || (g.a ? areaInView(g.a) : view === 'city');
@@ -461,6 +464,17 @@ function drawSits() {
   const block = (title, arr, empty) => `<div class="day label">${title}</div>` + (arr.length ? arr.map(item).join('') : `<p class="note" style="margin:10px 0 0">${empty}</p>`);
   $('sitIntro').textContent = `${planned.length} planned · ${now.length} today or ongoing · ${recent.length} recent. Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News.`;
   $('sitList').innerHTML = block('Planned', planned, 'Nothing announced for the coming days.') + block('Today & ongoing', now, 'Nothing reported for today.') + block('Recent', recent, 'Nothing in this period.');
+  drawScan();
+}
+// How fresh this tab is. Scans run every SITSTATUS.every minutes, at :00, :15, :30 and :45; GitHub sometimes starts one late.
+function drawScan() {
+  if (!SITSTATUS) { $('sitScan').innerHTML = 'Last scan: not yet run.<br>Next scan: within 15 minutes.'; return; }
+  const every = (SITSTATUS.every || 15) * 60e3, last = new Date(SITSTATUS.scanned).getTime();
+  const next = Math.ceil((last + 60e3) / every) * every;
+  const t = ms => new Date(ms).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' });
+  const late = Date.now() > next + 10 * 60e3;
+  $('sitScan').innerHTML = `Last scan: ${t(last)} (${ago(SITSTATUS.scanned)}).<br>` +
+    (late ? `Next scan: due since ${t(next)}; GitHub is running it late.` : `Next scan due around ${t(next)}, then every ${SITSTATUS.every || 15} minutes.`);
 }
 
 /* ---------- Wiring ---------- */

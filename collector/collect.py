@@ -2,10 +2,8 @@
 data/incidents.json, read the city papers' and Sakal's history a little each run, and write the files the page reads
 (events.json: reports joined into incidents; meta.json: areas, types, sources)."""
 import json
-import os
 import re
 import time
-import urllib.parse
 import urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -104,21 +102,6 @@ def read_candidates(feed, cands, budget, fallback):
     return kept
 
 
-# Situations (public order) seen this run: from our own papers' feeds and from Google News searches.
-sit_new = []
-
-
-def situations_from(entries, source_id, source_name):
-    for it in entries:
-        if not it.get('title') or not it.get('date'):
-            continue
-        s = E.situation(it['title'], it['link'], it['date'], it.get('text', ''), it.get('source', ''))
-        if s:
-            title = E.GN_SOURCE.sub('', it['title']) if it.get('source') else it['title']
-            sit_new.append(dict(id=E.hash_id(it['link']), t=title, u=it['link'], s=source_id, n=it.get('source') or source_name,
-                                d=E.iso(it['date']), **s))
-
-
 # ---- 1. Today's feeds and indexes
 budget = {'left': MAX_PAGES}
 for feed in E.FEEDS:
@@ -126,10 +109,7 @@ for feed in E.FEEDS:
     urls = [feed['url'].replace('{date}', ist_date(NOW - timedelta(days=k))) for k in (0, 1)] if feed.get('daily') else [feed['url']]
     for url in urls:
         try:
-            xml = get(url)
-            if feed.get('kind') != 'urlmap':          # feeds and news indexes carry headlines
-                situations_from(E.parse_sitemap(xml) if feed.get('kind') else E.parse_feed(xml), feed['id'], feed['name'])
-            res = E.extract(feed, xml)
+            res = E.extract(feed, get(url))
             row['ok'] = True
             row['found'] += len(res)
             row['added'] += read_candidates(feed, res, budget, NOW) if feed.get('kind') == 'urlmap' else E.merge(items, res, rejected)
@@ -139,19 +119,6 @@ for feed in E.FEEDS:
     added += row['added']
     sources.append(row)
     print('%-4s %s found=%d new=%d %s' % (feed['id'], 'ok ' if row['ok'] else 'ERR', row['found'], row['added'], row['note']))
-
-# Google News searches (English and Marathi) for public-order news from any paper. Used to discover situations only.
-gn_ok = 0
-for lang, q in E.S['queries']:
-    url = 'https://news.google.com/rss/search?' + urllib.parse.urlencode(
-        {'q': q + ' when:7d', 'hl': 'mr' if lang == 'mr' else 'en-IN', 'gl': 'IN', 'ceid': 'IN:mr' if lang == 'mr' else 'IN:en'})
-    try:
-        situations_from(E.parse_gnews(get(url)), 'gn', 'Google News')
-        gn_ok += 1
-    except Exception as e:
-        print('google news: %s' % str(e)[:80])
-    time.sleep(2)
-print('situations seen this run: %d (google news searches ok: %d)' % (len(sit_new), gn_ok))
 
 # ---- 2. Every record is judged once with its full article text; records judged under older rules are judged again.
 for rec in items:
@@ -297,52 +264,8 @@ if added or changed:
     (DATA / 'incidents.json').write_text(dump_lines(items), 'utf-8')
     (DATA / 'rejected.json').write_text(json.dumps(list(rejected)[-20000:], separators=(',', ':')), 'utf-8')
 
-# ---- 6. Machine reading (ML). Optional: without it the engine works exactly as before.
-#   Meaning-fingerprints of every headline (one multilingual model, Marathi and English alike): used to join reports that
-#   tell the same story, and to train a second opinion on type. The second opinion never changes a type; where it
-#   confidently disagrees with the rules, the report is listed in review.json and marked on the page for checking.
-MODEL = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
-
-
-def embed(rows):
-    try:
-        import numpy as np
-        from fastembed import TextEmbedding
-        m = TextEmbedding(MODEL, cache_dir=os.path.expanduser('~/.cache/fastembed'))
-        out = {}
-        for r, v in zip(rows, m.embed([r['t'] for r in rows], batch_size=64)):
-            v = np.asarray(v, dtype=float)
-            out[r['id']] = (v / (np.linalg.norm(v) or 1.0)).tolist()
-        return out
-    except Exception as e:
-        print('machine reading unavailable: %s' % str(e)[:120])
-        return None
-
-
-def second_opinion(rows, vec, min_conf=0.8):
-    try:
-        import numpy as np
-        from sklearn.linear_model import LogisticRegression
-        from sklearn.model_selection import cross_val_predict
-        rows = [r for r in rows if r['id'] in vec]
-        y = np.array([r['c'] for r in rows])
-        if len(rows) < 200 or min(np.unique(y, return_counts=True)[1]) < 5:
-            return {}
-        X = np.array([vec[r['id']] for r in rows])
-        # Each report is judged by a model that never saw it (5-fold), so it cannot simply echo the rules back.
-        P = cross_val_predict(LogisticRegression(max_iter=2000, C=4.0, class_weight='balanced'), X, y, cv=5, method='predict_proba')
-        classes = sorted(set(y))
-        out = {}
-        for r, p in zip(rows, P):
-            k = int(p.argmax())
-            if classes[k] != r['c'] and p[k] >= min_conf:
-                out[r['id']] = dict(id=r['id'], t=r['t'], u=r['u'], rule=r['c'], model=classes[k], conf=round(float(p[k]), 2))
-        return out
-    except Exception as e:
-        print('second opinion unavailable: %s' % str(e)[:120])
-        return {}
-
-
+# ---- 6. Machine reading (optional): meaning-fingerprints join reports of one story; a second opinion flags types.
+from ml import embed, second_opinion
 cats = {c['id'] for c in E.CATS}
 judged = [r for r in items if r.get('c') in cats]
 vec = embed(judged)
@@ -357,27 +280,6 @@ for e in events:                     # the second opinion on the report that sta
     e['q'] = review[lead['id']]['model'] if lead['id'] in review else None
 keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'reports')
 (DATA / 'events.json').write_text(dump_lines([{k: e[k] for k in keep} for e in events]), 'utf-8')
-# Situations: every public-order report seen in the last 60 days (sitreports.json), joined into situations for the page
-# (situations.json). Reports are re-judged each run, so a rule change applies to all of them.
-cutoff = E.iso(datetime.now(timezone.utc) - timedelta(days=60))
-sit = {r['id']: r for r in read_json('sitreports.json', []) if r['d'] >= cutoff}
-seen_titles = {r['t'] for r in sit.values()}
-for r in sit_new:
-    if r['id'] not in sit and r['t'] not in seen_titles and r['d'] >= cutoff:
-        sit[r['id']] = r
-        seen_titles.add(r['t'])
-rejudged = []
-for r in sit.values():
-    s = E.situation(r['t'], r['u'], r['d'])
-    if s:
-        rejudged.append({k: v for k, v in r.items() if k not in ('k', 'a', 'p', 'w', 'st')} | s)
-rejudged.sort(key=lambda r: r['d'], reverse=True)
-(DATA / 'sitreports.json').write_text(dump_lines(rejudged), 'utf-8')
-svec = embed(rejudged) if rejudged else None
-groups = E.group_situations(rejudged, svec)
-groups.sort(key=lambda g: (g['w'], g['last']), reverse=True)
-(DATA / 'situations.json').write_text(dump_lines([{k: g[k] for k in ('k', 'a', 'p', 'w', 'st', 'last', 'reports')} for g in groups]), 'utf-8')
-print('situations: %d reports, %d situations' % (len(rejudged), len(groups)))
 
 meta = dict(rules=E.RULES_VERSION, cats=E.CATS, sitkinds=[dict(id=k, name=n) for k, n in E.SITU_NAMES.items()], areas=[{k: a[k] for k in ('id', 'name', 'lat', 'lon', 'r')} for a in E.AREAS],
             feeds=[dict(id=f['id'], name=f['name']) for f in E.FEEDS])

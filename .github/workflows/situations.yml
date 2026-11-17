@@ -1,0 +1,53 @@
+name: Scan Pune situations
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'   # every 15 minutes (GitHub may start a scheduled run a few minutes late)
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['collector/situations.py']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: situations
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: collector/requirements.txt
+      - uses: actions/cache@v4          # the language model (~220 MB), shared with the hourly collector
+        with:
+          path: ~/.cache/fastembed
+          key: fastembed-paraphrase-multilingual-minilm-l12-v2
+      - run: pip install -q -r collector/requirements.txt || echo "machine reading libraries unavailable; continuing without them"
+      - run: python collector/situations.py
+      - name: Save situations
+        run: |
+          git config user.name "vidraksh-collector"
+          git config user.email "actions@users.noreply.github.com"
+          FILES="data/sitreports.json data/situations.json data/sitstatus.json"
+          git add $FILES
+          git diff --cached --quiet && exit 0
+          git commit -q -m "situations: $(date -u +%Y-%m-%dT%H:%MZ)"
+          # If another run saved meanwhile, this run's files replace its files whole; nothing else is touched.
+          for i in 1 2 3 4; do
+            git push -q && exit 0
+            mkdir -p /tmp/save && cp $FILES /tmp/save/
+            git fetch -q origin main && git reset -q --hard origin/main
+            cp /tmp/save/* data/ && git add $FILES
+            git diff --cached --quiet && exit 0
+            git commit -q -m "situations: $(date -u +%Y-%m-%dT%H:%MZ)"
+            sleep $((i * 10))
+          done
+          exit 1

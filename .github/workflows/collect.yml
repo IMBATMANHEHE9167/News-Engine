@@ -36,7 +36,7 @@ jobs:
         run: |
           git config user.name "vidraksh-collector"
           git config user.email "actions@users.noreply.github.com"
-          FILES="data/incidents.json data/rejected.json data/backfill.json data/status.json data/events.json data/meta.json data/review.json data/sitreports.json data/situations.json"
+          FILES="data/incidents.json data/rejected.json data/backfill.json data/status.json data/events.json data/meta.json data/review.json"
           git add $FILES
           git diff --cached --quiet && exit 0
           git commit -q -m "data: $(date -u +%Y-%m-%dT%H:%MZ)"
