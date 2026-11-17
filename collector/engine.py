@@ -643,6 +643,11 @@ def assess(title, link, text='', pub=None, home=False, index=False, keep_area=No
         return no('no incident type')
     if c == 'accident' and not ROAD.search(title + ' ' + slug + ' ' + lead[:500]):
         return no('accident, but not on the road')
+    # A real murder report always speaks of police, a case, an arrest, a body or a death. A feature that only uses the
+    # word ("Halloween parties put guests on the murder trail") does not. Checked only when the article was read.
+    # (Not for fires, crashes or thefts: those are often reported with no police words at all.)
+    if c == 'murder' and len(lead) > 200 and not CONTEXT.search(title + ' ' + lead[:1500]):
+        return no('no police or casualty wording: a feature, not an incident')
     o = outcome(c, title, lead)
     if c == 'murder' and o != 'fatal':          # "attempt to murder" with no one killed is an assault
         c = 'violence'
