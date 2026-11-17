@@ -162,6 +162,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
 <nav><div>
   <button id="tabNews" class="on">Reports</button>
   <button id="tabMap">Map &amp; patterns</button>
+  <button id="tabSit">Situations</button>
 </div><div class="period views" id="views" role="group" aria-label="Area"></div><div class="period" id="period" role="group" aria-label="Period"></div></nav>
 
 <main id="news" class="wrap">
@@ -186,6 +187,11 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
       <section class="sec"><h3 class="label">Sources</h3><div id="sources"></div></section>
     </div>
   </div>
+</main>
+
+<main id="sitv" class="wrap hide">
+  <p class="note" id="sitIntro" style="margin:16px 0 0"></p>
+  <div id="sitList"></div>
 </main>
 
 <footer>
@@ -225,6 +231,7 @@ async function load() {
   // that could not be tied to an incident; only these are counted and mapped.
   try { EVENTS = await j('data/events.json'); } catch { EVENTS = []; }
   try { STATUS = await j('data/status.json'); } catch { STATUS = null; }
+  try { SITS = await j('data/situations.json'); } catch { SITS = []; }
   EVENTS = EVENTS.filter(e => CAT[e.c]);
   INCIDENTS = EVENTS.filter(e => !e.orphan);
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
@@ -248,7 +255,7 @@ function drawViews() {
 }
 $('views').onclick = e => {
   const b = e.target.closest('button'); if (!b) return;
-  view = b.dataset.v; picked = null; newsN = 60; drawViews(); drawNews();
+  view = b.dataset.v; picked = null; newsN = 60; drawViews(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits();
   if (!$('mapv').classList.contains('hide')) { fitView(); drawMap(); }
 };
 function fitView() {
@@ -272,7 +279,7 @@ function drawPeriod() {
 }
 $('period').onclick = e => {
   const b = e.target.closest('button'); if (!b) return;
-  period = b.dataset.p; newsN = 60; drawPeriod(); drawNews();
+  period = b.dataset.p; newsN = 60; drawPeriod(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits();
   if (!$('mapv').classList.contains('hide')) drawMap();
 };
 
@@ -427,14 +434,44 @@ function drawSources() {
     : '<p class="note" style="margin-top:0">No collector run recorded yet.</p>';
 }
 
+/* ---------- Situations (public order) ---------- */
+// Protests, bandhs, road blockades, strikes, unrest, prohibitory orders: from our papers and Google News searches.
+// Planned = announced for a later day; Today & ongoing = today, or a report says it continues; Recent = the rest.
+let SITS = [];
+const SITK = Object.fromEntries((META.sitkinds || []).map(k => [k.id, k.name]));
+// A situation that names no area but says Pune belongs to the Pune City view.
+const sitInView = g => view === 'all' || (g.a ? areaInView(g.a) : view === 'city');
+function drawSits() {
+  const today = istDay(Date.now()), yest = istDay(Date.now() - 864e5);
+  const recentFrom = period === '0' ? '0000' : istDay(since());
+  const live = g => g.w === today || (g.st === 'on' && istDay(g.last) >= yest);
+  const list = SITS.filter(sitInView);
+  const planned = list.filter(g => g.w > today).sort((x, y) => (x.w < y.w ? -1 : 1));
+  const now = list.filter(g => g.w <= today && live(g));
+  const recent = list.filter(g => g.w < today && !live(g) && g.w >= recentFrom);
+  const item = g => {
+    const r = g.reports[0], papers = [...new Set(g.reports.map(x => x.n))];
+    const when = g.w > today ? (g.w === istDay(Date.now() + 864e5) ? 'Tomorrow' : fmtDay(g.w + 'T06:30:00Z')) : g.w === today ? 'Today' : fmtDay(g.w + 'T06:30:00Z');
+    return `<article class="item">
+      <div class="top"><span class="cat">${esc(SITK[g.k] || g.k)}</span><span class="when">${when}</span></div>
+      ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
+      <div class="by"><b>${g.a ? esc(AREA[g.a].name) + (g.p ? ' · ' + esc(g.p[0]) : '') : 'Pune'}</b> · ${papers.slice(0, 3).map(esc).join(', ')}${papers.length > 3 ? ' and ' + (papers.length - 3) + ' more' : ''}${g.reports.length > 1 ? ` · ${g.reports.length} reports` : ''}</div>
+    </article>`;
+  };
+  const block = (title, arr, empty) => `<div class="day label">${title}</div>` + (arr.length ? arr.map(item).join('') : `<p class="note" style="margin:10px 0 0">${empty}</p>`);
+  $('sitIntro').textContent = `${planned.length} planned · ${now.length} today or ongoing · ${recent.length} recent. Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News.`;
+  $('sitList').innerHTML = block('Planned', planned, 'Nothing announced for the coming days.') + block('Today & ongoing', now, 'Nothing reported for today.') + block('Recent', recent, 'Nothing in this period.');
+}
+
 /* ---------- Wiring ---------- */
 $('fCat').innerHTML = '<option value="">All types</option>' + CATS.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
 drawPeriod();
 drawViews();
 for (const id of ['fCat', 'fTime']) $(id).onchange = drawMap;
 function show(tab) {
-  $('tabNews').classList.toggle('on', tab === 'news'); $('tabMap').classList.toggle('on', tab === 'map');
-  $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map');
+  for (const [b, v] of [['tabNews', 'news'], ['tabMap', 'map'], ['tabSit', 'sit']]) $(b).classList.toggle('on', tab === v);
+  $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map'); $('sitv').classList.toggle('hide', tab !== 'sit');
+  if (tab === 'sit') drawSits();
   if (tab === 'map') { const first = !MAP; drawMap(); setTimeout(() => { MAP.invalidateSize(); if (first) fitView(); }, 80); }
   try { history.replaceState(null, '', '#' + tab); } catch {}
 }
@@ -450,8 +487,9 @@ $('themeSwitch').onclick = () => applyTheme(isDarkTheme() ? 'light' : 'dark', tr
 applyTheme(document.documentElement.dataset.theme, false);
 $('tabNews').onclick = () => show('news');
 $('tabMap').onclick = () => show('map');
+$('tabSit').onclick = () => show('sit');
 await load();
-show(location.hash === '#map' ? 'map' : 'news');
+show(location.hash === '#map' ? 'map' : location.hash === '#sit' ? 'sit' : 'news');
 </script>
 </body>
 </html>

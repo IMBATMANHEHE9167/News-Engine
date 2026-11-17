@@ -833,6 +833,7 @@ def is_sum(t):
 
 SAME_STORY = 0.85      # headline meaning-fingerprints this close are the same story (tuned on stored reports)
 SAME_CASE = 0.80       # a follow-up this close to a report of a case belongs to that case
+SAME_SITUATION = 0.60  # two reports of the same kind of public-order situation, within a day
 
 
 def similarity(vec, a_id, ids):
@@ -954,3 +955,133 @@ def group_events(items, vec=None):
         outs = {r.get('o') for r in e['reports']}
         e['o'] = 'fatal' if 'fatal' in outs else 'injured' if 'injured' in outs else None
     return events
+
+
+# ------------------------------------------------------------------ situations (public order)
+#
+# Protests, bandhs, road blockades, strikes, unrest, prohibitory orders. Not crimes, so they are kept apart from the
+# incidents, in situations.json. A report that announces something to come is "planned"; one that says it goes on
+# is "ongoing". The day of the situation is the day the report names (forward for announcements), else the report day.
+
+S = R['situations']
+SITU_KINDS = [(k, name, rx(p)) for k, name, p in S['kinds']]
+SITU_NAMES = {k: name for k, name, _ in S['kinds']}
+SITU_NOT, SITU_PLANNED, SITU_ONGOING = rx(S['not']), rx(S['planned']), rx(S['ongoing'])
+GN_SOURCE = re.compile(r'\s+[-–]\s+([^-–]{2,60})$')
+
+
+def situation_kind(text):
+    if SITU_NOT.search(text):
+        return None
+    for k, _, pat in SITU_KINDS:
+        if pat.search(text):
+            return k
+    return None
+
+
+def situation_day(title, text, pub, planned):
+    """The day the situation happens: forward from the report day for an announcement, else as stated, else the report day."""
+    s = to_ascii(title + ' . ' + str(text)[:600])
+    P = day_of(pub)
+    if planned:
+        if re.search(r'\btomorrow\b|उद्या', s, I):
+            return P + 1
+        pd = date(1970, 1, 1) + timedelta(days=P)
+        dow = (pd.weekday() + 1) % 7
+        m = RE_WD_EN.search(s) or RE_WD_MR.search(s)
+        if m:
+            name = m.group(1)
+            wd = WD_EN.index(name.lower()) if name.lower() in WD_EN else WD_MR.index(name)
+            return P + ((wd - dow) % 7 or 7)
+        for m in RE_MD_EN.finditer(s):
+            mon_s = (m.group(2) or m.group(4))[:3].lower()
+            dom = int(m.group(1) or m.group(5))
+            if mon_s in MON_EN and 1 <= dom <= 31:
+                d = utc_day(pd.year, MON_EN.index(mon_s), dom)
+                if P - 1 <= d <= P + 60:
+                    return d
+        for m in RE_MD_MR.finditer(s):
+            dom = MR_DAY_N.get(m.group(1)) or int(m.group(1))
+            if 1 <= dom <= 31:
+                d = utc_day(pd.year, MON_MR.index(m.group(2)), dom)
+                if P - 1 <= d <= P + 60:
+                    return d
+        return P
+    w = when_happened(title, text, pub)
+    return (date.fromisoformat(w['day']) - date(1970, 1, 1)).days
+
+
+def situation(title, link='', pub=None, text='', source=''):
+    """A public-order report -> {k, a, p, w, st, ...}, or None. Works on a headline alone (Google News gives no text)."""
+    t = title
+    m = GN_SOURCE.search(t)
+    if m and source and m.group(1).strip().lower() == source.strip().lower():
+        t = t[:m.start()]                          # "Headline - Source" (Google News)
+    k = situation_kind(t)
+    if not k or not pub:
+        return None
+    if not in_pune(t, text) or HAPPENED_ELSEWHERE.search(slug_title(link)):
+        return None
+    a = locate(t, text[:800])
+    if not a and not PUNE.search(ROADS.sub(' ', t)):         # "Pune-Bengaluru highway" alone does not put it in Pune
+        return None
+    planned = bool(SITU_PLANNED.search(t))
+    ongoing = bool(SITU_ONGOING.search(t))
+    w = situation_day(t, text, pub, planned)
+    out = dict(k=k, a=a, w=day_str(w))
+    if planned:
+        out['st'] = 'plan'
+    elif ongoing:
+        out['st'] = 'on'
+    p = spot(a, t, text[:800]) if a else None
+    if p:
+        out['p'] = p
+    return out
+
+
+def group_situations(rows, vec=None):
+    """Reports of one situation: same area (or one unplaced), within a day of each other, and either the same kind or
+    headlines that mean the same thing."""
+    out = []
+    for r in sorted(rows, key=lambda r: (r['w'], r['d'])):
+        day = (date.fromisoformat(r['w']) - date(1970, 1, 1)).days
+        hit = None
+        for g in out:
+            if abs(day - g['day']) > 1 or not ((r.get('a') and r.get('a') == g['a']) or not r.get('a') or not g['a']):
+                continue
+            sim = similarity(vec, r['id'], g['ids'])
+            # Situations are rare, so the same kind on the same day needs less likeness than crimes do (0.6, tuned:
+            # every same-kind, same-day pair at 0.6 or above was the same event; the first wrong pair was at 0.56).
+            if (r['k'] == g['k'] and sim >= SAME_SITUATION) or sim >= SAME_STORY:
+                hit = g
+                break
+        if not hit:
+            hit = dict(k=r['k'], a=r.get('a'), day=day, w=r['w'], st=None, p=None, reports=[], ids=[])
+            out.append(hit)
+        hit['reports'].append(r)
+        hit['ids'].append(r['id'])
+        if SITU_NAMES and [x[0] for x in SITU_KINDS].index(r['k']) < [x[0] for x in SITU_KINDS].index(hit['k']):
+            hit['k'] = r['k']
+        hit['a'] = hit['a'] or r.get('a')
+        hit['p'] = hit['p'] or r.get('p')
+        if r.get('st') == 'plan' and r['w'] > hit['w']:
+            hit['w'] = r['w']
+        if r.get('st') and hit['st'] != 'plan':
+            hit['st'] = r['st']
+    for g in out:
+        g['reports'].sort(key=lambda r: r['d'], reverse=True)
+        g['last'] = g['reports'][0]['d']
+    return out
+
+
+def parse_gnews(xml):
+    """Google News search feed: headline ("... - Source"), link, time and the publishing paper's name."""
+    out = []
+    for m in re.finditer(r'<item>[\s\S]*?</item>', str(xml), re.I):
+        b = m.group(0)
+        title, link = strip(tag(b, 'title')), strip(tag(b, 'link'))
+        d = parse_date(strip(tag(b, 'pubDate')))
+        src = strip(tag(b, 'source'))
+        if title and d and link:
+            out.append(dict(title=title, link=link, date=d, text='', source=src))
+    return out

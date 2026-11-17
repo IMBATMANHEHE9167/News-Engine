@@ -1,5 +1,26 @@
 {
  "version": 11,
+ "situations": {
+  "note": "Public order: protests, bandhs, road blockades, strikes, unrest, prohibitory orders. Most serious kind first.",
+  "kinds": [
+   ["unrest", "Unrest & clashes", ["\\b(stone[- ]?pelting|lathi[- ]?charge\\w*|communal (tension|clash\\w*)|tension (prevails|grips|erupts|in)|riot\\w*|mob (attack\\w*|fury|violence)|arson|clash\\w* between (two )?(groups|communities|supporters))\\b|दगडफेक|लाठीमार|लाठीचार्ज|तणाव|तणावपूर्ण|जाळपोळ|दंगल", "i"]],
+   ["order", "Prohibitory orders", ["\\b(prohibitory orders?|section 144|bnss (section )?163|curfew|internet (shut ?down|suspen\\w+|ban))\\b|जमावबंदी|संचारबंदी|कलम 144|इंटरनेट बंद", "i"]],
+   ["bandh", "Bandh", ["\\bbandh\\b|बंदची हाक|बंद पाळ|बंदला (प्रतिसाद|पाठिंबा)|कडकडीत बंद|बंद पुकार|बंदचे आवाहन", "i"]],
+   ["block", "Road blockade", ["\\b(rasta roko|chakka jam|road ?blockade|blocked (the )?(road|highway))\\b|रास्ता रोको|रास्तारोको|रस्ता रोको|चक्काजाम|महामार्ग अडव|रस्ता अडव", "i"]],
+   ["fast", "Hunger strike", ["\\b(hunger strike|fast unto death|indefinite fast)\\b|उपोषण", "i"]],
+   ["strike", "Strike", ["\\b(on strike|go on strike|indefinite strike|strike (by|of|called|continues|enters|called off|withdrawn)|stir by|work boycott|walk[- ]?out|cease work)\\b|संपावर|बेमुदत संप|संप पुकार|संप मागे|काम बंद आंदोलन|संपाचा", "i"]],
+   ["protest", "Protest", ["\\b(protest\\w*|agitat\\w+|morcha|dharna|demonstrat\\w+|sit[- ]?in|gherao\\w*|march(ed)? (to|on|against)|stir)\\b|आंदोलन|मोर्चा|धरणे|निदर्शने|घेराव|ठिय्या|निषेध", "i"]]
+  ],
+  "not": ["\\b(runs? riot|ran riot|running riot|strike rate|lightning|airstrikes?|strikes? (a )?(deal|balance|chord|gold|back)|strikes? again|first strike|protest(s|ed)? (her|his) innocence|tension[- ]free|hypertension|cricket|ipl|march \\d|in march|march 20\\d\\d|demonstrat\\w+ (how|the|their|its) (skills?|use|working|product)|band(s)? perform\\w*|bandhan|raksha)\\b|विमान|क्रिकेट|रक्षाबंधन", "i"],
+  "planned": ["\\b((will|to) (hold|stage|launch|observe|protest|march|go on|begin|start|gherao|block)|plans? to|threaten\\w* (to|an?)|warns? of|calls? for (a |an )?(bandh|strike|protest|agitation)|announc\\w+|tomorrow|from (monday|tuesday|wednesday|thursday|friday|saturday|sunday))\\b|इशारा|करणार|काढणार|पुकारला|पुकारले|हाक दिली|हाक|उद्या|छेडणार|देणार|बसणार", "i"],
+  "ongoing": ["\\b(continues?|continuing|underway|enters? (day|its|second|third)|day \\d+|(second|third|fourth|fifth) day|indefinite|ongoing|on strike|sit[- ]in)\\b|सुरूच|सुरू आहे|सुरु आहे|दुसऱ्या दिवशी|तिसऱ्या दिवशी|चौथ्या दिवशी|बेमुदत|आजपासून", "i"],
+  "queries": [
+   ["en", "(pune OR pimpri OR chinchwad OR hinjewadi) (protest OR agitation OR morcha OR bandh OR \"rasta roko\" OR strike OR dharna OR \"hunger strike\")"],
+   ["en", "(pune OR pimpri OR chinchwad) (\"stone pelting\" OR \"lathi charge\" OR tension OR \"prohibitory orders\" OR curfew OR riot OR clash)"],
+   ["mr", "(पुणे OR पुण्यात OR पिंपरी OR चिंचवड) (आंदोलन OR मोर्चा OR उपोषण OR \"रास्ता रोको\" OR संप OR धरणे)"],
+   ["mr", "(पुणे OR पुण्यात OR पिंपरी OR चिंचवड OR बारामती OR शिरूर OR दौंड OR जुन्नर) (दगडफेक OR लाठीमार OR तणाव OR जमावबंदी OR बंद OR चक्काजाम)"]
+  ]
+ },
  "regex": {
   "FIGURATIVE": [
    "आत्महत्य\\S*|(आमदार|खासदार|नगरसेवक|कार्यकर्त|मंत्र्य)\\S*\\s(\\S+\\s)?राडा|(सभागृहात|सभेत|विधानसभेत|बैठकीत|कार्यक्रमात)\\s(\\S+\\s){0,3}राडा|टांगती तलवार|घटस्फोट\\S*|गांधीहत्य\\S*|मतचोरी|वोट ?चोरी|मतांची चोरी|करचोरी|वीज ?चोरी|पाणी ?चोरी|गौप्यस्फोट|आगपाखड|हल्लाबोल|शाब्दिक हल्ल\\S*|लोकसंख्येचा स्फोट|heart attack|panic attack|cyber ?attack|under fire|fire sale|vote theft|daylight robbery",
@@ -30,7 +51,7 @@
    "i"
   ],
   "ROADS": [
-   "(पोलीस|पोलिस)\\s*ठाण\\S*|\\b(pune|mumbai)\\s*[-–]\\s*[a-z]+( (highway|expressway|road))?|\\bpune (nashik|solapur|satara|nagar|ahmednagar|nagpur|mumbai|bangalore|bengaluru|kolhapur|panshet|kolad)\\b( (highway|expressway|road|travels|bus))?|\\b(satara|solapur|nagar|ahmednagar|nashik|mumbai|bangalore|bengaluru|paud|saswad|alandi|sinhgad) (road|highway|phata)\\b|सातारा (रस्ता|रस्त्या\\S*|रोड)|सोलापूर (रस्ता|रस्त्या\\S*|रोड)|नगर (रस्ता|रस्त्या\\S*|रोड)|नाशिक फाटा|मुंबई[- ]पुणे|पुणे[- ]मुंबई|पुणे[- ](सोलापूर|सातारा|नाशिक|नगर|बंगळुरू|बेंगळुरू|अहिल्यानगर)\\s?(महामार्ग\\S*|रस्ता|रस्त्या\\S*|रोड)?|नगर[- ]पुणे\\s?(महामार्ग\\S*|रस्ता|रस्त्या\\S*|रोड)?|मुंबई[- ]बंगळुरू",
+   "(पोलीस|पोलिस)\\s*ठाण\\S*|\\b(pune|mumbai)\\s*[-–]\\s*[a-z]+( (highway|expressway|road))?|\\bpune (nashik|solapur|satara|nagar|ahmednagar|nagpur|mumbai|bangalore|bengaluru|kolhapur|panshet|kolad)\\b( (highway|expressway|road|travels|bus))?|\\b(satara|solapur|nagar|ahmednagar|nashik|mumbai|bangalore|bengaluru|paud|saswad|alandi|sinhgad) (road|highway|phata)\\b|सातारा (रस्ता|रस्त्या\\S*|रोड)|सोलापूर (रस्ता|रस्त्या\\S*|रोड)|नगर (रस्ता|रस्त्या\\S*|रोड)|नाशिक फाटा|मुंबई[- ]पुणे|पुणे[- ]मुंबई|पुणे[- ](सोलापूर|सातारा|नाशिक|नगर|बंगळुरू|बंगळूर|बंगळुर|बेंगळुरू|बेंगळूर|बेंगळुर|अहिल्यानगर)\\s?(महामार्ग\\S*|रस्ता|रस्त्या\\S*|रोड)?|नगर[- ]पुणे\\s?(महामार्ग\\S*|रस्ता|रस्त्या\\S*|रोड)?|मुंबई[- ](बंगळुरू|बंगळूर|बंगळुर|बेंगळुरू|बेंगळूर|बेंगळुर)",
    "i"
   ],
   "ELSEWHERE": [
