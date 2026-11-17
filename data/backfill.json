@@ -58,11 +58,11 @@
    "reached": "2026-06-17"
   },
   "pkn": {
-   "done": false,
-   "kept": 443,
+   "done": true,
+   "kept": 450,
    "note": "",
-   "page": 476,
-   "reached": "2026-05-21"
+   "page": 483,
+   "reached": "2026-05-18"
   },
   "pcl": {
    "done": true,
