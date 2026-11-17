@@ -1,8 +1,8 @@
 {
- "next": "2026-06-02",
+ "next": "2026-05-29",
  "stop": "2026-05-19",
- "days": 164,
- "kept": 760,
+ "days": 168,
+ "kept": 770,
  "note": "",
  "src": {
   "toi": {
@@ -52,17 +52,17 @@
   },
   "ptm": {
    "done": false,
-   "kept": 250,
+   "kept": 289,
    "note": "",
-   "page": 201,
-   "reached": "2026-08-21"
+   "page": 226,
+   "reached": "2026-08-11"
   },
   "pkn": {
    "done": false,
-   "kept": 189,
+   "kept": 210,
    "note": "",
-   "page": 201,
-   "reached": "2026-08-29"
+   "page": 226,
+   "reached": "2026-08-21"
   },
   "pcl": {
    "done": true,

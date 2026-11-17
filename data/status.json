@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-17T13:52:53.909Z",
- "total": 2140,
+ "updated": "2026-11-17T14:03:06.989Z",
+ "total": 2208,
  "added": 0,
  "removed": 2,
  "rules": 11,
  "history": {
-  "reachedBack": "2026-06-02",
+  "reachedBack": "2026-05-29",
   "target": "2026-05-19",
-  "kept": 760,
+  "kept": 770,
   "note": "",
   "from": "2026-05-19",
   "archives": {
@@ -25,14 +25,14 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-08-21",
-    "kept": 250,
+    "reached": "2026-08-11",
+    "kept": 289,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-08-29",
-    "kept": 189,
+    "reached": "2026-08-21",
+    "kept": 210,
     "note": ""
    },
    "pcl": {
