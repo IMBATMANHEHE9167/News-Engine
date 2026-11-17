@@ -134,6 +134,10 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
 .leaflet-control-attribution a{color:var(--ink-2)!important}
 .lbl{background:none!important;border:0!important;box-shadow:none!important;color:var(--ink)!important;font:600 12px var(--sans);padding:0!important}
 .lbl::before{display:none!important}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--paper)!important;color:var(--ink)!important;border:1px solid var(--rule);border-radius:0!important;box-shadow:none!important}
+.leaflet-popup-content{margin:10px 12px!important;font:14px/1.35 var(--sans);max-width:240px}
+.leaflet-popup-content a{color:var(--ink);font-family:var(--serif);font-size:15.5px;text-decoration:none}
+.leaflet-container a.leaflet-popup-close-button{color:var(--ink-3)!important}
 
 @media (min-width:960px){
   .mast{padding-top:40px}
@@ -290,9 +294,9 @@ function drawNews() {
     const follows = e.orphan ? 0 : e.reports.filter(x => x.k === 'f').length;
     const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? ` · happened ${fmtDay(e.d)}` : '';
     html += `<article class="item">
-      <div class="top"><span class="cat${e.orphan ? ' fu' : ''}">${e.orphan ? 'Follow-up · ' : ''}${esc(CAT[e.c].name)}</span><span class="when">${ago(e.last)}</span></div>
+      <div class="top"><span class="cat${e.orphan ? ' fu' : ''}">${e.orphan ? 'Follow-up · ' : ''}${esc(label(e))}</span><span class="when">${ago(e.last)}</span></div>
       ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
-      <div class="by"><b>${e.a ? esc(AREA[e.a].name) : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${follows ? ` · ${follows} follow-up${follows > 1 ? 's' : ''}` : ''}</div>
+      <div class="by"><b>${e.a ? esc(AREA[e.a].name) + (e.p ? ' · ' + esc(e.p[0]) : '') : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${follows ? ` · ${follows} follow-up${follows > 1 ? 's' : ''}` : ''}</div>
     </article>`;
   }
   if (rows.length > newsN) html += '<button class="more" id="more">Show earlier</button>';
@@ -327,24 +331,37 @@ const tally = (list, key) => { const m = {}; for (const x of list) { const k = k
 const top = (m, n) => Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, n);
 const rowsOf = (pairs, label) => { const mx = Math.max(1, ...pairs.map(p => p[1])); return pairs.map(([k, v]) => `<div class="row"><span>${esc(label(k))}</span><span class="n">${v}</span><div class="track"><i style="width:${v / mx * 100}%"></i></div></div>`).join(''); };
 
+// Drawn as precisely as the reports allow, and no more:
+//   a solid dot   the spot the report names (a hill, chowk, bridge, society, station)
+//   a ring        the neighbourhood or village the report names
+//   a faint disc  only the area is known: a count at the area centre, never read as a location
 function drawMap() {
   if (!MAP) initMap();
   const ev = current(), placed = ev.filter(e => e.a), copper = css('--copper');
   LAYER.clearLayers();
-  const per = {};
-  for (const e of placed) (per[e.a] = per[e.a] || []).push(e);
+  const per = {}, rough = {};
+  for (const e of placed) { (per[e.a] = per[e.a] || []).push(e); if (!e.p) (rough[e.a] = rough[e.a] || []).push(e); }
   if (picked && !per[picked]) picked = null;
-  for (const [id, list] of Object.entries(per)) {
+  const pick = id => { picked = id; drawMap(); if (innerWidth < 960) $('areaBox').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  for (const [id, list] of Object.entries(rough)) {
     const a = AREA[id], on = id === picked;
-    L.circleMarker([a.lat, a.lon], { radius: 9 + Math.sqrt(list.length) * 4, color: copper, weight: on ? 2 : 1, fillColor: copper, fillOpacity: on ? .5 : .2 })
+    L.circleMarker([a.lat, a.lon], { radius: 8 + Math.sqrt(list.length) * 3.2, color: copper, weight: 1, dashArray: '3 4', opacity: on ? .9 : .55, fillColor: copper, fillOpacity: on ? .22 : .07 })
       .bindTooltip(String(list.length), { permanent: true, direction: 'center', className: 'lbl' })
-      .on('click', () => { picked = id; drawMap(); if (innerWidth < 960) $('areaBox').scrollIntoView({ behavior: 'smooth', block: 'start' }); })
+      .on('click', () => pick(id)).addTo(LAYER);
+  }
+  const spots = placed.filter(e => e.p);
+  for (const e of spots) {
+    const exact = e.p[3] === 'x', r = lead(e);
+    L.circleMarker([e.p[1], e.p[2]], { radius: exact ? 5 : 6, color: copper, weight: exact ? 1 : 1.6, fillColor: copper, fillOpacity: exact ? .85 : 0 })
+      .bindPopup(`<div class="cat">${esc(label(e))}</div><div style="margin:3px 0 4px">${link(r, esc(r.t))}</div><div class="by">${esc(e.p[0])} · ${fmtDay(e.d)}</div>`)
+      .on('click', () => { picked = e.a; drawArea(); })
       .addTo(LAYER);
   }
-  const none = ev.length - placed.length;
-  $('count').innerHTML = `<b>${ev.length}</b> incidents · <b>${placed.length}</b> placed across ${Object.keys(per).length} areas${none ? ` · ${none} with no area stated` : ''}. Each circle is an area total at the locality centre, never the spot of an incident.`;
+  const none = ev.length - placed.length, nx = spots.filter(e => e.p[3] === 'x').length;
+  $('count').innerHTML = `<b>${ev.length}</b> incidents · <b>${nx}</b> at a named spot (dots), <b>${spots.length - nx}</b> at a neighbourhood or village (rings), <b>${placed.length - spots.length}</b> known only to the area (faint discs, counted at the area centre)${none ? ` · ${none} with no area stated` : ''}.`;
   drawArea(); drawPatterns(ev);
 }
+const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ' · ' + e.o : '');
 
 function drawArea() {
   if (!picked) { $('areaBox').innerHTML = `<section class="sec"><h3 class="label">Area</h3><p class="note" style="margin-top:0">Select a circle on the map to see that area.</p></section>`; return; }
@@ -356,7 +373,7 @@ function drawArea() {
       <div><div class="label">By time of day</div>${timed.length ? rowsOf(BANDS.map(b => [b, timed.filter(e => e.b === b).length]), k => BAND_NAME[k]) : ''}
         <p class="note">${timed.length ? `${list.length - timed.length} of ${list.length} did not state a time.` : 'No report here stated a time of day.'}</p></div>
     </div>
-    <div style="margin-top:18px">${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${fmtDay(e.d)} · ${esc(CAT[e.c].name)}<br>${link(lead(e), esc(lead(e).t))}${e.reports.length > 1 ? ` <span style="color:var(--ink-3)">· ${e.reports.length} reports</span>` : ''}</div>`).join('')}</div>
+    <div style="margin-top:18px">${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${fmtDay(e.d)} · ${esc(label(e))}${e.p ? " · " + esc(e.p[0]) : ""}<br>${link(lead(e), esc(lead(e).t))}${e.reports.length > 1 ? ` <span style="color:var(--ink-3)">· ${e.reports.length} reports</span>` : ''}</div>`).join('')}</div>
   </section>`;
 }
 

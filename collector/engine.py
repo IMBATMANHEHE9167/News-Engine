@@ -27,6 +27,7 @@ CONTEXT, EVENT, ROAD, ROADS = X['CONTEXT'], X['EVENT'], X['ROAD'], X['ROADS']
 ELSEWHERE, HAPPENED_ELSEWHERE, PUNE, IN_PUNE = X['ELSEWHERE'], X['HAPPENED_ELSEWHERE'], X['PUNE'], X['IN_PUNE']
 CRIME_WORDS, PUNE_TALUKA, OTHER_MR_RE, PUNE_DATELINE = X['CRIME_WORDS'], X['PUNE_TALUKA'], X['OTHER_MR_RE'], X['PUNE_DATELINE']
 LIVES, AT, AT_MR, BAND_NEAR, OLD = X['LIVES'], X['AT'], X['AT_MR'], X['BAND_NEAR'], X['OLD']
+ATTEMPT, THREAT, FATAL, INJURED = X['ATTEMPT'], X['THREAT'], X['FATAL'], X['INJURED']
 RULES = [(cid, rx(p), rx(g) if g else None) for cid, p, g in R['rules']]
 UNIT = [(rx(p), u) for p, u in R['unit']]
 SEVERITY = D['SEVERITY']
@@ -330,6 +331,174 @@ def locate(title, text=''):
     return best['id'] if best else None
 
 
+# ------------------------------------------------------------------ the exact place (OpenStreetMap place list)
+#
+# locate() finds the area (one of the hand-made AREAS). spot() then looks for a named place inside that area — a hill,
+# chowk, bridge, station, society, village — from data/places.json, so the incident is drawn where it happened.
+# Marathi text is matched to OpenStreetMap's English names by sound: both are reduced to a consonant skeleton
+# ("वेताळ टेकडी" and "Vetal Tekdi" -> "vtltkd"). A name that exists in several places is accepted only inside the
+# incident's area. Precision: 'x' a specific spot, 'n' a neighbourhood or village. No match: the area centre ('a').
+
+PLACES_FILE = Path(__file__).resolve().parent.parent / 'data' / 'places.json'
+SPOT_KINDS = {'hill', 'junction', 'bridge', 'station', 'landmark', 'society', 'worship'}
+RADIUS_KM = {'city': 5.0, 'pcmc': 6.0, 'rural': 22.0}
+_DEV_CONS = {}
+for chars, cls in [('कख', 'k'), ('गघ', 'g'), ('चछ', 'c'), ('जझ', 'j'), ('टठतथ', 't'), ('डढदध', 'd'), ('ङञणनमं', 'n'),
+                   ('पफ', 'p'), ('बभ', 'b'), ('य', 'y'), ('रऱ', 'r'), ('लळ', 'l'), ('व', 'v'), ('शषस', 's')]:
+    for ch in chars:
+        _DEV_CONS[ch] = cls
+_DEV_WORDS = {'पूल': 'bridge', 'पुल': 'bridge', 'उड्डाणपूल': 'flyover', 'उड्डाणपुल': 'flyover'}
+_MR_SUFFIX = sorted(['मध्ये', 'मधील', 'मधल्या', 'तील', 'च्या', 'चा', 'ची', 'चे', 'ला', 'त', 'जवळ', 'जवळील', 'येथे', 'येथील',
+                     'वर', 'वरील', 'कडे', 'साठी', 'ने', 'ना', 'पर्यंत', 'हून', 'मधून', 'वरून', 'तून', 'ावर', 'ात', 'ाजवळ'], key=len, reverse=True)
+_EN_STOP = set('the a an of in at on near to from and for with by police station road pune city area village chowk bridge hill '
+               'temple mandir hospital school college market society nagar colony new old east west north south main '
+               'case youth man woman girl boy accused arrested held booked killed dies dead attack fire theft crime'.split())
+
+
+def skeleton(s):
+    """Consonant skeleton of a name, the same for its Marathi and English spellings."""
+    s = str(s)
+    if re.search('[ऀ-ॿ]', s):
+        out = []
+        for w in s.split():
+            w = _DEV_WORDS.get(w, w)
+            if re.search('[a-z]', w):
+                out.append(skeleton(w))
+                continue
+            w = w.replace('क्ष', 'कस')
+            out.append(''.join(_DEV_CONS.get(ch, '') for ch in w))
+        sk = ''.join(out)
+    else:
+        w = s.lower()
+        w = re.sub(r'[^a-z]', '', w)
+        for a, b in (('ksh', 'ks'), ('chh', 'c'), ('sh', 's'), ('ch', 'c'), ('kh', 'k'), ('gh', 'g'), ('th', 't'), ('dh', 'd'),
+                     ('ph', 'p'), ('bh', 'b'), ('jh', 'j'), ('x', 'ks'), ('q', 'k'), ('z', 'j'), ('f', 'p'), ('w', 'v'), ('m', 'n')):
+            w = w.replace(a, b)
+        w = re.sub(r'(?<=[aeiou])[vy](?![aeiou])', '', w)     # "ow", "ay": vowel sounds, not consonants
+        sk = re.sub(r'[aeiouh]', '', w)
+    return re.sub(r'(.)\1+', r'\1', sk)
+
+
+def _km(lat1, lon1, lat2, lon2):
+    return ((lat1 - lat2) ** 2 + ((lon1 - lon2) * 0.948) ** 2) ** 0.5 * 111.0
+
+
+# Matched by sound only for names that are transliterations of Marathi (villages, hills, chowks, bridges, stations);
+# societies, landmarks and temples are matched only by their exact written name.
+SOUND_KINDS = {'locality', 'hill', 'junction', 'bridge', 'station'}
+_AREA_KEYS = None
+
+
+def area_keys():
+    """Every area's names. Never a spot: "Balewadi" or "Pimpri" says no more than the area itself."""
+    global _AREA_KEYS
+    if _AREA_KEYS is None:
+        names = [x for a in AREAS for x in a['alias'] + [a['name']]]
+        _AREA_KEYS = {'e:' + ' '.join(re.findall('[a-z]+', x.lower())) for x in names if re.search('[a-z]', x, re.I)}
+        _AREA_KEYS |= {'s:' + skeleton(x) for x in names}
+    return _AREA_KEYS
+
+
+_PLACES = None
+
+
+def places():
+    """Index of the place list: key -> [(name, lat, lon, kind)]. Keys are lower-case names and consonant skeletons."""
+    global _PLACES
+    if _PLACES is None:
+        idx = {}
+        try:
+            rows = json.loads(PLACES_FILE.read_text('utf-8'))
+        except (OSError, ValueError):
+            rows = []
+        for name, mr, kind, lat, lon in rows:
+            # A police station is where a case is registered, not where it happened; a place named after another
+            # district is a mention of that district.
+            if re.search(r'police|पोलीस|पोलिस|chowki|चौकी', name + ' ' + mr, re.I) or ELSEWHERE.search(name + ' ' + mr):
+                continue
+            words = re.findall(r'[a-z]+', name.lower())
+            if not words or (len(words) == 1 and (len(words[0]) < 5 or words[0] in _EN_STOP)):
+                continue
+            if all(w in _EN_STOP for w in words):
+                continue
+            entry = (name, lat, lon, kind)
+            keys = {'e:' + ' '.join(words)}
+            sk = skeleton(name)
+            if len(sk) >= 4:
+                keys.add('s:' + sk)
+            if mr:
+                msk = skeleton(mr)
+                if len(msk) >= 4:
+                    keys.add('s:' + msk)
+            for k in keys:
+                idx.setdefault(k, []).append(entry)
+        _PLACES = idx
+    return _PLACES
+
+
+def _phrases(text, limit):
+    """Word sequences (1-4 words) in the text, with their position, in a form that can be looked up."""
+    toks = [(m.start(), m.group(0)) for m in re.finditer(r'[A-Za-z]+|[ऀ-ॿ]+', text[:limit])]
+    for i in range(len(toks)):
+        for n in (4, 3, 2, 1):
+            if i + n > len(toks):
+                continue
+            seq = toks[i:i + n]
+            words = [w for _, w in seq]
+            pos, end = seq[0][0], seq[-1][0] + len(seq[-1][1])
+            if re.search('[ऀ-ॿ]', words[-1]):
+                last = words[-1]
+                forms = [last] + [last[:-len(s)] for s in _MR_SUFFIX if last.endswith(s) and len(last) - len(s) >= 2]
+                for f in dict.fromkeys(forms):
+                    yield pos, end, n, 's:' + skeleton(' '.join(words[:-1] + [f]))
+            else:
+                low = [w.lower() for w in words]
+                if (n == 1 and (len(low[0]) < 5 or low[0] in _EN_STOP)) or min(len(w) for w in low) < 2:
+                    continue
+                yield pos, end, n, 'e:' + ' '.join(low)        # English text: exact names only, never by sound
+
+
+def spot(area_id, title, text='', slug=''):
+    """The named place where the incident happened, inside its area: [name, lat, lon, precision] or None.
+    The headline wins, then the article (only where the wording ties the place to the incident), then the English words
+    of the address, which on Marathi sites are machine-written and so come last."""
+    idx = places()
+    if not idx or not area_id or area_id not in AREA:
+        return None
+    a = AREA[area_id]
+    radius = RADIUS_KM.get(a['r'], 6.0)
+    own = area_keys()
+    best, best_key = None, None
+    for where, src, limit in (('title', clean_place(title), 400), ('body', clean_place(text), 2500), ('title', slug, 300)):
+        for pos, end, n, key in _phrases(src, limit):
+            if key.startswith('s:') and len(key) < 7:          # skeletons shorter than 5 consonants are too loose
+                continue
+            if key in own or len(idx.get(key, ())) >= 3:      # an area's name, or a name too common to point anywhere
+                continue
+            hits = [e for e in idx.get(key, ()) if _km(e[1], e[2], a['lat'], a['lon']) <= radius
+                    and (key.startswith('e:') or e[3] in SOUND_KINDS)
+                    and 'e:' + ' '.join(re.findall('[a-z]+', e[0].lower())) not in own and 's:' + skeleton(e[0]) not in own]
+            if not hits:
+                continue
+            if where == 'body':
+                before, after = src[max(0, pos - 28):pos], src[end:end + 24]
+                if LIVES.search(before):
+                    continue
+                tied = AT.search(before) or AT_MR.search(after) or re.search(r'^\s*(परिसरात|परिसरातील|भागात|येथे|हद्दीत)', after) \
+                    or re.match('[ऀ-ॿ]', src[pos:end]) and re.search('(मध्ये|त|जवळ|वर|येथे)$', src[pos:end])
+                if not tied:
+                    continue
+            e = min(hits, key=lambda e: _km(e[1], e[2], a['lat'], a['lon']))
+            rank = (0 if where == 'title' else 1, 0 if e[3] in SPOT_KINDS else 1, -n, pos)
+            if best_key is None or rank < best_key:
+                best, best_key = e, rank
+        if best:
+            break
+    if not best:
+        return None
+    return [best[0], best[1], best[2], 'x' if best[3] in SPOT_KINDS else 'n']
+
+
 # ------------------------------------------------------------------ when it happened
 
 def when_of(title, text=''):
@@ -434,6 +603,21 @@ def when_happened(title, text, pub, follow=False):
 
 # ------------------------------------------------------------------ one decision per report
 
+def outcome(c, title, lead):
+    """What happened to the victim, kept apart from the type: 'fatal', 'injured' or None.
+    The type says what was done (a road crash, an assault); the outcome says whether someone died."""
+    raw = THREAT.sub(' ', title + ' . ' + lead[:600])           # "threatened to kill" is not a death
+    s = ATTEMPT.sub(' ', raw)
+    attempt = s != raw
+    if c == 'murder' and not attempt:
+        return 'fatal'
+    if FATAL.search(ATTEMPT.sub(' ', THREAT.sub(' ', title))) or (not attempt and FATAL.search(s)):
+        return 'fatal'
+    if INJURED.search(s) or attempt:
+        return 'injured'
+    return None
+
+
 def assess(title, link, text='', pub=None, home=False, index=False, keep_area=None, trace=None):
     """Everything concluded about one report, or None when it should not be kept. trace (a dict) gets the reason."""
     def no(why):
@@ -459,6 +643,9 @@ def assess(title, link, text='', pub=None, home=False, index=False, keep_area=No
         return no('no incident type')
     if c == 'accident' and not ROAD.search(title + ' ' + slug + ' ' + lead[:500]):
         return no('accident, but not on the road')
+    o = outcome(c, title, lead)
+    if c == 'murder' and o != 'fatal':          # "attempt to murder" with no one killed is an assault
+        c = 'violence'
 
     a = locate(title, text) or locate(slug) or (None if text else keep_area)
     if not a:
@@ -480,6 +667,11 @@ def assess(title, link, text='', pub=None, home=False, index=False, keep_area=No
         if h is not None and band(h) != w['band']:
             h = None
     out = dict(c=c, a=a, h=h, b=b, i=w['day'], f=fingerprint(title + ' . ' + lead[:900]))
+    if o:
+        out['o'] = o
+    p = spot(a, title, lead, slug)
+    if p:
+        out['p'] = p
     if w['stated']:
         out['ip'] = 1
     if follow:
@@ -562,7 +754,7 @@ def recheck(rec, text, trace=None):
                rec.get('a'), trace)
     if not v:
         return False
-    for k in ('c', 'a', 'h', 'b', 'i', 'ip', 'k', 'f'):
+    for k in ('c', 'a', 'h', 'b', 'i', 'ip', 'k', 'f', 'o', 'p'):
         if k in v:
             rec[k] = v[k]
         else:
@@ -618,6 +810,12 @@ def shares(a, b, pred=None):
     return any(x in b and (not pred or pred(x)) for x in a)
 
 
+def ages_differ(a, b):
+    """Both reports state ages and none of them match: different victims."""
+    x, y = {t for t in a if t.startswith('a')}, {t for t in b if t.startswith('a')}
+    return bool(x and y and not x & y)
+
+
 def share_count(a, b):
     return sum(1 for x in a if x in b)
 
@@ -628,18 +826,22 @@ def group_events(items):
     def num(s):
         return (date.fromisoformat(s) - date(1970, 1, 1)).days
     recs = [dict(r=r, fp=list(dict.fromkeys(r.get('f') if r.get('f') is not None else fingerprint(r['t']))),
-                 day=num(r['i']) if r.get('i') else day_of(r['d']), stated=bool(r.get('ip')), follow=r.get('k') == 'f')
+                 day=num(r['i']) if r.get('i') else day_of(r['d']), stated=bool(r.get('ip')), follow=r.get('k') == 'f',
+                 p=r['p'][0] if r.get('p') and r['p'][3] == 'x' else None)
             for r in items]
     events = []
 
     def start(x):
-        e = dict(c=x['r']['c'], a=x['r'].get('a'), day=x['day'], stated=x['stated'], h=None, b=None, reports=[], fp={}, src=set(), late=False, orphan=False)
+        e = dict(c=x['r']['c'], a=x['r'].get('a'), day=x['day'], stated=x['stated'], h=None, b=None, reports=[], fp={}, src=set(),
+                 spots=set(), late=False, orphan=False)
         events.append(e)
         return e
 
     def join(e, x, anchor):
         e['reports'].append(x['r'])
         e['src'].add(x['r']['s'])
+        if x['p']:
+            e['spots'].add(x['p'])
         for v in x['fp']:
             e['fp'][v] = 1
         if anchor and x['follow']:
@@ -675,6 +877,13 @@ def group_events(items):
                 ev = e; break
             if same_area and big and gap <= 45 and (x['follow'] or e['late']):
                 ev = e; break
+            # Murders are rare: two murder reports from one area within two days are one incident, even from the same
+            # paper telling it from another angle, unless the victims' ages differ.
+            if same_area and xc == 'murder' and e['c'] == 'murder' and gap <= 2 and not ages_differ(x['fp'], e['fp']):
+                ev = e; break
+            # The same named spot, same kind of crime, within a day.
+            if x['p'] and x['p'] in e['spots'] and gap <= 1 and e['c'] == xc:
+                ev = e; break
             if one_unplaced and big and gap <= 3:
                 ev = e; break
         join(ev or start(x), x, True)
@@ -699,4 +908,9 @@ def group_events(items):
         e['reports'].sort(key=lambda r: r['d'], reverse=True)
         e['last'] = e['reports'][0]['d']
         e['d'] = day_str(e['day']) + 'T06:30:00.000Z'
+        # The most precise place any report gives (a spot before a neighbourhood), and the gravest outcome.
+        spots = [r['p'] for r in e['reports'] if r.get('p') and r.get('a') == e['a']]
+        e['p'] = min(spots, key=lambda p: (p[3] != 'x',)) if spots else None
+        outs = {r.get('o') for r in e['reports']}
+        e['o'] = 'fatal' if 'fatal' in outs else 'injured' if 'injured' in outs else None
     return events

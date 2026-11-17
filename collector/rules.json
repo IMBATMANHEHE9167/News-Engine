@@ -1,12 +1,12 @@
 {
- "version": 8,
+ "version": 9,
  "regex": {
   "FIGURATIVE": [
    "आत्महत्य\\S*|(आमदार|खासदार|नगरसेवक|कार्यकर्त|मंत्र्य)\\S*\\s(\\S+\\s)?राडा|(सभागृहात|सभेत|विधानसभेत|बैठकीत|कार्यक्रमात)\\s(\\S+\\s){0,3}राडा|टांगती तलवार|घटस्फोट\\S*|गांधीहत्य\\S*|मतचोरी|वोट ?चोरी|मतांची चोरी|करचोरी|वीज ?चोरी|पाणी ?चोरी|गौप्यस्फोट|आगपाखड|हल्लाबोल|शाब्दिक हल्ल\\S*|लोकसंख्येचा स्फोट|heart attack|panic attack|cyber ?attack|under fire|fire sale|vote theft|daylight robbery",
    "i"
   ],
   "NOISE": [
-   "\\b(viral video|movie|film|trailer|box office|web series|actors?|actress|bollywood|co-star|celebrit\\w+|poses|ott|album|concert|cricket|ipl|wicket|marathon|run for unity|tournament|cup|football|tennis|horoscope|recipe|sensex|nifty|poetry|lit fest)\\b|\\b(election|poll|manifesto|rally|budget|minister says|alleges|demands?|protest(s|ed|ers)?|morcha|remembrance|statue|condemn\\w*|reacts?|rumou?rs?)\\b|\\b(trial|bail|verdict|convict\\w*|sentenc\\w+|acquit\\w*|hearing|high court|supreme court|hc|plea|life imprisonment|life term|jail term|court awards?|awards? life|gets life|rigorous imprisonment|years? (in jail|imprisonment)|prosecutor)\\b|\\b(months? after|years? after|compensation|ex[- ]gratia|free (homes|flats)|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar|workshop|meeting|todays latest|followup|follow up|txt|crime rates?|prevention|rbi|sebi|guidelines?|new rules?|reporting rule|introduces?|explained|how the|accident zone|black ?spots?)\\b|अजित पवार|अजितदादा|विमान|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|निषेध|दावा खोटा|झाल्याचा दावा|गेल्याचा दावा|असल्याचा दावा|अफवा|स्पष्टता|अहवाल लवकर|अहवाल सादर|चौकशी अहवाल|भूमिका योग्य|कोण\\?|पडसाद|सवाल|अधिवेशन|पुण्यतिथी|जयंती|खटला|खटल्या|फाशी|युक्तीवाद|युक्तिवाद|जामीन|जन्मठेप|सक्तमजुरी|शिक्षा|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|निर्दोष|आरोपीची सुटका|अभियोक्ता|वॉरंट रद्द|चोऱ्यांमध्ये वाढ|चोऱ्यांत वाढ|हजारी पार|गुन्ह्यांची संख्या|गुन्ह्यांत वाढ|गुन्ह्यांमध्ये वाढ|महिन्यांत|वर्षभरात|आकडेवारी|नेमके चित्र|सापळा|पुन्हा गजबजणार|मोफत|घरांचा आधार|मदत जाहीर|भरपाई|नुकसानभरपाई|जनजागृती|सत्कार|अंत्यसंस्कार|संपव\\S*\\s+जीवन|जीवन\\s+संपव|गळफास|गोळी झाडून घेत|गायी|गाईचा|म्हशी|बैलाचा|जनावर|खेळाडू|अभिनेत्|चित्रपट|क्रिकेट|स्पर्धा",
+   "\\b(viral video|movie|film|trailer|box office|web series|actors?|actress|bollywood|co-star|celebrit\\w+|poses|ott|album|concert|cricket|ipl|wicket|marathon|run for unity|tournament|cup|football|tennis|horoscope|recipe|sensex|nifty|poetry|lit fest)\\b|\\b(denied entry|extern(ment|ed)|banned from entering)\\b|तडीपार|हद्दपार|\\b(election|poll|manifesto|rally|budget|minister says|alleges|demands?|protest(s|ed|ers)?|morcha|remembrance|statue|condemn\\w*|reacts?|rumou?rs?)\\b|\\b(trial|bail|verdict|convict\\w*|sentenc\\w+|acquit\\w*|hearing|high court|supreme court|hc|plea|life imprisonment|life term|jail term|court awards?|awards? life|gets life|rigorous imprisonment|years? (in jail|imprisonment)|prosecutor)\\b|\\b(months? after|years? after|compensation|ex[- ]gratia|free (homes|flats)|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar|workshop|meeting|todays latest|followup|follow up|txt|crime rates?|prevention|rbi|sebi|guidelines?|new rules?|reporting rule|introduces?|explained|how the|accident zone|black ?spots?)\\b|अजित पवार|अजितदादा|विमान|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|निषेध|दावा खोटा|झाल्याचा दावा|गेल्याचा दावा|असल्याचा दावा|अफवा|स्पष्टता|अहवाल लवकर|अहवाल सादर|चौकशी अहवाल|भूमिका योग्य|कोण\\?|पडसाद|सवाल|अधिवेशन|पुण्यतिथी|जयंती|खटला|खटल्या|फाशी|युक्तीवाद|युक्तिवाद|जामीन|जन्मठेप|सक्तमजुरी|शिक्षा|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|निर्दोष|आरोपीची सुटका|अभियोक्ता|वॉरंट रद्द|चोऱ्यांमध्ये वाढ|चोऱ्यांत वाढ|हजारी पार|गुन्ह्यांची संख्या|गुन्ह्यांत वाढ|गुन्ह्यांमध्ये वाढ|महिन्यांत|वर्षभरात|आकडेवारी|नेमके चित्र|सापळा|पुन्हा गजबजणार|मोफत|घरांचा आधार|मदत जाहीर|भरपाई|नुकसानभरपाई|जनजागृती|सत्कार|अंत्यसंस्कार|संपव\\S*\\s+जीवन|जीवन\\s+संपव|गळफास|गोळी झाडून घेत|गायी|गाईचा|म्हशी|बैलाचा|जनावर|खेळाडू|अभिनेत्|चित्रपट|क्रिकेट|स्पर्धा",
    "i"
   ],
   "REACTION": [
@@ -79,6 +79,22 @@
   ],
   "BAND_NEAR": [
    "^[\\s,)]{0,3}(?:\\(\\s*ता\\.?\\s*\\d{1,2}\\s*\\)\\s*)?(late night|night|midnight|morning|evening|afternoon|मध्यरात्री|रात्री|पहाटे|सकाळी|दुपारी|सायंकाळी|संध्याकाळी)",
+   "i"
+  ],
+  "ATTEMPT": [
+   "\\battempt(ed|s)?[- ]to[- ](murder|kill)|murder attempt|attempt on (his|her|their) li(fe|ves)|bid to (kill|murder)|tried to (kill|murder)|खुनाचा प्रयत्न|खूनाचा प्रयत्न|हत्येचा प्रयत्न|जीवे मारण्याचा प्रयत्न|खुनाच्या प्रयत्न",
+   "i"
+  ],
+  "THREAT": [
+   "\\b(threat(ened|ening|s)? to kill|death threats?|threatened with death|kill threats?)\\b|जीवे मारण्याची धमकी|ठार मारण्याची धमकी|जिवे मारण्याची धमकी",
+   "i"
+  ],
+  "FATAL": [
+   "\\b(killed|kills|kill|dies|died|dead|death|deaths|deceased|succumb\\w*|lost (his|her|their) li(fe|ves)|claim(s|ed)? (a |the |two |three )?li(fe|ves)|bod(y|ies) (found|recovered)|murder(ed|s)?|fatal\\w*)\\b|मृत्यू|ठार|मृतदेह|जीव गमाव|प्राण गमाव|प्राणास मुक|खून|हत्या(?!र)|हत्ये",
+   "i"
+  ],
+  "INJURED": [
+   "\\b(injur\\w+|hurt|wounded|hospitali[sz]ed|critical(ly)?|grievous\\w*)\\b|जखमी|गंभीर जखमी|रुग्णालयात दाखल",
    "i"
   ],
   "OLD": [
@@ -286,7 +302,7 @@
   [
    "accident",
    [
-    "\\b(accident|hit[- ]and[- ]run|run over|mowed down|mows down|collision|collides?|collided|rams? into|rammed|overturn(s|ed)?|plunges?|knocked down)\\b|अपघात|हिट अँड रन|ड्रंक अँड ड्राइव्ह|चिरडले|चिरडून|धडकेत|धडकून|धडकेने|धडक दिल्याने|ची धडक|ला धडक|उलटून|उलटला|उलटली|दरीत कोसळ|\\b(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b[^.;:]{0,70}\\bcrash(es|ed)?\\b|\\bcrash(es|ed)?\\b[^.;:]{0,40}\\b(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b",
+    "\\b(accident|hit[- ]and[- ]run|run over|mowed down|mows down|collision|collides?|collided|rams? into|rammed|overturn(s|ed)?|plunges?|knocked down)\\b|अपघात|हिट अँड रन|ड्रंक अँड ड्राइव्ह|चिरडले|चिरडून|धडकेत|धडकून|धडकेने|धडक दिल्याने|ची धडक|ला धडक|उलटून|उलटला|उलटली|दरीत कोसळ|\\b(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b[^.;:]{0,70}\\bcrash(es|ed)?\\b|\\bcrash(es|ed)?\\b[^.;:]{0,40}\\b(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b|\\b(car|suv|bus|buses|truck|bike|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b[^.;:]{0,40}\\b(hits?|rams?|revers(e|es|ed|ing)|knocks?|knocked|crush(es|ed)?|runs? over|ran over|mows?|mowed|drags?|dragged|overturn\\w*|skid\\w*)\\b|\\b(revers(e|es|ed|ing) (into|over|on)|crushed (under|by|beneath)|hit by (a |an |the )?(speeding |rashly driven |)?(car|suv|bus|truck|bike|motorcycle|two[- ]wheeler|scooter|tempo|tanker|container|dumper|trailer|rickshaw|vehicle|lorry|van|jeep|tractor|cab|taxi))\\b",
     "i"
    ],
    [
@@ -300,7 +316,10 @@
     "\\b(hacked to death|stabbed to death|beaten to death|shot dead|strangled|strangulat\\w+|bludgeon\\w*|killed (over|by|for|after|in (a )?(fight|dispute|quarrel|attack|brawl))|kills? (his |her )?(wife|husband|friend|father|mother|son|daughter|brother|sister|man|woman|youth|lover|neighbour|girlfriend|boyfriend)|body found|found murdered|chopp\\w+ .{0,20}(to|into) pieces)\\b|ठार मारले|ठार केले|गळा (दाबून|चिरून|आवळून)|भोसकून|निर्घृण",
     "i"
    ],
-   null
+   [
+    "\\bkilled (after|by|as|when|in|on)\\b[^.;:]{0,40}\\b(car|suv|bus|truck|bike|motorcycl\\w+|two[- ]wheeler|scooter|tempo|tanker|container|dumper|trailer|rickshaw|vehicle|lorry|van|jeep|tractor|cab|taxi|train|crash|collision|accident)\\b|\\b(accident|collision|hit[- ]and[- ]run)\\b",
+    "i"
+   ]
   ],
   [
    "women",

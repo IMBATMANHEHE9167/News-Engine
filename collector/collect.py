@@ -267,7 +267,7 @@ if added or changed:
 cats = {c['id'] for c in E.CATS}
 events = E.group_events([r for r in items if r.get('c') in cats])
 events.sort(key=lambda e: e['last'], reverse=True)
-keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'reports')
+keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'reports')
 (DATA / 'events.json').write_text(dump_lines([{k: e[k] for k in keep} for e in events]), 'utf-8')
 meta = dict(rules=E.RULES_VERSION, cats=E.CATS, areas=[{k: a[k] for k in ('id', 'name', 'lat', 'lon', 'r')} for a in E.AREAS],
             feeds=[dict(id=f['id'], name=f['name']) for f in E.FEEDS])
