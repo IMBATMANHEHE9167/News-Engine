@@ -1,0 +1,1747 @@
+{
+ "version": 8,
+ "regex": {
+  "FIGURATIVE": [
+   "आत्महत्य\\S*|(आमदार|खासदार|नगरसेवक|कार्यकर्त|मंत्र्य)\\S*\\s(\\S+\\s)?राडा|(सभागृहात|सभेत|विधानसभेत|बैठकीत|कार्यक्रमात)\\s(\\S+\\s){0,3}राडा|टांगती तलवार|घटस्फोट\\S*|गांधीहत्य\\S*|मतचोरी|वोट ?चोरी|मतांची चोरी|करचोरी|वीज ?चोरी|पाणी ?चोरी|गौप्यस्फोट|आगपाखड|हल्लाबोल|शाब्दिक हल्ल\\S*|लोकसंख्येचा स्फोट|heart attack|panic attack|cyber ?attack|under fire|fire sale|vote theft|daylight robbery",
+   "i"
+  ],
+  "NOISE": [
+   "\\b(viral video|movie|film|trailer|box office|web series|actors?|actress|bollywood|co-star|celebrit\\w+|poses|ott|album|concert|cricket|ipl|wicket|marathon|run for unity|tournament|cup|football|tennis|horoscope|recipe|sensex|nifty|poetry|lit fest)\\b|\\b(election|poll|manifesto|rally|budget|minister says|alleges|demands?|protest(s|ed|ers)?|morcha|remembrance|statue|condemn\\w*|reacts?|rumou?rs?)\\b|\\b(trial|bail|verdict|convict\\w*|sentenc\\w+|acquit\\w*|hearing|high court|supreme court|hc|plea|life imprisonment|life term|jail term|court awards?|awards? life|gets life|rigorous imprisonment|years? (in jail|imprisonment)|prosecutor)\\b|\\b(months? after|years? after|compensation|ex[- ]gratia|free (homes|flats)|to recruit|recruitment|helpline|campaign|special drive|data shows|statistics|survey|licen[cs]es?|food safety|revamp|inaugurat\\w+|tourism|plane crash|ajit pawar|workshop|meeting|todays latest|followup|follow up|txt|crime rates?|prevention|rbi|sebi|guidelines?|new rules?|reporting rule|introduces?|explained|how the|accident zone|black ?spots?)\\b|अजित पवार|अजितदादा|विमान|हल्लाबोल|टोला|निवडणूक|निवडणुक|मोर्चा|आंदोलन|उपोषण|निषेध|दावा खोटा|झाल्याचा दावा|गेल्याचा दावा|असल्याचा दावा|अफवा|स्पष्टता|अहवाल लवकर|अहवाल सादर|चौकशी अहवाल|भूमिका योग्य|कोण\\?|पडसाद|सवाल|अधिवेशन|पुण्यतिथी|जयंती|खटला|खटल्या|फाशी|युक्तीवाद|युक्तिवाद|जामीन|जन्मठेप|सक्तमजुरी|शिक्षा|सुनावणी|न्यायालया|हायकोर्ट|उच्च न्यायालय|सर्वोच्च न्यायालय|निर्दोष|आरोपीची सुटका|अभियोक्ता|वॉरंट रद्द|चोऱ्यांमध्ये वाढ|चोऱ्यांत वाढ|हजारी पार|गुन्ह्यांची संख्या|गुन्ह्यांत वाढ|गुन्ह्यांमध्ये वाढ|महिन्यांत|वर्षभरात|आकडेवारी|नेमके चित्र|सापळा|पुन्हा गजबजणार|मोफत|घरांचा आधार|मदत जाहीर|भरपाई|नुकसानभरपाई|जनजागृती|सत्कार|अंत्यसंस्कार|संपव\\S*\\s+जीवन|जीवन\\s+संपव|गळफास|गोळी झाडून घेत|गायी|गाईचा|म्हशी|बैलाचा|जनावर|खेळाडू|अभिनेत्|चित्रपट|क्रिकेट|स्पर्धा",
+   "i"
+  ],
+  "REACTION": [
+   "^[A-Z][a-z]+ [A-Z][a-z]+ on [A-Z]",
+   ""
+  ],
+  "FOLLOW": [
+   "\\b((\\d+|two|three|four|five) more|more (held|arrested|arrests)|another (arrest|accused|held)|(2nd|second|3rd|third|another) (police )?(officer|cop|accused|suspect))\\b|\\b(suspend(ed|s|sion)|dismiss(ed|al)|sacked|transferred|charge ?sheet\\w*|probe[sd]?|mastermind|mcoca|searches|(new|fresh) twist|behind (the )?(attack|murder|robbery|killing)|(days|weeks) (after|later))\\b|निलंबित|निलंबन|बडतर्फ|नवे वळण|नवा खुलासा|नवा ट्विस्ट|खुलासा|कोठडी वाढ|कोठडीत वाढ|कारागृहात रवानगी|आरोपपत्र|तपास वेगवान|शोधासाठी|आणखी\\s+\\S+\\s+(जणांना\\s+|जण\\s+)?अटक|आणखी\\s+\\S+\\s+अटक|प्रकरणाला|सूत्रधार|मकोका|मोक्का|भोवले|गूढ|छडा लवकरच",
+   "i"
+  ],
+  "CONTEXT": [
+   "\\b(police|cops?|arrest\\w*|held|booked|nabbed|detained|fir|case (has been |was |is )?registered|accused|complain\\w+|crime branch|victim|injured|died|dead|hospitalis\\w+|hospitaliz\\w+)\\b|पोलीस|पोलिस|अटक|गुन्हा|गुन्हे|आरोपी|जखमी|मृत्यू|ताब्यात|जेरबंद|गजाआड|ठार",
+   "i"
+  ],
+  "EVENT": [
+   "^\\W*(pune |pimpri chinchwad )?(crime|road accident|accident|theft|fire|fraud)\\b|\\b(arrest\\w*|held|booked|killed|dies|died|dead|injured)\\b|अटक|गुन्हा दाखल|गुन्हे दाखल|मृत्यू|ठार|जखमी|जेरबंद|गजाआड|लंपास",
+   "i"
+  ],
+  "ROAD": [
+   "\\b(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b|\\b(highway|expressway|road|flyover|bridge|ghat|driver|rider|pedestrian|hit[- ]and[- ]run|drunk[- ]driv\\w+)\\b|वाहन|कार(?![\\u0900-\\u097F])|कारच्या|कारने|मोटार|दुचाकी|ट्रक|बस(?![\\u0900-\\u097F])|बसच्या|बसला|बसने|टेम्पो|रिक्षा|ट्रॅक्टर|टँकर|टॅंकर|डंपर|कंटेनर|ट्रॅव्हल्स|महामार्ग|रस्त्या|रस्ता|घाट|फाट्या|चालक|धडक",
+   "i"
+  ],
+  "ROADS": [
+   "(पोलीस|पोलिस)\\s*ठाण\\S*|\\b(pune|mumbai)\\s*[-–]\\s*[a-z]+( (highway|expressway|road))?|\\bpune (nashik|solapur|satara|nagar|ahmednagar|nagpur|mumbai|bangalore|bengaluru|kolhapur|panshet|kolad)\\b( (highway|expressway|road|travels|bus))?|\\b(satara|solapur|nagar|ahmednagar|nashik|mumbai|bangalore|bengaluru|paud|saswad|alandi|sinhgad) (road|highway|phata)\\b|सातारा (रस्ता|रस्त्या\\S*|रोड)|सोलापूर (रस्ता|रस्त्या\\S*|रोड)|नगर (रस्ता|रस्त्या\\S*|रोड)|नाशिक फाटा|मुंबई[- ]पुणे|पुणे[- ]मुंबई|पुणे[- ](सोलापूर|सातारा|नाशिक|नगर|बंगळुरू|बेंगळुरू|अहिल्यानगर)\\s?(महामार्ग\\S*|रस्ता|रस्त्या\\S*|रोड)?|नगर[- ]पुणे\\s?(महामार्ग\\S*|रस्ता|रस्त्या\\S*|रोड)?|मुंबई[- ]बंगळुरू",
+   "i"
+  ],
+  "ELSEWHERE": [
+   "\\b(mumbai|thane|navi mumbai|kalamboli|panvel|uran|kalyan|dombivli|ulhasnagar|vasai|virar|juhu|andheri|bandra|nagpur|nashik|malegaon|chhatrapati sambhajinagar|sambhajinagar|aurangabad|karmad|kolhapur|ichalkaranji|solapur|barshi|sangola|mangalvedha|pandharpur|mohol|karmala|akkalkot|akluj|satara|karad|phaltan|wai|mahabaleshwar|sangli|miraj|dharashiv|beed|jalna|parbhani|hingoli|raigad|ratnagiri|sindhudurg|palghar|gadchiroli|chandrapur|bhandara|gondia|wardha|yavatmal|buldhana|washim|dhule|nandurbar|karjat|ahilyanagar|ahmednagar|sangamner|shirdi|parner|shrigonda|jamkhed|jalgaon|latur|amravati|akola|belgaum|belagavi|gokak|saundatti|soundatti|savadatti|hubli|hubballi|vijayapura|bijapur|delhi|bengaluru|bangalore|hyderabad|chennai|kolkata|goa|gujarat|uttar pradesh|bihar|kerala|punjab|rajasthan|karnataka|pakistan|bangladesh|china|dubai)\\b|मुंबई|ठाणे|झारखंड|बिहार|उत्तर प्रदेश|गुजरात|राजस्थान|मध्य प्रदेश|केरळ|पंजाब|हरियाणा|तेलंगण|गोवा|गोव्या|अमेरिके|नेरुळ|नालासोपार|गोरेगाव|भिवंडी|अंबरनाथ|बदलापूर|उरण|नागपूर|नागपुर|नाशिक|मालेगाव|संभाजीनगर|कोल्हापूर|कोल्हापुर|इचलकरंजी|सोलापूर|सोलापुर|बार्शी|सांगोला|पंढरपूर|मोहोळ|करमाळा|अक्कलकोट|अकलूज|माळशिरस|सातारा|साताऱ्या|कराड|फलटण|महाबळेश्वर|सांगली|मिरज|धाराशिव|बीड|जालना|परभणी|हिंगोली|रायगड|रत्नागिरी|सिंधुदुर्ग|पालघर|गडचिरोली|चंद्रपूर|भंडारा|गोंदिया|वर्धा|यवतमाळ|बुलढाणा|वाशीम|धुळे|नंदुरबार|अहिल्यानगर|अहमदनगर|संगमनेर|शिर्डी|श्रीगोंदा|जामखेड|जळगाव|लातूर|नांदेड|अमरावती|अकोला|बेळगाव|गोकाक|सौंदत्ती|दिल्ली|कर्नाटक|कल्याण|डोंबिवली|उल्हासनगर|पनवेल|वसई|विरार",
+   "i"
+  ],
+  "HAPPENED_ELSEWHERE": [
+   "^\\W*(mumbai|thane|navi mumbai|kalamboli|panvel|uran|kalyan|dombivli|ulhasnagar|vasai|virar|juhu|andheri|bandra|nagpur|nashik|malegaon|chhatrapati sambhajinagar|sambhajinagar|aurangabad|karmad|kolhapur|ichalkaranji|solapur|barshi|sangola|mangalvedha|pandharpur|mohol|karmala|akkalkot|akluj|satara|karad|phaltan|wai|mahabaleshwar|sangli|miraj|dharashiv|beed|jalna|parbhani|hingoli|raigad|ratnagiri|sindhudurg|palghar|gadchiroli|chandrapur|bhandara|gondia|wardha|yavatmal|buldhana|washim|dhule|nandurbar|karjat|ahilyanagar|ahmednagar|sangamner|shirdi|parner|shrigonda|jamkhed|jalgaon|latur|amravati|akola|belgaum|belagavi|gokak|saundatti|soundatti|savadatti|hubli|hubballi|vijayapura|bijapur|delhi|bengaluru|bangalore|hyderabad|chennai|kolkata|goa|gujarat|uttar pradesh|bihar|kerala|punjab|rajasthan|karnataka|pakistan|bangladesh|china|dubai)\\b[^:]{0,30}:|\\b(in|at|near|on|off)\\s+(the\\s+)?(mumbai|thane|navi mumbai|kalamboli|panvel|uran|kalyan|dombivli|ulhasnagar|vasai|virar|juhu|andheri|bandra|nagpur|nashik|malegaon|chhatrapati sambhajinagar|sambhajinagar|aurangabad|karmad|kolhapur|ichalkaranji|solapur|barshi|sangola|mangalvedha|pandharpur|mohol|karmala|akkalkot|akluj|satara|karad|phaltan|wai|mahabaleshwar|sangli|miraj|dharashiv|beed|jalna|parbhani|hingoli|raigad|ratnagiri|sindhudurg|palghar|gadchiroli|chandrapur|bhandara|gondia|wardha|yavatmal|buldhana|washim|dhule|nandurbar|karjat|ahilyanagar|ahmednagar|sangamner|shirdi|parner|shrigonda|jamkhed|jalgaon|latur|amravati|akola|belgaum|belagavi|gokak|saundatti|soundatti|savadatti|hubli|hubballi|vijayapura|bijapur|delhi|bengaluru|bangalore|hyderabad|chennai|kolkata|goa|gujarat|uttar pradesh|bihar|kerala|punjab|rajasthan|karnataka|pakistan|bangladesh|china|dubai)\\b|\\bin maharashtra[’']s\\s+(?!pune)[a-z]|^\\W*(मुंबई|ठाणे|झारखंड|बिहार|उत्तर प्रदेश|गुजरात|राजस्थान|मध्य प्रदेश|केरळ|पंजाब|हरियाणा|तेलंगण|गोवा|गोव्या|अमेरिके|नेरुळ|नालासोपार|गोरेगाव|भिवंडी|अंबरनाथ|बदलापूर|उरण|नागपूर|नागपुर|नाशिक|मालेगाव|संभाजीनगर|कोल्हापूर|कोल्हापुर|इचलकरंजी|सोलापूर|सोलापुर|बार्शी|सांगोला|पंढरपूर|मोहोळ|करमाळा|अक्कलकोट|अकलूज|माळशिरस|सातारा|साताऱ्या|कराड|फलटण|महाबळेश्वर|सांगली|मिरज|धाराशिव|बीड|जालना|परभणी|हिंगोली|रायगड|रत्नागिरी|सिंधुदुर्ग|पालघर|गडचिरोली|चंद्रपूर|भंडारा|गोंदिया|वर्धा|यवतमाळ|बुलढाणा|वाशीम|धुळे|नंदुरबार|अहिल्यानगर|अहमदनगर|संगमनेर|शिर्डी|श्रीगोंदा|जामखेड|जळगाव|लातूर|नांदेड|अमरावती|अकोला|बेळगाव|गोकाक|सौंदत्ती|दिल्ली|कर्नाटक|कल्याण|डोंबिवली|उल्हासनगर|पनवेल|वसई|विरार)\\s*:|(मुंबई|ठाणे|झारखंड|बिहार|उत्तर प्रदेश|गुजरात|राजस्थान|मध्य प्रदेश|केरळ|पंजाब|हरियाणा|तेलंगण|गोवा|गोव्या|अमेरिके|नेरुळ|नालासोपार|गोरेगाव|भिवंडी|अंबरनाथ|बदलापूर|उरण|नागपूर|नागपुर|नाशिक|मालेगाव|संभाजीनगर|कोल्हापूर|कोल्हापुर|इचलकरंजी|सोलापूर|सोलापुर|बार्शी|सांगोला|पंढरपूर|मोहोळ|करमाळा|अक्कलकोट|अकलूज|माळशिरस|सातारा|साताऱ्या|कराड|फलटण|महाबळेश्वर|सांगली|मिरज|धाराशिव|बीड|जालना|परभणी|हिंगोली|रायगड|रत्नागिरी|सिंधुदुर्ग|पालघर|गडचिरोली|चंद्रपूर|भंडारा|गोंदिया|वर्धा|यवतमाळ|बुलढाणा|वाशीम|धुळे|नंदुरबार|अहिल्यानगर|अहमदनगर|संगमनेर|शिर्डी|श्रीगोंदा|जामखेड|जळगाव|लातूर|नांदेड|अमरावती|अकोला|बेळगाव|गोकाक|सौंदत्ती|दिल्ली|कर्नाटक|कल्याण|डोंबिवली|उल्हासनगर|पनवेल|वसई|विरार)\\s?(मध्ये|मधील|त |तील|जवळ|येथे|येथील| जिल्ह)",
+   "i"
+  ],
+  "PUNE": [
+   "\\bpune\\b|\\bpimpri\\b|\\bpcmc\\b|\\bpmc\\b|पुणे|पुण्या|पिंपरी",
+   "i"
+  ],
+  "IN_PUNE": [
+   "^\\W*pune\\b|^\\W*(पुणे|पिंपरी)|\\bin pune\\b|\\bpune (police|city|crime|station|airport|court|jewell\\w+|school|college|techie|businessman)\\b|पुण्यात(?!ील)|पुणे पोलिस|पुणे पोलीस|पुणे शहरात",
+   "i"
+  ],
+  "CRIME_WORDS": [
+   "\\b(crime|police|cops?|arrest\\w*|accused|booked|nabbed|detained|gang|thie\\w+|stolen|jewel\\w+|kill\\w+|dead|death|dies|died|injured|weapon\\w*|knife|sickle|koyta)\\b",
+   "i"
+  ],
+  "PUNE_TALUKA": [
+   "हवेल|मुळश|मावळ|खेड|आंबेगाव|जुन्नर|शिरू|शिरु|दौंड|इंदाप|बारामत|पुरंदर|भोर|वेल्ह|राजगड|पुणे",
+   ""
+  ],
+  "OTHER_MR_RE": [
+   "मुंबई|ठाणे|झारखंड|बिहार|उत्तर प्रदेश|गुजरात|राजस्थान|मध्य प्रदेश|केरळ|पंजाब|हरियाणा|तेलंगण|गोवा|गोव्या|अमेरिके|नेरुळ|नालासोपार|गोरेगाव|भिवंडी|अंबरनाथ|बदलापूर|उरण|नागपूर|नागपुर|नाशिक|मालेगाव|संभाजीनगर|कोल्हापूर|कोल्हापुर|इचलकरंजी|सोलापूर|सोलापुर|बार्शी|सांगोला|पंढरपूर|मोहोळ|करमाळा|अक्कलकोट|अकलूज|माळशिरस|सातारा|साताऱ्या|कराड|फलटण|महाबळेश्वर|सांगली|मिरज|धाराशिव|बीड|जालना|परभणी|हिंगोली|रायगड|रत्नागिरी|सिंधुदुर्ग|पालघर|गडचिरोली|चंद्रपूर|भंडारा|गोंदिया|वर्धा|यवतमाळ|बुलढाणा|वाशीम|धुळे|नंदुरबार|अहिल्यानगर|अहमदनगर|संगमनेर|शिर्डी|श्रीगोंदा|जामखेड|जळगाव|लातूर|नांदेड|अमरावती|अकोला|बेळगाव|गोकाक|सौंदत्ती|दिल्ली|कर्नाटक|कल्याण|डोंबिवली|उल्हासनगर|पनवेल|वसई|विरार",
+   ""
+  ],
+  "PUNE_DATELINE": [
+   "^[^ऀ-ॿ]{0,12}(पुणे|पिंपरी)\\s*,\\s*ता\\.",
+   ""
+  ],
+  "LIVES": [
+   "(residents? of|resident,|native of|natives of|hails? from|hailing from|lives? in|living in|based in|from|रा\\.|राहणार|रहिवासी)\\s*$",
+   "i"
+  ],
+  "AT": [
+   "\\b(in|at|near|on|outside|opposite|towards)\\s+(the\\s+)?$",
+   "i"
+  ],
+  "AT_MR": [
+   "^(मध्ये|मधील|मधल्या|त|तील|जवळ|जवळील|येथे|येथील|\\s*(परिसरात|भागात|हद्दीत|येथे|येथील))",
+   ""
+  ],
+  "BAND_NEAR": [
+   "^[\\s,)]{0,3}(?:\\(\\s*ता\\.?\\s*\\d{1,2}\\s*\\)\\s*)?(late night|night|midnight|morning|evening|afternoon|मध्यरात्री|रात्री|पहाटे|सकाळी|दुपारी|सायंकाळी|संध्याकाळी)",
+   "i"
+  ],
+  "OLD": [
+   "\\b(last (month|year)|(\\d+|two|three|four|five|six|seven|eight|nine|ten|several|few) (months?|years?) (ago|back|old))\\b|महिन्यांपूर्वी|महिन्यापूर्वी|वर्षांपूर्वी|वर्षापूर्वी|गेल्या वर्षी|गेल्या महिन्यात",
+   "i"
+  ]
+ },
+ "data": {
+  "VEH": "(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)",
+  "WOMAN_MR": "(महिले|महिला|मुली|मुलगी|तरुणी|युवती|अल्पवयीन|विद्यार्थिनी|बालिके|चिमुकली|विवाहिते)",
+  "SEVERITY": [
+   "murder",
+   "women",
+   "kidnap",
+   "extortion",
+   "robbery",
+   "burglary",
+   "drugs",
+   "cyber",
+   "violence",
+   "theft",
+   "accident",
+   "fire"
+  ],
+  "OTHER_EN": "mumbai|thane|navi mumbai|kalamboli|panvel|uran|kalyan|dombivli|ulhasnagar|vasai|virar|juhu|andheri|bandra|nagpur|nashik|malegaon|chhatrapati sambhajinagar|sambhajinagar|aurangabad|karmad|kolhapur|ichalkaranji|solapur|barshi|sangola|mangalvedha|pandharpur|mohol|karmala|akkalkot|akluj|satara|karad|phaltan|wai|mahabaleshwar|sangli|miraj|dharashiv|beed|jalna|parbhani|hingoli|raigad|ratnagiri|sindhudurg|palghar|gadchiroli|chandrapur|bhandara|gondia|wardha|yavatmal|buldhana|washim|dhule|nandurbar|karjat|ahilyanagar|ahmednagar|sangamner|shirdi|parner|shrigonda|jamkhed|jalgaon|latur|amravati|akola|belgaum|belagavi|gokak|saundatti|soundatti|savadatti|hubli|hubballi|vijayapura|bijapur|delhi|bengaluru|bangalore|hyderabad|chennai|kolkata|goa|gujarat|uttar pradesh|bihar|kerala|punjab|rajasthan|karnataka|pakistan|bangladesh|china|dubai",
+  "OTHER_MR": "मुंबई|ठाणे|झारखंड|बिहार|उत्तर प्रदेश|गुजरात|राजस्थान|मध्य प्रदेश|केरळ|पंजाब|हरियाणा|तेलंगण|गोवा|गोव्या|अमेरिके|नेरुळ|नालासोपार|गोरेगाव|भिवंडी|अंबरनाथ|बदलापूर|उरण|नागपूर|नागपुर|नाशिक|मालेगाव|संभाजीनगर|कोल्हापूर|कोल्हापुर|इचलकरंजी|सोलापूर|सोलापुर|बार्शी|सांगोला|पंढरपूर|मोहोळ|करमाळा|अक्कलकोट|अकलूज|माळशिरस|सातारा|साताऱ्या|कराड|फलटण|महाबळेश्वर|सांगली|मिरज|धाराशिव|बीड|जालना|परभणी|हिंगोली|रायगड|रत्नागिरी|सिंधुदुर्ग|पालघर|गडचिरोली|चंद्रपूर|भंडारा|गोंदिया|वर्धा|यवतमाळ|बुलढाणा|वाशीम|धुळे|नंदुरबार|अहिल्यानगर|अहमदनगर|संगमनेर|शिर्डी|श्रीगोंदा|जामखेड|जळगाव|लातूर|नांदेड|अमरावती|अकोला|बेळगाव|गोकाक|सौंदत्ती|दिल्ली|कर्नाटक|कल्याण|डोंबिवली|उल्हासनगर|पनवेल|वसई|विरार",
+  "ENT": {
+   "amp": "&",
+   "lt": "<",
+   "gt": ">",
+   "quot": "\"",
+   "apos": "'",
+   "nbsp": " ",
+   "rsquo": "’",
+   "lsquo": "‘",
+   "rdquo": "”",
+   "ldquo": "“",
+   "ndash": "–",
+   "mdash": "—",
+   "hellip": "…"
+  },
+  "MR_END": "ा?(?:मध्ये|मधील|मधल्या|त|तील|ला|जवळ|जवळील|चा|ची|चे|च्या|येथे|येथील|वर|वरील|कडे|साठी)?(?![\\u0900-\\u097F])",
+  "BAND_OF": {
+   "late night": "night",
+   "night": "night",
+   "midnight": "night",
+   "morning": "morning",
+   "evening": "evening",
+   "afternoon": "afternoon",
+   "मध्यरात्री": "night",
+   "रात्री": "night",
+   "पहाटे": "night",
+   "सकाळी": "morning",
+   "दुपारी": "afternoon",
+   "सायंकाळी": "evening",
+   "संध्याकाळी": "evening"
+  },
+  "MR_NUM": {
+   "एक": 1,
+   "दोन": 2,
+   "तीन": 3,
+   "चार": 4,
+   "पाच": 5,
+   "सहा": 6,
+   "सात": 7,
+   "आठ": 8,
+   "नऊ": 9,
+   "दहा": 10,
+   "अकरा": 11,
+   "बारा": 12
+  },
+  "MR_DAY": [
+   "एकतीस",
+   "तीस",
+   "एकोणतीस",
+   "अठ्ठावीस",
+   "सत्तावीस",
+   "सव्वीस",
+   "पंचवीस",
+   "चोवीस",
+   "तेवीस",
+   "बावीस",
+   "एकवीस",
+   "वीस",
+   "एकोणीस",
+   "अठरा",
+   "सतरा",
+   "सोळा",
+   "पंधरा",
+   "चौदा",
+   "तेरा",
+   "बारा",
+   "अकरा",
+   "दहा",
+   "नऊ",
+   "आठ",
+   "सात",
+   "सहा",
+   "पाच",
+   "चार",
+   "तीन",
+   "दोन",
+   "एक"
+  ],
+  "MR_DAY_N": {
+   "एकतीस": 31,
+   "तीस": 30,
+   "एकोणतीस": 29,
+   "अठ्ठावीस": 28,
+   "सत्तावीस": 27,
+   "सव्वीस": 26,
+   "पंचवीस": 25,
+   "चोवीस": 24,
+   "तेवीस": 23,
+   "बावीस": 22,
+   "एकवीस": 21,
+   "वीस": 20,
+   "एकोणीस": 19,
+   "अठरा": 18,
+   "सतरा": 17,
+   "सोळा": 16,
+   "पंधरा": 15,
+   "चौदा": 14,
+   "तेरा": 13,
+   "बारा": 12,
+   "अकरा": 11,
+   "दहा": 10,
+   "नऊ": 9,
+   "आठ": 8,
+   "सात": 7,
+   "सहा": 6,
+   "पाच": 5,
+   "चार": 4,
+   "तीन": 3,
+   "दोन": 2,
+   "एक": 1
+  },
+  "WD_EN": [
+   "sunday",
+   "monday",
+   "tuesday",
+   "wednesday",
+   "thursday",
+   "friday",
+   "saturday"
+  ],
+  "WD_MR": [
+   "रविवार",
+   "सोमवार",
+   "मंगळवार",
+   "बुधवार",
+   "गुरुवार",
+   "शुक्रवार",
+   "शनिवार"
+  ],
+  "MON_EN": [
+   "jan",
+   "feb",
+   "mar",
+   "apr",
+   "may",
+   "jun",
+   "jul",
+   "aug",
+   "sep",
+   "oct",
+   "nov",
+   "dec"
+  ],
+  "MON_MR": [
+   "जानेवारी",
+   "फेब्रुवारी",
+   "मार्च",
+   "एप्रिल",
+   "मे",
+   "जून",
+   "जुलै",
+   "ऑगस्ट",
+   "सप्टेंबर",
+   "ऑक्टोबर",
+   "नोव्हेंबर",
+   "डिसेंबर"
+  ],
+  "MON_EN_RE": "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sept|sep|oct|nov|dec)",
+  "FAMILY": {
+   "robbery": "property",
+   "burglary": "property",
+   "theft": "property",
+   "murder": "person",
+   "violence": "person",
+   "kidnap": "person",
+   "extortion": "person"
+  },
+  "DEV": "\\u0900-\\u097F"
+ },
+ "rules": [
+  [
+   "murder",
+   [
+    "\\b(murder(s|ed|er|ing)?)\\b|खून|खुना|हत्या(?!र)|हत्ये|ठार मारले|ठार केले|संपवलं|संपवले|संपविले",
+    "i"
+   ],
+   null
+  ],
+  [
+   "accident",
+   [
+    "\\b(accident|hit[- ]and[- ]run|run over|mowed down|mows down|collision|collides?|collided|rams? into|rammed|overturn(s|ed)?|plunges?|knocked down)\\b|अपघात|हिट अँड रन|ड्रंक अँड ड्राइव्ह|चिरडले|चिरडून|धडकेत|धडकून|धडकेने|धडक दिल्याने|ची धडक|ला धडक|उलटून|उलटला|उलटली|दरीत कोसळ|\\b(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b[^.;:]{0,70}\\bcrash(es|ed)?\\b|\\bcrash(es|ed)?\\b[^.;:]{0,40}\\b(car|suv|bus|buses|truck|bike|biker|motorcycl\\w+|two[- ]wheeler|scooter|moped|tempo|tanker|container|dumper|trailer|rickshaw|auto|autorickshaw|vehicle|lorry|van|jeep|tractor|ambulance|pick[- ]?up|cab|taxi)\\b",
+    "i"
+   ],
+   [
+    "\\b(online|website|site|server|app|portal|booking|system|market|stocks?|shares?|prices?|safety|awareness|helmet|leopards?)\\b|जनजागृती|सुरक्षा सप्ताह|प्रतीक्षा|घटले|धोका|निमंत्रण|बिबट्या|भासव|बनाव|अपघात नसून|धडक कारवाई|धडकेबाज",
+    "i"
+   ]
+  ],
+  [
+   "murder",
+   [
+    "\\b(hacked to death|stabbed to death|beaten to death|shot dead|strangled|strangulat\\w+|bludgeon\\w*|killed (over|by|for|after|in (a )?(fight|dispute|quarrel|attack|brawl))|kills? (his |her )?(wife|husband|friend|father|mother|son|daughter|brother|sister|man|woman|youth|lover|neighbour|girlfriend|boyfriend)|body found|found murdered|chopp\\w+ .{0,20}(to|into) pieces)\\b|ठार मारले|ठार केले|गळा (दाबून|चिरून|आवळून)|भोसकून|निर्घृण",
+    "i"
+   ],
+   null
+  ],
+  [
+   "women",
+   [
+    "\\b(rape[ds]?|raping|gang[- ]?rape\\w*|molest\\w*|sexual(ly)? (assault|harass|abus|exploit)\\w*|stalk(ed|ing|er)|dowry|outrag\\w+ (her |the )?modesty|pocso|eve[- ]teasing|domestic violence|acid attack|voyeur\\w*)\\b|बलात्कार|विनयभंग|लैंगिक अत्याचार|लैंगिक छळ|लैंगिक शोषण|पोक्सो|पॉक्सो|हुंडा|हुंड्या|छेडछाड|छेड काढ|अतिप्रसंग|(महिले|महिला|मुली|मुलगी|तरुणी|युवती|अल्पवयीन|विद्यार्थिनी|बालिके|चिमुकली|विवाहिते)[^.।]{0,40}अत्याचार|अत्याचार[^.।]{0,40}(महिले|महिला|मुली|मुलगी|तरुणी|युवती|अल्पवयीन|विद्यार्थिनी|बालिके|चिमुकली|विवाहिते)",
+    "i"
+   ],
+   null
+  ],
+  [
+   "kidnap",
+   [
+    "\\b(kidnap\\w*|abduct\\w*)\\b|अपहरण",
+    "i"
+   ],
+   null
+  ],
+  [
+   "extortion",
+   [
+    "\\b(extort\\w*|ransom|protection money|sextortion|blackmail\\w*)\\b|खंडणी|ब्लॅकमेल|हप्त्याची मागणी",
+    "i"
+   ],
+   null
+  ],
+  [
+   "robbery",
+   [
+    "\\b(robb(ed|ery|ers?|eries|ing)|loot(ed|ing|s)?|heist|dacoit\\w*|chain[- ]snatch\\w*|snatch(es|ed|ing|ers?)?|mugg(ed|ing)|at knife[- ]?point|at gun[- ]?point)\\b|दरोडा|दरोड्या|लुटले|लुटून|लुटणार|लूटमार|लुटमार|जबरी चोरी|सोनसाखळी|मंगळसूत्र|हिसकाव|धाक दाखव|स्प्रे मारून|डोळ्यात (मिरची|स्प्रे)",
+    "i"
+   ],
+   [
+    "\\b(loot the|looting (public|farmers|customers)|scam|fraud\\w*|online|cyber)\\b|फसवणूक|फसवणुक|गंडा|सायबर|ऑनलाइन|ग्राहकांची लूट|आर्थिक लूट|जनतेची लूट|शेतकऱ्यांची लूट",
+    "i"
+   ]
+  ],
+  [
+   "burglary",
+   [
+    "\\b(burglar\\w*|burgl\\w+|house[- ]?break\\w*|break[- ]in|broke into|breaking into|breaks? into)\\b|घरफोड|(सदनिका|फ्लॅट|घरे|घर|दुकाने|दुकान|बंगला|बंगले|दानपेटी)\\s*फोड|कुलूप तोडून[^.।]{0,50}(चोरी|लंपास|ऐवज)|कडीकोयंडा",
+    "i"
+   ],
+   null
+  ],
+  [
+   "drugs",
+   [
+    "\\b(mephedrone|ganja|cannabis|cocaine|heroin|charas|hashish|opium|narcotics?|ndps|meth|contraband|peddlers?|drugs? (peddl\\w+|racket|cartel|bust|haul|trafficking|smuggl\\w+|seizure|seized|worth|party|den|syndicate|supplier|case)|(seiz\\w+|smuggl\\w+|peddl\\w+|supply\\w*|sell\\w*|sold) (of )?drugs)\\b|गांजा|गांजाची|अमली पदार्थ|अंमली पदार्थ|मेफेड्रोन|ड्रग्ज|ड्रग्स|एमडी ड्रग|चरस|अफू|कोकेन",
+    "i"
+   ],
+   [
+    "\\b(food and drugs?|fda|drug[- ]free|de-?addiction|pharma\\w*|medicines?|chemist|drug store|awareness)\\b|अन्न व औषध|व्यसनमुक्ती|जनजागृती",
+    "i"
+   ]
+  ],
+  [
+   "cyber",
+   [
+    "\\b(cyber ?(crime|fraud\\w*|crook\\w*|cheat\\w*|scam\\w*|thie\\w+)|fraud(s|sters?)?|cheat(ed|ing|s)|duped?|dupes|scam(s|mers?|med)?|digital arrest|swindl\\w+|ponzi|phishing|fake call cent(re|er)|embezzl\\w+|misappropriat\\w+|siphon\\w+|loses? (rs|₹))\\b|फसवणूक|फसवणुक|फसवणुकी|फसवले|गंडा|सायबर चोर|सायबर भामट|डिजिटल अरेस्ट|अपहार",
+    "i"
+   ],
+   [
+    "\\b(warns?|warning|advisory|awareness|beware|cautions?|tips|fraudulent job offers|dues|auction|property tax|voter|voters|election|poll)\\b|सावध|आवाहन|जनजागृती|इशारा|मतदार|भरती|होऊ नये|स्पष्टीकरण|पारदर्शक|सावट|पार्श्वभूमीवर",
+    "i"
+   ]
+  ],
+  [
+   "violence",
+   [
+    "\\b(assault(ed|s|ing)?|attack(ed|s|ers?)?|stabb?(ed|ing|s)?|koyta|sickles?|firing|fired (at|on|upon|shots?)|opens? fire|shot at|gunshot|gunmen|beaten (up|by|with|over)|thrash(ed|es|ing)|vandalis\\w+|vandaliz\\w+|rioting|clash(es|ed)?|brawl|pistols?|firearms?|sword|machete|gang ?war|road rage|hurl(s|ed|ing)?)\\b|हत्यार|शस्त्र बाळग|हल्ला|हल्ले|हल्ल्या|जीवे मारण्याची धमकी|राडा|मारहाण|कोयता|कोयत्या|गोळीबार|तोडफोड|पिस्तूल|पिस्तुल|पिस्टल|चाकूने|तलवार|वार केले|वार करून|हाणामारी|दगडफेक|दहशत माजव|कोयता फिरवत|अग्निशस्त्र|काडतुस|गावठी कट्ट|चॉपर|कुऱ्हाड",
+    "i"
+   ],
+   [
+    "\\b(slams?|hits? out|lash(es|ed)? out|verbal|jibe|dig at|criticis\\w+|leopards?|stray dogs?|dogs?|rabid|bees?|monkeys?|tigers?|opposition|devotees|after .{0,30}(firing|attack) incident)\\b|टोला|टीका|टीके|निशाणा|हृदयविकार|बिबट्या|बिबट्याचा|कुत्र्य|मधमाश|राजकीय|माकड|वाघा|वाघाची|गव्या|हत्तीच्या|अस्वल",
+    "i"
+   ]
+  ],
+  [
+   "theft",
+   [
+    "\\b(theft|thefts|stolen|steal(s|ing)?|stole|thie(f|ves)|pickpocket\\w*|shoplift\\w*)\\b|घेऊन पसार|घेऊन [^.।;]{0,25}पसार|लांबवले|लांबविले|डल्ला|चोरी|चोऱ्या|चोरट|चोरले|चोरून|चोरण|चोरां|चोराला|चोर(?![ऀ-ॿ])|लंपास",
+    "i"
+   ],
+   [
+    "\\b(water|electricity|power|sand|prevention)\\b|चोरी नाही|पाणी|वीज",
+    "i"
+   ]
+  ],
+  [
+   "fire",
+   [
+    "\\b(fire breaks? out|fire broke out|caught fire|catches fire|blaze|gutted|major fire|massive fire|fire (at|in) (a |an |the )?\\w+|cylinder blast|explosion)\\b|आग लाग|भीषण आग|अचानक आग|ला आग|आगीत|आगीच्या|आग भडक|पेट घेत|घेतला पेट|जळून खाक|स्फोट",
+    "i"
+   ],
+   [
+    "\\b(firing|fire safety|fire audit|firecrackers?)\\b|अग्निसुरक्षा|फटाके|फटाक्या",
+    "i"
+   ]
+  ]
+ ],
+ "areas": [
+  [
+   "shivajinagar",
+   "Shivajinagar",
+   18.5308,
+   73.8475,
+   "city",
+   [
+    "model colony",
+    "gokhale nagar",
+    "gokhalenagar",
+    "senapati bapat road",
+    "sb road",
+    "मॉडेल कॉलनी",
+    "गोखलेनगर",
+    "सेनापती बापट रस्त",
+    "shivajinagar",
+    "shivaji nagar",
+    "शिवाजीनगर"
+   ]
+  ],
+  [
+   "deccan",
+   "Deccan / FC Road",
+   18.518,
+   73.841,
+   "city",
+   [
+    "deccan",
+    "fc road",
+    "fergusson college road",
+    "jm road",
+    "jangli maharaj road",
+    "डेक्कन"
+   ]
+  ],
+  [
+   "camp",
+   "Camp",
+   18.511,
+   73.88,
+   "city",
+   [
+    "pune camp",
+    "camp area",
+    "mg road",
+    "lashkar police",
+    "cantonment",
+    "लष्कर पोलीस",
+    "लष्कर पोलिस",
+    "कॅम्प परिसर"
+   ]
+  ],
+  [
+   "kp",
+   "Koregaon Park",
+   18.5362,
+   73.8939,
+   "city",
+   [
+    "koregaon park",
+    "कोरेगाव पार्क"
+   ]
+  ],
+  [
+   "mundhwa",
+   "Mundhwa",
+   18.532,
+   73.93,
+   "city",
+   [
+    "keshav nagar",
+    "keshavnagar",
+    "केशवनगर",
+    "mundhwa",
+    "मुंढवा",
+    "मुंढव्या"
+   ]
+  ],
+  [
+   "yerawada",
+   "Yerawada",
+   18.551,
+   73.88,
+   "city",
+   [
+    "kalyani nagar",
+    "kalyaninagar",
+    "shastrinagar",
+    "कल्याणीनगर",
+    "शास्त्रीनगर",
+    "yerawada",
+    "yerwada",
+    "येरवडा",
+    "येरवड्या"
+   ]
+  ],
+  [
+   "kharadi",
+   "Kharadi",
+   18.551,
+   73.943,
+   "city",
+   [
+    "kharadi",
+    "खराडी"
+   ]
+  ],
+  [
+   "chandannagar",
+   "Chandan Nagar",
+   18.561,
+   73.933,
+   "city",
+   [
+    "wadgaon sheri",
+    "vadgaon sheri",
+    "वडगाव शेरी",
+    "chandan nagar",
+    "chandannagar",
+    "चंदननगर"
+   ]
+  ],
+  [
+   "vimannagar",
+   "Viman Nagar",
+   18.5679,
+   73.9143,
+   "city",
+   [
+    "viman nagar",
+    "vimannagar",
+    "vimantal",
+    "विमाननगर",
+    "विमानतळ"
+   ]
+  ],
+  [
+   "lohegaon",
+   "Lohegaon",
+   18.596,
+   73.92,
+   "city",
+   [
+    "lohegaon",
+    "लोहगाव"
+   ]
+  ],
+  [
+   "vishrantwadi",
+   "Vishrantwadi",
+   18.577,
+   73.878,
+   "city",
+   [
+    "tingre nagar",
+    "tingrenagar",
+    "टिंगरेनगर",
+    "vishrantwadi",
+    "विश्रांतवाडी"
+   ]
+  ],
+  [
+   "dhanori",
+   "Dhanori",
+   18.595,
+   73.896,
+   "city",
+   [
+    "dhanori",
+    "धानोरी"
+   ]
+  ],
+  [
+   "wagholi",
+   "Wagholi",
+   18.58,
+   73.98,
+   "city",
+   [
+    "kesnand",
+    "perne",
+    "केसनंद",
+    "पेरणे",
+    "wagholi",
+    "lonikand",
+    "loni kand",
+    "वाघोली",
+    "लोणीकंद"
+   ]
+  ],
+  [
+   "kothrud",
+   "Kothrud",
+   18.5074,
+   73.8077,
+   "city",
+   [
+    "paud road",
+    "sutardara",
+    "kothrud depot",
+    "पौड रस्त",
+    "सुतारदरा",
+    "kothrud",
+    "कोथरूड",
+    "कोथरुड"
+   ]
+  ],
+  [
+   "karvenagar",
+   "Karve Nagar",
+   18.49,
+   73.82,
+   "city",
+   [
+    "karve nagar",
+    "karvenagar",
+    "karve road",
+    "कर्वेनगर"
+   ]
+  ],
+  [
+   "erandwane",
+   "Erandwane",
+   18.51,
+   73.83,
+   "city",
+   [
+    "erandwane",
+    "erandwana",
+    "एरंडवणे"
+   ]
+  ],
+  [
+   "warje",
+   "Warje",
+   18.481,
+   73.8,
+   "city",
+   [
+    "warje",
+    "वारजे",
+    "वारज्या"
+   ]
+  ],
+  [
+   "bavdhan",
+   "Bavdhan",
+   18.515,
+   73.778,
+   "city",
+   [
+    "bhugaon",
+    "chandani chowk",
+    "chandni chowk",
+    "भूगाव",
+    "चांदणी चौक",
+    "bavdhan",
+    "बावधन"
+   ]
+  ],
+  [
+   "pashan",
+   "Pashan",
+   18.54,
+   73.793,
+   "city",
+   [
+    "pashan",
+    "पाषाण"
+   ]
+  ],
+  [
+   "baner",
+   "Baner",
+   18.559,
+   73.779,
+   "city",
+   [
+    "baner",
+    "बाणेर"
+   ]
+  ],
+  [
+   "balewadi",
+   "Balewadi",
+   18.576,
+   73.779,
+   "city",
+   [
+    "balewadi",
+    "बालेवाडी"
+   ]
+  ],
+  [
+   "aundh",
+   "Aundh",
+   18.56,
+   73.808,
+   "city",
+   [
+    "chaturshringi",
+    "chatushrungi",
+    "चतुःशृंगी",
+    "चतु:शृंगी",
+    "चतुःश्रृंगी",
+    "aundh",
+    "औंध"
+   ]
+  ],
+  [
+   "khadki",
+   "Khadki",
+   18.564,
+   73.851,
+   "city",
+   [
+    "khadki",
+    "kirkee",
+    "खडकी"
+   ]
+  ],
+  [
+   "bopodi",
+   "Bopodi",
+   18.572,
+   73.833,
+   "city",
+   [
+    "bopodi",
+    "बोपोडी"
+   ]
+  ],
+  [
+   "swargate",
+   "Swargate",
+   18.501,
+   73.858,
+   "city",
+   [
+    "mukund nagar",
+    "mukundnagar",
+    "sarasbaug",
+    "मुकुंदनगर",
+    "सारसबाग",
+    "swargate",
+    "स्वारगेट"
+   ]
+  ],
+  [
+   "peth",
+   "Old city peths",
+   18.515,
+   73.856,
+   "city",
+   [
+    "खडक",
+    "खडक पोलिस",
+    "फरासखाना पोलिस",
+    "विश्रामबाग पोलिस",
+    "khadak",
+    "tulshibaug",
+    "tulsi baug",
+    "kasba",
+    "navi peth",
+    "shivajinagar gaothan",
+    "तुळशीबाग",
+    "नवी पेठ",
+    "कसबा",
+    "kasba peth",
+    "budhwar peth",
+    "shukrawar peth",
+    "raviwar peth",
+    "sadashiv peth",
+    "narayan peth",
+    "shaniwar peth",
+    "nana peth",
+    "bhavani peth",
+    "ganesh peth",
+    "somwar peth",
+    "mangalwar peth",
+    "rasta peth",
+    "ganj peth",
+    "guruwar peth",
+    "faraskhana",
+    "khadak police",
+    "vishrambaug",
+    "laxmi road",
+    "mandai",
+    "कसबा पेठ",
+    "बुधवार पेठ",
+    "शुक्रवार पेठ",
+    "रविवार पेठ",
+    "सदाशिव पेठ",
+    "नारायण पेठ",
+    "नाना पेठ",
+    "भवानी पेठ",
+    "गणेश पेठ",
+    "फरासखाना",
+    "खडक पोलीस",
+    "विश्रामबाग"
+   ]
+  ],
+  [
+   "station",
+   "Pune Station / Bund Garden",
+   18.529,
+   73.874,
+   "city",
+   [
+    "ghorpadi",
+    "tadiwala road",
+    "koregaon park police",
+    "घोरपडी",
+    "ताडीवाला",
+    "pune station",
+    "pune railway station",
+    "bund garden",
+    "bundgarden",
+    "sassoon",
+    "पुणे स्टेशन",
+    "बंडगार्डन",
+    "ससून"
+   ]
+  ],
+  [
+   "parvati",
+   "Parvati / Sahakarnagar",
+   18.49,
+   73.848,
+   "city",
+   [
+    "padmavati",
+    "taljai",
+    "पद्मावती",
+    "तळजाई",
+    "parvati",
+    "sahakarnagar",
+    "sahakar nagar",
+    "dattawadi",
+    "पर्वती",
+    "सहकारनगर",
+    "दत्तवाडी"
+   ]
+  ],
+  [
+   "bibwewadi",
+   "Bibwewadi",
+   18.469,
+   73.864,
+   "city",
+   [
+    "sukhsagar nagar",
+    "sukhsagarnagar",
+    "सुखसागरनगर",
+    "bibwewadi",
+    "bibvewadi",
+    "बिबवेवाडी"
+   ]
+  ],
+  [
+   "marketyard",
+   "Market Yard",
+   18.486,
+   73.868,
+   "city",
+   [
+    "salisbury park",
+    "maharshi nagar",
+    "maharshinagar",
+    "मार्केटयार्ड",
+    "सॅलिसबरी पार्क",
+    "महर्षीनगर",
+    "market yard",
+    "marketyard",
+    "gultekdi",
+    "मार्केट यार्ड",
+    "गुलटेकडी"
+   ]
+  ],
+  [
+   "dhankawadi",
+   "Dhankawadi",
+   18.464,
+   73.853,
+   "city",
+   [
+    "balaji nagar",
+    "balajinagar",
+    "बालाजीनगर",
+    "dhankawadi",
+    "धनकवडी"
+   ]
+  ],
+  [
+   "bharati",
+   "Bharati Vidyapeeth",
+   18.4575,
+   73.856,
+   "city",
+   [
+    "bharati vidyapeeth",
+    "भारती विद्यापीठ"
+   ]
+  ],
+  [
+   "katraj",
+   "Katraj",
+   18.4483,
+   73.8578,
+   "city",
+   [
+    "navale bridge",
+    "navale pul",
+    "jambhulwadi",
+    "katraj ghat",
+    "नवले पुल",
+    "नवले पूल",
+    "जांभूळवाडी",
+    "katraj",
+    "कात्रज"
+   ]
+  ],
+  [
+   "ambegaon",
+   "Ambegaon / Narhe",
+   18.448,
+   73.83,
+   "city",
+   [
+    "ambegaon budruk",
+    "ambegaon khurd",
+    "ambegaon pathar",
+    "आंबेगाव बुद्रुक",
+    "आंबेगाव खुर्द",
+    "आंबेगाव पठार",
+    "narhe",
+    "नऱ्हे"
+   ]
+  ],
+  [
+   "sinhgadroad",
+   "Sinhgad Road",
+   18.468,
+   73.82,
+   "city",
+   [
+    "kirkatwadi",
+    "manikbaug",
+    "vitthalwadi",
+    "hingne",
+    "sinhagad fort",
+    "सिंहगड घाट",
+    "किरकटवाडी",
+    "माणिकबाग",
+    "हिंगणे",
+    "sinhgad road",
+    "sinhagad road",
+    "vadgaon budruk",
+    "dhayari",
+    "anandnagar",
+    "nanded city",
+    "सिंहगड रस्ता",
+    "सिंहगड रोड",
+    "धायरी",
+    "वडगाव बुद्रुक"
+   ]
+  ],
+  [
+   "kondhwa",
+   "Kondhwa",
+   18.4636,
+   73.8927,
+   "city",
+   [
+    "kausar baug",
+    "kondhwa budruk",
+    "kondhwa khurd",
+    "कौसरबाग",
+    "kondhwa",
+    "yewalewadi",
+    "कोंढवा",
+    "कोंढव्या",
+    "येवलेवाडी"
+   ]
+  ],
+  [
+   "nibm",
+   "NIBM / Undri",
+   18.456,
+   73.901,
+   "city",
+   [
+    "nibm",
+    "undri",
+    "pisoli",
+    "mohammadwadi",
+    "mohammedwadi",
+    "उंड्री"
+   ]
+  ],
+  [
+   "wanowrie",
+   "Wanowrie",
+   18.486,
+   73.899,
+   "city",
+   [
+    "lullanagar",
+    "fatima nagar",
+    "fatimanagar",
+    "लुल्लानगर",
+    "फातिमानगर",
+    "wanowrie",
+    "wanawadi",
+    "wanwadi",
+    "वानवडी"
+   ]
+  ],
+  [
+   "hadapsar",
+   "Hadapsar",
+   18.5089,
+   73.926,
+   "city",
+   [
+    "kalepadal",
+    "kale padal",
+    "amanora",
+    "gadital",
+    "sasane nagar",
+    "काळेपडळ",
+    "गाडीतळ",
+    "ससाणेनगर",
+    "hadapsar",
+    "magarpatta",
+    "हडपसर",
+    "मगरपट्टा"
+   ]
+  ],
+  [
+   "manjri",
+   "Manjri / Fursungi",
+   18.49,
+   73.97,
+   "city",
+   [
+    "shewalewadi",
+    "शेवाळेवाडी",
+    "manjri",
+    "fursungi",
+    "uruli devachi",
+    "मांजरी बुद्रुक",
+    "मांजरी खुर्द",
+    "मांजरी परिसर",
+    "फुरसुंगी"
+   ]
+  ],
+  [
+   "lonikalbhor",
+   "Loni Kalbhor",
+   18.485,
+   74.025,
+   "city",
+   [
+    "theur",
+    "kadamwakvasti",
+    "kadamwak vasti",
+    "kunjirwadi",
+    "sortapwadi",
+    "थेऊर",
+    "कदमवाकवस्ती",
+    "कुंजीरवाडी",
+    "सोरतापवाडी",
+    "उरुळी कांचन",
+    "loni kalbhor",
+    "loni-kalbhor",
+    "uruli kanchan",
+    "लोणी काळभोर",
+    "उरुळी कांचन"
+   ]
+  ],
+  [
+   "uttamnagar",
+   "Uttamnagar / Shivane",
+   18.464,
+   73.77,
+   "city",
+   [
+    "uttamnagar",
+    "uttam nagar",
+    "shivane",
+    "khadakwasla",
+    "उत्तमनगर",
+    "शिवणे",
+    "खडकवासला",
+    "खडकवासल्या"
+   ]
+  ],
+  [
+   "sus",
+   "Sus / Mahalunge",
+   18.56,
+   73.75,
+   "city",
+   [
+    "sus road",
+    "sus gaon",
+    "mhalunge",
+    "म्हाळुंगे"
+   ]
+  ],
+  [
+   "pimpri",
+   "Pimpri",
+   18.6298,
+   73.7997,
+   "pcmc",
+   [
+    "kasarwadi",
+    "nehrunagar",
+    "nehru nagar",
+    "dapodi",
+    "कासारवाडी",
+    "नेहरूनगर",
+    "दापोडी",
+    "pimpri",
+    "पिंपरी"
+   ]
+  ],
+  [
+   "chinchwad",
+   "Chinchwad",
+   18.628,
+   73.782,
+   "pcmc",
+   [
+    "chinchwad",
+    "चिंचवड"
+   ]
+  ],
+  [
+   "nigdi",
+   "Nigdi / Akurdi",
+   18.652,
+   73.77,
+   "pcmc",
+   [
+    "nigdi",
+    "akurdi",
+    "pradhikaran",
+    "निगडी",
+    "आकुर्डी"
+   ]
+  ],
+  [
+   "bhosari",
+   "Bhosari",
+   18.626,
+   73.85,
+   "pcmc",
+   [
+    "bhosari",
+    "भोसरी"
+   ]
+  ],
+  [
+   "hinjewadi",
+   "Hinjewadi",
+   18.5913,
+   73.7389,
+   "pcmc",
+   [
+    "marunji",
+    "maan",
+    "मारुंजी",
+    "hinjewadi",
+    "hinjawadi",
+    "हिंजवडी",
+    "हिंजेवाडी",
+    "rajiv gandhi infotech park",
+    "infotech park",
+    "blue ridge",
+    "megapolis",
+    "kasarsai",
+    "कासारसाई",
+    "jambe",
+    "जांभे"
+   ]
+  ],
+  [
+   "wakad",
+   "Wakad",
+   18.599,
+   73.762,
+   "pcmc",
+   [
+    "tathawade",
+    "punawale",
+    "ताथवडे",
+    "पुनावळे",
+    "wakad",
+    "वाकड"
+   ]
+  ],
+  [
+   "pimplesaudagar",
+   "Pimple Saudagar / Sangvi",
+   18.595,
+   73.8,
+   "pcmc",
+   [
+    "pimple saudagar",
+    "pimple gurav",
+    "pimple nilakh",
+    "sangvi",
+    "पिंपळे सौदागर",
+    "पिंपळे गुरव",
+    "सांगवी"
+   ]
+  ],
+  [
+   "kalewadi",
+   "Kalewadi / Thergaon",
+   18.61,
+   73.775,
+   "pcmc",
+   [
+    "kalewadi",
+    "thergaon",
+    "rahatani",
+    "काळेवाडी",
+    "थेरगाव",
+    "रहाटणी"
+   ]
+  ],
+  [
+   "ravet",
+   "Ravet / Dehu Road",
+   18.648,
+   73.74,
+   "pcmc",
+   [
+    "dehu",
+    "देहू",
+    "ravet",
+    "dehu road",
+    "dehuroad",
+    "kiwale",
+    "punawale",
+    "रावेत",
+    "देहूरोड"
+   ]
+  ],
+  [
+   "chikhali",
+   "Chikhali / Moshi",
+   18.67,
+   73.83,
+   "pcmc",
+   [
+    "talawade",
+    "तळवडे",
+    "chikhali",
+    "chikhli",
+    "moshi",
+    "चिखली",
+    "मोशी"
+   ]
+  ],
+  [
+   "dighi",
+   "Dighi / Alandi",
+   18.62,
+   73.875,
+   "pcmc",
+   [
+    "charholi",
+    "चऱ्होली",
+    "dighi",
+    "alandi",
+    "दिघी",
+    "आळंदी"
+   ]
+  ],
+  [
+   "chakan",
+   "Chakan",
+   18.76,
+   73.863,
+   "pcmc",
+   [
+    "chakan",
+    "mahalunge",
+    "nighoje",
+    "चाकण"
+   ]
+  ],
+  [
+   "talegaon",
+   "Talegaon Dabhade",
+   18.735,
+   73.676,
+   "pcmc",
+   [
+    "talegaon",
+    "तळेगाव"
+   ]
+  ],
+  [
+   "lonavala",
+   "Lonavala / Maval",
+   18.754,
+   73.406,
+   "rural",
+   [
+    "khandala",
+    "lohagad",
+    "lohgad",
+    "maval",
+    "खंडाळा",
+    "लोहगड",
+    "मावळ",
+    "lonavala",
+    "lonavla",
+    "kamshet",
+    "vadgaon maval",
+    "लोणावळा",
+    "लोणावळ्या",
+    "कामशेत"
+   ]
+  ],
+  [
+   "shikrapur",
+   "Shikrapur / Ranjangaon",
+   18.693,
+   74.138,
+   "rural",
+   [
+    "koregaon bhima",
+    "sanaswadi",
+    "pabal",
+    "talegaon dhamdhere",
+    "कोरेगाव भीमा",
+    "सणसवाडी",
+    "पाबळ",
+    "तळेगाव ढमढेरे",
+    "shikrapur",
+    "ranjangaon",
+    "शिक्रापूर",
+    "रांजणगाव"
+   ]
+  ],
+  [
+   "shirur",
+   "Shirur",
+   18.827,
+   74.373,
+   "rural",
+   [
+    "karegaon",
+    "mandavgan",
+    "कारेगाव",
+    "मांडवगण",
+    "shirur",
+    "nhavare",
+    "शिरूर",
+    "शिरुर",
+    "न्हावरे"
+   ]
+  ],
+  [
+   "khed",
+   "Rajgurunagar / Khed",
+   18.854,
+   73.888,
+   "rural",
+   [
+    "kadus",
+    "dawadi",
+    "कडूस",
+    "दावडी",
+    "खेड तालुक",
+    "rajgurunagar",
+    "khed taluka",
+    "khed police",
+    "राजगुरुनगर",
+    "राजगुरूनगर"
+   ]
+  ],
+  [
+   "junnar",
+   "Junnar / Ambegaon taluka",
+   19.2,
+   73.875,
+   "rural",
+   [
+    "ghodegaon",
+    "nirgudsar",
+    "ambegaon taluka",
+    "घोडेगाव",
+    "निरगुडसर",
+    "आंबेगाव तालुक",
+    "आंबेगाव",
+    "ambegaon",
+    "पिंपळवंडी",
+    "junnar",
+    "narayangaon",
+    "manchar",
+    "otur",
+    "alephata",
+    "ale phata",
+    "जुन्नर",
+    "नारायणगाव",
+    "मंचर",
+    "ओतूर",
+    "आळेफाटा"
+   ]
+  ],
+  [
+   "mulshi",
+   "Mulshi / Pirangut",
+   18.51,
+   73.68,
+   "rural",
+   [
+    "lavale",
+    "lavasa",
+    "लवळे",
+    "ताम्हिणी",
+    "mulshi",
+    "pirangut",
+    "paud",
+    "मुळशी",
+    "पिरंगुट",
+    "पौड"
+   ]
+  ],
+  [
+   "bhor",
+   "Bhor",
+   18.153,
+   73.845,
+   "rural",
+   [
+    "khed shivapur",
+    "nasrapur",
+    "खेड शिवापूर",
+    "नसरापूर",
+    "bhor",
+    "भोर तालुक",
+    "भोर पोलीस",
+    "भोर पोलिस",
+    "भोरमध्ये",
+    "भोर येथे"
+   ]
+  ],
+  [
+   "velhe",
+   "Velhe / Rajgad",
+   18.295,
+   73.64,
+   "rural",
+   [
+    "panshet",
+    "पानशेत",
+    "velhe",
+    "rajgad",
+    "torna",
+    "pabe ghat",
+    "वेल्हे",
+    "राजगड",
+    "तोरणा",
+    "पाबे घाट"
+   ]
+  ],
+  [
+   "baramati",
+   "Baramati",
+   18.152,
+   74.577,
+   "rural",
+   [
+    "malegaon budruk",
+    "माळेगाव बुद्रुक",
+    "supe",
+    "morgaon",
+    "vadgaon nimbalkar",
+    "wadgaon nimbalkar",
+    "pandare",
+    "सुपे",
+    "मोरगाव",
+    "वडगाव निंबाळकर",
+    "पणदरे",
+    "शेरेवाडी",
+    "baramati",
+    "बारामती"
+   ]
+  ],
+  [
+   "indapur",
+   "Indapur",
+   18.115,
+   75.023,
+   "rural",
+   [
+    "bhigwan",
+    "walchandnagar",
+    "nimgaon ketki",
+    "nimgaon ketaki",
+    "भिगवण",
+    "वालचंदनगर",
+    "निमगाव केतकी",
+    "indapur",
+    "इंदापूर"
+   ]
+  ],
+  [
+   "daund",
+   "Daund",
+   18.463,
+   74.582,
+   "rural",
+   [
+    "yavat",
+    "patas",
+    "kedgaon",
+    "kurkumbh",
+    "यवत",
+    "पाटस",
+    "केडगाव",
+    "कुरकुंभ",
+    "daund",
+    "दौंड"
+   ]
+  ],
+  [
+   "saswad",
+   "Saswad / Jejuri",
+   18.345,
+   74.03,
+   "rural",
+   [
+    "nira",
+    "नीरा",
+    "saswad",
+    "jejuri",
+    "purandar",
+    "सासवड",
+    "जेजुरी",
+    "पुरंदर"
+   ]
+  ]
+ ],
+ "cats": [
+  {
+   "id": "murder",
+   "name": "Murder"
+  },
+  {
+   "id": "women",
+   "name": "Crimes against women & children"
+  },
+  {
+   "id": "kidnap",
+   "name": "Kidnapping"
+  },
+  {
+   "id": "extortion",
+   "name": "Extortion & blackmail"
+  },
+  {
+   "id": "robbery",
+   "name": "Robbery & snatching"
+  },
+  {
+   "id": "burglary",
+   "name": "Burglary"
+  },
+  {
+   "id": "drugs",
+   "name": "Drugs"
+  },
+  {
+   "id": "cyber",
+   "name": "Cyber & fraud"
+  },
+  {
+   "id": "violence",
+   "name": "Assault & weapons"
+  },
+  {
+   "id": "theft",
+   "name": "Theft"
+  },
+  {
+   "id": "accident",
+   "name": "Road accident"
+  },
+  {
+   "id": "fire",
+   "name": "Fire"
+  }
+ ],
+ "feeds": [
+  {
+   "id": "ie",
+   "name": "Indian Express",
+   "url": "https://indianexpress.com/section/cities/pune/feed/",
+   "pune": true
+  },
+  {
+   "id": "ht",
+   "name": "Hindustan Times",
+   "url": "https://www.hindustantimes.com/feeds/rss/cities/pune-news/rssfeed.xml",
+   "pune": true
+  },
+  {
+   "id": "toi",
+   "name": "Times of India",
+   "url": "https://timesofindia.indiatimes.com/rssfeeds/-2128821991.cms",
+   "pune": true
+  },
+  {
+   "id": "ptm",
+   "name": "Pune Times Mirror",
+   "url": "https://punemirror.com/feed",
+   "pune": true
+  },
+  {
+   "id": "pkn",
+   "name": "Punekar News",
+   "url": "https://www.punekarnews.in/feed/",
+   "pune": true
+  },
+  {
+   "id": "ppl",
+   "name": "Pune Pulse",
+   "url": "https://www.mypunepulse.com/feed/",
+   "pune": true
+  },
+  {
+   "id": "pcl",
+   "name": "Pune City Live",
+   "url": "https://punecitylive.in/feed/",
+   "pune": true
+  },
+  {
+   "id": "fpj",
+   "name": "Free Press Journal",
+   "url": "https://www.freepressjournal.in/stories.rss?section=pune",
+   "pune": false
+  },
+  {
+   "id": "tv9",
+   "name": "TV9 Marathi",
+   "url": "https://www.tv9marathi.com/maharashtra/pune/feed",
+   "pune": true
+  },
+  {
+   "id": "abp",
+   "name": "ABP Majha",
+   "url": "https://marathi.abplive.com/news/pune/feed",
+   "pune": true
+  },
+  {
+   "id": "prb",
+   "name": "Dainik Prabhat",
+   "url": "https://www.dainikprabhat.com/feed/",
+   "pune": false
+  },
+  {
+   "id": "lks",
+   "name": "Loksatta",
+   "url": "https://www.loksatta.com/news-sitemap.xml",
+   "kind": "newsmap",
+   "path": [
+    "loksatta\\.com\\/(pune|pimpri-chinchwad)\\/",
+    "i"
+   ]
+  },
+  {
+   "id": "pud",
+   "name": "Pudhari",
+   "url": "https://pudhari.news/news_sitemap.xml",
+   "kind": "newsmap",
+   "path": [
+    "pudhari\\.news\\/(maharashtra\\/pune|pimpri-chinchwad)\\/",
+    "i"
+   ]
+  },
+  {
+   "id": "lkm",
+   "name": "Lokmat",
+   "url": "https://www.lokmat.com/sitemap.xml",
+   "kind": "urlmap",
+   "path": [
+    "lokmat\\.com\\/(pune|pimpri-chinchwad)\\/",
+    "i"
+   ]
+  },
+  {
+   "id": "skl",
+   "name": "Sakal",
+   "url": "https://www.esakal.com/sitemap/sitemap-daily-{date}.xml",
+   "kind": "urlmap",
+   "daily": true,
+   "path": [
+    "esakal\\.com\\/(pune|pimpri-chinchwad)\\/",
+    "i"
+   ]
+  }
+ ],
+ "unit": [
+  [
+   [
+    "^(lakh|lac|लाख)",
+    ""
+   ],
+   "L"
+  ],
+  [
+   [
+    "^(crore|cr|कोटी)",
+    ""
+   ],
+   "C"
+  ],
+  [
+   [
+    "^(thousand|हजार)",
+    ""
+   ],
+   "K"
+  ],
+  [
+   [
+    "^(tola|तोळ)",
+    ""
+   ],
+   "T"
+  ]
+ ]
+}

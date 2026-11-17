@@ -1,0 +1,702 @@
+"""VIDRAKSH Live: how a news report is judged. Runs on GitHub Actions.
+
+Stores headline + link only; article text is read for sorting and then discarded.
+All word lists and patterns live in rules.json, so a rule change is a data change. Patterns are matched the way
+the original JavaScript engine matched them: \\b, \\w, \\d and \\s are ASCII-only (re.ASCII) and text is normalised
+to single spaces first, so Marathi letters never count as "word" characters.
+"""
+import json
+import re
+from datetime import datetime, timezone, date, timedelta
+from email.utils import parsedate_to_datetime
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+R = json.loads(Path(__file__).with_name('rules.json').read_text('utf-8'))
+D = R['data']
+
+
+def rx(pair):
+    src, flags = pair
+    return re.compile(src, re.A | (re.I if 'i' in flags else 0))
+
+
+X = {k: rx(v) for k, v in R['regex'].items()}
+FIGURATIVE, NOISE, REACTION, FOLLOW = X['FIGURATIVE'], X['NOISE'], X['REACTION'], X['FOLLOW']
+CONTEXT, EVENT, ROAD, ROADS = X['CONTEXT'], X['EVENT'], X['ROAD'], X['ROADS']
+ELSEWHERE, HAPPENED_ELSEWHERE, PUNE, IN_PUNE = X['ELSEWHERE'], X['HAPPENED_ELSEWHERE'], X['PUNE'], X['IN_PUNE']
+CRIME_WORDS, PUNE_TALUKA, OTHER_MR_RE, PUNE_DATELINE = X['CRIME_WORDS'], X['PUNE_TALUKA'], X['OTHER_MR_RE'], X['PUNE_DATELINE']
+LIVES, AT, AT_MR, BAND_NEAR, OLD = X['LIVES'], X['AT'], X['AT_MR'], X['BAND_NEAR'], X['OLD']
+RULES = [(cid, rx(p), rx(g) if g else None) for cid, p, g in R['rules']]
+UNIT = [(rx(p), u) for p, u in R['unit']]
+SEVERITY = D['SEVERITY']
+FAMILY = D['FAMILY']
+DEV = D['DEV']
+MR_END = D['MR_END']
+RULES_VERSION = R['version']
+CATS = R['cats']
+AREAS = [dict(id=a[0], name=a[1], lat=a[2], lon=a[3], r=a[4], alias=a[5]) for a in R['areas']]
+AREA = {a['id']: a for a in AREAS}
+FEEDS = [dict(f, path=rx(f['path']) if f.get('path') else None) for f in R['feeds']]
+
+A = re.A
+I = re.I | re.A
+WS = r'[\s﻿]'          # JavaScript's \s also covers the byte-order mark
+
+
+# ------------------------------------------------------------------ text helpers
+
+def decode(s):
+    s = str(s or '')
+    s = re.sub(r'<!\[CDATA\[([\s\S]*?)\]\]>', r'\1', s)
+
+    def cp(m, base):
+        try:
+            return chr(int(m.group(1), base))
+        except (ValueError, OverflowError):
+            return m.group(0)
+    s = re.sub(r'&#x([0-9a-f]+);', lambda m: cp(m, 16), s, flags=re.I)
+    s = re.sub(r'&#(\d+);', lambda m: cp(m, 10), s, flags=A)
+    return re.sub(r'&([a-z]+);', lambda m: D['ENT'].get(m.group(1).lower(), m.group(0)), s, flags=re.I)
+
+
+def strip(s):
+    s = decode(decode(s))
+    s = re.sub(r'<(script|style)[\s\S]*?</\1>', ' ', s, flags=re.I)
+    s = re.sub(r'<[^>]+>', ' ', s)
+    return re.sub(WS + '+', ' ', s).strip(' \t\n\r\f\v ﻿  ')
+
+
+def tag(block, name):
+    m = re.search('<' + name + r'(?:\s[^>]*)?>([\s\S]*?)</' + name + '>', block, re.I)
+    return m.group(1) if m else ''
+
+
+_DIG = str.maketrans('०१२३४५६७८९', '0123456789')
+
+
+def to_ascii(s):
+    return str(s).translate(_DIG)
+
+
+def norm(s):
+    return FIGURATIVE.sub(' ', str(s))
+
+
+def esc(s):
+    return re.sub(r'[.*+?^${}()|\[\]\\]', lambda m: '\\' + m.group(0), s)
+
+
+# ------------------------------------------------------------------ dates
+
+DAY = 86400000
+IST = 19800000
+
+
+def parse_date(s):
+    """Like JavaScript's new Date(s): RFC 822 or ISO 8601. Returns aware UTC datetime or None."""
+    if isinstance(s, datetime):
+        return s if s.tzinfo else s.replace(tzinfo=timezone.utc)
+    s = str(s or '').strip()
+    if not s:
+        return None
+    try:
+        d = datetime.fromisoformat(s.replace('Z', '+00:00'))
+        return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+    except ValueError:
+        pass
+    try:
+        d = parsedate_to_datetime(s)
+        return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError, IndexError):
+        return None
+
+
+def ms(d):
+    return int(parse_date(d).timestamp() * 1000)
+
+
+def iso(d):
+    d = parse_date(d).astimezone(timezone.utc)
+    return d.strftime('%Y-%m-%dT%H:%M:%S.') + '%03dZ' % (d.microsecond // 1000)
+
+
+def day_of(t):                       # calendar day in India, as a number of days since 1970-01-01
+    return (ms(t) + IST) // DAY
+
+
+def day_str(n):
+    return (date(1970, 1, 1) + timedelta(days=n)).isoformat()
+
+
+def utc_day(y, m0, d):               # Date.UTC(y, m0, d) / DAY, with JavaScript's month and day overflow
+    y += m0 // 12
+    m0 %= 12
+    return (date(y, m0 + 1, 1) - date(1970, 1, 1)).days + d - 1
+
+
+def band(h):
+    return 'morning' if 6 <= h < 12 else 'afternoon' if 12 <= h < 17 else 'evening' if 17 <= h < 21 else 'night'
+
+
+# ------------------------------------------------------------------ feeds and pages
+
+def parse_feed(xml):
+    out = []
+    for m in re.finditer(r'<item[\s>][\s\S]*?</item>', str(xml), re.I):
+        b = m.group(0)
+        title = strip(tag(b, 'title'))
+        link = strip(tag(b, 'link')) or strip(tag(b, 'guid'))
+        d = parse_date(strip(tag(b, 'pubDate')))
+        if not title or not re.match(r'https?://', link) or not d:
+            continue
+        text = strip(tag(b, 'description')) + ' ' + strip(tag(b, 'content:encoded'))
+        out.append(dict(title=title, link=link.split('#')[0].split('?')[0], date=d, text=text))
+    return out
+
+
+def parse_sitemap(xml):
+    out = []
+    for m in re.finditer(r'<url>[\s\S]*?</url>', str(xml), re.I):
+        b = m.group(0)
+        link = strip(tag(b, 'loc'))
+        if not re.match(r'https?://', link):
+            continue
+        d = parse_date(strip(tag(b, 'news:publication_date')) or strip(tag(b, 'lastmod')))
+        out.append(dict(title=strip(tag(b, 'news:title')), link=link.split('#')[0].split('?')[0], date=d, text=''))
+    return out
+
+
+def slug_title(url):
+    """The English words in an article address: ".../pune/four-accused-arrested-for-theft-pjp78" -> "four accused arrested for theft"."""
+    u = re.sub(r'/+$', '', str(url))
+    u = re.sub(r'/articleshow/\d+\.cms$', '', u, flags=I)
+    u = re.sub(r'\.(cms|html?)$', '', u, flags=I)
+    words = [w for w in unquote(u.split('/')[-1]).split('-') if w]
+    while words and re.match(r'^(([a-z]{0,4}\d+[a-z]*)|\d+|txt|print|news)$', words[-1], I):
+        words.pop()
+    return ' '.join(words)
+
+
+def meta_of(html, key):
+    h = str(html)
+    m = (re.search('<meta[^>]+(?:property|name)=["\']' + key + '["\'][^>]*content=["\']([^"\']*)["\']', h, re.I)
+         or re.search('<meta[^>]+content=["\']([^"\']*)["\'][^>]+(?:property|name)=["\']' + key + '["\']', h, re.I))
+    return m.group(1) if m else ''
+
+
+def page_head(html):
+    title = strip(meta_of(html, 'og:title')) or strip(tag(str(html), 'title'))
+    title = re.sub(r'\s*[|\-–]\s*(Sakal|eSakal|Lokmat|Lokmat\.com|Loksatta|Pudhari|Latest Marathi News[^|]*|Marathi News[^|]*)\s*$', '', title, flags=I).strip()
+    m = re.search(r'"datePublished"\s*:\s*"([^"]+)"', str(html))
+    return dict(title=title, date=parse_date(meta_of(html, 'article:published_time') or (m.group(1) if m else '')))
+
+
+def page_text(html):
+    """Readable paragraph text of an article page (read once to find type, place and time; never stored)."""
+    h = str(html)
+    body = re.sub(r'<(script|style|noscript|header|footer|nav|aside)[\s\S]*?</\1>', ' ', h, flags=re.I)
+    meta = meta_of(h, 'description') or meta_of(h, 'og:description')
+    m = re.search(r'"articleBody"\s*:\s*"((?:[^"\\]|\\.)*)"', h)
+    ld = m.group(1) if m else ''
+    paras = ' '.join(p for p in (strip(x.group(0)) for x in re.finditer(r'<p[\s>][\s\S]*?</p>', body, re.I)) if len(p) > 60)
+    ld = re.sub(r'\\[nrt]', ' ', ld).replace('\\"', '"')
+    return (strip(meta) + ' . ' + strip(ld) + ' . ' + paras)[:4000]
+
+
+def marathi_lead(text):
+    """On Marathi sites the opening English lines are a machine-written summary. Start at the Marathi text."""
+    m = re.search('[ऀ-ॿ]', text)
+    if not m or m.start() > 900:
+        return text
+    return re.sub(r"[A-Za-z][A-Za-z0-9 ,.'’:;₹()/-]{24,}", ' ', text[m.start():])
+
+
+def section_of(u):
+    try:
+        parts = [p for p in unquote(urlparse(u).path).split('/') if p]
+        return ' '.join(parts[:-1]).replace('-', ' ')
+    except ValueError:
+        return ''
+
+
+def filed_elsewhere(u):
+    return bool(ELSEWHERE.search(section_of(u)))
+
+
+def pick(s):
+    for cid, pat, guard in RULES:
+        if pat.search(s) and not (guard and guard.search(s)):
+            return cid
+    return None
+
+
+# ------------------------------------------------------------------ type and place
+
+def classify(title, text=''):
+    """A type id, or None when the item is not a report of an incident."""
+    if NOISE.search(title) or REACTION.search(title):
+        return None
+    t = norm(title)
+    c = pick(t)
+    if c:
+        return c
+    for _, pat, guard in RULES:         # a guard that fires on the headline rules the item out
+        if guard and pat.search(t) and guard.search(t):
+            return None
+    s = norm(text[:300])
+    if not s.strip() or not CONTEXT.search(t + ' ' + s):
+        return None
+    return pick(s)
+
+
+def text_elsewhere(text, index):
+    s = ROADS.sub(' ', str(text)[:450])
+    if not index:
+        return bool(HAPPENED_ELSEWHERE.search(s[:220]))
+    m = re.search(r'\(\s*(?:ता|जि)\.\s*([^\s)\d०-९]+)', s, A)
+    if m and not PUNE_TALUKA.search(m.group(1)):
+        return True
+    m = re.search(r'^[^ऀ-ॿ]{0,12}([ऀ-ॿ]+(?:\s[ऀ-ॿ]+)?)\s*,\s*ता\.\s*[\d०-९]', s, A)
+    return bool(m and OTHER_MR_RE.search(m.group(1)))
+
+
+def in_pune(title, text='', index=False):
+    """False when the headline places the incident outside Pune district."""
+    t = ROADS.sub(' ', title)
+    if HAPPENED_ELSEWHERE.search(t):
+        return False
+    if ELSEWHERE.search(t) and not IN_PUNE.search(t):
+        return False
+    if not IN_PUNE.search(t) and not locate(title) and text_elsewhere(text, index):
+        return False
+    return True
+
+
+_AREA_RE = None
+
+
+def area_res():
+    global _AREA_RE
+    if _AREA_RE is None:
+        out = []
+        for a in AREAS:
+            alts = []
+            for x in a['alias']:
+                if re.search('[a-z]', x, re.I):
+                    alts.append('(?:^|[^a-z])(' + esc(x).replace(' ', '[ -]?') + ')(?![a-z])')
+                else:
+                    alts.append('(?:^|[^' + DEV + '])(' + esc(x) + ')' + MR_END)
+            out.append((a, re.compile('|'.join(alts), I)))
+        _AREA_RE = out
+    return _AREA_RE
+
+
+def clean_place(s):
+    return re.sub(r'pimpri[- ]chinchwad|पिंपरी[- ]चिंचवड', ' ', s, flags=I)
+
+
+def locate(title, text=''):
+    """Area of the incident. The headline wins. In the article body a place counts only when the wording ties it
+    to the incident ("in Kothrud", "Kothrud police", "कोथरूडमध्ये"), never when it is where someone lives."""
+    t = clean_place(title)
+    best, pos = None, float('inf')
+    for a, pat in area_res():
+        m = pat.search(t)
+        if m and m.start() < pos:
+            pos, best = m.start(), a
+    if best:
+        return best['id']
+    body = clean_place(text[:2500])
+    score = 0
+    for a, pat in area_res():
+        for m in pat.finditer(body):
+            name = next((g for g in m.groups() if g), '')
+            start = m.start() + m.group(0).find(name)
+            end = start + len(name)
+            before, after = body[max(0, start - 28):start], body[end:end + 24]
+            if LIVES.search(before):
+                continue
+            if (re.search(r'^\S{0,6}\s*(police|पोलीस|पोलिस)', after, I) or re.search(r'^\s*,\s*ता\.', after, A)
+                    or re.search(r'\(\s*ता\.\s*$', before, A)):
+                s = 3
+            elif AT.search(before) or AT_MR.search(after):
+                s = 2
+            else:
+                s = 1
+            s += 0.5 if re.search('[ऀ-ॿ]', name) else 0
+            if s >= 2 and (s > score or (s == score and start < pos)):
+                score, pos, best = s, start, a
+    return best['id'] if best else None
+
+
+# ------------------------------------------------------------------ when it happened
+
+def when_of(title, text=''):
+    """Clock time or part of day stated in the report: {h, b}, both None when the report does not say."""
+    s = to_ascii(title + ' . ' + text[:1200])
+    m = re.search(r'\b(\d{1,2})(?:[:.](\d{2}))?\s*(a\.?m\.?|p\.?m\.?)(?![a-z])', s, I)
+    if m and 1 <= int(m.group(1)) <= 12:
+        h = int(m.group(1)) % 12
+        if re.match('p', m.group(3), re.I):
+            h += 12
+        return dict(h=h, b=band(h))
+    mr = re.search(r'(पहाटे|सकाळी|दुपारी|सायंकाळी|संध्याकाळी|रात्री|मध्यरात्री)\s*(?:साडे|सव्वा|पावणे)?\s*(\d{1,2}|एक|दोन|तीन|चार|पाच|सहा|सात|आठ|नऊ|दहा|अकरा|बारा)\s*(?:च्या सुमारास|च्या दरम्यान|वाजता|वाजण्याच्या|वाजले)', s, A)
+    if mr:
+        n, p = D['MR_NUM'].get(mr.group(2)) or int(mr.group(2)), mr.group(1)
+        if 1 <= n <= 12:
+            h = n % 12
+            if p in ('दुपारी', 'सायंकाळी', 'संध्याकाळी'):
+                h += 12
+            elif p in ('रात्री', 'मध्यरात्री') and 6 <= n <= 11:
+                h += 12
+            return dict(h=h, b=band(h))
+    if re.search(r'\b(night|midnight|wee hours|early hours|overnight)\b|मध्यरात्री|रात्री|पहाटे', s, I):
+        return dict(h=None, b='night')
+    if re.search(r'\b(evening)\b|सायंकाळी|संध्याकाळी', s, I):
+        return dict(h=None, b='evening')
+    if re.search(r'\b(afternoon|noon|broad daylight)\b|दुपारी|दिवसाढवळ्या|भरदिवसा', s, I):
+        return dict(h=None, b='afternoon')
+    if re.search(r'\b(morning)\b|सकाळी', s, I):
+        return dict(h=None, b='morning')
+    return dict(h=None, b=None)
+
+
+WD_EN, WD_MR, MON_EN, MON_MR = D['WD_EN'], D['WD_MR'], D['MON_EN'], D['MON_MR']
+MON_EN_RE, MR_DAY, MR_DAY_N, BAND_OF = D['MON_EN_RE'], D['MR_DAY'], D['MR_DAY_N'], D['BAND_OF']
+RE_WD_EN = re.compile(r'\b(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\b', I)
+RE_WD_MR = re.compile(r'(रविवार|सोमवार|मंगळवार|बुधवार|गुरुवार|शुक्रवार|शनिवार)(?:ी|च्या)?(?:\s*\(\s*ता\.?\s*(\d{1,2})\s*\))?', A)
+RE_TA = re.compile(r'\(\s*ता\.?\s*(\d{1,2})\s*\)', A)
+RE_MD_EN = re.compile(r'\b(\d{1,2})(?:st|nd|rd|th)?\s+' + MON_EN_RE + r'\b\.?(?:,?\s+(20\d\d))?|\b' + MON_EN_RE + r'\b\.?\s+(\d{1,2})(?:st|nd|rd|th)?\b(?:,?\s+(20\d\d))?', I)
+RE_MD_MR = re.compile('(\\d{1,2}|' + '|'.join(MR_DAY) + ')\\s*(' + '|'.join(MON_MR) + ')(?:ला|मध्ये|च्या|पासून)?(?:\\s*रोजी)?(?![' + DEV + '])', A)
+RE_YEST = re.compile(r'\b(yesterday|last night)\b|(?:^|[^' + DEV + r'])(काल)(?![' + DEV + '])', I)
+RE_TODAY = re.compile(r'\b(today|this (?:morning|afternoon|evening))\b|(?:^|[^' + DEV + r'])(आज)(?![' + DEV + '])', I)
+
+
+def when_happened(title, text, pub, follow=False):
+    """The day the incident happened, as the article states it. The earliest day named within the window wins.
+    Returns {day, stated, old, band}."""
+    s = to_ascii(title + ' . ' + str(text)[:1500])
+    P = day_of(pub)
+    pd = date(1970, 1, 1) + timedelta(days=P)
+    Y, M, dow, pdom = pd.year, pd.month - 1, (pd.weekday() + 1) % 7, pd.day
+    cands = []
+
+    def add(day, idx, end):
+        if day is None:
+            return
+        m = BAND_NEAR.search(s[end:end + 30])
+        cands.append(dict(day=day, idx=idx, band=BAND_OF.get(m.group(1).lower()) if m else None))
+
+    def dom_day(dom):
+        if dom <= pdom + 1:
+            return utc_day(Y, M, dom)
+        return utc_day(Y, M - 1, dom) if pdom <= 7 and dom >= 22 else None
+
+    def md_day(mon, dom, yr):
+        d = utc_day(yr or Y, mon, dom)
+        if yr or d <= P + 1:
+            return d
+        return utc_day(Y - 1, mon, dom) if d - P > 300 else None
+
+    for m in RE_WD_EN.finditer(s):
+        add(P - ((dow - WD_EN.index(m.group(1).lower()) + 7) % 7), m.start(), m.end())
+    for m in RE_WD_MR.finditer(s):
+        add(dom_day(int(m.group(2))) if m.group(2) else P - ((dow - WD_MR.index(m.group(1)) + 7) % 7), m.start(), m.end())
+    for m in RE_TA.finditer(s):
+        if 1 <= int(m.group(1)) <= 31:
+            add(dom_day(int(m.group(1))), m.start(), m.end())
+    for m in RE_MD_EN.finditer(s):
+        dom = int(m.group(1) or m.group(5))
+        mon = MON_EN.index((m.group(2) or m.group(4))[:3].lower()) if (m.group(2) or m.group(4))[:3].lower() in MON_EN else -1
+        yr = int(m.group(3) or m.group(6) or 0)
+        if 1 <= dom <= 31 and mon >= 0:
+            add(md_day(mon, dom, yr), m.start(), m.end())
+    for m in RE_MD_MR.finditer(s):
+        dom = MR_DAY_N.get(m.group(1)) or int(m.group(1))
+        if 1 <= dom <= 31:
+            add(md_day(MON_MR.index(m.group(2)), dom, 0), m.start(), m.end())
+    for m in RE_YEST.finditer(s):
+        add(P - 1, m.start(), m.end())
+        if re.search('last night', m.group(0), re.I):
+            cands[-1]['band'] = 'night'
+    for m in RE_TODAY.finditer(s):
+        add(P, m.start(), m.end())
+
+    span = 60 if follow else 30
+    ok = sorted((c for c in cands if P - span <= c['day'] <= P), key=lambda c: (c['day'], c['idx']))
+    if ok:
+        return dict(day=day_str(ok[0]['day']), stated=True, old=False, band=ok[0]['band'])
+    old_year = any(1990 < int(y) < Y for y in re.findall(r'\b(?:19|20)\d\d\b', s, A))
+    long_ago = any(c['day'] < P - span for c in cands) or bool(OLD.search(s)) or old_year
+    return dict(day=day_str(P), stated=False, old=long_ago, band=None)
+
+
+# ------------------------------------------------------------------ one decision per report
+
+def assess(title, link, text='', pub=None, home=False, index=False, keep_area=None, trace=None):
+    """Everything concluded about one report, or None when it should not be kept. trace (a dict) gets the reason."""
+    def no(why):
+        if trace is not None:
+            trace['why'] = why
+        return None
+    slug = slug_title(link)
+    if filed_elsewhere(link):
+        return no('filed under another district')
+    if NOISE.search(title) or REACTION.search(title):
+        m = NOISE.search(title) or REACTION.search(title)
+        return no('headline is not an incident report: ' + m.group(0))
+    if index and NOISE.search(slug):
+        return no('address words are not an incident report: ' + NOISE.search(slug).group(0))
+    lead = marathi_lead(text) if index else text
+    if not in_pune(title, lead, index) or (index and HAPPENED_ELSEWHERE.search(slug)):
+        return no('outside Pune district')
+
+    c = classify(title)
+    if not c and (not index or EVENT.search(title)):
+        c = classify(title, lead)
+    if not c:
+        return no('no incident type')
+    if c == 'accident' and not ROAD.search(title + ' ' + slug + ' ' + lead[:500]):
+        return no('accident, but not on the road')
+
+    a = locate(title, text) or locate(slug) or (None if text else keep_area)
+    if not a:
+        if index and not IN_PUNE.search(ROADS.sub(' ', title)) and not PUNE_DATELINE.search(lead):
+            return no('no area found, and neither headline nor dateline says Pune')
+        if not index and not home and not IN_PUNE.search(title) and not IN_PUNE.search(lead[:300]):
+            return no('no area found and no Pune signal')
+    if not home and not PUNE.search(title + ' ' + slug + ' ' + lead[:600]):
+        return no('other section, never says Pune')
+
+    follow = bool(FOLLOW.search(title)) or bool(re.search(r'कोठडी|\b(custody|remand(ed)?)\b', title, I) and re.search(r'प्रकरण|\bcase\b|\bextended\b', title, I))
+    w = when_happened(title, lead, pub, follow)
+    if follow and w['old']:
+        return no('follow-up to an old case')
+    t = when_of(title, lead)
+    h, b = t['h'], t['b']
+    if w['band']:
+        b = w['band']
+        if h is not None and band(h) != w['band']:
+            h = None
+    out = dict(c=c, a=a, h=h, b=b, i=w['day'], f=fingerprint(title + ' . ' + lead[:900]))
+    if w['stated']:
+        out['ip'] = 1
+    if follow:
+        out['k'] = 'f'
+    return out
+
+
+def hash_id(s):
+    h = 2166136261
+    b = s.encode('utf-16-le')
+    for i in range(0, len(b), 2):
+        h ^= b[i] | (b[i + 1] << 8)
+        h = (h * 16777619) & 0xFFFFFFFF
+    digits = '0123456789abcdefghijklmnopqrstuvwxyz'
+    out = ''
+    while True:
+        h, r = divmod(h, 36)
+        out = digits[r] + out
+        if not h:
+            return out
+
+
+def feed_of(fid):
+    return next((f for f in FEEDS if f['id'] == fid), {})
+
+
+def is_home(feed, link):
+    return bool(feed['path'].search(link)) if feed.get('path') else bool(feed.get('pune'))
+
+
+def record(feed, title, link, d, v):
+    return dict(id=hash_id(link), t=title, u=link, s=feed['id'], d=iso(d), **v, r=RULES_VERSION)
+
+
+def extract_items(feed, items):
+    """One source's entries -> incident records; for headline-less indexes, candidates {cand, link, slug, date, home}."""
+    out = []
+    for it in items:
+        home = is_home(feed, it['link'])
+        if filed_elsewhere(it['link']):
+            continue
+        if feed.get('path') and not home and not re.search('pune|pimpri', it['link'], re.I) and \
+                not locate(slug_title(it['link']) if feed.get('kind') == 'urlmap' else it['title']):
+            continue
+        if feed.get('kind') == 'urlmap':
+            slug = slug_title(it['link'])
+            if (classify(slug) or CRIME_WORDS.search(slug)) and not NOISE.search(slug) and not HAPPENED_ELSEWHERE.search(slug):
+                out.append(dict(cand=1, link=it['link'], slug=slug, date=it['date'], home=home))
+            continue
+        if not it['title'] or not it['date']:
+            continue
+        v = assess(it['title'], it['link'], it['text'], it['date'], home, False)
+        if v:
+            out.append(record(feed, it['title'], it['link'], it['date'], v))
+    return out
+
+
+def extract(feed, xml):
+    return extract_items(feed, parse_sitemap(xml) if feed.get('kind') else parse_feed(xml))
+
+
+def finish(feed, cand, html, fallback):
+    """A candidate from a headline-less index -> record, using the article page. None when it fails the checks."""
+    head, text = page_head(html), page_text(html)
+    d = head['date'] or cand.get('date') or fallback
+    if not head['title'] or not d:
+        return None
+    v = assess(head['title'], cand['link'], text, d, cand['home'], True)
+    if not v:
+        return None
+    rec = record(feed, head['title'], cand['link'], d, v)
+    rec['e'] = 1
+    return rec
+
+
+def recheck(rec, text, trace=None):
+    """Judge a stored record again with its article text ('' if unreadable). False when it should be removed."""
+    feed = feed_of(rec['s'])
+    v = assess(rec['t'], rec['u'], text, rec['d'], is_home(feed, rec['u']) if feed else False, feed.get('kind') == 'urlmap',
+               rec.get('a'), trace)
+    if not v:
+        return False
+    for k in ('c', 'a', 'h', 'b', 'i', 'ip', 'k', 'f'):
+        if k in v:
+            rec[k] = v[k]
+        else:
+            rec.pop(k, None)
+    rec['r'] = RULES_VERSION
+    return True
+
+
+def merge(existing, incoming, rejected=frozenset()):
+    seen = {x['id'] for x in existing}
+    titles = {x['s'] + '|' + x['t'] for x in existing}
+    added = 0
+    for r in incoming:
+        key = r['s'] + '|' + r['t']
+        if r['id'] in seen or r['id'] in rejected or key in titles:
+            continue
+        seen.add(r['id'])
+        titles.add(key)
+        existing.append(r)
+        added += 1
+    existing.sort(key=lambda x: x['d'], reverse=True)
+    return added
+
+
+# ------------------------------------------------------------------ reports -> incidents
+
+def fam(c):
+    return FAMILY.get(c, c)
+
+
+def fingerprint(text):
+    """Hard details of a report: sums ("30L", "5.25L", "22T"), ages ("a71"), and other figures of three digits or more."""
+    s = to_ascii(text).lower()
+    out = {}
+    for m in re.finditer(r'(\d+(?:\.\d+)?)\s*(lakhs?|lacs?|crores?|cr|thousand|tolas?|लाख|कोटी|हजार|तोळ)', s, A):
+        u = next((u for p, u in UNIT if p.search(m.group(2))), None)
+        if u:
+            out[m.group(1) + u] = 1
+    for m in re.finditer(r'(\d{1,2})\s*-?\s*(?:year[- ]old|years?[- ]old|yr[- ]old|वर्षीय|वर्षांच्या|वर्षाच्या|वर्षांचा|वर्षांची)|(?:वय|aged)\s*(\d{1,2})', s, A):
+        out['a' + (m.group(1) or m.group(2))] = 1
+    for m in re.finditer(r'\d[\d,]{2,}', s, A):
+        v = m.group(0).replace(',', '')
+        if 3 <= len(v) <= 9 and not re.match(r'^(19|20)\d\d$', v):
+            out[v] = 1
+    return list(out)[:16]
+
+
+def big_sum(t):
+    return t.endswith('C') or (t.endswith('L') and (float(t[:-1]) >= 10 or '.' in t)) or (t.endswith('T') and float(t[:-1]) >= 10)
+
+
+def shares(a, b, pred=None):
+    return any(x in b and (not pred or pred(x)) for x in a)
+
+
+def share_count(a, b):
+    return sum(1 for x in a if x in b)
+
+
+def group_events(items):
+    """Join reports into incidents: same place, kind of crime and day, AND a shared hard detail.
+    Follow-ups never start an incident; they join the incident whose details they share, or stand apart (orphan)."""
+    def num(s):
+        return (date.fromisoformat(s) - date(1970, 1, 1)).days
+    recs = [dict(r=r, fp=list(dict.fromkeys(r.get('f') if r.get('f') is not None else fingerprint(r['t']))),
+                 day=num(r['i']) if r.get('i') else day_of(r['d']), stated=bool(r.get('ip')), follow=r.get('k') == 'f')
+            for r in items]
+    events = []
+
+    def start(x):
+        e = dict(c=x['r']['c'], a=x['r'].get('a'), day=x['day'], stated=x['stated'], h=None, b=None, reports=[], fp={}, src=set(), late=False, orphan=False)
+        events.append(e)
+        return e
+
+    def join(e, x, anchor):
+        e['reports'].append(x['r'])
+        e['src'].add(x['r']['s'])
+        for v in x['fp']:
+            e['fp'][v] = 1
+        if anchor and x['follow']:
+            e['late'] = True
+        if not anchor:
+            return
+        if SEVERITY.index(x['r']['c']) < SEVERITY.index(e['c']):
+            e['c'] = x['r']['c']
+        if not e['a'] and x['r'].get('a'):
+            e['a'] = x['r']['a']
+        if x['stated'] and (not e['stated'] or x['day'] < e['day']):
+            e['day'], e['stated'] = x['day'], True
+        if not x['follow'] and not e['b'] and x['r'].get('b'):
+            e['b'], e['h'] = x['r']['b'], x['r'].get('h')
+
+    anchors = sorted((x for x in recs if not x['follow'] or x['stated']), key=lambda x: (x['day'], x['r']['d']))
+    for x in anchors:
+        ev = None
+        xa, xc = x['r'].get('a'), x['r']['c']
+        for e in events:
+            if fam(e['c']) != fam(xc):
+                continue
+            gap = abs(x['day'] - e['day'])
+            same_area = bool(xa) and e['a'] == xa
+            one_unplaced = not xa or not e['a']
+            detail, big = shares(x['fp'], e['fp']), shares(x['fp'], e['fp'], big_sum)
+            blind = (not x['fp'] or not e['fp']) and e['c'] == xc and x['r']['s'] not in e['src']
+            if same_area and gap <= 1 and (detail or blind):
+                ev = e; break
+            if same_area and x['follow'] and gap <= 1:
+                ev = e; break
+            if same_area and xc in ('murder', 'kidnap') and e['c'] == xc and gap <= 3 and (detail or blind):
+                ev = e; break
+            if same_area and big and gap <= 45 and (x['follow'] or e['late']):
+                ev = e; break
+            if one_unplaced and big and gap <= 3:
+                ev = e; break
+        join(ev or start(x), x, True)
+
+    for x in sorted((x for x in recs if x['follow'] and not x['stated']), key=lambda x: x['r']['d']):
+        ev = None
+        xa = x['r'].get('a')
+        for e in events:
+            if e['orphan'] or e['day'] > x['day'] or x['day'] - e['day'] > 45 or fam(e['c']) != fam(x['r']['c']):
+                continue
+            same_area = bool(xa) and e['a'] == xa
+            one_unplaced = not xa or not e['a']
+            sure = shares(x['fp'], e['fp'], big_sum) or share_count(x['fp'], e['fp']) >= 2
+            if (same_area or one_unplaced) and sure and (not ev or e['day'] > ev['day']):
+                ev = e
+        if not ev:
+            ev = start(x)
+            ev['orphan'] = True
+        join(ev, x, False)
+
+    for e in events:
+        e['reports'].sort(key=lambda r: r['d'], reverse=True)
+        e['last'] = e['reports'][0]['d']
+        e['d'] = day_str(e['day']) + 'T06:30:00.000Z'
+    return events
