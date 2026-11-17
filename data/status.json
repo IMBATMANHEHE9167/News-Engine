@@ -1,20 +1,20 @@
 {
- "updated": "2026-11-17T10:52:09.343Z",
- "total": 838,
- "added": 4,
- "removed": 0,
+ "updated": "2026-11-17T11:18:05.459Z",
+ "total": 1030,
+ "added": 0,
+ "removed": 3,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-06-30",
+  "reachedBack": "2026-06-26",
   "target": "2026-05-19",
-  "kept": 605,
+  "kept": 627,
   "note": "",
   "from": "2026-05-19",
   "archives": {
    "toi": {
     "done": false,
-    "reached": "2026 October",
-    "kept": 120,
+    "reached": "2026 September",
+    "kept": 237,
     "note": ""
    },
    "ht": {
@@ -25,14 +25,14 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-11-03",
-    "kept": 20,
+    "reached": "2026-10-25",
+    "kept": 52,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-11-03",
-    "kept": 25,
+    "reached": "2026-10-23",
+    "kept": 49,
     "note": ""
    },
    "pcl": {
@@ -73,7 +73,7 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -97,7 +97,7 @@
    "name": "Pune City Live",
    "ok": true,
    "found": 3,
-   "added": 3,
+   "added": 0,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -160,7 +160,7 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 12,
+   "found": 15,
    "added": 0,
    "note": ""
   }
