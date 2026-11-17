@@ -1,20 +1,20 @@
 {
- "updated": "2026-11-17T11:49:45.691Z",
- "total": 1230,
- "added": 2,
- "removed": 2,
+ "updated": "2026-11-17T12:16:12.181Z",
+ "total": 1414,
+ "added": 0,
+ "removed": 0,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-06-22",
+  "reachedBack": "2026-06-18",
   "target": "2026-05-19",
-  "kept": 664,
+  "kept": 686,
   "note": "",
   "from": "2026-05-19",
   "archives": {
    "toi": {
     "done": false,
-    "reached": "2026 August",
-    "kept": 350,
+    "reached": "2026 July",
+    "kept": 469,
     "note": ""
    },
    "ht": {
@@ -25,14 +25,14 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-10-14",
-    "kept": 78,
+    "reached": "2026-10-04",
+    "kept": 108,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-10-14",
-    "kept": 73,
+    "reached": "2026-10-05",
+    "kept": 86,
     "note": ""
    },
    "pcl": {
@@ -87,10 +87,10 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 500"
   },
   {
    "id": "pcl",
@@ -121,7 +121,7 @@
    "name": "ABP Majha",
    "ok": true,
    "found": 2,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 16,
-   "added": 1,
+   "added": 0,
    "note": ""
   }
  ]
