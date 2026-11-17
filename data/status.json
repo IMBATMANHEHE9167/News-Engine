@@ -1,20 +1,20 @@
 {
- "updated": "2026-11-17T11:18:05.459Z",
- "total": 1030,
- "added": 0,
- "removed": 3,
+ "updated": "2026-11-17T11:49:45.691Z",
+ "total": 1230,
+ "added": 2,
+ "removed": 2,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-06-26",
+  "reachedBack": "2026-06-22",
   "target": "2026-05-19",
-  "kept": 627,
+  "kept": 664,
   "note": "",
   "from": "2026-05-19",
   "archives": {
    "toi": {
     "done": false,
-    "reached": "2026 September",
-    "kept": 237,
+    "reached": "2026 August",
+    "kept": 350,
     "note": ""
    },
    "ht": {
@@ -25,14 +25,14 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-10-25",
-    "kept": 52,
+    "reached": "2026-10-14",
+    "kept": 78,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-10-23",
-    "kept": 49,
+    "reached": "2026-10-14",
+    "kept": 73,
     "note": ""
    },
    "pcl": {
@@ -120,8 +120,8 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 2,
+   "added": 1,
    "note": ""
   },
   {
@@ -160,8 +160,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 15,
-   "added": 0,
+   "found": 16,
+   "added": 1,
    "note": ""
   }
  ]
