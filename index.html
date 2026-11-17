@@ -130,6 +130,22 @@ nav > div:first-child button{flex:none;white-space:nowrap}
 .search{width:100%;margin:18px 0 0;padding:9px 0 8px;background:transparent;border:0;border-bottom:1px solid var(--rule);color:var(--ink);font:16px var(--sans);outline:0;border-radius:0}
 .search:focus{border-bottom-color:var(--copper)}
 .acc{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ocwide{max-width:1180px;margin:0 auto;padding:0 20px}
+.ocsearch{position:relative;max-width:680px;margin:0 auto}
+.sug{position:absolute;left:0;right:0;top:100%;z-index:1500;background:var(--paper);border:1px solid var(--rule);border-top:0;max-height:360px;overflow-y:auto}
+.sug .sh{padding:9px 12px 3px}
+.sug button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;appearance:none;background:none;border:0;padding:7px 12px;text-align:left;cursor:pointer;font-size:14.5px;color:var(--ink)}
+.sug button span:last-child{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.sug button.on,.sug button:hover{background:var(--copper-wash)}
+.ocgraph .gsvg{max-width:760px;margin:0 auto}
+.gnode.dim{opacity:.18}
+.gedge.dim{opacity:.08}
+.gnode.sel circle{stroke:var(--ink);stroke-width:2}
+#ocBody .item:first-child{padding-top:18px}
+@media (min-width:960px){
+  .ocgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:44px;align-items:start}
+  .ocgraph{position:sticky;top:120px}
+}
 .ocname{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.15;margin:8px 0 6px}
 .spark{display:flex;align-items:flex-end;gap:2px;height:48px}
 .spark i{flex:1;background:var(--copper);opacity:.7;min-width:3px}
@@ -246,10 +262,19 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
   <div id="anBody"></div>
 </main>
 
-<main id="ocv" class="wrap hide">
-  <input id="ocQ" class="search" type="search" placeholder="Search a gang, a weapon (koyta), an area" autocomplete="off">
-  <p class="note" id="ocNote" style="margin:10px 0 0"></p>
-  <div id="ocBody"></div>
+<main id="ocv" class="hide">
+  <div class="ocwide">
+    <div class="ocsearch">
+      <input id="ocQ" class="search" type="search" placeholder="Search a gang, or a word like koyta, MCOCA, extortion" autocomplete="off"
+        role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ocSug">
+      <div id="ocSug" class="sug hide" role="listbox"></div>
+    </div>
+    <p class="note" id="ocNote" style="margin:10px auto 0;max-width:680px;text-align:center"></p>
+    <div class="ocgrid">
+      <section class="ocgraph"><h3 class="label" style="margin:22px 0 4px">Gang links</h3><div id="ocGraph"></div></section>
+      <div id="ocBody"></div>
+    </div>
+  </div>
 </main>
 
 <main id="sitv" class="wrap hide">
@@ -551,7 +576,7 @@ function drawScan() {
     next = Math.floor((last - off) / h) * h + off + h; // the next :17 after the run that produced this
   }
   el.innerHTML = `Last scan <b>${t(new Date(lastIso).getTime())}</b> · ${ago(lastIso)}<br>` +
-    (Date.now() >= next ? `<span class="late">Scan was due at ${t(next)}, scanning.</span>`
+    (Date.now() >= next ? `<span class="late">Next scan in progress</span>`
           : `Next scan at <b>${t(next)}</b> · every ${every === 60 ? 'hour' : every + ' min'}`);
 }
 // Every minute: re-read the two small status files; when a new scan has landed, reload that tab's data and redraw.
@@ -570,7 +595,21 @@ async function refresh() {
     }
   } catch {}
   drawScan();
+  // A newer version of this page itself has been published: reload once to pick it up (browsers keep pages ~10 min).
+  try {
+    const r = await fetch(location.pathname, { method: 'HEAD', cache: 'no-store' });
+    const ver = r.headers.get('etag') || r.headers.get('last-modified');
+    let tried = null; try { tried = sessionStorage.getItem('vidraksh-reloaded'); } catch {}
+    if (ver && PAGEVER && ver !== PAGEVER && ver !== tried && document.activeElement?.tagName !== 'INPUT') {
+      try { sessionStorage.setItem('vidraksh-reloaded', ver); } catch {}   // at most one reload per new version
+      location.reload();
+    }
+  } catch {}
 }
+// The version of the page now open: the browser's own copy of it (no network), so a stale copy is caught on the first check.
+let PAGEVER = null;
+fetch(location.pathname, { cache: 'force-cache' }).then(r => { PAGEVER = r.headers.get('etag') || r.headers.get('last-modified'); }).catch(() => {});
+setTimeout(refresh, 5e3);
 setInterval(refresh, 60e3);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
 
@@ -583,31 +622,89 @@ const OC_ACT = { mcoca: 'MCOCA', mpda: 'MPDA detention', extern: 'Externment', a
 const OC_WPN = { koyta: 'Koyta (sickle)', firearm: 'Firearm', blade: 'Sword or knife' };
 const ocDay = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
 const ocInView = r => view === 'all' || !r.a || areaInView(r.a);
+// Words to search the groups' reports by. A report counts if the engine tagged it (weapon, police action, minor) or its
+// headline uses the word (English, Marathi or the usual misspellings). Only words found in at least one report are offered.
+const OC_KEYS = [
+  { name: 'Koyta', alias: ['koyta', 'koita', 'sickle', 'कोयता'], test: r => (r.wpn || []).includes('koyta') || /koyta|koita|कोयत/i.test(r.t) },
+  { name: 'Firearm', alias: ['firearm', 'pistol', 'gun', 'firing', 'revolver', 'पिस्तूल', 'गोळीबार'], test: r => (r.wpn || []).includes('firearm') || /pistol|firing|fired|gun|revolver|पिस्तूल|पिस्तुल|गोळीबार/i.test(r.t) },
+  { name: 'Sword or knife', alias: ['sword', 'knife', 'blade', 'talwar', 'तलवार'], test: r => (r.wpn || []).includes('blade') || /sword|knife|talwar|तलवार|चाकू/i.test(r.t) },
+  { name: 'MCOCA', alias: ['mcoca', 'macoca', 'mokka', 'mocca', 'मोक्का'], test: r => (r.act || []).includes('mcoca') || /mcoca|macoca|mokka|मोक्का/i.test(r.t) },
+  { name: 'MPDA', alias: ['mpda', 'detention', 'स्थानबद्ध'], test: r => (r.act || []).includes('mpda') || /mpda|स्थानबद्ध/i.test(r.t) },
+  { name: 'Externment', alias: ['externment', 'externed', 'tadipar', 'तडीपार'], test: r => (r.act || []).includes('extern') || /extern|tadipar|तडीपार/i.test(r.t) },
+  { name: 'Arrest', alias: ['arrest', 'arrested', 'held', 'अटक'], test: r => (r.act || []).includes('arrest') || /arrest|अटक/i.test(r.t) },
+  { name: 'Property action', alias: ['property', 'demolition', 'seized', 'जप्त'], test: r => (r.act || []).includes('property') },
+  { name: 'Extortion', alias: ['extortion', 'ransom', 'khandani', 'खंडणी'], test: r => /extort|ransom|खंडणी/i.test(r.t) },
+  { name: 'Murder', alias: ['murder', 'killed', 'hacked', 'खून', 'हत्या'], test: r => /murder|killed|hacked to death|खून|हत्या/i.test(r.t) },
+  { name: 'Attack', alias: ['attack', 'assault', 'hamla', 'हल्ला'], test: r => /attack|assault|हल्ला/i.test(r.t) },
+  { name: 'Rivalry or revenge', alias: ['rivalry', 'rival', 'revenge', 'feud', 'वर्चस्व', 'बदला'], test: r => /rival|revenge|feud|वर्चस्व|बदला/i.test(r.t) },
+  { name: 'Drugs', alias: ['drugs', 'mephedrone', 'md', 'ganja', 'narcotics', 'अमली'], test: r => /drug|mephedrone|ganja|narcotic|अमली|गांजा/i.test(r.t) },
+  { name: 'Land grabbing', alias: ['land', 'land grabbing', 'encroachment', 'जमीन'], test: r => /land.?grab|encroach|जमीन/i.test(r.t) },
+  { name: 'Minors involved', alias: ['minor', 'minors', 'juvenile', 'अल्पवयीन'], test: r => !!r.j }
+];
+const ocKey = q => OC_KEYS.find(k => k.name.toLowerCase() === q || k.alias.includes(q));
 function ocMatch(g, q) {
   if (!q) return true;
+  const k = ocKey(q);
+  if (k) return (g.reports || []).some(k.test);
   const hay = [g.name, g.leader, g.about, g.id, ...(g.areas || []).map(([a]) => AREA[a] ? AREA[a].name : a)].join(' ').toLowerCase();
   return q.split(/\s+/).every(w => hay.includes(w)) || (g.reports || []).some(r => r.t.toLowerCase().includes(q));
 }
+
+/* Search suggestions: groups and words, as you type (arrow keys + Enter, or click). */
+let sugItems = [], sugOn = -1;
+function drawSug() {
+  if (!OC) return;
+  const q = $('ocQ').value.trim().toLowerCase(), box = $('ocSug');
+  const gs = OC.groups.filter(g => g.n && (!q || [g.name, g.leader || '', g.id].join(' ').toLowerCase().includes(q))).sort((a, b) => b.n - a.n);
+  const ks = OC_KEYS.map(k => ({ k, n: new Set(OC.groups.flatMap(g => (g.reports || []).filter(k.test).map(r => r.u))).size }))
+    .filter(({ k, n }) => n && (!q || k.name.toLowerCase().includes(q) || k.alias.some(a => a.startsWith(q))));
+  sugItems = [...gs.slice(0, q ? 8 : 40).map(g => ({ g })), ...ks];
+  if (!sugItems.length || document.activeElement !== $('ocQ')) { box.classList.add('hide'); $('ocQ').setAttribute('aria-expanded', 'false'); return; }
+  sugOn = Math.min(sugOn, sugItems.length - 1);
+  let i = 0;
+  const btn = (main, side) => `<button type="button" role="option" data-i="${i}" class="${i++ === sugOn ? 'on' : ''}"><span>${main}</span><span>${side}</span></button>`;
+  box.innerHTML = (gs.length ? `<div class="sh label">Groups</div>` + gs.slice(0, q ? 8 : 40).map(g => btn(esc(g.name), `${esc(OC_TYPE[g.type] || g.type)} · ${g.n} reports`)).join('') : '') +
+    (ks.length ? `<div class="sh label">Words in reports</div>` + ks.map(({ k, n }) => btn(esc(k.name), `${n} report${n > 1 ? 's' : ''}`)).join('') : '');
+  box.classList.remove('hide'); $('ocQ').setAttribute('aria-expanded', 'true');
+}
+function pickSug(i) {
+  const it = sugItems[i]; if (!it) return;
+  if (it.g) { $('ocQ').value = ''; ocOpen = it.g.id; } else { $('ocQ').value = it.k.name; ocOpen = null; }
+  $('ocSug').classList.add('hide'); $('ocQ').blur(); drawOc();
+}
+$('ocQ').onfocus = () => { sugOn = -1; drawSug(); };
+$('ocQ').onblur = () => setTimeout(() => $('ocSug').classList.add('hide'), 150);
+$('ocQ').onkeydown = e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sugOn = (sugOn + (e.key === 'ArrowDown' ? 1 : -1) + sugItems.length) % Math.max(1, sugItems.length); drawSug(); }
+  else if (e.key === 'Enter') { if (sugOn >= 0) { e.preventDefault(); pickSug(sugOn); } else { $('ocSug').classList.add('hide'); } }
+  else if (e.key === 'Escape') $('ocSug').classList.add('hide');
+};
+$('ocSug').onmousedown = e => { const b = e.target.closest('button'); if (b) { e.preventDefault(); pickSug(+b.dataset.i); } };
 const ocRows = (pairs, label, total) => pairs.map(([k, n]) => `<div class="row"><span>${esc(label(k))}</span><span class="n">${n}</span><div class="track"><i style="width:${Math.min(100, n / total * 100)}%"></i></div></div>`).join('');
 function drawOc() {
-  if (!OC) { $('ocBody').innerHTML = '<div class="empty">The first organised-crime scan has not run yet. It runs with every hourly collection.</div>'; $('ocNote').textContent = ''; return; }
+  if (!OC) { $('ocBody').innerHTML = '<div class="empty">The first organised-crime scan has not run yet. It runs with every hourly collection.</div>'; $('ocNote').textContent = ''; $('ocGraph').innerHTML = ''; return; }
   $('ocNote').textContent = 'Groups as publicly reported. Leaders are named as the press names them: accused, not convicted unless a report says so. Minors and victims of sexual offences are never named.';
+  const q = $('ocQ').value.trim().toLowerCase();
+  drawOcGraph(q);
   const g = ocOpen && OC.groups.find(x => x.id === ocOpen);
   if (g) { drawOcProfile(g); return; }
-  const q = $('ocQ').value.trim().toLowerCase();
+  const key = ocKey(q), test = key ? key.test : r => r.t.toLowerCase().includes(q);
   const list = OC.groups.filter(x => x.n && ocMatch(x, q));
-  const hits = q ? OC.groups.flatMap(x => (x.reports || []).filter(r => r.t.toLowerCase().includes(q) && ocInView(r)).map(r => ({ ...r, g: x }))) : [];
+  if (key) list.sort((a, b) => (b.reports || []).filter(test).length - (a.reports || []).filter(test).length);
+  const seen = new Set();
+  const hits = q ? OC.groups.flatMap(x => (x.reports || []).filter(r => test(r) && ocInView(r)).map(r => ({ ...r, g: x })))
+    .filter(r => !seen.has(r.u) && seen.add(r.u)).sort((a, b) => (a.d < b.d ? 1 : -1)) : [];
   const card = x => {
     const acts = Object.fromEntries(x.actions || []), mine = (x.reports || []).filter(ocInView);
     const where = (x.areas || []).slice(0, 3).map(([a]) => AREA[a] ? esc(AREA[a].name) : esc(a)).join(', ');
     return `<article class="item ocard" data-g="${x.id}">
       <div class="top"><span class="cat">${esc(OC_TYPE[x.type] || x.type)}</span><span class="when">${x.active ? 'Active' : 'Quiet'} · last ${ocDay(x.last)}</span></div>
       <a class="head" href="#oc" data-g="${x.id}">${esc(x.name)}</a>
-      <div class="by">${x.leader ? `<b>${esc(x.leader)}</b> <span class="acc">accused</span> · ` : ''}${x.n} reports${x.incidents ? ` · ${x.incidents} incidents in the engine` : ''}${acts.mcoca ? ` · MCOCA in ${acts.mcoca}` : ''}${where ? ' · ' + where : ''}${view !== 'all' ? ` · ${mine.length} in this view` : ''}</div>
+      <div class="by">${x.leader ? `<b>${esc(x.leader)}</b> <span class="acc">accused</span> · ` : ''}${x.n} reports${x.incidents ? ` · ${x.incidents} incidents in the engine` : ''}${acts.mcoca ? ` · MCOCA in ${acts.mcoca}` : ''}${where ? ' · ' + where : ''}${view !== 'all' ? ` · ${mine.length} in this view` : ''}${key ? ` · <b>${(x.reports || []).filter(test).length}</b> mention ${esc(key.name.toLowerCase())}` : ''}</div>
     </article>`;
   };
   $('ocBody').innerHTML = (list.length ? list.map(card).join('') : `<div class="empty">No group matches “${esc(q)}”.</div>`) +
-    (hits.length ? `<div class="day label">Reports mentioning “${esc(q)}”</div>` +
+    (hits.length ? `<div class="day label">Reports mentioning “${esc(key ? key.name : q)}” · ${hits.length}</div>` +
       hits.slice(0, 30).map(r => `<div class="mini">${ocDay(r.d)} · ${esc(r.g.name)}<br>${link(r, esc(r.t))}</div>`).join('') : '');
 }
 function drawOcProfile(g) {
@@ -637,9 +734,37 @@ function drawOcProfile(g) {
 $('ocBody').onclick = e => {
   if (e.target.closest('#ocBack')) { e.preventDefault(); ocOpen = null; drawOc(); return; }
   const a = e.target.closest('[data-g]');
-  if (a && !e.target.closest('a[target]')) { e.preventDefault(); ocOpen = a.dataset.g; drawOc(); scrollTo({ top: $('ocv').offsetTop - 120 }); }
+  if (a && !e.target.closest('a[target]')) { e.preventDefault(); ocOpen = a.dataset.g; drawOc(); ocToTop(); }
 };
-$('ocQ').oninput = () => { ocOpen = null; drawOc(); };
+// After opening a profile, bring the right-hand column's top into view if it has scrolled away.
+function ocToTop() { const y = $('ocBody').getBoundingClientRect().top; if (y < 120 || y > innerHeight) scrollTo({ top: scrollY + y - 130 }); }
+$('ocQ').oninput = () => { ocOpen = null; sugOn = -1; drawSug(); drawOc(); };
+
+/* Gang links: groups named together in reports. A search fades the groups it does not match; an open profile
+   lights up that group and the groups linked to it. */
+function drawOcGraph(q) {
+  const gs = OC.groups.filter(g => g.n);
+  if (!gs.length) { $('ocGraph').innerHTML = '<div class="empty">The organised-crime profiles have not been built yet.</div>'; return; }
+  const W = 760, H = 560, cx = W / 2, cy = H / 2, R = 200, maxN = Math.max(...gs.map(g => g.n));
+  const pos = Object.fromEntries(gs.map((g, i) => [g.id, [cx + R * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / gs.length), cy + R * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / gs.length)]]));
+  const edges = []; gs.forEach(g => (g.linked || []).forEach(([o, n]) => { if (pos[o] && g.id < o) edges.push([g.id, o, n]); }));
+  const maxE = Math.max(1, ...edges.map(e => e[2]));
+  const sel = ocOpen && pos[ocOpen] ? ocOpen : null;
+  const near = sel ? new Set([sel, ...edges.filter(e => e[0] === sel || e[1] === sel).flatMap(e => [e[0], e[1]])]) : null;
+  const hit = q ? new Set(gs.filter(g => ocMatch(g, q)).map(g => g.id)) : null;
+  const lit = id => (!near || near.has(id)) && (!hit || hit.has(id));
+  let s = edges.map(([a, b, n]) => `<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" class="gedge${sel && (a === sel || b === sel) ? ' hot' : ''}${lit(a) && lit(b) ? '' : ' dim'}" data-a="${a}" data-b="${b}" stroke-width="${1 + 7 * n / maxE}"${tip(`${gs.find(g => g.id === a).name} and ${gs.find(g => g.id === b).name}: named together in ${n} report${n > 1 ? 's' : ''}`)}/>`).join('');
+  gs.forEach(g => {
+    const [x, y] = pos[g.id], r = 10 + 26 * Math.sqrt(g.n / maxN), out = x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle', dx = out === 'start' ? r + 8 : out === 'end' ? -r - 8 : 0, dy = out === 'middle' ? (y < cy ? -r - 10 : r + 18) : 4;
+    s += `<g class="gnode${lit(g.id) ? '' : ' dim'}${g.id === sel ? ' sel' : ''}" data-g="${g.id}"${tip(`${g.name} · ${g.n} reports${g.active ? ' · active' : ' · quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="gfill" fill-opacity="${g.active ? .8 : .3}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
+  });
+  $('ocGraph').innerHTML = `<div class="gscroll"><svg viewBox="-60 0 ${W + 120} ${H}" class="gsvg">${s}</svg></div><p class="note">Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Circle size: reports about the group; solid is active in the last four months, faint is quiet. Hover a group to light up its links; click it to open its profile.</p>`;
+  $('ocGraph').querySelectorAll('.gnode').forEach(el => {
+    el.onmouseenter = () => $('ocGraph').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', l.dataset.a === el.dataset.g || l.dataset.b === el.dataset.g));
+    el.onmouseleave = () => $('ocGraph').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', !!sel && (l.dataset.a === sel || l.dataset.b === sel)));
+    el.onclick = () => { ocOpen = el.dataset.g; drawOc(); ocToTop(); };
+  });
+}
 
 /* ---------- Analytics ---------- */
 // Findings per area view (insights.json, hourly): one sentence each, with the evidence and the test behind it.
@@ -683,14 +808,13 @@ function drawAn() {
 // Drawn from the incidents on the page, so every run and every new report changes them. They follow the area view and the
 // period buttons; most also take a type. Hover for numbers; click a cell, bar or day to list its incidents below.
 let anMode = 'findings', gSel = 'rhythm', gType = '', gSpread = true, gPick = null;
-const GRAPHS = [['rhythm', 'Rhythm'], ['trend', 'Trend'], ['matrix', 'Where × what'], ['calendar', 'Calendar'], ['conc', 'Concentration'], ['gangs', 'Gang links'], ['harm', 'Harm']];
+const GRAPHS = [['rhythm', 'Rhythm'], ['trend', 'Trend'], ['matrix', 'Where × what'], ['calendar', 'Calendar'], ['conc', 'Concentration'], ['harm', 'Harm']];
 const G_ABOUT = {
   rhythm: 'Which hours of which days. After Clarke & Eck, Step 25 (chart C): days down the side, hours across, darker is more.',
   trend: 'Incidents per week, with the four-week average. Early weeks rest mostly on one paper’s history, so compare recent weeks with care.',
   matrix: 'Where each kind of incident happens: the busiest areas in this view against the types.',
   calendar: 'Every day’s incidents, with festivals marked. Look for the days around them.',
   conc: 'How concentrated incidents are across the areas of this view (the 80-20 rule, Step 18). The further the curve bows above the diagonal, the more a few areas carry the load.',
-  gangs: 'Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Click a group to open its profile.',
   harm: 'For each type, how many incidents were fatal, how many injured someone, and how many did not say.'
 };
 const BAND_HOURS = { morning: [6, 7, 8, 9, 10, 11], afternoon: [12, 13, 14, 15, 16], evening: [17, 18, 19, 20], night: [21, 22, 23, 0, 1, 2, 3, 4, 5] };
@@ -705,7 +829,7 @@ const fmt1 = v => (Math.round(v * 10) / 10).toString();
 const tip = (t) => ` data-tip="${esc(t)}"`;
 
 function drawGraphs() {
-  const typed = !['matrix', 'gangs', 'harm'].includes(gSel);
+  const typed = !['matrix', 'harm'].includes(gSel);
   const types = CATS.filter(c => INCIDENTS.some(e => e.c === c.id && inView(e)));
   $('anBody').innerHTML = `
     <div class="gbar">${GRAPHS.map(([k, n]) => `<button class="${k === gSel ? 'on' : ''}" data-gs="${k}">${n}</button>`).join('')}</div>
@@ -714,7 +838,7 @@ function drawGraphs() {
     <p class="note gabout">${G_ABOUT[gSel]}</p>
     <div class="gbox" id="gBox"></div>
     <div id="gList"></div>`;
-  ({ rhythm: gRhythm, trend: gTrend, matrix: gMatrix, calendar: gCalendar, conc: gConc, gangs: gGangs, harm: gHarm })[gSel]();
+  ({ rhythm: gRhythm, trend: gTrend, matrix: gMatrix, calendar: gCalendar, conc: gConc, harm: gHarm })[gSel]();
   gListDraw();
 }
 
@@ -843,27 +967,6 @@ function gConc() {
   s += `<text x="${X(0.5)}" y="${H - 8}" class="gtx gsm" text-anchor="middle">Share of areas, busiest first</text><text transform="translate(16,${Y(0.5)}) rotate(-90)" class="gtx gsm" text-anchor="middle">Share of incidents</text>`;
   const busiest = areas.map(a => [a.name, cnt[a.id] || 0]).sort((p, q) => q[1] - p[1]).slice(0, k);
   $('gBox').innerHTML = `<p class="say" style="margin:6px 0 10px">The busiest <b>${k}</b> of ${n.length} areas (20%) hold <em>${Math.round(topShare * 100)}%</em> of placed incidents${gType ? ' of this type' : ''}: ${busiest.map(([nm, v]) => `${esc(nm)} ${v}`).join(', ')}.</p><svg viewBox="0 0 ${W} ${H}" class="gsvg" style="max-width:640px">${s}</svg><p class="note">If incidents were spread evenly, the curve would follow the dashed line. Areas differ in size and population, so this measures where incidents are reported, not risk per person.</p>`;
-}
-
-/* Gang links: groups named together in reports. */
-function gGangs() {
-  const gs = (OC && OC.groups || []).filter(g => g.n);
-  if (!gs.length) { $('gBox').innerHTML = '<div class="empty">The organised-crime profiles have not been built yet.</div>'; return; }
-  const W = 760, H = 520, cx = W / 2, cy = H / 2, R = 190, maxN = Math.max(...gs.map(g => g.n));
-  const pos = Object.fromEntries(gs.map((g, i) => [g.id, [cx + R * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / gs.length), cy + R * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / gs.length)]]));
-  const edges = []; gs.forEach(g => (g.linked || []).forEach(([o, n]) => { if (pos[o] && g.id < o) edges.push([g.id, o, n]); }));
-  const maxE = Math.max(1, ...edges.map(e => e[2]));
-  let s = edges.map(([a, b, n]) => `<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" class="gedge" data-a="${a}" data-b="${b}" stroke-width="${1 + 7 * n / maxE}"${tip(`${gs.find(g => g.id === a).name} and ${gs.find(g => g.id === b).name}: named together in ${n} report${n > 1 ? 's' : ''}`)}/>`).join('');
-  gs.forEach(g => {
-    const [x, y] = pos[g.id], r = 10 + 26 * Math.sqrt(g.n / maxN), out = x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle', dx = out === 'start' ? r + 8 : out === 'end' ? -r - 8 : 0, dy = out === 'middle' ? (y < cy ? -r - 10 : r + 18) : 4;
-    s += `<g class="gnode" data-g="${g.id}"${tip(`${g.name} · ${g.n} reports${g.active ? ' · active' : ' · quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="gfill" fill-opacity="${g.active ? .8 : .3}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
-  });
-  $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg" style="max-width:760px">${s}</svg><p class="note">Circle size: reports about the group. Solid: active in the last four months; faint: quiet. Hover a group to light up its links; click it to open its profile.</p>`;
-  $('gBox').querySelectorAll('.gnode').forEach(el => {
-    el.onmouseenter = () => $('gBox').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', l.dataset.a === el.dataset.g || l.dataset.b === el.dataset.g));
-    el.onmouseleave = () => $('gBox').querySelectorAll('.gedge').forEach(l => l.classList.remove('hot'));
-    el.onclick = () => { ocOpen = el.dataset.g; show('oc'); };
-  });
 }
 
 /* Harm: fatal, injured and not stated for each type. */
