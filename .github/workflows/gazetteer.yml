@@ -1,0 +1,35 @@
+name: Build Pune place list
+
+on:
+  schedule:
+    - cron: '40 2 3 * *'   # monthly: OpenStreetMap changes slowly
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['collector/gazetteer.py']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gazetteer        # its own queue; it only touches data/places.json, and rebases before pushing
+  cancel-in-progress: false
+
+jobs:
+  places:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python collector/gazetteer.py
+      - name: Save place list
+        run: |
+          git config user.name "vidraksh-collector"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/places.json
+          git diff --cached --quiet || git commit -m "places: $(date -u +%Y-%m-%d)"
+          git pull --rebase
+          git push
