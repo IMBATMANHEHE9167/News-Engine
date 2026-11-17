@@ -29,7 +29,19 @@ jobs:
         run: |
           git config user.name "vidraksh-collector"
           git config user.email "actions@users.noreply.github.com"
-          git add data/places.json
-          git diff --cached --quiet || git commit -m "places: $(date -u +%Y-%m-%d)"
-          git pull --rebase
-          git push
+          FILES="data/places.json"
+          git add $FILES
+          git diff --cached --quiet && exit 0
+          git commit -q -m "places: $(date -u +%Y-%m-%dT%H:%MZ)"
+          # If another run saved meanwhile, this run's files replace its files whole (merging line by line could
+          # break the JSON). Anything only that run had found is found again by the next hourly run.
+          for i in 1 2 3 4; do
+            git push -q && exit 0
+            mkdir -p /tmp/save && cp $FILES /tmp/save/
+            git fetch -q origin main && git reset -q --hard origin/main
+            cp -r /tmp/save/. data/ && git add $FILES
+            git diff --cached --quiet && exit 0
+            git commit -q -m "places: $(date -u +%Y-%m-%dT%H:%MZ)"
+            sleep $((i * 10))
+          done
+          exit 1
