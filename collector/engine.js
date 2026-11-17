@@ -8,6 +8,7 @@ export const FEEDS = [
   { id: 'ptm',  name: 'Pune Times Mirror', url: 'https://punemirror.com/feed', pune: true },
   { id: 'pkn',  name: 'Punekar News',     url: 'https://www.punekarnews.in/feed/', pune: true },
   { id: 'ppl',  name: 'Pune Pulse',       url: 'https://www.mypunepulse.com/feed/', pune: true },
+  { id: 'pcl',  name: 'Pune City Live',   url: 'https://punecitylive.in/feed/', pune: true },
   { id: 'fpj',  name: 'Free Press Journal', url: 'https://www.freepressjournal.in/stories.rss?section=pune', pune: false },
   { id: 'tv9',  name: 'TV9 Marathi',      url: 'https://www.tv9marathi.com/maharashtra/pune/feed', pune: true },
   { id: 'abp',  name: 'ABP Majha',        url: 'https://marathi.abplive.com/news/pune/feed', pune: true },
@@ -72,7 +73,7 @@ export const AREAS = [
   ['chinchwad','Chinchwad',18.6280,73.7820,'pcmc',['chinchwad','चिंचवड']],
   ['nigdi','Nigdi / Akurdi',18.6520,73.7700,'pcmc',['nigdi','akurdi','pradhikaran','निगडी','आकुर्डी']],
   ['bhosari','Bhosari',18.6260,73.8500,'pcmc',['bhosari','भोसरी']],
-  ['hinjewadi','Hinjewadi',18.5913,73.7389,'pcmc',['marunji','maan','मारुंजी','hinjewadi','hinjawadi','हिंजवडी']],
+  ['hinjewadi','Hinjewadi',18.5913,73.7389,'pcmc',['marunji','maan','मारुंजी','hinjewadi','hinjawadi','हिंजवडी','हिंजेवाडी','rajiv gandhi infotech park','infotech park','blue ridge','megapolis','kasarsai','कासारसाई','jambe','जांभे']],
   ['wakad','Wakad',18.5990,73.7620,'pcmc',['tathawade','punawale','ताथवडे','पुनावळे','wakad','वाकड']],
   ['pimplesaudagar','Pimple Saudagar / Sangvi',18.5950,73.8000,'pcmc',['pimple saudagar','pimple gurav','pimple nilakh','sangvi','पिंपळे सौदागर','पिंपळे गुरव','सांगवी']],
   ['kalewadi','Kalewadi / Thergaon',18.6100,73.7750,'pcmc',['kalewadi','thergaon','rahatani','काळेवाडी','थेरगाव','रहाटणी']],
@@ -247,7 +248,9 @@ export function parseSitemap(xml) {
 
 // The English words in an article address, e.g. ".../pune/four-accused-arrested-for-theft-pjp78" -> "four accused arrested for theft".
 export function slugTitle(url) {
-  const seg = decodeURIComponent(String(url).replace(/\/+$/, '').split('/').pop() || '');
+  // ".../story-words/articleshow/1333.cms" (Times of India) and ".../story-words-1017881.html" (Hindustan Times).
+  const u = String(url).replace(/\/+$/, '').replace(/\/articleshow\/\d+\.cms$/i, '').replace(/\.(cms|html?)$/i, '');
+  const seg = decodeURIComponent(u.split('/').pop() || '');
   const words = seg.split('-').filter(Boolean);
   while (words.length && /^(([a-z]{0,4}\d+[a-z]*)|\d+|txt|print|news)$/i.test(words[words.length - 1])) words.pop();
   return words.join(' ');
@@ -540,8 +543,12 @@ const record = (feed, title, link, date, v) => ({ id: hashId(link), t: title, u:
 // For indexes without headlines the result is a list of candidates {link, slug, date}; the collector reads
 // each page and calls finish().
 export function extract(feed, xml) {
+  return extractItems(feed, feed.kind ? parseSitemap(xml) : parseFeed(xml));
+}
+// The same, for entries already read from a feed or index.
+export function extractItems(feed, list) {
   const out = [];
-  for (const it of (feed.kind ? parseSitemap(xml) : parseFeed(xml))) {
+  for (const it of list) {
     const home = isHome(feed, it.link);
     if (filedElsewhere(it.link)) continue;                               // filed under another district
     // Other sections of the paper: only stories whose address or headline names Pune or one of its areas.

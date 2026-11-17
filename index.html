@@ -57,6 +57,11 @@ nav button{appearance:none;background:none;border:0;padding:13px 0 11px;font-siz
 nav button.on{color:var(--ink);border-bottom-color:var(--copper)}
 nav .period{gap:22px;border-top:1px solid var(--rule)}
 nav .period button{padding:8px 0 7px;font-size:13.5px;font-weight:400;letter-spacing:.01em;text-transform:none}
+nav .views{overflow-x:auto;scrollbar-width:none;justify-content:flex-start;padding:0 20px}
+nav .views::-webkit-scrollbar{display:none}
+nav .views button{flex:none;white-space:nowrap}
+nav .views button:first-child{margin-left:auto}
+nav .views button:last-child{margin-right:auto}
 
 .label{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
 
@@ -152,7 +157,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
 <nav><div>
   <button id="tabNews" class="on">Reports</button>
   <button id="tabMap">Map &amp; patterns</button>
-</div><div class="period" id="period" role="group" aria-label="Period"></div></nav>
+</div><div class="period views" id="views" role="group" aria-label="Area"></div><div class="period" id="period" role="group" aria-label="Period"></div></nav>
 
 <main id="news" class="wrap">
   <div class="filter" id="newsFilter"></div>
@@ -167,7 +172,6 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
         <label><span class="label">Time</span>
           <select id="fTime"><option value="">Any time</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
       </div>
-      <label class="tog"><input type="checkbox" id="fWide" checked> Include Pimpri-Chinchwad and the wider district</label>
       <div id="map"></div>
       <p class="count" id="count"></p>
     </div>
@@ -230,6 +234,28 @@ async function load() {
   drawNews(); drawSources();
 }
 
+/* ---------- Views ---------- */
+// Pune City is the main view and opens first. Hinjewadi is part of Pimpri-Chinchwad (its police) and also has its own view.
+// Reports with no area stated appear only under All.
+const VIEWS = [['city', 'Pune City'], ['pcmc', 'Pimpri-Chinchwad'], ['hinj', 'Hinjewadi'], ['rural', 'Pune Rural'], ['all', 'All']];
+const regionOf = id => (id === 'hinjewadi' ? 'hinj' : AREA[id].r);
+const areaInView = id => view === 'all' || (view === 'pcmc' ? AREA[id].r === 'pcmc' : regionOf(id) === view);
+const inView = e => view === 'all' || (!!e.a && areaInView(e.a));
+let view = 'city';
+function drawViews() {
+  $('views').innerHTML = VIEWS.map(([v, name]) => `<button class="${v === view ? 'on' : ''}" data-v="${v}" aria-pressed="${v === view}">${name}</button>`).join('');
+}
+$('views').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  view = b.dataset.v; picked = null; newsN = 60; drawViews(); drawNews();
+  if (!$('mapv').classList.contains('hide')) { fitView(); drawMap(); }
+};
+function fitView() {
+  if (!MAP) return;
+  const pts = AREAS.filter(a => areaInView(a.id)).map(a => [a.lat, a.lon]);
+  if (pts.length === 1) MAP.setView(pts[0], 13); else MAP.fitBounds(L.latLngBounds(pts), { padding: [24, 24], maxZoom: 13 });
+}
+
 /* ---------- Reports ---------- */
 // One period for both tabs: today (since midnight, India time), or the last N days.
 const PERIODS = [['1', 'Today'], ['7', '1 week'], ['30', '1 month'], ['90', '3 months'], ['0', 'All']];
@@ -251,7 +277,7 @@ $('period').onclick = e => {
 
 let newsCat = '', newsN = 60;
 function drawNews() {
-  const inP = EVENTS.filter(inPeriod);
+  const inP = EVENTS.filter(e => inPeriod(e) && inView(e));
   const used = new Set(inP.map(e => e.c));
   if (newsCat && !used.has(newsCat)) newsCat = '';
   $('newsFilter').innerHTML = `<button class="${newsCat ? '' : 'on'}" data-c="">All</button>` +
@@ -296,11 +322,10 @@ function setBase() {
 }
 
 function current() {
-  const cat = $('fCat').value, t = $('fTime').value, wide = $('fWide').checked;
+  const cat = $('fCat').value, t = $('fTime').value;
   return INCIDENTS.filter(e =>
     happenedInPeriod(e) && (!cat || e.c === cat) &&
-    (!t || (t === 'dark' ? isDark(e) : e.b === t)) &&
-    (wide || !e.a || AREA[e.a].r === 'city'));
+    (!t || (t === 'dark' ? isDark(e) : e.b === t)) && inView(e));
 }
 const tally = (list, key) => { const m = {}; for (const x of list) { const k = key(x); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
 const top = (m, n) => Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, n);
@@ -391,11 +416,12 @@ function drawSources() {
 /* ---------- Wiring ---------- */
 $('fCat').innerHTML = '<option value="">All types</option>' + CATS.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
 drawPeriod();
-for (const id of ['fCat', 'fTime', 'fWide']) $(id).onchange = drawMap;
+drawViews();
+for (const id of ['fCat', 'fTime']) $(id).onchange = drawMap;
 function show(tab) {
   $('tabNews').classList.toggle('on', tab === 'news'); $('tabMap').classList.toggle('on', tab === 'map');
   $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map');
-  if (tab === 'map') { drawMap(); setTimeout(() => MAP.invalidateSize(), 80); }
+  if (tab === 'map') { const first = !MAP; drawMap(); setTimeout(() => { MAP.invalidateSize(); if (first) fitView(); }, 80); }
   try { history.replaceState(null, '', '#' + tab); } catch {}
 }
 function applyTheme(t, save) {
