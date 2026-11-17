@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-17T14:03:06.989Z",
- "total": 2208,
+ "updated": "2026-11-17T14:11:59.488Z",
+ "total": 2207,
  "added": 0,
  "removed": 2,
  "rules": 11,
@@ -32,7 +32,7 @@
    "pkn": {
     "done": false,
     "reached": "2026-08-21",
-    "kept": 210,
+    "kept": 209,
     "note": ""
    },
    "pcl": {
