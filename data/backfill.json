@@ -51,7 +51,7 @@
    "reached": "may 2026"
   },
   "ptm": {
-   "done": false,
+   "done": true,
    "kept": 470,
    "note": "",
    "page": 358,
@@ -59,10 +59,10 @@
   },
   "pkn": {
    "done": false,
-   "kept": 338,
+   "kept": 366,
    "note": "",
-   "page": 376,
-   "reached": "2026-06-30"
+   "page": 401,
+   "reached": "2026-06-19"
   },
   "pcl": {
    "done": true,

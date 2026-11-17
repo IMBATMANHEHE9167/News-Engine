@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-17T18:39:45.436Z",
- "total": 2566,
- "added": 0,
+ "updated": "2026-11-17T19:34:59.662Z",
+ "total": 2593,
+ "added": 1,
  "removed": 2,
  "rules": 11,
  "history": {
@@ -24,15 +24,15 @@
     "note": ""
    },
    "ptm": {
-    "done": false,
+    "done": true,
     "reached": "2026-06-17",
     "kept": 470,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-06-30",
-    "kept": 338,
+    "reached": "2026-06-19",
+    "kept": 366,
     "note": ""
    },
    "pcl": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 25,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -64,8 +64,8 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -135,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 1,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
@@ -160,9 +160,9 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 23,
+   "found": 11,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   }
  ]
 }
