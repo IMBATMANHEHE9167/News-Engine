@@ -86,6 +86,38 @@ nav .views button:last-child{margin-right:auto}
 .by .chk{color:var(--copper-text);font-style:italic}
 .more{display:block;margin:22px auto 0;appearance:none;background:none;border:1px solid var(--rule);padding:9px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);cursor:pointer}
 .empty{padding:44px 0;text-align:center;color:var(--ink-3);font-family:var(--serif);font-size:17px}
+/* Analytics: findings / graphs */
+.anmode{display:flex;justify-content:center;gap:0;margin:18px auto 0;max-width:680px;padding:0 20px}
+.anmode button{appearance:none;background:none;border:1px solid var(--rule);padding:7px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);cursor:pointer}
+.anmode button+button{border-left:0}
+.anmode button.on{color:var(--ink);border-color:var(--copper);background:var(--copper-wash)}
+.gwide{max-width:1000px;margin:0 auto;padding:0 20px}
+.gbar{display:flex;gap:20px;overflow-x:auto;scrollbar-width:none;padding:18px 0 10px;border-bottom:1px solid var(--rule);justify-content:center}
+.gbar::-webkit-scrollbar{display:none}
+.gbar button{flex:none;appearance:none;background:none;border:0;padding:0 0 3px;font-size:14px;color:var(--ink-3);border-bottom:1px solid transparent;white-space:nowrap;cursor:pointer}
+.gbar button.on{color:var(--ink);border-bottom-color:var(--copper)}
+.gctl{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:flex-end;padding:12px 0 0}
+.gctl label:first-child{min-width:220px}
+.gabout{margin:10px 0 6px;max-width:760px}
+.gbox{padding:6px 0 0;overflow-x:auto}
+@media (max-width:720px){.gbox .gsvg{min-width:680px}.gbar{justify-content:flex-start}}
+.gscroll{overflow-x:auto}
+.gsvg{width:100%;height:auto;display:block;overflow:visible}
+.gfill{fill:var(--copper)}
+.gcell,.gday,.gbarw,.gh{cursor:pointer}
+.gcell:hover,.gday:hover,.gbarw:hover,.gh:hover{stroke:var(--ink);stroke-width:1.2}
+.gtx{fill:var(--ink-2);font:12.5px var(--sans)}
+.gsm{font-size:11px;fill:var(--ink-3)}
+.gnum{fill:var(--ink);font-weight:600}
+.grule{stroke:var(--rule);stroke-width:1}
+.grest{fill:var(--rule);opacity:.45}
+.gline{fill:none;stroke:var(--copper);stroke-width:2.2}
+.gfest{stroke:var(--copper);stroke-width:3}
+.gedge{stroke:var(--ink-3);opacity:.35}
+.gedge.hot{stroke:var(--copper);opacity:1}
+.gnode{cursor:pointer}
+.gnode:hover circle{stroke:var(--ink);stroke-width:1.5}
+.gtip{position:fixed;z-index:3000;display:none;pointer-events:none;background:var(--paper);color:var(--ink);border:1px solid var(--copper);padding:5px 8px;font:12.5px var(--sans);max-width:280px}
 .how{font-size:12.5px;color:var(--ink-3);margin-top:6px}
 .ev{margin-top:8px}
 .ev details summary{cursor:pointer;margin-top:6px;list-style:none}
@@ -206,7 +238,8 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
   </div>
 </main>
 
-<main id="anv" class="wrap hide">
+<main id="anv" class="hide">
+  <div class="anmode" id="anMode"><button data-anm="findings" class="on">Findings</button><button data-anm="graphs">Graphs</button></div>
   <div id="anBody"></div>
 </main>
 
@@ -222,6 +255,7 @@ footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px 
   <p class="scan" id="sitScan"></p>
 </main>
 
+<div id="gTip" class="gtip"></div>
 <footer>
   Compiled from public news reports; every headline links to its publisher. Areas and types are read from the report by rule, so a few will be wrong.
   This reflects what the press reported, not all crime.
@@ -591,6 +625,9 @@ function anCard(x) {
   </article>`;
 }
 function drawAn() {
+  $('anMode').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.anm === anMode));
+  $('anBody').className = anMode === 'graphs' ? 'gwide' : 'wrap';
+  if (anMode === 'graphs') { drawGraphs(); return; }
   if (!INS) { $('anBody').innerHTML = '<div class="empty">The first analysis has not run yet. It runs with every hourly collection.</div>'; return; }
   const v = INS.views[view] || INS.views.all, cov = v.coverage;
   const sec = (title, items, empty) => `<section class="sec"><h3 class="label">${title}</h3>${items.length ? items.map(anCard).join('') : `<p class="note" style="margin-top:0">${empty}</p>`}</section>`;
@@ -606,6 +643,228 @@ function drawAn() {
     sec('Repeat places', v.places, 'No named spot has had more than one incident in 90 days.') +
     `<section class="sec"><h3 class="label">What this data can say</h3><p class="note" style="margin-top:0">${cov.spot} of ${cov.incidents} incidents are placed at a named spot, ${cov.timed} have a stated hour. ${cov.top_share}% of reports in this view come from one source (${esc(SRC[cov.top_source] || cov.top_source)}). ${esc(cov.note)}</p></section>`;
 }
+
+/* ---------- Graphs (inside Analytics) ---------- */
+// Drawn from the incidents on the page, so every run and every new report changes them. They follow the area view and the
+// period buttons; most also take a type. Hover for numbers; click a cell, bar or day to list its incidents below.
+let anMode = 'findings', gSel = 'rhythm', gType = '', gSpread = true, gPick = null;
+const GRAPHS = [['rhythm', 'Rhythm'], ['trend', 'Trend'], ['matrix', 'Where × what'], ['calendar', 'Calendar'], ['conc', 'Concentration'], ['gangs', 'Gang links'], ['harm', 'Harm']];
+const G_ABOUT = {
+  rhythm: 'Which hours of which days. After Clarke & Eck, Step 25 (chart C): days down the side, hours across, darker is more.',
+  trend: 'Incidents per week, with the four-week average. Early weeks rest mostly on one paper’s history, so compare recent weeks with care.',
+  matrix: 'Where each kind of incident happens: the busiest areas in this view against the types.',
+  calendar: 'Every day’s incidents, with festivals marked. Look for the days around them.',
+  conc: 'How concentrated incidents are across the areas of this view (the 80-20 rule, Step 18). The further the curve bows above the diagonal, the more a few areas carry the load.',
+  gangs: 'Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Click a group to open its profile.',
+  harm: 'For each type, how many incidents were fatal, how many injured someone, and how many did not say.'
+};
+const BAND_HOURS = { morning: [6, 7, 8, 9, 10, 11], afternoon: [12, 13, 14, 15, 16], evening: [17, 18, 19, 20], night: [21, 22, 23, 0, 1, 2, 3, 4, 5] };
+const DAYS7 = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+// Festivals of 2026 that move crowds, traffic and policing in Pune.
+const FESTIVALS = [['2026-07-24', '2026-07-26', 'Palkhi / Ashadhi'], ['2026-09-14', '2026-09-25', 'Ganeshotsav'], ['2026-10-11', '2026-10-19', 'Navratri'], ['2026-10-20', '2026-10-20', 'Dussehra'], ['2026-11-06', '2026-11-11', 'Diwali']];
+const gEv = (typed = true) => INCIDENTS.filter(e => inView(e) && happenedInPeriod(e) && (!typed || !gType || e.c === gType));
+const wd = e => (new Date(e.d).getUTCDay() + 6) % 7;                 // Monday = 0
+const dayKey = e => e.d.slice(0, 10);
+const gBin = (v, max) => v <= 0 ? 0.045 : 0.16 + 0.84 * Math.ceil(Math.min(1, v / max) * 5) / 5;   // five shades, as in the book
+const fmt1 = v => (Math.round(v * 10) / 10).toString();
+const tip = (t) => ` data-tip="${esc(t)}"`;
+
+function drawGraphs() {
+  const typed = !['matrix', 'gangs', 'harm'].includes(gSel);
+  const types = CATS.filter(c => INCIDENTS.some(e => e.c === c.id && inView(e)));
+  $('anBody').innerHTML = `
+    <div class="gbar">${GRAPHS.map(([k, n]) => `<button class="${k === gSel ? 'on' : ''}" data-gs="${k}">${n}</button>`).join('')}</div>
+    <div class="gctl">${typed ? `<label><span class="label">Type</span><select id="gType"><option value="">All types</option>${types.map(c => `<option value="${c.id}"${c.id === gType ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></label>` : ''}
+      ${gSel === 'rhythm' ? `<label class="tog"><input type="checkbox" id="gSpread"${gSpread ? ' checked' : ''}> Include reports that give only a part of day, spread across its hours</label>` : ''}</div>
+    <p class="note gabout">${G_ABOUT[gSel]}</p>
+    <div class="gbox" id="gBox"></div>
+    <div id="gList"></div>`;
+  ({ rhythm: gRhythm, trend: gTrend, matrix: gMatrix, calendar: gCalendar, conc: gConc, gangs: gGangs, harm: gHarm })[gSel]();
+  gListDraw();
+}
+
+function gListDraw() {
+  if (!gPick) { $('gList').innerHTML = ''; return; }
+  const list = gPick.list.slice().sort((x, y) => (x.d < y.d ? 1 : -1));
+  $('gList').innerHTML = `<section class="sec"><h3 class="label">${esc(gPick.title)} · ${list.length}</h3>${list.slice(0, 40).map(e => {
+    const r = lead(e);
+    return `<div class="mini">${fmtDay(e.d)} · ${esc(label(e))}${e.a ? ' · ' + esc(AREA[e.a].name) : ''}<br>${link(r, esc(r.t))}</div>`;
+  }).join('')}${list.length > 40 ? `<p class="note">and ${list.length - 40} more.</p>` : ''}</section>`;
+}
+const gPickSet = (title, list) => { gPick = { title, list }; gListDraw(); $('gList').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); };
+
+/* Rhythm: Chart C, with the hour totals above (chart A) and the day totals beside it (chart B). */
+function gRhythm() {
+  const ev = gEv(), m = DAYS7.map(() => Array(24).fill(0)), who = DAYS7.map(() => Array.from({ length: 24 }, () => []));
+  let exact = 0, spread = 0;
+  for (const e of ev) {
+    const d = wd(e);
+    if (e.h != null) { m[d][e.h] += 1; who[d][e.h].push(e); exact++; }
+    else if (gSpread && e.b && BAND_HOURS[e.b]) { const hs = BAND_HOURS[e.b]; for (const h of hs) { m[d][h] += 1 / hs.length; who[d][h].push(e); } spread++; }
+  }
+  const hourTot = Array.from({ length: 24 }, (_, h) => m.reduce((s, r) => s + r[h], 0)), dayTot = m.map(r => r.reduce((s, v) => s + v, 0));
+  const max = Math.max(0.0001, ...m.flat()), W = 960, L = 46, R = 96, T = 86, cw = (W - L - R) / 24, ch = 32, H = T + 7 * ch + 46;
+  const hmax = Math.max(0.0001, ...hourTot), dmax = Math.max(0.0001, ...dayTot), total = exact + spread;
+  let s = '';
+  hourTot.forEach((v, h) => { const bh = v / hmax * 62; s += `<rect x="${L + h * cw + 3}" y="${T - 10 - bh}" width="${cw - 6}" height="${bh}" class="gfill" fill-opacity=".75"${tip(`${String(h).padStart(2, '0')}:00–${String((h + 1) % 24).padStart(2, '0')}:00 · ${fmt1(v)} incidents (${total ? Math.round(v / total * 100) : 0}% of the week)`)}/>`; });
+  m.forEach((row, d) => {
+    s += `<text x="${L - 8}" y="${T + d * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${DAYS7[d]}</text>`;
+    row.forEach((v, h) => { s += `<rect x="${L + h * cw + 1}" y="${T + d * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-d="${d}" data-h="${h}"${tip(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00 · ${fmt1(v)} incident${v === 1 ? '' : 's'}`)}/>`; });
+    const bw = dayTot[d] / dmax * (R - 34);
+    s += `<rect x="${W - R + 10}" y="${T + d * ch + 6}" width="${bw}" height="${ch - 12}" class="gfill" fill-opacity=".75"${tip(`${DAYS7[d]} · ${fmt1(dayTot[d])} incidents (${total ? Math.round(dayTot[d] / total * 100) : 0}%)`)}/><text x="${W - R + 14 + bw}" y="${T + d * ch + ch / 2 + 4}" class="gtx gsm">${total ? Math.round(dayTot[d] / total * 100) : 0}%</text>`;
+  });
+  for (let h = 0; h < 24; h += 3) s += `<text x="${L + h * cw + cw / 2}" y="${T + 7 * ch + 16}" class="gtx gsm" text-anchor="middle">${h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm'}</text>`;
+  const step = max / 5, lg = v => (max >= 5 ? Math.round(v) : fmt1(v));
+  [0, 1, 2, 3, 4].forEach(i => { s += `<rect x="${L + i * 70}" y="${H - 18}" width="14" height="12" class="gfill" fill-opacity="${gBin(step * (i + 1), max)}"/><text x="${L + i * 70 + 19}" y="${H - 8}" class="gtx gsm">${lg(step * i)}–${lg(step * (i + 1))}</text>`; });
+  s += `<text x="${L}" y="14" class="gtx gsm">Incidents by hour (all days)</text><text x="${W - R + 10}" y="${T - 10}" class="gtx gsm">By day</text>`;
+  $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">${exact} incidents with an exact hour${gSpread ? `, ${spread} with only a part of day (spread evenly across its hours)` : ''}; ${ev.length - exact - (gSpread ? spread : 0)} more did not say when. Click a cell to see its incidents.</p>`;
+  $('gBox').querySelectorAll('.gcell').forEach(el => el.onclick = () => { const d = +el.dataset.d, h = +el.dataset.h; gPickSet(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00`, who[d][h]); });
+}
+
+/* Trend: weekly counts and the four-week average. */
+function gTrend() {
+  const ev = gEv(), wk = {};
+  const monday = d => { const t = new Date(d.slice(0, 10) + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() - (t.getUTCDay() + 6) % 7); return t.toISOString().slice(0, 10); };
+  for (const e of ev) (wk[monday(e.d)] = wk[monday(e.d)] || []).push(e);
+  const first = Object.keys(wk).sort()[0];
+  if (!first) { $('gBox').innerHTML = '<div class="empty">No incidents in this view and period.</div>'; return; }
+  const weeks = []; for (let t = new Date(first + 'T00:00:00Z'); t <= new Date(); t.setUTCDate(t.getUTCDate() + 7)) weeks.push(t.toISOString().slice(0, 10));
+  const n = weeks.map(w => (wk[w] || []).length), max = Math.max(1, ...n), W = 960, L = 40, B = 40, T = 20, H = 300, bw = (W - L - 10) / weeks.length;
+  const y = v => T + (H - T - B) * (1 - v / max);
+  let s = '';
+  [0, .5, 1].forEach(f => { const v = Math.round(max * f); s += `<line x1="${L}" x2="${W - 10}" y1="${y(v)}" y2="${y(v)}" class="grule"/><text x="${L - 6}" y="${y(v) + 4}" class="gtx gsm" text-anchor="end">${v}</text>`; });
+  weeks.forEach((w, i) => {
+    s += `<rect x="${L + i * bw + 1}" y="${y(n[i])}" width="${Math.max(1, bw - 2)}" height="${H - B - y(n[i])}" class="gfill gbarw" fill-opacity=".45" data-i="${i}"${tip(`Week of ${fmtDay(w + 'T06:30:00Z')} · ${n[i]} incidents`)}/>`;
+    if (i % Math.ceil(weeks.length / 8) === 0) s += `<text x="${L + i * bw + bw / 2}" y="${H - B + 16}" class="gtx gsm" text-anchor="middle">${fmtDay(w + 'T06:30:00Z')}</text>`;
+  });
+  const avg = n.map((_, i) => { const a = n.slice(Math.max(0, i - 3), i + 1); return a.reduce((p, q) => p + q, 0) / a.length; });
+  s += `<polyline points="${avg.map((v, i) => `${L + i * bw + bw / 2},${y(v)}`).join(' ')}" class="gline"/>`;
+  $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">Bars: incidents per week. Line: four-week average. Click a week to see its incidents.</p>`;
+  $('gBox').querySelectorAll('.gbarw').forEach(el => el.onclick = () => { const i = +el.dataset.i; gPickSet('Week of ' + fmtDay(weeks[i] + 'T06:30:00Z'), wk[weeks[i]] || []); });
+}
+
+/* Where × what: the busiest areas of this view against the types. */
+function gMatrix() {
+  const ev = gEv(false).filter(e => e.a), byA = {};
+  for (const e of ev) (byA[e.a] = byA[e.a] || []).push(e);
+  const areas = Object.keys(byA).sort((p, q) => byA[q].length - byA[p].length).slice(0, 16);
+  const types = CATS.filter(c => ev.some(e => e.c === c.id));
+  if (!areas.length) { $('gBox').innerHTML = '<div class="empty">No placed incidents in this view and period.</div>'; return; }
+  const cell = (a, c) => byA[a].filter(e => e.c === c);
+  const max = Math.max(1, ...areas.flatMap(a => types.map(t => cell(a, t.id).length)));
+  const L = 170, T = 110, cw = Math.min(64, (960 - L - 60) / types.length), ch = 26, W = L + types.length * cw + 60, H = T + areas.length * ch + 10;
+  let s = '';
+  types.forEach((t, j) => { s += `<text transform="translate(${L + j * cw + cw / 2},${T - 8}) rotate(-38)" class="gtx gsm">${esc(t.name.replace(' & ', ' & ').split(' (')[0])}</text>`; });
+  areas.forEach((a, i) => {
+    s += `<text x="${L - 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(AREA[a].name)}</text>`;
+    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name} · ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle">${v}</text>` : ''}`; });
+    s += `<text x="${L + types.length * cw + 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm">${byA[a].length}</text>`;
+  });
+  $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">The ${areas.length} areas with most incidents in this view and period; the number at the end of a row is the area’s total. Click a cell to see its incidents.</p>`;
+  $('gBox').querySelectorAll('.gcell').forEach(el => el.onclick = () => gPickSet(`${AREA[el.dataset.a].name} · ${CAT[el.dataset.c].name}`, cell(el.dataset.a, el.dataset.c)));
+}
+
+/* Calendar: every day, with festivals marked. */
+function gCalendar() {
+  const ev = gEv(), byD = {};
+  for (const e of ev) (byD[dayKey(e)] = byD[dayKey(e)] || []).push(e);
+  const keys = Object.keys(byD).sort();
+  if (!keys.length) { $('gBox').innerHTML = '<div class="empty">No incidents in this view and period.</div>'; return; }
+  const start = new Date(keys[0] + 'T00:00:00Z'); start.setUTCDate(start.getUTCDate() - (start.getUTCDay() + 6) % 7);
+  const end = new Date(istDay(Date.now()) + 'T00:00:00Z'), days = [];
+  for (let t = new Date(start); t <= end; t.setUTCDate(t.getUTCDate() + 1)) days.push(t.toISOString().slice(0, 10));
+  const max = Math.max(1, ...days.map(d => (byD[d] || []).length)), c = 15, L = 40, T = 24, weeks = Math.ceil(days.length / 7);
+  const W = Math.max(600, L + weeks * c + 20), H = T + 7 * c + 70;
+  let s = '', lastMonth = '';
+  days.forEach((d, i) => {
+    const x = L + Math.floor(i / 7) * c, yy = T + (i % 7) * c, v = (byD[d] || []).length;
+    s += `<rect x="${x + 1}" y="${yy + 1}" width="${c - 2}" height="${c - 2}" class="gfill gday" fill-opacity="${gBin(v, max)}" data-d="${d}"${tip(`${fmtDay(d + 'T06:30:00Z')} (${DAYS7[i % 7]}) · ${v} incident${v === 1 ? '' : 's'}`)}/>`;
+    if (d.slice(0, 7) !== lastMonth && i % 7 === 0) { lastMonth = d.slice(0, 7); s += `<text x="${x}" y="${T - 8}" class="gtx gsm">${new Date(d + 'T06:30:00Z').toLocaleDateString('en-IN', { month: 'short' })}</text>`; }
+  });
+  [0, 2, 4, 6].forEach(r => { s += `<text x="${L - 6}" y="${T + r * c + 11}" class="gtx gsm" text-anchor="end">${DAYS7[r]}</text>`; });
+  FESTIVALS.forEach(([a, b, name], k) => {
+    const i0 = days.indexOf(a), i1 = days.indexOf(b);
+    if (i0 < 0 && i1 < 0) return;
+    const x0 = L + Math.floor(Math.max(0, i0) / 7) * c, x1 = L + Math.floor((i1 < 0 ? days.length - 1 : i1) / 7) * c + c, yy = T + 7 * c + 10 + (k % 2) * 22;
+    s += `<line x1="${x0}" x2="${x1}" y1="${yy}" y2="${yy}" class="gfest"/><text x="${x0}" y="${yy + 14}" class="gtx gsm">${name}</text>`;
+  });
+  $('gBox').innerHTML = `<div class="gscroll"><svg viewBox="0 0 ${W} ${H}" class="gsvg" style="min-width:${Math.min(W, 900)}px">${s}</svg></div><p class="note">Each square is a day; darker means more incidents. Lines under the grid mark festivals. Click a day to see its incidents.</p>`;
+  $('gBox').querySelectorAll('.gday').forEach(el => el.onclick = () => gPickSet(fmtDay(el.dataset.d + 'T06:30:00Z'), byD[el.dataset.d] || []));
+}
+
+/* Concentration: the 80-20 check across the areas of this view (areas with no incidents count too). */
+function gConc() {
+  const ev = gEv().filter(e => e.a), cnt = {};
+  for (const e of ev) cnt[e.a] = (cnt[e.a] || 0) + 1;
+  const areas = AREAS.filter(a => areaInView(a.id)), n = areas.map(a => cnt[a.id] || 0).sort((p, q) => q - p), tot = n.reduce((p, q) => p + q, 0);
+  if (!tot || areas.length < 3) { $('gBox').innerHTML = '<div class="empty">Too few placed incidents or areas in this view.</div>'; return; }
+  const pts = [[0, 0]]; let acc = 0; n.forEach((v, i) => { acc += v; pts.push([(i + 1) / n.length, acc / tot]); });
+  const k = Math.max(1, Math.round(n.length * 0.2)), topShare = n.slice(0, k).reduce((p, q) => p + q, 0) / tot;
+  const W = 640, H = 420, L = 60, B = 50, T = 20, R = 20, X = f => L + f * (W - L - R), Y = f => H - B - f * (H - B - T);
+  let s = `<line x1="${X(0)}" y1="${Y(0)}" x2="${X(1)}" y2="${Y(1)}" class="grule" stroke-dasharray="4 4"/>`;
+  [0, .2, .4, .6, .8, 1].forEach(f => { s += `<text x="${X(f)}" y="${H - B + 18}" class="gtx gsm" text-anchor="middle">${f * 100}%</text><text x="${L - 8}" y="${Y(f) + 4}" class="gtx gsm" text-anchor="end">${f * 100}%</text>`; });
+  s += `<polygon points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')} ${X(1)},${Y(0)}" class="gfill" fill-opacity=".12"/><polyline points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')}" class="gline"/>`;
+  s += `<line x1="${X(k / n.length)}" x2="${X(k / n.length)}" y1="${Y(0)}" y2="${Y(topShare)}" class="grule"/><circle cx="${X(k / n.length)}" cy="${Y(topShare)}" r="5" class="gfill"/>`;
+  s += `<text x="${X(0.5)}" y="${H - 8}" class="gtx gsm" text-anchor="middle">Share of areas, busiest first</text><text transform="translate(16,${Y(0.5)}) rotate(-90)" class="gtx gsm" text-anchor="middle">Share of incidents</text>`;
+  const busiest = areas.map(a => [a.name, cnt[a.id] || 0]).sort((p, q) => q[1] - p[1]).slice(0, k);
+  $('gBox').innerHTML = `<p class="say" style="margin:6px 0 10px">The busiest <b>${k}</b> of ${n.length} areas (20%) hold <em>${Math.round(topShare * 100)}%</em> of placed incidents${gType ? ' of this type' : ''}: ${busiest.map(([nm, v]) => `${esc(nm)} ${v}`).join(', ')}.</p><svg viewBox="0 0 ${W} ${H}" class="gsvg" style="max-width:640px">${s}</svg><p class="note">If incidents were spread evenly, the curve would follow the dashed line. Areas differ in size and population, so this measures where incidents are reported, not risk per person.</p>`;
+}
+
+/* Gang links: groups named together in reports. */
+function gGangs() {
+  const gs = (OC && OC.groups || []).filter(g => g.n);
+  if (!gs.length) { $('gBox').innerHTML = '<div class="empty">The organised-crime profiles have not been built yet.</div>'; return; }
+  const W = 760, H = 520, cx = W / 2, cy = H / 2, R = 190, maxN = Math.max(...gs.map(g => g.n));
+  const pos = Object.fromEntries(gs.map((g, i) => [g.id, [cx + R * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / gs.length), cy + R * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / gs.length)]]));
+  const edges = []; gs.forEach(g => (g.linked || []).forEach(([o, n]) => { if (pos[o] && g.id < o) edges.push([g.id, o, n]); }));
+  const maxE = Math.max(1, ...edges.map(e => e[2]));
+  let s = edges.map(([a, b, n]) => `<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" class="gedge" data-a="${a}" data-b="${b}" stroke-width="${1 + 7 * n / maxE}"${tip(`${gs.find(g => g.id === a).name} and ${gs.find(g => g.id === b).name}: named together in ${n} report${n > 1 ? 's' : ''}`)}/>`).join('');
+  gs.forEach(g => {
+    const [x, y] = pos[g.id], r = 10 + 26 * Math.sqrt(g.n / maxN), out = x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle', dx = out === 'start' ? r + 8 : out === 'end' ? -r - 8 : 0, dy = out === 'middle' ? (y < cy ? -r - 10 : r + 18) : 4;
+    s += `<g class="gnode" data-g="${g.id}"${tip(`${g.name} · ${g.n} reports${g.active ? ' · active' : ' · quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="gfill" fill-opacity="${g.active ? .8 : .3}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
+  });
+  $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg" style="max-width:760px">${s}</svg><p class="note">Circle size: reports about the group. Solid: active in the last four months; faint: quiet. Hover a group to light up its links; click it to open its profile.</p>`;
+  $('gBox').querySelectorAll('.gnode').forEach(el => {
+    el.onmouseenter = () => $('gBox').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', l.dataset.a === el.dataset.g || l.dataset.b === el.dataset.g));
+    el.onmouseleave = () => $('gBox').querySelectorAll('.gedge').forEach(l => l.classList.remove('hot'));
+    el.onclick = () => { ocOpen = el.dataset.g; show('oc'); };
+  });
+}
+
+/* Harm: fatal, injured and not stated for each type. */
+function gHarm() {
+  const ev = gEv(false), rows = CATS.map(c => { const xs = ev.filter(e => e.c === c.id); return { c, n: xs.length, f: xs.filter(e => e.o === 'fatal'), i: xs.filter(e => e.o === 'injured') }; }).filter(r => r.n)
+    .sort((p, q) => q.f.length / q.n - p.f.length / p.n || q.n - p.n);
+  if (!rows.length) { $('gBox').innerHTML = '<div class="empty">No incidents in this view and period.</div>'; return; }
+  const L = 220, W = 960, ch = 30, T = 30, H = T + rows.length * ch + 30, bw = W - L - 120;
+  let s = `<text x="${L}" y="16" class="gtx gsm">■ fatal   ▪ injured   □ not stated</text>`;
+  rows.forEach((r, k) => {
+    const y = T + k * ch, f = r.f.length / r.n * bw, i = r.i.length / r.n * bw;
+    s += `<text x="${L - 10}" y="${y + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(r.c.name)}</text>
+      <rect x="${L}" y="${y + 6}" width="${bw}" height="${ch - 12}" class="grest"/>
+      <rect x="${L}" y="${y + 6}" width="${f}" height="${ch - 12}" class="gfill gh" data-k="${k}" data-o="f"${tip(`${r.c.name}: ${r.f.length} of ${r.n} fatal (${Math.round(r.f.length / r.n * 100)}%)`)}/>
+      <rect x="${L + f}" y="${y + 6}" width="${i}" height="${ch - 12}" class="gfill gh" fill-opacity=".4" data-k="${k}" data-o="i"${tip(`${r.c.name}: ${r.i.length} of ${r.n} injured someone (${Math.round(r.i.length / r.n * 100)}%)`)}/>
+      <text x="${L + bw + 10}" y="${y + ch / 2 + 4}" class="gtx gsm">${r.f.length} fatal · ${r.i.length} injured · ${r.n}</text>`;
+  });
+  $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">Sorted by the share that were fatal. "Not stated" means the report did not say anyone died or was hurt. Click a bar to see its incidents.</p>`;
+  $('gBox').querySelectorAll('.gh').forEach(el => el.onclick = () => { const r = rows[+el.dataset.k]; gPickSet(`${r.c.name} · ${el.dataset.o === 'f' ? 'fatal' : 'injured'}`, el.dataset.o === 'f' ? r.f : r.i); });
+}
+
+// Controls and the hover tooltip.
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-gs]'); if (b) { gSel = b.dataset.gs; gPick = null; drawGraphs(); }
+  const m = e.target.closest('[data-anm]'); if (m) { anMode = m.dataset.anm; gPick = null; drawAn(); }
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'gType') { gType = e.target.value; gPick = null; drawGraphs(); }
+  if (e.target.id === 'gSpread') { gSpread = e.target.checked; gPick = null; drawGraphs(); }
+});
+document.addEventListener('mousemove', e => {
+  const t = $('gTip'), el = e.target.closest && e.target.closest('[data-tip]');
+  if (!el || !$('anBody').contains(el)) { t.style.display = 'none'; return; }
+  t.textContent = el.dataset.tip; t.style.display = 'block';
+  t.style.left = Math.min(innerWidth - t.offsetWidth - 8, e.clientX + 14) + 'px'; t.style.top = (e.clientY + 16) + 'px';
+});
 
 /* ---------- Wiring ---------- */
 $('fCat').innerHTML = '<option value="">All types</option>' + CATS.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
