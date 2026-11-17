@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-17T04:13:32.858Z",
- "total": 571,
- "added": 0,
+ "updated": "2026-11-17T05:18:16.269Z",
+ "total": 600,
+ "added": 3,
  "removed": 0,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-07-16",
+  "reachedBack": "2026-07-12",
   "target": "2026-05-19",
-  "kept": 549,
+  "kept": 575,
   "note": ""
  },
  "sources": [
@@ -39,8 +39,8 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 2,
+   "added": 1,
    "note": ""
   },
   {
@@ -103,8 +103,8 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 4,
-   "added": 0,
+   "found": 6,
+   "added": 2,
    "note": ""
   },
   {
