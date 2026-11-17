@@ -757,9 +757,10 @@ def recheck(rec, text, trace=None):
     """Judge a stored record again with its article text ('' if unreadable). False when it should be removed."""
     feed = feed_of(rec['s'])
     v = assess(rec['t'], rec['u'], text, rec['d'], is_home(feed, rec['u']) if feed else False, feed.get('kind') == 'urlmap',
-               rec.get('a'), trace)
+               (rec.get('R0') or rec).get('a'), trace)
     if not v:
         return False
+    rec.pop('R0', None)                      # the rules' fresh judgement becomes the base the LLM reading is applied to
     for k in ('c', 'a', 'h', 'b', 'i', 'ip', 'k', 'f', 'o', 'p'):
         if k in v:
             rec[k] = v[k]
@@ -1125,3 +1126,71 @@ def parse_gnews(xml):
         if title and d and link:
             out.append(dict(title=title, link=link, date=d, text='', source=src))
     return out
+
+
+# ------------------------------------------------------------------ applying the LLM reading (llm.py)
+#
+# The rules' own judgement is kept in R0 and every run applies the reading to it afresh, so a change is always
+# traceable and a newer rule version or reading replaces it cleanly.
+#   Undisputed details, applied directly: outcome, exact place, time, and (for reports the rules could not place) area.
+#   Disputed points (is it an incident; its type) are settled only by a majority of rules, reader and expert (X).
+
+def _r0(rec):
+    if 'R0' not in rec:
+        rec['R0'] = {k: rec[k] for k in ('c', 'a', 'o', 'p', 'h', 'b') if k in rec}
+    for k in ('c', 'a', 'o', 'p', 'h', 'b'):
+        if k in rec['R0']:
+            rec[k] = rec['R0'][k]
+        else:
+            rec.pop(k, None)
+    for k in ('nx', 'cr', 'q2'):
+        rec.pop(k, None)
+
+
+def apply_llm(rec):
+    L = rec.get('L')
+    if not L:
+        return
+    _r0(rec)
+    X = rec.get('X') if (rec.get('X') or {}).get('v') == L.get('v') else None
+    rule_c = rec['c']
+    reader_c = L.get('c') if L.get('ok') else None
+    disputed = not L.get('ok') or (reader_c and fam(reader_c) != fam(rule_c))
+    if disputed and X:
+        votes_inc = 1 + int(bool(L.get('ok'))) + int(bool(X.get('ok')))
+        if votes_inc < 2:
+            rec['nx'] = 1                                              # two of three readers: not an incident
+            return
+        if reader_c and X.get('ok') and X.get('c') == reader_c and reader_c != rule_c:
+            rec['c'], rec['cr'] = reader_c, rule_c                     # two of three: the type the models agree on
+    elif disputed:
+        rec['q2'] = reader_c or 'none'                                 # awaiting a tie-break: shown as "check"
+    elif reader_c and reader_c != rule_c and fam(reader_c) == fam(rule_c) and SEVERITY.index(reader_c) < SEVERITY.index(rule_c):
+        rec['c'], rec['cr'] = reader_c, rule_c                         # same family, the reader saw the graver type
+    # Outcome: the reader saw the whole article.
+    o = L.get('o')
+    if o in ('fatal', 'injured'):
+        rec['o'] = o
+    elif o == 'none' and rec.get('o') == 'injured':
+        rec.pop('o', None)
+    if rec['c'] == 'murder':
+        rec['o'] = 'fatal'
+    # Area, when the rules found none: from the reader's locality or place, if it is one of ours.
+    if not rec.get('a'):
+        a = locate(' '.join(x for x in (L.get('lo', ''), L.get('pl', '')) if x))
+        if a:
+            rec['a'] = a
+    # Exact place: the reader's place phrase pinned with the place list, inside the area.
+    if rec.get('a') and (L.get('pl') or L.get('lo')):
+        p = spot(rec['a'], L.get('pl', ''), L.get('lo', ''))
+        old = rec.get('p')
+        if p and (not old or (old[3] == 'n' and p[3] == 'x')):
+            rec['p'] = p
+    # Time, when the rules found none.
+    tm = L.get('tm', '')
+    m = re.match(r'^(\d{1,2}):(\d{2})$', tm)
+    if rec.get('h') is None and m and int(m.group(1)) < 24:
+        rec['h'] = int(m.group(1))
+        rec['b'] = band(rec['h'])
+    elif not rec.get('b') and L.get('pd') in ('morning', 'afternoon', 'evening', 'night'):
+        rec['b'] = L['pd']

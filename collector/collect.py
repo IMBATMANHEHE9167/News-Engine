@@ -120,6 +120,8 @@ for feed in E.FEEDS:
     sources.append(row)
     print('%-4s %s found=%d new=%d %s' % (feed['id'], 'ok ' if row['ok'] else 'ERR', row['found'], row['added'], row['note']))
 
+TEXTS = {}          # article text read this run, handed to the LLM layer so no page is fetched twice
+
 # ---- 2. Every record is judged once with its full article text; records judged under older rules are judged again.
 for rec in items:
     if rec.get('e') and rec.get('r') == E.RULES_VERSION:
@@ -130,7 +132,8 @@ for rec in items:
     changed = True
     text = ''
     try:
-        text = E.page_text(get(rec['u']))
+        text = E.page_text(get(rec["u"]))
+        TEXTS[rec["id"]] = text
     except Exception:
         pass
     # A page that cannot be read right now is not evidence against the record: try again on later runs,
@@ -254,6 +257,16 @@ if sakal and bf['next'] >= bf['stop']:
     print('backfill next=%s days=%d kept=%d %s' % (bf['next'], bf['days'], bf['kept'], bf['note']))
 (DATA / 'backfill.json').write_text(json.dumps(bf, ensure_ascii=False, indent=1), 'utf-8')
 
+# ---- 4b. LLM layer: a language model reads each report and fills a fixed form (llm.py); the engine applies it.
+try:
+    import llm
+    llm.run(items, TEXTS, get)
+    changed = True
+except Exception as ex:
+    print('llm step failed: %s' % str(ex)[:200])
+for rec in items:
+    E.apply_llm(rec)
+
 # ---- 5. Files for the page
 archives = {k: dict(done=s['done'], reached=s.get('reached', ''), kept=s['kept'], note=s['note']) for k, s in bf['src'].items()}
 status = dict(updated=E.iso(datetime.now(timezone.utc)), total=len(items), added=added, removed=removed, rules=E.RULES_VERSION,
@@ -267,7 +280,7 @@ if added or changed:
 # ---- 6. Machine reading (optional): meaning-fingerprints join reports of one story; a second opinion flags types.
 from ml import embed, second_opinion
 cats = {c['id'] for c in E.CATS}
-judged = [r for r in items if r.get('c') in cats]
+judged = [r for r in items if r.get('c') in cats and not r.get('nx')]   # nx: two of three readers say not an incident
 vec = embed(judged)
 review = second_opinion(judged, vec) if vec else {}
 (DATA / 'review.json').write_text(dump_lines(sorted(review.values(), key=lambda x: -x['conf'])), 'utf-8')
@@ -277,7 +290,7 @@ events = E.group_events(judged, vec)
 events.sort(key=lambda e: e['last'], reverse=True)
 for e in events:                     # the second opinion on the report that stands for the incident, when it differs
     lead = next((r for r in e['reports'] if r.get('k') != 'f'), e['reports'][0])
-    e['q'] = review[lead['id']]['model'] if lead['id'] in review else None
+    e['q'] = lead.get('q2') or (review[lead['id']]['model'] if lead['id'] in review else None)
 keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'reports')
 (DATA / 'events.json').write_text(dump_lines([{k: e[k] for k in keep} for e in events]), 'utf-8')
 

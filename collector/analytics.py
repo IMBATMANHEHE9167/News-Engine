@@ -156,6 +156,19 @@ def problems(evs, today):
                 spots[e['p'][0]] = spots.get(e['p'][0], 0) + 1
         if spots:
             facts.append('named places: ' + ', '.join('%s%s' % (s, ' (%d)' % n if n > 1 else '') for s, n in sorted(spots.items(), key=lambda kv: -kv[1])[:3]))
+        # How, and against whom: from the LLM reading of each incident's lead report, when one pattern dominates.
+        reads = [(next((r for r in e['reports'] if r.get('k') != 'f'), e['reports'][0]).get('L') or {}) for e in xs]
+        reads = [L for L in reads if L.get('ok')]
+        for key, name, skip in (('w', 'weapon', ('vehicle',)), ('vr', 'targets', ())):
+            vals = {}
+            for L in reads:
+                v = (L.get(key) or '').strip().lower()
+                if v and v not in skip:
+                    vals[v] = vals.get(v, 0) + 1
+            if vals:
+                v, n = max(vals.items(), key=lambda kv: kv[1])
+                if n >= 3 and n / len(xs) >= 0.4:
+                    facts.append('%s: %s (%d of %d)' % (name, v.replace('_', ' '), n, len(xs)))
         fatal = sum(1 for e in xs if e.get('o') == 'fatal')
         if fatal and c != 'murder':
             facts.append('%d fatal' % fatal)

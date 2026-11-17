@@ -49,10 +49,26 @@ def dump_lines(rows):
 def build(events, get):
     rows = {r['id']: r for r in read_json('ocreports.json', [])}
 
-    # 1. Stored incident reports that name a group (or a koyta), with the incident they belong to.
+    # 1. Stored incident reports that name a group (or a koyta), with the incident they belong to. Where the LLM layer has
+    #    read the article, the gang it names, the police action and whether minors were involved count too; gang names
+    #    it finds that are in no register entry are kept as candidates for review.
+    candidates = {}
+    LLM_ACT = dict(arrest='arrest', detained='arrest', mcoca='mcoca', mpda='mpda', externment='extern', property_action='property')
+    LLM_WPN = dict(koyta='koyta', firearm='firearm', sword_or_knife='blade')
     for k, e in enumerate(events):
         for r in e['reports']:
-            t = tag(r['t'])
+            L = r.get('L') or {}
+            t = tag(r['t'] + ' ' + L.get('g', ''))
+            if L:
+                t['act'] = sorted(set(t['act']) | {LLM_ACT[a] for a in L.get('act', []) if a in LLM_ACT})
+                if L.get('w') in LLM_WPN:
+                    t['wpn'] = sorted(set(t['wpn']) | {LLM_WPN[L['w']]})
+                if L.get('j'):
+                    t['j'] = 1
+                if L.get('g') and not tag(L['g'])['g']:
+                    name = L['g'].strip()
+                    if len(name) > 3:
+                        candidates[name] = candidates.get(name, 0) + 1
             if t['g']:
                 rows[r['id']] = dict(id=r['id'], t=r['t'], u=r['u'], n=r['s'], d=r['d'], a=r.get('a') or e['a'], c=e['c'],
                                      o=e.get('o'), ev=k, src='engine', **t)
@@ -86,7 +102,8 @@ def build(events, get):
 
     reports = sorted(rows.values(), key=lambda r: r['d'], reverse=True)
     for r in reports:                                          # re-tag with the current rules
-        r.update(tag(r['t']))
+        if r.get('src') == 'search':                           # engine rows were tagged above, with the LLM reading
+            r.update(tag(r['t']))
     reports = [r for r in reports if r['g']]
     (DATA / 'ocreports.json').write_text(dump_lines(reports), 'utf-8')
 
@@ -129,5 +146,6 @@ def build(events, get):
             months=sorted(months.items()),
             reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'src')} for r in mine[:60]]))
     profiles.sort(key=lambda p: (p['type'] == 'pattern', -p['n']))
-    (DATA / 'groups.json').write_text(json.dumps(dict(updated=E.iso(now), note=O['note'], groups=profiles), ensure_ascii=False, separators=(',', ':')), 'utf-8')
+    (DATA / 'groups.json').write_text(json.dumps(dict(updated=E.iso(now), note=O['note'], groups=profiles,
+                                                candidates=sorted(candidates.items(), key=lambda kv: -kv[1])[:30]), ensure_ascii=False, separators=(',', ':')), 'utf-8')
     print('organised crime: %d tagged reports, %s' % (len(reports), ', '.join('%s %d' % (p['id'], p['n']) for p in profiles)))
