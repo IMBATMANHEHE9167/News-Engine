@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-17T21:30:23.955Z",
- "total": 2647,
+ "updated": "2026-11-17T22:33:42.672Z",
+ "total": 2670,
  "added": 0,
  "removed": 0,
  "rules": 11,
@@ -31,8 +31,8 @@
    },
    "pkn": {
     "done": false,
-    "reached": "2026-05-30",
-    "kept": 420,
+    "reached": "2026-05-21",
+    "kept": 443,
     "note": ""
    },
    "pcl": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 25,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -135,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 1,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
