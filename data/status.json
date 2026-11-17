@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-17T13:12:10.242Z",
- "total": 1979,
- "added": 0,
+ "updated": "2026-11-17T13:23:13.170Z",
+ "total": 1980,
+ "added": 1,
  "removed": 0,
- "rules": 10,
+ "rules": 11,
  "history": {
   "reachedBack": "2026-06-06",
   "target": "2026-05-19",
@@ -87,10 +87,10 @@
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 1,
    "added": 0,
-   "note": "HTTP 500"
+   "note": ""
   },
   {
    "id": "pcl",
@@ -160,8 +160,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 19,
-   "added": 0,
+   "found": 20,
+   "added": 1,
    "note": ""
   }
  ]
