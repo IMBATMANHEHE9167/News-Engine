@@ -1,5 +1,42 @@
 {
  "version": 11,
+ "organised": {
+  "note": "Groups as publicly reported. Leaders are named as the press names them: accused, not convicted unless a report says so. Never stored: names of juveniles or of victims of sexual offences. Community labels (e.g. 'Irani gang') are not used as group names.",
+  "groups": [
+   {"id": "andekar", "name": "Andekar gang", "type": "syndicate", "leader": "Bandu Andekar",
+    "match": "\\bandekar\\b|आंदेकर", "search": ["Andekar gang Pune", "आंदेकर टोळी"]},
+   {"id": "ghaywal", "name": "Ghaywal gang", "type": "syndicate", "leader": "Nilesh Ghaywal",
+    "match": "\\bgha[iy]wal\\b|घायवळ", "search": ["Ghaywal gang Pune", "घायवळ टोळी"]},
+   {"id": "marne", "name": "Marne gang", "type": "syndicate", "leader": "Gajanan (Gaja) Marne",
+    "match": "\\bgaja marne\\b|\\bgajanan marne\\b|\\bmarne gang\\b|गजा मारणे|गजानन मारणे|मारणे टोळी", "search": ["Gaja Marne gang Pune", "गजा मारणे टोळी"]},
+   {"id": "mohol", "name": "Mohol gang", "type": "syndicate", "leader": "Sharad Mohol (killed January 2024)",
+    "match": "\\bsharad mohol\\b|\\bmohol gang\\b|शरद मोहोळ|मोहोळ टोळी", "search": ["Sharad Mohol gang Pune", "शरद मोहोळ टोळी"]},
+   {"id": "pathan", "name": "Tipu Pathan gang", "type": "syndicate", "leader": "Tipu Pathan",
+    "match": "\\btipu pathan\\b|टिपू पठाण|पठाण टोळी", "search": ["Tipu Pathan gang Pune", "टिपू पठाण टोळी"]},
+   {"id": "thombre", "name": "Thombre gang", "type": "crew", "leader": "",
+    "match": "\\bthombre gang\\b|ठोंबरे टोळी", "search": ["ठोंबरे टोळी पुणे"]},
+   {"id": "bishnoi", "name": "Bishnoi gang (Pune links)", "type": "external", "leader": "Lawrence Bishnoi",
+    "match": "\\bbishnoi\\b|बिश्नोई", "search": ["Bishnoi gang Pune"]},
+   {"id": "koyta", "name": "Koyta gangs", "type": "pattern", "leader": "",
+    "match": "\\bkoyta\\b|कोयता|कोयत्या|कोयते", "search": ["koyta gang Pune", "कोयता गँग पुणे"],
+    "about": "Media and police label for youth crews who terrorise streets with sickles (koyta): vandalising vehicles, threatening shopkeepers, attacking rivals. Mostly loose crews, often with minors, rather than one organisation."}
+  ],
+  "generic": "\\b(gang|gangster|gangsters|syndicate|criminal group)\\b|टोळी|टोळीतील|टोळीचा|टोळीच्या|टोळीला|टोळीप्रमुख|गँग|गॅंग|गुंड",
+  "actions": [
+   ["mcoca", "MCOCA", "\\bmcoca\\b|मकोका|मोक्का"],
+   ["mpda", "MPDA detention", "\\bmpda\\b|एमपीडीए|स्थानबद्ध"],
+   ["extern", "Externment", "\\b(extern\\w*|tadipar)\\b|तडीपार|हद्दपार"],
+   ["arrest", "Arrest", "\\b(arrest\\w*|held|nabbed|detained|caught)\\b|अटक|जेरबंद|गजाआड|ताब्यात"],
+   ["property", "Property action", "\\b(demolish\\w*|bulldoz\\w*|attach\\w* (property|assets)|seiz\\w* (property|assets))\\b|पाडकाम|बुलडोझर|मालमत्ता जप्त|अतिक्रमण हटव"]
+  ],
+  "weapons": [
+   ["koyta", "Koyta (sickle)", "\\bkoyta\\b|\\bsickles?\\b|कोयता|कोयत्या"],
+   ["firearm", "Firearm", "\\b(pistols?|guns?|firearms?|revolver|country[- ]made|firing|shot)\\b|पिस्तूल|पिस्तुल|गावठी कट्ट|गोळीबार|बंदूक"],
+   ["blade", "Sword or knife", "\\b(swords?|knife|knives|chopper|machete)\\b|तलवार|चाकू|चॉपर|सुरा"]
+  ],
+  "juvenile": "\\b(minors?|juveniles?|teen(age|ager)s?|children in conflict)\\b|अल्पवयीन|विधिसंघर्षित",
+  "rival": "\\b(rival|rivalry|feud|revenge|retaliat\\w+|enmity)\\b|वैमनस्य|वर्चस्व|बदला|प्रतिस्पर्धी"
+ },
  "situations": {
   "note": "Public order: protests, bandhs, road blockades, strikes, unrest, prohibitory orders. Most serious kind first.",
   "kinds": [

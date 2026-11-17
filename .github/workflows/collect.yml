@@ -36,7 +36,8 @@ jobs:
         run: |
           git config user.name "vidraksh-collector"
           git config user.email "actions@users.noreply.github.com"
-          FILES="data/incidents.json data/rejected.json data/backfill.json data/status.json data/events.json data/meta.json data/review.json"
+          FILES="data/incidents.json data/rejected.json data/backfill.json data/status.json data/events.json data/meta.json data/review.json data/ocreports.json data/groups.json"
+          FILES=$(ls $FILES 2>/dev/null | xargs)   # only the files this run actually wrote
           git add $FILES
           git diff --cached --quiet && exit 0
           git commit -q -m "data: $(date -u +%Y-%m-%dT%H:%MZ)"

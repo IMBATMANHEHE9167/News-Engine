@@ -285,3 +285,10 @@ meta = dict(rules=E.RULES_VERSION, cats=E.CATS, sitkinds=[dict(id=k, name=n) for
             feeds=[dict(id=f['id'], name=f['name']) for f in E.FEEDS])
 (DATA / 'meta.json').write_text(json.dumps(meta, ensure_ascii=False, separators=(',', ':')), 'utf-8')
 print('total=%d new=%d removed=%d incidents=%d' % (len(items), added, removed, len(events)))
+
+# ---- 7. Organised crime profiles (groups.json): a failure here never stops the incident data from being saved.
+try:
+    import oc
+    oc.build(events, get)
+except Exception as ex:
+    print('organised crime step failed: %s' % str(ex)[:200])
