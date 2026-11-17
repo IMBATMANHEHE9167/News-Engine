@@ -1,8 +1,7 @@
 name: Collect Pune incident news
 
 on:
-  schedule:
-    - cron: '17 * * * *'   # hourly
+  # Started at :17 past every hour by the scan clock (clock.yml); GitHub's own schedule ran up to an hour late.
   workflow_dispatch:
   push:
     branches: [main]

@@ -1,8 +1,7 @@
 name: Scan Pune situations
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'   # every 15 minutes (GitHub may start a scheduled run a few minutes late)
+  # Started at :00 :15 :30 :45 by the scan clock (clock.yml); GitHub's own schedule skipped many runs.
   workflow_dispatch:
   push:
     branches: [main]
