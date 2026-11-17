@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-16T23:57:29.144Z",
- "total": 521,
+ "updated": "2026-11-17T01:33:08.173Z",
+ "total": 540,
  "added": 0,
  "removed": 0,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-07-28",
+  "reachedBack": "2026-07-24",
   "target": "2026-05-19",
-  "kept": 499,
+  "kept": 518,
   "note": ""
  },
  "sources": [
@@ -121,7 +121,7 @@
    "ok": true,
    "found": 12,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   }
  ]
 }
