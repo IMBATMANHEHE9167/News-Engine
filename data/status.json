@@ -1,23 +1,56 @@
 {
- "updated": "2026-11-17T09:21:16.217Z",
- "total": 627,
- "added": 8,
+ "updated": "2026-11-17T10:52:09.343Z",
+ "total": 838,
+ "added": 4,
  "removed": 0,
  "rules": 8,
  "history": {
-  "reachedBack": "2026-07-04",
+  "reachedBack": "2026-06-30",
   "target": "2026-05-19",
-  "kept": 591,
-  "note": ""
+  "kept": 605,
+  "note": "",
+  "from": "2026-05-19",
+  "archives": {
+   "toi": {
+    "done": false,
+    "reached": "2026 October",
+    "kept": 120,
+    "note": ""
+   },
+   "ht": {
+    "done": false,
+    "reached": "november 2026",
+    "kept": 0,
+    "note": ""
+   },
+   "ptm": {
+    "done": false,
+    "reached": "2026-11-03",
+    "kept": 20,
+    "note": ""
+   },
+   "pkn": {
+    "done": false,
+    "reached": "2026-11-03",
+    "kept": 25,
+    "note": ""
+   },
+   "pcl": {
+    "done": true,
+    "reached": "2026-04-27",
+    "kept": 28,
+    "note": ""
+   }
+  }
  },
  "sources": [
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 24,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -32,7 +65,7 @@
    "name": "Times of India",
    "ok": true,
    "found": 2,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -48,7 +81,7 @@
    "name": "Punekar News",
    "ok": true,
    "found": 2,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -56,7 +89,15 @@
    "name": "Pune Pulse",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
+   "note": ""
+  },
+  {
+   "id": "pcl",
+   "name": "Pune City Live",
+   "ok": true,
+   "found": 3,
+   "added": 3,
    "note": ""
   },
   {
@@ -80,7 +121,7 @@
    "name": "ABP Majha",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -94,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 1,
-   "added": 1,
-   "note": ""
+   "ok": false,
+   "found": 0,
+   "added": 0,
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
@@ -111,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 3,
+   "found": 2,
    "added": 0,
    "note": ""
   },
