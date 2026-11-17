@@ -1,13 +1,13 @@
 {
- "next": "2026-06-14",
+ "next": "2026-06-10",
  "stop": "2026-05-19",
- "days": 152,
- "kept": 706,
+ "days": 156,
+ "kept": 729,
  "note": "",
  "src": {
   "toi": {
-   "done": false,
-   "kept": 593,
+   "done": true,
+   "kept": 657,
    "note": "",
    "files": [
     "https://timesofindia.indiatimes.com/staticsitemap/toi/category/city/2026-November-1.xml",
@@ -31,12 +31,12 @@
     "https://timesofindia.indiatimes.com/staticsitemap/toi/category/city/2026-May-2.xml",
     "https://timesofindia.indiatimes.com/staticsitemap/toi/category/city/2026-May-3.xml"
    ],
-   "i": 15,
-   "reached": "2026 June"
+   "i": 20,
+   "reached": "2026 May"
   },
   "ht": {
    "done": false,
-   "kept": 0,
+   "kept": 35,
    "note": "",
    "files": [
     "https://www.hindustantimes.com/sitemap/november-2026.xml",
@@ -47,22 +47,22 @@
     "https://www.hindustantimes.com/sitemap/june-2026.xml",
     "https://www.hindustantimes.com/sitemap/may-2026.xml"
    ],
-   "i": 0,
-   "reached": "november 2026"
+   "i": 1,
+   "reached": "october 2026"
   },
   "ptm": {
    "done": false,
-   "kept": 148,
+   "kept": 179,
    "note": "",
-   "page": 126,
-   "reached": "2026-09-22"
+   "page": 151,
+   "reached": "2026-09-11"
   },
   "pkn": {
    "done": false,
-   "kept": 114,
+   "kept": 142,
    "note": "",
-   "page": 126,
-   "reached": "2026-09-24"
+   "page": 151,
+   "reached": "2026-09-15"
   },
   "pcl": {
    "done": true,
