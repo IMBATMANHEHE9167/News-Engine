@@ -21,6 +21,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main   # the newest main when the job starts, not the commit that triggered it: a run that waited in the queue
+                      # must not work on data older than the run before it (that erased AI readings on 2026-11-18)
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -38,15 +41,19 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           FILES="data/places.json"
           FILES=$(ls $FILES 2>/dev/null | xargs)   # only the files this run actually wrote
+          BASE=$(git rev-parse HEAD)   # the main this run started from
           git add $FILES
           git diff --cached --quiet && exit 0
           git commit -q -m "places: $(date -u +%Y-%m-%dT%H:%MZ)"
-          # If another run saved meanwhile, this run's files replace its files whole (merging line by line could
-          # break the JSON). Anything only that run had found is found again by the next hourly run.
+          # If another workflow saved meanwhile, this run's files are put on top of the newest main (they are its own
+          # files, so nothing else is touched). If a run of THIS workflow saved the same files after this run started,
+          # this run's copy is dropped instead: replacing whole files would erase what that run added.
           for i in 1 2 3 4; do
             git push -q && exit 0
             mkdir -p /tmp/save && cp $FILES /tmp/save/
-            git fetch -q origin main && git reset -q --hard origin/main
+            git fetch -q origin main
+            if ! git diff --quiet $BASE origin/main -- $FILES; then echo "::warning::A newer save of these files is on main; this run's copy is not saved (the next run redoes its work)."; exit 0; fi
+            git reset -q --hard origin/main
             cp -r /tmp/save/. data/ && git add $FILES
             git diff --cached --quiet && exit 0
             git commit -q -m "places: $(date -u +%Y-%m-%dT%H:%MZ)"
