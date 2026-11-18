@@ -15,334 +15,429 @@ document.documentElement.dataset.theme=t;})();
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E6E6E6'/%3E%3Crect x='8' y='15' width='16' height='2' fill='%239C5A2B'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Tiro+Devanagari+Marathi&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=boska@400,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Tiro+Devanagari+Marathi&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
 <style>
-/* Hallmark · redesign: full · shape: app screen · theme: brand (VIDRAKSH paper, ink, copper) · genre: editorial · signature: the short copper rule marks the open tab and the selected record */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4 · weakest: E, a single-file page on a PC without Node, so sloplint cannot run; Floor and gates walked by hand and in the browser */
-/* Hallmark · waive 12, 13 (hero and word budget): app scope, no hero · answered: labels are sentence case, meta joined by space, not dots */
-/* Unslop · direction: exact, unhurried, accountable · world: the station diary and case register · system: design.md */
+/* Hallmark · redesign: full · shape: app screen · theme: kiln (by request of the brief: "do not play it safe"), colourways ember (dark) and bisque (light), accent re-pointed to VIDRAKSH copper · signature: the copper heat ramp, ash to white heat, marks how much happened where and when */
+/* Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V5 · weakest: E, no Node on this PC so sloplint cannot run; checked by hand and in the browser at four widths */
+/* Hallmark · waive 12, 13: app scope, no marketing hero · waive "never orange type": copper is the brand's own ink, used for figures and the open tab, AA on both grounds */
+/* Unslop · direction: exact, physical, unhurried · world: a forge at night, metal glowing where the heat is · moments: the heat strip, the case file, the maps · system: design.md */
 :root{
-  --paper:#E6E6E6; --sheet:#F2F2F2; --raised:#FAFAFA;
-  --ink:#181818; --ink-2:#454545; --ink-3:#666666;
-  --rule:rgba(24,24,24,.12); --rule-2:rgba(24,24,24,.22); --hover:rgba(24,24,24,.045); --bar:rgba(24,24,24,.26);
-  --copper:#9C5A2B; --copper-text:#8A4D22; --copper-wash:rgba(156,90,43,.12);
-  --neg:#A3322A;
-  --shadow:0 8px 24px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --paper:#F6F1E8; --paper-2:#FFFCF6; --paper-3:#EDE4D5;
+  --ink:#1F1712; --ink-2:#4A3D33; --ink-3:#6F6154;
+  --rule:rgba(31,23,18,.13); --rule-2:rgba(31,23,18,.24); --hover:rgba(31,23,18,.05);
+  --copper:#9C5A2B; --copper-text:#8A4D22; --on-copper:#FFF8EF; --copper-wash:rgba(156,90,43,.12);
+  --h0:#EFE6D8; --h1:#EBCFAE; --h2:#DDA673; --h3:#C47E46; --h4:#9C5A2B; --h5:#6B3317; --h6:#33140A;
+  --neg:#A3322A; --bar:rgba(31,23,18,.22);
+  --shadow:0 30px 60px -28px rgba(60,35,15,.35),0 2px 6px rgba(60,35,15,.08);
+  --tile-filter:sepia(.25) saturate(.85) brightness(1.02);
+  --display:"Boska","Tiro Devanagari Marathi",Georgia,serif;
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --serif:"Newsreader","Tiro Devanagari Marathi",Georgia,serif;
-  --ease:cubic-bezier(.22,1,.36,1); --dur:140ms;
-  --r1:4px; --r2:8px;
-  --bar-h:56px; --scope-h:48px; --stick:calc(var(--bar-h) + var(--scope-h));
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --ease:cubic-bezier(.22,1,.36,1); --dur:160ms;
+  --r-ctl:999px; --r-well:14px; --r-card:22px;
+  --bar-h:64px; --scope-h:52px; --stick:calc(var(--bar-h) + var(--scope-h));
 }
 :root[data-theme="dark"]{
-  --paper:#131313; --sheet:#191919; --raised:#232323;
-  --ink:#ECECEC; --ink-2:#B8B8B8; --ink-3:#8C8C8C;
-  --rule:rgba(236,236,236,.11); --rule-2:rgba(236,236,236,.2); --hover:rgba(236,236,236,.05); --bar:rgba(236,236,236,.3);
-  --copper:#C98652; --copper-text:#D2925F; --copper-wash:rgba(201,134,82,.16);
-  --neg:#E0786A;
-  --shadow:0 8px 24px rgba(0,0,0,.45);
+  --paper:#14100E; --paper-2:#1E1815; --paper-3:#2A221E;
+  --ink:#F3ECE0; --ink-2:#D3C7B6; --ink-3:#A5978A;
+  --rule:rgba(243,236,224,.11); --rule-2:rgba(243,236,224,.22); --hover:rgba(243,236,224,.06);
+  --copper:#D08547; --copper-text:#E09A5C; --on-copper:#1A100A; --copper-wash:rgba(208,133,71,.16);
+  --h0:#221B18; --h1:#3E1D16; --h2:#6E2B1B; --h3:#A2502A; --h4:#D08547; --h5:#EDB679; --h6:#FBEBD0;
+  --neg:#EE8573; --bar:rgba(243,236,224,.24);
+  --shadow:0 40px 80px -30px rgba(0,0,0,.7),0 2px 8px rgba(0,0,0,.35);
+  --tile-filter:sepia(.55) saturate(.75) hue-rotate(-12deg) brightness(.85) contrast(1.05);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 14px/20px var(--sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/22px var(--sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit}
 button,select,input{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--copper);outline-offset:2px}
 ::selection{background:var(--copper-wash)}
 .hide{display:none!important}
-.label{font-size:12px;line-height:16px;font-weight:400;color:var(--ink-3)}
+.label{font-size:12px;line-height:16px;font-weight:500;color:var(--ink-3)}
 .note{font-size:13px;line-height:20px;color:var(--ink-3);margin:8px 0 0}
-.empty{padding:48px 20px;text-align:center;color:var(--ink-3);font:400 16px/24px var(--serif)}
+.empty{padding:48px 20px;text-align:center;color:var(--ink-3);font:400 22px/28px var(--display)}
 .mt{display:flex;flex-wrap:wrap;gap:0 12px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0}
+.fig{font-family:var(--display);font-weight:500;letter-spacing:-.03em;font-variant-numeric:lining-nums tabular-nums;line-height:1}
 
-/* Top bar: wordmark, the five tabs, scan clock, theme */
-.bar{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:32px;height:var(--bar-h);padding:0 24px;background:var(--paper);border-bottom:1px solid var(--rule)}
+/* Bar: the wordmark, the five tabs, scan clock, theme */
+.bar{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:28px;height:var(--bar-h);padding:0 28px;background:var(--paper);border-bottom:1px solid var(--rule)}
 .brandrow{display:contents}
-.brand{order:0;flex:none;display:flex;align-items:baseline;gap:12px;text-decoration:none}
-.mark{margin:0;font:500 24px/1 var(--sans);letter-spacing:.01em;position:relative;padding-bottom:6px}
+.brand{order:0;flex:none;display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.mark{margin:0;font:500 28px/1 var(--sans);letter-spacing:.01em;position:relative;padding-bottom:6px}
 .mark span{color:var(--copper)}
-.mark::after{content:"";position:absolute;left:0;bottom:0;width:16px;height:1px;background:var(--copper)}
-.brand .place{font-size:13px;color:var(--ink-3)}
-.tabs{order:1;flex:1 1 auto;min-width:0;align-self:stretch;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.mark::after{content:"";position:absolute;left:0;bottom:0;width:18px;height:2px;background:var(--copper)}
+.brand .place{font:400 18px/1 var(--display);color:var(--ink-2)}
+.tabs{order:1;flex:1 1 auto;min-width:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:4px 0}
 .tabs::-webkit-scrollbar{display:none}
-.tabs button{position:relative;flex:none;appearance:none;background:none;border:0;padding:0 12px;font-size:14px;color:var(--ink-3);white-space:nowrap;transition:color var(--dur) var(--ease)}
-.tabs button:hover{color:var(--ink)}
-.tabs button.on{color:var(--ink)}
-.tabs button.on::after{content:"";position:absolute;left:12px;bottom:0;width:16px;height:2px;background:var(--copper)}
-.tabs button:focus-visible{outline-offset:-2px}
+.tabs button{flex:none;appearance:none;background:none;border:0;height:38px;padding:0 16px;border-radius:var(--r-ctl);font-size:14px;font-weight:500;color:var(--ink-2);white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.tabs button:hover{background:var(--hover);color:var(--ink)}
+.tabs button.on{background:var(--copper);color:var(--on-copper)}
 .scanline{order:2;flex:none;margin:0;font-size:12px;line-height:16px;color:var(--ink-3);text-align:right;white-space:nowrap}
-.scanline b{font-weight:500;color:var(--ink-2)}
-.scanline .late{color:var(--copper-text)}
-.switch{order:3;flex:none;appearance:none;background:none;border:0;padding:4px;border-radius:var(--r1);display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-3)}
+.scanline b{font-family:var(--mono);font-weight:500;color:var(--ink)}
+.scanline .late{display:inline-flex;align-items:center;gap:6px;color:var(--copper-text);font-weight:500}
+.scanline .late::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--copper);box-shadow:0 0 0 3px var(--copper-wash)}
+.switch{order:3;flex:none;appearance:none;background:none;border:0;padding:4px;border-radius:var(--r-ctl);display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-3)}
 .switch:hover{color:var(--ink)}
-.switch i{display:block;position:relative;width:28px;height:16px;border:1px solid var(--rule-2);border-radius:8px}
-.switch i::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--ink-3);transition:transform var(--dur) var(--ease)}
-:root[data-theme="dark"] .switch i::after{transform:translateX(12px);background:var(--ink-2)}
+.switch i{display:block;position:relative;width:34px;height:20px;border-radius:10px;background:var(--paper-3);box-shadow:inset 0 0 0 1px var(--rule-2)}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--copper);transition:transform var(--dur) var(--ease)}
+:root[data-theme="dark"] .switch i::after{transform:translateX(14px)}
 
-/* Scope bar: area and period apply to every tab */
-.scope{position:sticky;top:var(--bar-h);z-index:999;display:flex;align-items:center;gap:32px;min-height:var(--scope-h);padding:8px 24px;background:var(--paper);border-bottom:1px solid var(--rule)}
-.grp{display:flex;align-items:center;gap:12px;min-width:0}
-.grp .lab{flex:none;font-size:12px;color:var(--ink-3)}
-.seg{display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none}
+/* Scope: area and period, for every tab */
+.scope{position:sticky;top:var(--bar-h);z-index:999;display:flex;align-items:center;gap:28px;min-height:var(--scope-h);padding:8px 28px;background:var(--paper);border-bottom:1px solid var(--rule)}
+.grp{display:flex;align-items:center;gap:10px;min-width:0}
+.grp .lab{flex:none;font-size:12px;font-weight:500;color:var(--ink-3)}
+.seg{display:flex;gap:4px;min-width:0;overflow-x:auto;scrollbar-width:none;padding:2px}
 .seg::-webkit-scrollbar{display:none}
-.seg button{flex:none;appearance:none;background:none;border:1px solid transparent;height:28px;padding:0 10px;border-radius:var(--r1);font-size:13px;color:var(--ink-2);white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.seg button{flex:none;appearance:none;background:none;border:0;height:32px;padding:0 14px;border-radius:var(--r-ctl);font-size:13px;color:var(--ink-2);white-space:nowrap;box-shadow:inset 0 0 0 1px transparent;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .seg button:hover{background:var(--hover);color:var(--ink)}
-.seg button.on{background:var(--raised);border-color:var(--rule-2);color:var(--ink)}
-.seg button:focus-visible{outline-offset:-1px}
-.stamp{margin:0 0 0 auto;display:flex;gap:16px;font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap}
-.stamp b{font-weight:500;color:var(--ink)}
+.seg button.on{background:var(--paper-2);color:var(--ink);font-weight:500;box-shadow:inset 0 0 0 1px var(--rule-2)}
+.stamp{margin:0 0 0 auto;display:flex;gap:18px;font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap}
+.stamp b{font-family:var(--mono);font-weight:500;color:var(--copper-text)}
 
-/* Pages: rail + sheet */
-.page{max-width:1600px;margin:0 auto;padding:24px}
-.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);min-width:0}
+/* Pages */
+.page{max-width:1640px;margin:0 auto;padding:28px}
+.sheet{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-card);min-width:0}
 .rail{position:sticky;top:calc(var(--stick) + 24px);min-width:0}
-.rail-h{margin:0 0 8px;padding:0 8px;font-size:12px;line-height:16px;font-weight:400;color:var(--ink-3)}
-.reports{display:grid;grid-template-columns:208px minmax(0,1fr);gap:24px;align-items:start}
-@media (min-width:1200px){.reports{grid-template-columns:208px minmax(0,1fr) 400px}}
-.sitp{display:grid;grid-template-columns:208px minmax(0,960px);gap:24px;align-items:start}
-.filter{display:flex;flex-direction:column;gap:2px}
-.filter button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;appearance:none;background:none;border:1px solid transparent;padding:4px 8px;border-radius:var(--r1);text-align:left;font-size:13px;line-height:20px;color:var(--ink-2);transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
-.filter button span:last-child{font-size:12px;color:var(--ink-3)}
-.filter button:hover{background:var(--hover);color:var(--ink)}
-.filter button.on{background:var(--raised);border-color:var(--rule-2);color:var(--ink)}
-.railnote{margin:16px 8px 0;font-size:12px;line-height:16px;color:var(--ink-3)}
-.rail dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;margin:0 8px;font-size:13px;color:var(--ink-2)}
-.rail dd{margin:0;text-align:right;color:var(--ink)}
+.rail-h{margin:0 0 10px;padding:0 4px;font-size:12px;line-height:16px;font-weight:500;color:var(--ink-3)}
+.railnote{margin:16px 4px 0;font-size:12px;line-height:18px;color:var(--ink-3)}
 
-/* Register: the shared record row (reports, situations, groups) */
-.day{position:sticky;top:var(--stick);z-index:2;display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 20px 8px;background:var(--sheet);border-bottom:1px solid var(--rule);font-size:12px;line-height:16px;color:var(--ink-3)}
-.day:first-child{border-radius:var(--r2) var(--r2) 0 0}
-.day b{font-weight:500;color:var(--ink)}
-.reghead{padding:12px 20px;font-size:12px;line-height:16px;color:var(--ink-3);border-bottom:1px solid var(--rule)}
-.rec{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:16px 20px;border-bottom:1px solid var(--rule);transition:background-color var(--dur) var(--ease)}
+/* The statement: each tab opens with its day and its figures */
+.stmt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 40px;align-items:end;margin:4px 0 28px}
+.stmt h1{margin:0;font:500 64px/1 var(--display);letter-spacing:-.02em}
+.stmt h1 span{color:var(--ink-3)}
+.stmt .sub{margin:12px 0 0;font-size:15px;color:var(--ink-2);max-width:62ch}
+.figs{display:flex;gap:36px;align-items:flex-end}
+.figs div{display:flex;flex-direction:column;gap:8px}
+.figs .fig{font-size:52px}
+.figs .fig.hot{color:var(--copper)}
+.figs span{font-size:12px;font-weight:500;color:var(--ink-3)}
+.strip{grid-column:1/-1;display:grid;gap:3px;align-items:end;height:56px}
+.strip i{display:block;border-radius:3px;min-height:4px;background:var(--h0)}
+.strip-k{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink-3)}
+.strip-k .ramp{display:inline-flex;align-items:center;gap:6px}
+.strip-k .ramp i{display:inline-block;width:14px;height:8px;border-radius:2px}
+
+/* Reports */
+.reports{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;align-items:start}
+@media (min-width:1240px){.reports{grid-template-columns:220px minmax(0,1fr) 420px}}
+.reports > .stmt{grid-column:1/-1}
+.sitp{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:start}
+.sitp > .stmt{grid-column:1/-1}
+.filter{display:flex;flex-direction:column;gap:2px}
+.filter button{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:baseline;appearance:none;background:none;border:0;padding:6px 12px;border-radius:var(--r-well);text-align:left;font-size:14px;line-height:20px;color:var(--ink-2);overflow:hidden;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.filter button span:last-child{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.filter button i{position:absolute;left:0;bottom:0;height:2px;background:var(--copper);opacity:.55}
+.filter button:hover{background:var(--hover);color:var(--ink)}
+.filter button.on{background:var(--paper-2);color:var(--ink);font-weight:500;box-shadow:inset 0 0 0 1px var(--rule-2)}
+.filter button.on span:last-child{color:var(--copper-text)}
+.rail dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;margin:0 4px;font-size:14px;color:var(--ink-2)}
+.rail dd{margin:0;text-align:right;font-family:var(--mono);color:var(--ink)}
+
+/* Register rows: reports, situations, groups */
+.day{position:sticky;top:var(--stick);z-index:2;display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 22px 10px;background:var(--paper-2);border-bottom:1px solid var(--rule);font-size:12px;line-height:16px;color:var(--ink-3)}
+.day:first-child{border-radius:var(--r-card) var(--r-card) 0 0}
+.day b{font:500 20px/1 var(--display);color:var(--ink);margin-right:8px;letter-spacing:-.01em}
+.day .mono{color:var(--ink-3)}
+.reghead{padding:14px 22px;font-size:12px;line-height:16px;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+.rec{position:relative;display:grid;grid-template-columns:76px minmax(0,1fr);gap:16px;padding:16px 22px 16px 22px;border-bottom:1px solid var(--rule);transition:background-color var(--dur) var(--ease)}
+.rec::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:0 3px 3px 0;background:var(--k,transparent)}
 .rec:last-child{border-bottom:0}
 .rec.pick{cursor:pointer}
 .rec.pick:hover{background:var(--hover)}
-.rec.sel,.rec.sel:hover{background:var(--raised)}
-.rec-when{font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap;padding-top:2px}
-.rec.sel .rec-when::after{content:"";display:block;width:16px;height:2px;margin-top:8px;background:var(--copper)}
-.rec-type{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:12px;line-height:20px;color:var(--ink-2)}
-.tag{display:inline-block;padding:0 6px;border:1px solid var(--rule-2);border-radius:var(--r1);font-size:12px;line-height:18px;color:var(--ink-2);white-space:nowrap}
-.rec-head{display:block;margin:2px 0 0;font:400 18px/24px var(--serif);color:var(--ink);text-decoration:none;text-wrap:pretty}
-.rec-head:hover{text-decoration:underline;text-decoration-color:var(--copper);text-decoration-thickness:1px;text-underline-offset:4px}
+.rec.sel,.rec.sel:hover{background:var(--copper-wash)}
+.rec.sel .rec-when{color:var(--copper-text)}
+.rec-when{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--ink-3);white-space:nowrap;padding-top:2px}
+.rec-type{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:12px;line-height:18px;font-weight:500;color:var(--ink-2)}
+.tag{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:var(--r-ctl);font-size:11px;font-weight:500;color:var(--ink-2);background:var(--paper-3);white-space:nowrap}
+.tag.hot{background:var(--copper);color:var(--on-copper)}
+.rec-head{display:block;margin:4px 0 0;font:500 16px/23px var(--sans);color:var(--ink);text-decoration:none;text-wrap:pretty}
+.rec-head:hover{text-decoration:underline;text-decoration-color:var(--copper);text-decoration-thickness:2px;text-underline-offset:4px}
 .rec-sum{margin:4px 0 0;font-size:14px;line-height:20px;color:var(--ink-2)}
 .rec-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin-top:8px;font-size:13px;line-height:20px;color:var(--ink-3)}
 .rec-meta .place{font-weight:500;color:var(--ink-2)}
 .rec-meta a,.lnk{text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
 .rec-meta a:hover,.lnk:hover{text-decoration-color:var(--copper)}
 .acc{font-size:12px;color:var(--ink-3)}
-.rec-open{appearance:none;background:none;border:0;padding:0;border-radius:var(--r1);font-size:13px;line-height:20px;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
-.rec-open:hover{color:var(--ink);text-decoration-color:var(--copper)}
-.rec-inline{padding:0 20px 20px 100px;border-bottom:1px solid var(--rule);background:var(--raised)}
-.more{display:block;margin:0;width:100%;appearance:none;background:none;border:0;border-top:1px solid var(--rule);padding:12px 20px;font-size:13px;color:var(--ink-2);text-align:center;border-radius:0 0 var(--r2) var(--r2)}
-.more:hover{background:var(--hover);color:var(--ink)}
+.rec-open{appearance:none;background:none;border:0;padding:0;border-radius:var(--r-ctl);font-size:13px;font-weight:500;line-height:20px;color:var(--copper-text)}
+.rec-open:hover{text-decoration:underline;text-underline-offset:3px}
+.rec-inline{padding:0 22px 22px;border-bottom:1px solid var(--rule);background:var(--copper-wash)}
+.rec-inline .casefile{margin:0}
+.more{display:block;margin:0;width:100%;appearance:none;background:none;border:0;border-top:1px solid var(--rule);padding:14px 22px;font-size:13px;font-weight:500;color:var(--copper-text);text-align:center;border-radius:0 0 var(--r-card) var(--r-card)}
+.more:hover{background:var(--hover)}
 
-/* Case record: one case's provenance, in the panel or under its row */
-.detail{position:sticky;top:calc(var(--stick) + 24px);max-height:calc(100vh - var(--stick) - 48px);overflow:auto;padding:20px;scrollbar-width:thin}
-@media (max-width:1199px){.reports .detail{display:none}}
-.case-h{margin:0;font:400 22px/28px var(--serif);text-wrap:pretty}
-.case-st{margin:12px 0 0;padding:12px;border:1px solid var(--rule);border-radius:var(--r1);font-size:13px;line-height:20px;color:var(--ink-2)}
-.case-st b{font-weight:500;color:var(--ink)}
-.dl{display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px 12px;margin:16px 0 0;font-size:13px;line-height:20px}
+/* The case file: one case's provenance, standing on the desk */
+.detail{position:sticky;top:calc(var(--stick) + 24px);max-height:calc(100vh - var(--stick) - 48px);overflow:auto;scrollbar-width:thin}
+@media (max-width:1239px){.reports .detail{display:none}}
+.casefile{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-card);box-shadow:var(--shadow);padding:22px}
+.cf-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;font-weight:500;color:var(--ink-3)}
+.cf-big{display:flex;align-items:baseline;gap:14px;margin:14px 0 4px}
+.cf-big .fig{font-size:64px;color:var(--copper)}
+.cf-big span{font-size:13px;color:var(--ink-3);line-height:18px}
+.case-h{margin:8px 0 0;font:500 20px/27px var(--sans);text-wrap:pretty}
+.case-st{margin:14px 0 0;padding:12px 14px;border-radius:var(--r-well);background:var(--paper-3);font-size:13px;line-height:20px;color:var(--ink-2)}
+.case-st b{font-weight:600;color:var(--ink)}
+.wells{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:14px 0 0;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r-well);overflow:hidden}
+.wells div{background:var(--paper-2);padding:10px 12px;font-size:14px;line-height:20px;color:var(--ink);min-width:0}
+.wells div.w2{grid-column:1/-1}
+.wells small{display:block;font-size:11px;font-weight:500;line-height:16px;color:var(--ink-3)}
+.wells em{display:block;font-style:normal;font-size:12px;line-height:16px;color:var(--ink-3)}
+.dl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px 12px;margin:16px 0 0;font-size:14px;line-height:20px}
 .dl dt{color:var(--ink-3)}
-.dl dd{margin:0;color:var(--ink)}
-.dl dd small{display:block;font-size:12px;line-height:16px;color:var(--ink-3)}
-.tl-h{display:flex;justify-content:space-between;gap:12px;margin:24px 0 0;font-size:13px;font-weight:500}
-.tl-h span{font-weight:400;color:var(--ink-3)}
-.tl{list-style:none;margin:8px 0 0;padding:0}
-.tl li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid var(--rule)}
-.tl time{font-size:12px;line-height:16px;color:var(--ink-3)}
+.dl dd{margin:0;color:var(--ink);font-family:var(--mono);font-size:13px}
+.tl-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:22px 0 0;font:500 20px/1.1 var(--display)}
+.tl-h span{font:500 12px var(--mono);color:var(--ink-3)}
+.tl{list-style:none;margin:10px 0 0;padding:0;position:relative}
+.tl li{position:relative;display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding:12px 0;border-top:1px solid var(--rule)}
+.tl li::after{content:"";position:absolute;left:77px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--h3)}
+.tl li.dev::after{background:transparent;box-shadow:inset 0 0 0 1.5px var(--h3)}
+.tl li > div{padding-left:4px}
+.tl time{font-family:var(--mono);font-size:11px;line-height:16px;color:var(--ink-3)}
 .tl .src{display:flex;flex-wrap:wrap;gap:0 8px;font-size:12px;line-height:16px;color:var(--ink-3)}
-.tl .src b{font-weight:500;color:var(--ink-2)}
-.tl a{display:block;margin-top:4px;font:400 15px/20px var(--serif);color:var(--ink);text-decoration:none}
-.tl a:hover{text-decoration:underline;text-decoration-color:var(--copper);text-underline-offset:3px}
-.tl p{margin:4px 0 0;font-size:13px;line-height:20px;color:var(--ink-2)}
-.tl p span{color:var(--ink-3)}
+.tl .src b{font-weight:600;color:var(--ink-2)}
+.tl a{display:block;margin-top:4px;font:500 14px/20px var(--sans);color:var(--ink);text-decoration:none}
+.tl a:hover{text-decoration:underline;text-decoration-color:var(--copper)}
+.tl p{margin:6px 0 0;font-size:13px;line-height:19px;color:var(--ink-2)}
+.tl p span{font-weight:500;color:var(--ink-3)}
 .key{margin:16px 0 0;padding:0;list-style:none;font-size:13px;line-height:20px;color:var(--ink-2)}
-.key li{padding:8px 0;border-top:1px solid var(--rule)}
-.key b{display:block;font-weight:500;color:var(--ink)}
+.key li{padding:10px 0;border-top:1px solid var(--rule)}
+.key b{display:block;font-weight:600;color:var(--ink)}
 
-/* Panels, sections, ranked lists, prose findings */
-.sec{margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)}
-.anmain > .sec:first-child,.mapside .sec:first-child{margin-top:0;padding-top:0;border-top:0}
-.sec-h{margin:0 0 12px;font-size:13px;line-height:20px;font-weight:500;color:var(--ink)}
-.sec-h span{font-weight:400;color:var(--ink-3)}
-.sec h2{font:400 22px/28px var(--serif);margin:0 0 12px}
+/* Panels, sections, ranked lists */
+.sec{margin-top:28px;padding-top:24px;border-top:1px solid var(--rule)}
+.sec-h{margin:0 0 14px;font:500 22px/1.15 var(--display);letter-spacing:-.01em;color:var(--ink)}
+.sec-h span{font:500 12px var(--mono);color:var(--ink-3);margin-left:6px}
+.sec h2{font:500 34px/1.05 var(--display);margin:0 0 14px;letter-spacing:-.02em}
 .two{display:grid;grid-template-columns:1fr;gap:20px}
-.row{display:grid;grid-template-columns:minmax(0,1fr) 40px;column-gap:12px;align-items:baseline;font-size:13px;line-height:20px;padding:4px 0 0;color:var(--ink-2)}
-.row .n{text-align:right;color:var(--ink)}
-.row .track{grid-column:1/-1;height:2px;background:var(--rule);margin-top:4px}
-.row .track i{display:block;height:2px;background:var(--bar)}
-.say{font:400 16px/24px var(--serif);margin:0 0 12px;text-wrap:pretty}
-.say b{font-weight:500}
-.say em{font-style:normal;font-weight:500}
-.mini{padding:8px 0;border-top:1px solid var(--rule);font-size:12px;line-height:16px;color:var(--ink-3)}
-.mini a{display:block;margin-top:4px;font:400 15px/20px var(--serif);color:var(--ink);text-decoration:none}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 44px;column-gap:12px;align-items:baseline;font-size:14px;line-height:20px;padding:6px 0 0;color:var(--ink-2)}
+.row .n{text-align:right;font-family:var(--mono);font-size:13px;color:var(--ink)}
+.row .track{grid-column:1/-1;height:6px;border-radius:3px;background:var(--paper-3);margin-top:6px;overflow:hidden}
+.row .track i{display:block;height:6px;border-radius:3px;background:var(--copper)}
+.say{font:400 17px/25px var(--sans);margin:0 0 12px;text-wrap:pretty}
+.say b{font-weight:600}
+.say em{font-style:normal;font-weight:600;color:var(--copper-text)}
+.mini{padding:10px 0;border-top:1px solid var(--rule);font-size:12px;line-height:16px;color:var(--ink-3)}
+.mini a{display:block;margin-top:4px;font:500 14px/20px var(--sans);color:var(--ink);text-decoration:none}
 .mini a:hover{text-decoration:underline;text-decoration-color:var(--copper);text-underline-offset:3px}
-table{border-collapse:collapse;width:100%;font-size:13px;line-height:20px}
-th,td{padding:6px 4px;text-align:right;border-bottom:1px solid var(--rule);font-weight:400}
-th{font-size:12px;color:var(--ink-3);white-space:nowrap}
-td:first-child,th:first-child{text-align:left;padding-left:0}
-td.hi{color:var(--copper-text);font-weight:500}
-td.z{color:var(--ink-3);opacity:.6}
-.src-row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;font-size:13px;line-height:20px;color:var(--ink-2)}
-.src-row span:last-child{color:var(--ink-3);text-align:right}
+table{border-collapse:separate;border-spacing:3px;width:100%;font-size:13px;line-height:20px}
+th,td{padding:6px 8px;text-align:right;font-weight:400}
+th{font-size:12px;font-weight:500;color:var(--ink-3);white-space:nowrap}
+td{font-family:var(--mono);font-size:12px;border-radius:6px}
+td:first-child,th:first-child{text-align:left;padding-left:0;font-family:var(--sans);font-size:13px;color:var(--ink-2)}
+td.z{color:var(--ink-3)}
+.src-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--rule);font-size:13px;line-height:20px;color:var(--ink-2)}
+.src-row span:last-child{font-family:var(--mono);font-size:12px;color:var(--ink-3);text-align:right}
 .src-row.off span:first-child{color:var(--ink-3);text-decoration:line-through}
-select{width:100%;height:32px;appearance:none;background-color:var(--raised);border:1px solid var(--rule-2);border-radius:var(--r1);padding:0 28px 0 10px;font-size:13px;color:var(--ink);
-  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 15px) 55%,calc(100% - 11px) 55%;background-size:4px 4px;background-repeat:no-repeat}
-select:hover{border-color:var(--ink-3)}
-option{background:var(--raised);color:var(--ink)}
-.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+select{width:100%;height:40px;appearance:none;background-color:var(--paper-2);border:0;box-shadow:inset 0 0 0 1px var(--rule-2);border-radius:var(--r-well);padding:0 34px 0 14px;font-size:14px;color:var(--ink);
+  background-image:linear-gradient(45deg,transparent 50%,var(--copper) 50%),linear-gradient(135deg,var(--copper) 50%,transparent 50%);background-position:calc(100% - 19px) 55%,calc(100% - 14px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+select:hover{box-shadow:inset 0 0 0 1px var(--ink-3)}
+option{background:var(--paper-2);color:var(--ink)}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .tog{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);cursor:pointer}
 .tog input{accent-color:var(--copper);margin:0}
 
-/* Map & patterns */
-.mapp{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start}
+/* Maps: one look for all four maps */
+.mapp{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:28px;align-items:start}
+.mapp > .stmt{grid-column:1/-1}
 .mapcol{position:sticky;top:calc(var(--stick) + 24px)}
-#map{height:calc(100vh - var(--stick) - 48px);min-height:440px;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);z-index:1}
-.mapside{padding:20px}
+.mapbox{position:relative;border-radius:var(--r-card);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--rule)}
+#map{height:calc(100vh - var(--stick) - 48px);min-height:460px}
+.sitmap,.ocmap{height:min(64vh,620px);min-height:380px}
+.mapkey{position:absolute;left:14px;bottom:14px;z-index:500;display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:var(--r-well);background:color-mix(in srgb,var(--paper-2) 88%,transparent);box-shadow:0 0 0 1px var(--rule);font-size:12px;line-height:16px;color:var(--ink-2);max-width:calc(100% - 28px)}
+.mapkey div{display:flex;align-items:center;gap:8px}
+.mapkey svg{flex:none}
+.mapkey b{font-family:var(--mono);font-weight:500;color:var(--ink);margin-left:auto;padding-left:12px}
+.mapside{padding:22px}
 .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.legend{margin:20px 0 0;padding:16px 0 0;border-top:1px solid var(--rule)}
-.legend .tot{font-size:13px;color:var(--ink-2)}
-.legend .tot b{font:500 28px/32px var(--sans);color:var(--ink);margin-right:8px}
-.legend ul{list-style:none;margin:12px 0 0;padding:0}
-.legend li{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:8px;align-items:center;padding:4px 0;font-size:13px;line-height:20px;color:var(--ink-2)}
-.legend li b{font-weight:500;color:var(--ink)}
+.legend{margin:22px 0 0}
+.legend .tot{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--ink-2)}
+.legend .tot .fig{font-size:56px;color:var(--copper)}
+.legend ul{list-style:none;margin:14px 0 0;padding:0}
+.legend li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--rule);font-size:13px;line-height:20px;color:var(--ink-2)}
+.legend li b{font-family:var(--mono);font-weight:500;color:var(--ink)}
 .legend svg{display:block}
+.heatkey{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:var(--ink-3)}
+.heatkey i{flex:1;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--h1),var(--h2),var(--h3),var(--h4),var(--h5))}
+
+/* Patterns, drawn: concentration rows, lift tiles, an after-dark meter, a heat table */
+.conc{display:grid}
+.conc-row{display:grid;gap:6px;padding:10px 0;border-top:1px solid var(--rule)}
+.conc-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px;font-weight:500;color:var(--ink)}
+.conc-h b{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink-3)}
+.conc-bar{display:flex;gap:3px;height:12px}
+.conc-bar div{border-radius:4px;min-width:4px}
+.conc-row p{display:flex;flex-wrap:wrap;gap:2px 14px;margin:0;font-size:12px;line-height:17px;color:var(--ink-3)}
+.conc-row p b{font-family:var(--mono);font-weight:500;color:var(--ink-2)}
+.conc-row p span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;background:var(--paper-3);vertical-align:0}
+.conc-row p .k0::before{background:var(--h4)}.conc-row p .k1::before{background:var(--h3)}.conc-row p .k2::before{background:var(--h2)}
+.conc-bar div.c0{background:var(--h4);color:var(--on-copper)}
+.conc-bar div.c1{background:var(--h3);color:var(--on-copper)}
+.conc-bar div.c2{background:var(--h2)}
+.conc-bar div.rest{background:var(--paper-3);color:var(--ink-3)}
+.lifts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.lift{padding:14px;border-radius:var(--r-well);background:var(--paper-3)}
+.lift .fig{font-size:40px;color:var(--copper)}
+.lift .fig small{font-size:20px}
+.lift p{margin:8px 0 0;font-size:13px;line-height:18px;color:var(--ink-2)}
+.lift p b{color:var(--ink);font-weight:600}
+.meter{display:grid;grid-template-columns:120px minmax(0,1fr) 46px;gap:10px;align-items:center;padding:5px 0;font-size:13px;color:var(--ink-2)}
+.meter .m{position:relative;height:12px;border-radius:6px;background:var(--paper-3);overflow:hidden}
+.meter .m i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:linear-gradient(90deg,var(--h2),var(--h4))}
+.meter .m s{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink-3)}
+.meter b{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink);text-align:right}
 
 /* Organised crime */
-.ochead{max-width:720px;margin:0 0 24px}
+.ochead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:16px 40px;align-items:end;margin:4px 0 24px}
+.ochead h1{margin:0;font:500 64px/1 var(--display);letter-spacing:-.02em}
 .ocsearch{position:relative}
-.search{width:100%;height:40px;padding:0 12px;background:var(--raised);border:1px solid var(--rule-2);border-radius:var(--r1);color:var(--ink);font:16px var(--sans)}
-.search:hover{border-color:var(--ink-3)}
-.search:focus-visible{outline-offset:-1px}
-.sug{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:1500;background:var(--raised);border:1px solid var(--rule-2);border-radius:var(--r1);box-shadow:var(--shadow);max-height:360px;overflow-y:auto;padding:4px}
-.sug .sh{padding:8px 8px 4px}
-.sug button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;appearance:none;background:none;border:0;border-radius:var(--r1);padding:6px 8px;text-align:left;font-size:14px;color:var(--ink)}
+.search{width:100%;height:48px;padding:0 20px;background:var(--paper-2);border:0;box-shadow:inset 0 0 0 1px var(--rule-2);border-radius:var(--r-ctl);color:var(--ink);font:16px var(--sans)}
+.search:hover{box-shadow:inset 0 0 0 1px var(--ink-3)}
+.search:focus-visible{outline-offset:2px}
+.sug{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:1500;background:var(--paper-2);border:1px solid var(--rule-2);border-radius:var(--r-well);box-shadow:var(--shadow);max-height:380px;overflow-y:auto;padding:6px}
+.sug .sh{padding:8px 10px 4px}
+.sug button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;appearance:none;background:none;border:0;border-radius:10px;padding:8px 10px;text-align:left;font-size:14px;color:var(--ink)}
 .sug button span:last-child{font-size:12px;color:var(--ink-3);white-space:nowrap}
-.sug button.on,.sug button:hover{background:var(--hover)}
-.ocgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
-.ocgraph{position:sticky;top:calc(var(--stick) + 24px);padding:20px}
-.ocgraph .gsvg{max-width:760px;margin:0 auto}
+.sug button.on,.sug button:hover{background:var(--copper-wash)}
+.ocgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
+.ocleft{position:sticky;top:calc(var(--stick) + 24px);display:grid;gap:20px}
+.ocgraph{padding:20px 22px}
+.ocgraph .gsvg{max-width:640px;margin:0 auto}
 .ocgraph .gtx{font-size:15px}
-.ocprof{padding:20px}
-.ocname{font:400 28px/32px var(--serif);margin:12px 0 8px}
-.back{appearance:none;background:none;border:0;padding:0;font-size:13px;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
-.back:hover{color:var(--ink);text-decoration-color:var(--copper)}
-.spark{display:flex;align-items:flex-end;gap:2px;height:48px;border-bottom:1px solid var(--rule)}
-.spark i{flex:1;background:var(--bar);min-width:3px}
-
+.ocprof{padding:22px}
+.ocname{font:500 44px/1.02 var(--display);margin:14px 0 8px;letter-spacing:-.02em}
+.back{appearance:none;background:none;border:0;padding:0;font-size:13px;font-weight:500;color:var(--copper-text)}
+.back:hover{text-decoration:underline;text-underline-offset:3px}
+.spark{display:flex;align-items:flex-end;gap:3px;height:64px}
+.spark i{flex:1;border-radius:3px 3px 0 0;min-width:3px}
 
 /* Analytics */
 .anhead{display:flex;align-items:center;gap:16px;margin:0 0 24px}
 .anhead p{margin:0;font-size:13px;color:var(--ink-3)}
-.anfind{display:grid;grid-template-columns:208px minmax(0,800px);gap:24px;align-items:start}
+.anfind{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;align-items:start}
+.anfind > .stmt{grid-column:1/-1}
 .anidx{display:flex;flex-direction:column;gap:2px}
-.anidx a{display:flex;justify-content:space-between;gap:12px;padding:4px 8px;border-radius:var(--r1);font-size:13px;line-height:20px;color:var(--ink-2);text-decoration:none}
-.anidx a span+span{font-size:12px;color:var(--ink-3)}
-#gList .sec{margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)}
+.anidx a{display:flex;justify-content:space-between;gap:12px;padding:8px 12px;border-radius:var(--r-well);font-size:14px;line-height:20px;color:var(--ink-2);text-decoration:none}
+.anidx a span+span{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
 .anidx a:hover{background:var(--hover);color:var(--ink)}
-.anmain{padding:24px}
-.anmain .sec{scroll-margin-top:calc(var(--stick) + 24px)}
-.finding{padding:16px 0;border-top:1px solid var(--rule)}
-.sec-h + .finding{border-top:0;padding-top:4px}
-.finding .say{margin:0 0 8px;font-size:18px;line-height:24px}
-.ev .mini:first-child{border-top:0;padding-top:0}
-.ev .mini a{font:400 14px/20px var(--sans);color:var(--ink-2)}
-.ev .mini a:hover{color:var(--ink)}
-.trend{display:block;margin:0 0 4px;font-size:12px;line-height:16px;color:var(--ink-3)}
-.trend.up{color:var(--copper-text)}
-.how{font-size:13px;line-height:20px;color:var(--ink-3);margin-top:4px}
-.ev{margin-top:12px;padding-left:12px;border-left:2px solid var(--rule)}
-.ev details summary{cursor:pointer;list-style:none;padding:8px 0;border-top:1px solid var(--rule);font-size:12px;color:var(--ink-2)}
+.anmain{padding:0;background:none;border:0}
+.anmain .sec{scroll-margin-top:calc(var(--stick) + 24px);margin-top:0;padding-top:0;border-top:0;margin-bottom:36px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.finding{display:flex;flex-direction:column;padding:20px;border-radius:var(--r-card);background:var(--paper-2);border:1px solid var(--rule)}
+.finding .fhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.finding .fig{font-size:56px;color:var(--copper)}
+.finding .fig small{display:block;margin-top:6px;font:500 12px/16px var(--sans);letter-spacing:0;color:var(--ink-3)}
+.finding .say{margin:14px 0 8px;font:500 17px/24px var(--sans)}
+.trend{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--r-ctl);font-size:12px;font-weight:500;background:var(--paper-3);color:var(--ink-2);white-space:nowrap}
+.trend.up{background:var(--copper);color:var(--on-copper)}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 0}
+.facts span{padding:4px 10px;border-radius:var(--r-ctl);background:var(--paper-3);font-size:12px;line-height:16px;color:var(--ink-2)}
+.how{font-size:12px;line-height:18px;color:var(--ink-3);margin-top:10px}
+.ev{margin-top:auto;padding-top:12px}
+.ev details summary{cursor:pointer;list-style:none;padding:10px 0 0;border-top:1px solid var(--rule);font-size:13px;font-weight:500;color:var(--copper-text)}
 .ev details summary::-webkit-details-marker{display:none}
-.ev details summary:hover{color:var(--ink)}
-.qt{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px solid var(--rule);font-size:13px;line-height:20px}
-.qt .ok{color:var(--ink-3)}
-.qt .bad{color:var(--neg);font-weight:500}
+.ev details[open] summary{margin-bottom:4px}
+.ev .mini a{font-size:13px;line-height:19px;color:var(--ink-2)}
+.qt{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--rule);font-size:14px;line-height:20px}
+.qt .ok,.qt .bad{display:inline-flex;align-items:center;justify-content:center;height:22px;border-radius:var(--r-ctl);font-size:11px;font-weight:600}
+.qt .ok{background:var(--paper-3);color:var(--ink-2)}
+.qt .bad{background:var(--neg);color:var(--paper)}
 .qt small{display:block;font-size:12px;line-height:16px;color:var(--ink-3)}
-.big{font:500 28px/32px var(--sans);margin-right:8px}
-.angraphs{padding:20px 24px}
-.gctl{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;padding:16px 0 0}
-.gctl .field{width:240px}
-.gabout{margin:16px 0 0;max-width:760px}
-.gbox{padding:12px 0 0;overflow-x:auto;overflow-y:hidden}
-.gbox > .gsvg{max-width:1080px}
+.checks{padding:22px}
+.big{font-size:56px;color:var(--copper);margin-right:12px}
+.angraphs{padding:22px 26px}
+.gctl{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;padding:18px 0 0}
+.gctl .field{width:260px}
+.gabout{margin:16px 0 0;max-width:780px}
+.gbox{padding:16px 0 0;overflow-x:auto;overflow-y:hidden}
+.gbox > .gsvg{max-width:1120px}
+#gList .sec{margin-top:24px}
 .gscroll{overflow-x:auto}
 .gsvg{width:100%;height:auto;display:block;overflow:visible}
 .gfill{fill:var(--copper)}
 .gn{fill:var(--bar)}
 .gcell,.gday,.gbarw,.gh{cursor:pointer}
-.gcell:hover,.gday:hover,.gbarw:hover,.gh:hover{stroke:var(--ink);stroke-width:1.2}
+.gcell:hover,.gday:hover,.gbarw:hover,.gh:hover{stroke:var(--ink);stroke-width:1.5}
 .gtx{fill:var(--ink-2);font:12px var(--sans)}
 .gsm{font-size:12px;fill:var(--ink-3)}
-.gnum{fill:var(--ink);font-weight:500}
+.gnum{fill:var(--ink);font-weight:600;font-family:var(--mono);font-size:11px;paint-order:stroke;stroke:var(--paper-2);stroke-width:3px}
+.gnum.dk{fill:var(--on-copper)}
 .grule{stroke:var(--rule);stroke-width:1}
-.grest{fill:var(--rule)}
-.gline{fill:none;stroke:var(--copper);stroke-width:2}
-.gfest{stroke:var(--copper);stroke-width:2}
+.grest{fill:var(--paper-3)}
+.gline{fill:none;stroke:var(--copper);stroke-width:3;stroke-linejoin:round}
+.gfest{stroke:var(--copper);stroke-width:3;stroke-linecap:round}
 .gedge{stroke:var(--ink-3);opacity:.35}
 .gedge.hot{stroke:var(--copper);opacity:1}
 .gnode{cursor:pointer}
 .gnode:hover circle{stroke:var(--ink);stroke-width:1.5}
 .gnode.dim{opacity:.18}
 .gedge.dim{opacity:.08}
-.gnode.sel circle{stroke:var(--ink);stroke-width:2}
-.gtip{position:fixed;z-index:3000;display:none;pointer-events:none;background:var(--raised);color:var(--ink);border:1px solid var(--rule-2);border-radius:var(--r1);box-shadow:var(--shadow);padding:6px 8px;font:13px/20px var(--sans);max-width:280px}
+.gnode.sel circle{stroke:var(--ink);stroke-width:2.5}
+.gtip{position:fixed;z-index:3000;display:none;pointer-events:none;background:var(--paper-2);color:var(--ink);border:1px solid var(--rule-2);border-radius:10px;box-shadow:var(--shadow);padding:8px 10px;font:13px/19px var(--sans);max-width:300px}
 
-footer{max-width:1600px;margin:0 auto;padding:16px 24px 40px;font-size:12px;line-height:16px;color:var(--ink-3)}
-footer p{margin:0;max-width:760px}
+footer{max-width:1640px;margin:0 auto;padding:20px 28px 44px;font-size:12px;line-height:18px;color:var(--ink-3)}
+footer p{margin:0;max-width:820px}
 
-/* Leaflet, in the page's materials */
-.leaflet-container{font-family:var(--sans);background:var(--sheet);border-radius:var(--r2)}
-.leaflet-bar{border:1px solid var(--rule-2)!important;box-shadow:none!important;border-radius:var(--r1)!important;overflow:hidden}
-.leaflet-bar a{background:var(--raised)!important;color:var(--ink)!important;border-bottom:1px solid var(--rule)!important;border-radius:0!important;width:32px!important;height:32px!important;line-height:30px!important;font-weight:400}
-.leaflet-bar a:hover{background:var(--sheet)!important}
-.leaflet-control-attribution{background:color-mix(in srgb,var(--paper) 85%,transparent)!important;color:var(--ink-3)!important;font-size:11px!important;border-radius:var(--r1) 0 0 0}
+/* Leaflet in the forge's materials */
+.leaflet-container{font-family:var(--sans);background:var(--paper-3)}
+.leaflet-gl-layer,.leaflet-tile-pane{filter:var(--tile-filter)}
+.leaflet-bar{border:0!important;box-shadow:0 0 0 1px var(--rule-2)!important;border-radius:12px!important;overflow:hidden}
+.leaflet-bar a{background:var(--paper-2)!important;color:var(--ink)!important;border-bottom:1px solid var(--rule)!important;border-radius:0!important;width:36px!important;height:36px!important;line-height:34px!important;font-weight:400}
+.leaflet-bar a:hover{background:var(--paper-3)!important}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--paper) 85%,transparent)!important;color:var(--ink-3)!important;font-size:10px!important;border-radius:8px 0 0 0}
 .leaflet-control-attribution a{color:var(--ink-2)!important}
-.lbl{background:none!important;border:0!important;box-shadow:none!important;color:var(--ink)!important;font:500 12px var(--sans);padding:0!important}
+.lbl{background:none!important;border:0!important;box-shadow:none!important;color:var(--ink)!important;font:600 11px var(--mono);padding:0!important;text-shadow:0 0 3px var(--paper),0 0 3px var(--paper)}
 .lbl::before{display:none!important}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--raised)!important;color:var(--ink)!important;border:1px solid var(--rule-2);border-radius:var(--r2)!important;box-shadow:var(--shadow)!important}
-.leaflet-popup-content{margin:12px 16px!important;font:13px/20px var(--sans);max-width:260px}
-.leaflet-popup-content a{color:var(--ink);font:400 15px/20px var(--serif);text-decoration:none}
+.lbl.on-copper{color:var(--on-copper)!important;text-shadow:none}
+.pin{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;font:600 11px var(--sans);color:var(--ink)!important;text-shadow:0 0 3px var(--paper),0 0 3px var(--paper),0 0 2px var(--paper)}
+.pin::before{display:none!important}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--paper-2)!important;color:var(--ink)!important;border-radius:var(--r-well)!important;box-shadow:var(--shadow)!important}
+.leaflet-popup-content{margin:14px 16px!important;font:13px/19px var(--sans);max-width:270px}
+.leaflet-popup-content a{color:var(--ink);font:500 14px/20px var(--sans);text-decoration:none}
 .leaflet-popup-content a:hover{text-decoration:underline;text-decoration-color:var(--copper)}
-.leaflet-popup-content .rec-type{line-height:16px}
 .leaflet-container a.leaflet-popup-close-button{color:var(--ink-3)!important}
+.leaflet-tooltip.tip{background:var(--paper-2);color:var(--ink);border:1px solid var(--rule-2);border-radius:10px;box-shadow:var(--shadow);font:12px/17px var(--sans);padding:6px 10px}
+.leaflet-tooltip.tip::before{display:none}
 
 /* Tablet and phone */
 @media (max-width:1023px){
   .bar{display:contents}
-  .brandrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px 8px;background:var(--paper)}
-  .tabs{position:sticky;top:0;z-index:1000;height:44px;padding:0 4px;background:var(--paper);border-bottom:1px solid var(--rule)}
-  .scanline{display:block;padding:8px 16px 0;text-align:left;white-space:normal}
+  .brandrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px 10px;background:var(--paper)}
+  .tabs{position:sticky;top:0;z-index:1000;padding:8px 12px;background:var(--paper);border-bottom:1px solid var(--rule)}
+  .scanline{display:block;padding:10px 16px 0;text-align:left;white-space:normal}
   .scope{position:static;flex-wrap:wrap;gap:8px 24px;padding:8px 16px;border-bottom:0}
-  .stamp{margin:0;flex-wrap:wrap;gap:0 12px;white-space:normal;width:100%}
+  .stamp{margin:0;flex-wrap:wrap;gap:0 14px;white-space:normal;width:100%}
   .page{padding:16px}
-  .reports,.sitp,.anfind{grid-template-columns:minmax(0,1fr)}
-  .rail{position:static}
+  .stmt,.ochead{grid-template-columns:minmax(0,1fr)}
+  .stmt h1,.ochead h1{font-size:44px}
+  .figs{gap:24px;flex-wrap:wrap}
+  .figs .fig{font-size:40px}
+  .reports,.sitp,.anfind,.mapp,.ocgrid{grid-template-columns:minmax(0,1fr)}
+  .rail,.mapcol,.ocleft{position:static}
   .filter,.anidx{flex-direction:row;overflow-x:auto;scrollbar-width:none;gap:4px}
   .filter::-webkit-scrollbar,.anidx::-webkit-scrollbar{display:none}
   .filter button,.anidx a{flex:none;white-space:nowrap}
-  .rail-h{padding:0}
-  .day{top:44px}
-  .mapp,.ocgrid{grid-template-columns:minmax(0,1fr)}
-  .mapcol,.ocgraph{position:static}
-  #map{height:60vh;min-height:320px}
-  .rail dl{margin:0;max-width:360px}
-  .railnote{margin:12px 0 0}
+  .day{top:54px}
+  #map{height:62vh;min-height:340px}
+  .sitmap,.ocmap{height:56vh;min-height:320px}
 }
 @media (max-width:759px){
   .grp{width:100%}
-  .rec{grid-template-columns:52px minmax(0,1fr);gap:12px;padding:16px}
-  .rec-inline{padding:0 16px 16px}
+  .stmt h1,.ochead h1{font-size:38px}
+  .figs .fig{font-size:34px}
+  .rec{grid-template-columns:58px minmax(0,1fr);gap:12px;padding:16px}
+  .rec-inline{padding:0 12px 12px}
   .day{padding:12px 16px 8px}
-  .rec-head{font-size:17px}
-  .anmain,.angraphs,.mapside,.ocprof,.ocgraph{padding:16px}
+  .cards{grid-template-columns:minmax(0,1fr)}
+  .lifts{grid-template-columns:minmax(0,1fr)}
+  .angraphs,.mapside,.ocprof,.ocgraph,.casefile,.checks{padding:16px}
+  .cf-big .fig{font-size:48px}
   .gbox .gsvg{min-width:680px}
-  .search{font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;scroll-behavior:auto!important}
@@ -371,20 +466,21 @@ footer p{margin:0;max-width:760px}
 </div>
 
 <main id="news" class="page reports">
+  <section class="stmt" id="newsStmt" aria-label="Today"></section>
   <aside class="rail" aria-label="Filter by type"><h2 class="rail-h">Type</h2><div class="filter" id="newsFilter"></div></aside>
   <section class="sheet" aria-label="Reports register"><div id="newsList"><div class="empty">Loading reports</div></div></section>
-  <aside class="sheet detail" id="newsDetail" aria-label="Case record" aria-live="polite"></aside>
+  <aside class="detail" id="newsDetail" aria-label="Case file" aria-live="polite"></aside>
 </main>
 
 <main id="mapv" class="page mapp hide">
-  <div class="mapcol"><div id="map" role="region" aria-label="Map of incidents"></div></div>
+  <section class="stmt" id="mapStmt" aria-label="Summary"></section>
+  <div class="mapcol"><div class="mapbox"><div id="map" role="region" aria-label="Map of incidents"></div><div class="mapkey" id="count"></div></div></div>
   <aside class="sheet mapside">
     <div class="controls">
       <label class="field"><span class="label">Type</span><select id="fCat"></select></label>
       <label class="field"><span class="label">Time</span>
         <select id="fTime"><option value="">Any time</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
     </div>
-    <div class="legend" id="count"></div>
     <div class="sec" id="areaBox"></div>
     <div id="patterns"></div>
     <section class="sec"><h3 class="sec-h">Sources</h3><div id="sources"></div></section>
@@ -398,21 +494,28 @@ footer p{margin:0;max-width:760px}
 
 <main id="ocv" class="page hide">
   <div class="ochead">
-    <div class="ocsearch">
-      <input id="ocQ" class="search" type="search" placeholder="Search a gang, or a word like koyta, MCOCA, extortion" autocomplete="off" aria-label="Search groups and words"
-        role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ocSug">
-      <div id="ocSug" class="sug hide" role="listbox"></div>
+    <h1 id="ocTitle">Organised crime</h1>
+    <div>
+      <div class="ocsearch">
+        <input id="ocQ" class="search" type="search" placeholder="Search a gang, or a word like koyta, MCOCA, extortion" autocomplete="off" aria-label="Search groups and words"
+          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ocSug">
+        <div id="ocSug" class="sug hide" role="listbox"></div>
+      </div>
+      <p class="note" id="ocNote"></p>
     </div>
-    <p class="note" id="ocNote"></p>
   </div>
   <div class="ocgrid">
-    <section class="sheet ocgraph"><h2 class="sec-h">Gang links</h2><div id="ocGraph"></div></section>
+    <div class="ocleft">
+      <div class="mapbox"><div id="ocMap" class="ocmap" role="region" aria-label="Map of where groups are reported"></div><div class="mapkey" id="ocKey"></div></div>
+      <section class="sheet ocgraph"><h2 class="sec-h">Gang links</h2><div id="ocGraph"></div></section>
+    </div>
     <div id="ocBody" class="sheet"></div>
   </div>
 </main>
 
 <main id="sitv" class="page sitp hide">
-  <aside class="rail" aria-label="Summary"><div id="sitIntro"></div></aside>
+  <section class="stmt" id="sitIntro" aria-label="Summary"></section>
+  <div class="mapcol"><div class="mapbox"><div id="sitMap" class="sitmap" role="region" aria-label="Map of situations"></div><div class="mapkey" id="sitKey"></div></div></div>
   <section class="sheet" aria-label="Situations register"><div id="sitList"></div></section>
 </main>
 
@@ -491,12 +594,13 @@ function drawViews() {
 $('views').onclick = e => {
   const b = e.target.closest('button'); if (!b) return;
   view = b.dataset.v; picked = null; newsN = 60; drawViews(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits(); if (!$('ocv').classList.contains('hide')) drawOc(); if (!$('anv').classList.contains('hide')) drawAn();
-  if (!$('mapv').classList.contains('hide')) { fitView(); drawMap(); }
+  Object.values(MAPS).forEach(m => fitView(m.m));   // every map follows the area view
+  if (!$('mapv').classList.contains('hide')) drawMap();
 };
-function fitView() {
-  if (!MAP) return;
+function fitView(m = MAP) {
+  if (!m) return;
   const pts = AREAS.filter(a => areaInView(a.id)).map(a => [a.lat, a.lon]);
-  if (pts.length === 1) MAP.setView(pts[0], 13); else MAP.fitBounds(L.latLngBounds(pts), { padding: [24, 24], maxZoom: 13 });
+  if (pts.length === 1) m.setView(pts[0], 13); else m.fitBounds(L.latLngBounds(pts), { padding: [24, 24], maxZoom: 13 });
 }
 
 /* ---------- Reports ---------- */
@@ -536,37 +640,41 @@ const statusOf = e => STATUS_TXT[e.uv ? 'uv' : e.orphan ? 'orphan' : 'counted'];
 function caseDetail(e) {
   const [st, why] = statusOf(e);
   const reps = [...e.reports].sort((x, y) => (x.d < y.d ? -1 : 1));      // oldest first: the record in time order
-  const time = e.h != null ? `${hourName(e.h)}<small>Hour stated in the report</small>`
-    : e.b ? `${BAND_NAME[e.b]}<small>Only the part of day is stated</small>` : 'Not stated';
+  const big = e.h != null ? [hourName(e.h), `incident hour, stated in the report<br>${fmtDay(e.d)}`]
+    : [fmtDay(e.d), e.stated ? `incident day, stated in the reports${e.b ? '<br>' + BAND_NAME[e.b].toLowerCase() : ''}` : 'incident day not stated;<br>the day of the first report is used'];
   const prec = e.p ? (e.p[3] === 'x' ? 'Named spot' : 'Neighbourhood or village') : e.a ? 'Area only; no place named' : 'None';
-  return `<p class="rec-type">${esc(label(e))}</p><h2 class="case-h">${esc(lead(e).t)}</h2>
+  return `<div class="casefile">
+    <div class="cf-top"><span>Case file, ${esc(label(e).toLowerCase())}</span><span class="tag${e.uv || e.orphan ? '' : ' hot'}">${st}</span></div>
+    <div class="cf-big"><b class="fig">${big[0]}</b><span>${big[1]}</span></div>
+    <h2 class="case-h">${esc(lead(e).t)}</h2>
     <p class="case-st"><b>${st}.</b> ${why} These are press reports, not independently verified facts.</p>
-    <dl class="dl">
-      <dt>Incident day</dt><dd>${fmtDay(e.d)}<small>${e.stated ? 'Stated in the reports' : 'Not stated; the day of the first report is used'}</small></dd>
-      <dt>Time of day</dt><dd>${time}</dd>
-      <dt>Where</dt><dd>${e.a ? esc(AREA[e.a].name) : 'Not stated'}${e.p ? `<small>${esc(e.p[0])}</small>` : ''}</dd>
-      <dt>Place precision</dt><dd>${prec}</dd>
-      ${e.o ? `<dt>Outcome</dt><dd>${e.o === 'fatal' ? 'Fatal' : 'Someone injured'}</dd>` : ''}
-      ${e.q && CAT[e.q] ? `<dt>Type</dt><dd>Under check<small>The machine reading suggests ${esc(CAT[e.q].name.toLowerCase())}</small></dd>` : ''}
-      <dt>First published</dt><dd>${fmtDay(reps[0].d)}${timed(reps[0].d) ? ', ' + clock(reps[0].d) : ''}</dd>
-      <dt>Latest</dt><dd>${fmtDay(e.last)}${timed(e.last) ? ', ' + clock(e.last) : ''}</dd>
-    </dl>
+    <div class="wells">
+      <div><small>Where</small>${e.a ? esc(AREA[e.a].name) : 'Not stated'}${e.p ? `<em>${esc(e.p[0])}</em>` : ''}</div>
+      <div><small>Place precision</small>${prec}</div>
+      <div><small>Time of day</small>${e.h != null ? hourName(e.h) + '<em>hour stated</em>' : e.b ? BAND_NAME[e.b].split(',')[0] + '<em>part of day only</em>' : 'Not stated'}</div>
+      <div><small>Outcome</small>${e.o === 'fatal' ? 'Fatal' : e.o === 'injured' ? 'Someone injured' : 'Not stated'}</div>
+      <div><small>First published</small><span class="mono">${fmtDay(reps[0].d)}${timed(reps[0].d) ? ', ' + clock(reps[0].d) : ''}</span></div>
+      <div><small>Latest</small><span class="mono">${fmtDay(e.last)}${timed(e.last) ? ', ' + clock(e.last) : ''}</span></div>
+      ${e.q && CAT[e.q] ? `<div class="w2"><small>Type under check</small>The machine reading suggests ${esc(CAT[e.q].name.toLowerCase())}</div>` : ''}
+    </div>
     <h3 class="tl-h">Reports in time order <span>${e.reports.length}</span></h3>
-    <ol class="tl">${reps.map(r => `<li><time datetime="${esc(r.d)}">${fmtDay(r.d)}<br>${pubTime(r.d)}</time><div>
+    <ol class="tl">${reps.map(r => `<li class="${r.k === 'f' ? 'dev' : ''}"><time datetime="${esc(r.d)}">${fmtDay(r.d)}<br>${pubTime(r.d)}</time><div>
       <div class="src"><b>${esc(SRC[r.s] || r.s)}</b><span>${r.k === 'f' ? 'Later development' : 'Report'}</span></div>
-      ${link(r, esc(r.t))}${r.L && r.L.s ? `<p><span>Machine summary:</span> ${esc(r.L.s)}</p>` : ''}</div></li>`).join('')}</ol>`;
+      ${link(r, esc(r.t))}${r.L && r.L.s ? `<p><span>Machine summary:</span> ${esc(r.L.s)}</p>` : ''}</div></li>`).join('')}</ol></div>`;
 }
 // With no case selected, the panel explains the register and counts what is listed.
 function newsPanel(rows) {
   const e = newsSel && rows.find(x => keyOf(x) === newsSel);
   if (e) { $('newsDetail').innerHTML = caseDetail(e); return; }
   const n = k => fmtN(rows.filter(x => statusOf(x) === STATUS_TXT[k]).length);
-  $('newsDetail').innerHTML = `<h2 class="case-h">Case record</h2>
-    <p class="note">Select a case to see its reports in time order, with the incident day, publication times, sources and status kept apart.</p>
-    <h3 class="tl-h">Listed in this view and period</h3>
-    <dl class="dl"><dt>Cases</dt><dd>${fmtN(rows.length)}</dd><dt>Counted</dt><dd>${n('counted')}</dd><dt>Being checked</dt><dd>${n('uv')}</dd><dt>Later developments</dt><dd>${n('orphan')}</dd><dt>Reports</dt><dd>${fmtN(rows.reduce((s, x) => s + x.reports.length, 0))}</dd></dl>
+  $('newsDetail').innerHTML = `<div class="casefile"><div class="cf-top"><span>Case file</span></div>
+    <div class="cf-big"><b class="fig">${fmtN(rows.length)}</b><span>cases listed<br>in this view and period</span></div>
+    <p class="note">Select a case to open its file: incident day and hour, the place and how precisely it is known, every report in time order, and its status.</p>
+    <div class="wells"><div><small>Counted</small><span class="mono">${n('counted')}</span></div><div><small>Being checked</small><span class="mono">${n('uv')}</span></div>
+      <div><small>Later developments</small><span class="mono">${n('orphan')}</span></div><div><small>Reports</small><span class="mono">${fmtN(rows.reduce((s, x) => s + x.reports.length, 0))}</span></div></div>
     <ul class="key">${Object.values(STATUS_TXT).map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join('')}
-      <li><b>Times</b>The time beside a case is when its latest report was published, in India time. The incident day is shown when it differs.</li></ul>`;
+      <li><b>Times</b>The time beside a case is when its latest report was published, in India time. The incident day is shown when it differs.</li>
+      <li><b>The mark on the left</b>Copper for a fatal case, lighter copper when someone was injured.</li></ul></div>`;
 }
 function newsRow(e) {
   const r = lead(e), k = keyOf(e), sel = k === newsSel;
@@ -574,8 +682,9 @@ function newsRow(e) {
   const follows = e.orphan ? 0 : e.reports.filter(x => x.k === 'f').length;
   const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? `Incident ${fmtDay(e.d)}` : '';
   const tag = e.uv || e.orphan ? `<span class="tag" title="${esc(statusOf(e)[1])}">${statusOf(e)[0]}</span>` : '';
-  const open = e.reports.length > 1 ? `${e.reports.length} reports${follows ? `, ${plural(follows, 'later development')}` : ''}` : 'Details';
-  return `<article class="rec pick${sel ? ' sel' : ''}" data-k="${esc(k)}">
+  const open = e.reports.length > 1 ? `${e.reports.length} reports${follows ? `, ${plural(follows, 'later development')}` : ''}` : 'Open file';
+  const kmark = e.o === 'fatal' || (e.c === 'murder' && !e.orphan && !e.uv) ? 'var(--h4)' : e.o === 'injured' ? 'var(--h2)' : 'transparent';
+  return `<article class="rec pick${sel ? ' sel' : ''}" data-k="${esc(k)}" style="--k:${kmark}">
     <div class="rec-when" title="Latest report published ${esc(ago(e.last))}">${pubTime(e.last)}</div>
     <div>
       <div class="rec-type">${tag}<span>${esc(label(e))}</span></div>
@@ -585,12 +694,24 @@ function newsRow(e) {
     </div>
   </article>${sel && !wideCase.matches ? `<div class="rec-inline">${caseDetail(e)}</div>` : ''}`;
 }
+// The Reports statement: the day, three figures, and the last 60 days of counted incidents as a heat strip.
+function newsStmt(inP) {
+  const today = istDay(Date.now()), v = INCIDENTS.filter(inView), byDay = tally(v, e => istDay(e.d));
+  const days = Array.from({ length: 60 }, (_, i) => istDay(Date.now() - (59 - i) * 864e5)), mx = Math.max(1, ...days.map(d => byDay[d] || 0));
+  const nToday = EVENTS.filter(e => inView(e) && istDay(e.last) === today).length;
+  const wd = new Date().toLocaleDateString('en-IN', { weekday: 'long', timeZone: 'Asia/Kolkata' }), dm = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' });
+  $('newsStmt').innerHTML = `<div><h1>${dm} <span>${wd}</span></h1><p class="sub">${esc(VIEWS.find(x => x[0] === view)[1])}. What the press reported, joined into cases; only settled cases are counted on the map and in analytics.</p></div>
+    <div class="figs"><div><b class="fig hot">${fmtN(nToday)}</b><span>cases reported today</span></div><div><b class="fig">${fmtN(inP.filter(e => !e.uv && !e.orphan).length)}</b><span>counted, ${esc(PERIODS.find(p => p[0] === period)[1].toLowerCase())}</span></div><div><b class="fig">${fmtN(inP.filter(e => e.uv).length)}</b><span>being checked</span></div></div>
+    <div class="strip" style="grid-template-columns:repeat(60,minmax(0,1fr))" role="img" aria-label="Counted incidents per day, last 60 days">${days.map(d => { const n = byDay[d] || 0; return `<i title="${fmtDay(d + 'T06:30:00Z')}: ${n} counted incident${n === 1 ? '' : 's'}" style="height:${n ? 18 + n / mx * 82 : 6}%;background:${hv(n, mx)}"></i>`; }).join('')}</div>
+    <div class="strip-k"><span>Counted incidents per day, by the day they happened, last 60 days</span><span class="ramp">fewer<i style="background:var(--h1)"></i><i style="background:var(--h3)"></i><i style="background:var(--h5)"></i>more</span></div>`;
+}
 function drawNews() {
   const inP = EVENTS.filter(e => inPeriod(e) && inView(e));
-  const used = new Set(inP.map(e => e.c)), cnt = tally(inP, e => e.c);
+  newsStmt(inP);
+  const used = new Set(inP.map(e => e.c)), cnt = tally(inP, e => e.c), cmax = Math.max(1, ...Object.values(cnt));
   if (newsCat && !used.has(newsCat)) newsCat = '';
   $('newsFilter').innerHTML = `<button type="button" class="${newsCat ? '' : 'on'}" data-c="" aria-pressed="${!newsCat}"><span>All types</span><span>${fmtN(inP.length)}</span></button>` +
-    CATS.filter(c => used.has(c.id)).map(c => `<button type="button" class="${newsCat === c.id ? 'on' : ''}" data-c="${c.id}" aria-pressed="${newsCat === c.id}"><span>${esc(c.name)}</span><span>${fmtN(cnt[c.id])}</span></button>`).join('');
+    CATS.filter(c => used.has(c.id)).map(c => `<button type="button" class="${newsCat === c.id ? 'on' : ''}" data-c="${c.id}" aria-pressed="${newsCat === c.id}"><span>${esc(c.name)}</span><span>${fmtN(cnt[c.id])}</span><i style="width:${cnt[c.id] / cmax * 100}%"></i></button>`).join('');
   const rows = inP.filter(e => !newsCat || e.c === newsCat);
   if (newsSel && !rows.some(e => keyOf(e) === newsSel)) newsSel = null;
   newsPanel(rows);
@@ -599,7 +720,7 @@ function drawNews() {
   let html = '<div class="reghead">Newest first. The time beside each case is when its latest report was published (India time).</div>', day = '';
   for (const e of rows.slice(0, newsN)) {
     const d = istDay(e.last);
-    if (d !== day) { day = d; html += `<div class="day"><span><b>${d === today ? 'Today' : d === yest ? 'Yesterday' : fmtWk(e.last)}</b>${d === today || d === yest ? ' ' + fmtDay(e.last) : ''}</span><span>${plural(perDay[d], 'case')}</span></div>`; }
+    if (d !== day) { day = d; html += `<div class="day"><span><b>${d === today ? 'Today' : d === yest ? 'Yesterday' : fmtWk(e.last)}</b>${d === today || d === yest ? `<span class="mono">${fmtDay(e.last)}</span>` : ''}</span><span class="mono">${plural(perDay[d], 'case')}</span></div>`; }
     html += newsRow(e);
   }
   if (rows.length > newsN) html += `<button type="button" class="more" id="more">Show earlier (${fmtN(rows.length - newsN)} more)</button>`;
@@ -619,20 +740,29 @@ wideCase.addEventListener('change', () => drawNews());
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && newsSel && !$('news').classList.contains('hide')) { newsSel = null; drawNews(); } });
 
 /* ---------- Map ---------- */
-let MAP, LAYER, BASE, picked = null;
-function initMap() {
-  MAP = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([18.53, 73.86], 11);
-  MAP.attributionControl.setPrefix(false);
-  setBase();
-  LAYER = L.layerGroup().addTo(MAP);
+// Every map on the page (incidents, situations, groups) is made the same way and shares the basemap and the heat ramp.
+const MAPS = {};
+let MAP, LAYER, picked = null;
+function makeMap(id) {
+  const m = L.map(id, { zoomControl: true, scrollWheelZoom: false }).setView([18.53, 73.86], 11);
+  m.attributionControl.setPrefix(false);
+  const e = MAPS[id] = { m, base: null, layer: null, fitted: false };
+  setBaseOn(e);
+  e.layer = L.layerGroup().addTo(m);
+  return e;
 }
-function setBase() {
-  if (BASE) { MAP.removeLayer(BASE); BASE = null; }
+function setBaseOn(e) {
+  e.stale = false;
+  if (e.base) { e.m.removeLayer(e.base); e.base = null; }
   try {
-    if (window.maplibregl && L.maplibreGL) BASE = L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/' + (isDarkTheme() ? 'dark' : 'positron'), attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap' }).addTo(MAP);
+    if (window.maplibregl && L.maplibreGL) e.base = L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/' + (isDarkTheme() ? 'dark' : 'positron'), attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap' }).addTo(e.m);
   } catch {}
-  if (!BASE) BASE = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(MAP);
+  if (!e.base) e.base = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(e.m);
+  if (e.layer) e.layer.bringToFront?.();
 }
+// The vector basemap draws on its own canvas: tell it the box size whenever its map is shown again.
+const glResize = e => { try { const g = e.base && (e.base.getMaplibreMap || e.base.getMapboxMap); if (g) g.call(e.base).resize(); } catch {} };
+function initMap() { const e = makeMap('map'); MAP = e.m; LAYER = e.layer; }
 
 function current() {
   const cat = $('fCat').value, t = $('fTime').value;
@@ -656,28 +786,30 @@ function drawMap() {
   for (const e of placed) { (per[e.a] = per[e.a] || []).push(e); if (!e.p) (rough[e.a] = rough[e.a] || []).push(e); }
   if (picked && !per[picked]) picked = null;
   const pick = id => { picked = id; drawMap(); if (innerWidth < 1024) $('areaBox').scrollIntoView({ behavior: motion(), block: 'start' }); };
+  const mx = Math.max(1, ...Object.values(rough).map(l => l.length)), paper = css('--paper-2');
   for (const [id, list] of Object.entries(rough)) {
-    const a = AREA[id], on = id === picked;
-    L.circleMarker([a.lat, a.lon], { radius: 8 + Math.sqrt(list.length) * 3.2, color: copper, weight: 1, dashArray: '3 4', opacity: on ? .9 : .55, fillColor: copper, fillOpacity: on ? .22 : .07 })
-      .bindTooltip(String(list.length), { permanent: true, direction: 'center', className: 'lbl' })
+    const a = AREA[id], on = id === picked, n = list.length;
+    L.circleMarker([a.lat, a.lon], { radius: 9 + Math.sqrt(n) * 3.2, color: on ? css('--ink') : copper, weight: on ? 2.5 : 1, opacity: .9, fillColor: hc(n, mx), fillOpacity: on ? .9 : .7 })
+      .bindTooltip(String(n), { permanent: true, direction: 'center', className: 'lbl' })
       .on('click', () => pick(id)).addTo(LAYER);
   }
   const spots = placed.filter(e => e.p);
   for (const e of spots) {
     const exact = e.p[3] === 'x', r = lead(e);
-    L.circleMarker([e.p[1], e.p[2]], { radius: exact ? 5 : 6, color: copper, weight: exact ? 1 : 1.6, fillColor: copper, fillOpacity: exact ? .85 : 0 })
+    L.circleMarker([e.p[1], e.p[2]], exact ? { radius: 5.5, color: paper, weight: 1.5, fillColor: copper, fillOpacity: 1 } : { radius: 7, color: copper, weight: 2.2, fillColor: paper, fillOpacity: .35 })
       .bindPopup(`<div class="rec-type">${esc(label(e))}</div><div style="margin:4px 0">${link(r, esc(r.t))}</div><div class="label">${meta(esc(e.p[0]), (exact ? 'Named spot' : 'Neighbourhood') , 'Incident ' + fmtDay(e.d), plural(e.reports.length, 'report'))}</div>`)
       .on('click', () => { picked = e.a; drawArea(); })
       .addTo(LAYER);
   }
   const none = ev.length - placed.length, nx = spots.filter(e => e.p[3] === 'x').length;
-  // The legend is the map's key and its count at once: each precision with its own mark.
-  const mk = s => `<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">${s}</svg>`;
-  $('count').innerHTML = `<div class="tot"><b>${fmtN(ev.length)}</b>counted incidents in this view</div><ul>
-    <li>${mk(`<circle cx="10" cy="10" r="5" fill="${copper}" fill-opacity=".85" stroke="${copper}"/>`)}<span>At a named spot</span><b>${fmtN(nx)}</b></li>
-    <li>${mk(`<circle cx="10" cy="10" r="6" fill="none" stroke="${copper}" stroke-width="1.6"/>`)}<span>At a neighbourhood or village</span><b>${fmtN(spots.length - nx)}</b></li>
-    <li>${mk(`<circle cx="10" cy="10" r="8" fill="${copper}" fill-opacity=".08" stroke="${copper}" stroke-dasharray="3 3" stroke-opacity=".6"/>`)}<span>Area only, counted at its centre (not a location)</span><b>${fmtN(placed.length - spots.length)}</b></li>
-  </ul>${none ? `<p class="note">${plural(none, 'incident')} with no area stated, not on the map.</p>` : ''}`;
+  // The statement carries the counts; the key on the map says what each mark means.
+  const mk = s => `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">${s}</svg>`;
+  $('mapStmt').innerHTML = `<div><h1>Where it happened</h1><p class="sub">Counted incidents in ${esc(VIEWS.find(v => v[0] === view)[1])}, ${esc(PERIODS.find(p => p[0] === period)[1].toLowerCase())}, placed as precisely as the reports allow and no more.${none ? ` ${plural(none, 'incident')} name no area and are not on the map.` : ''}</p></div>
+    <div class="figs"><div><b class="fig hot">${fmtN(ev.length)}</b><span>counted incidents</span></div><div><b class="fig">${fmtN(nx)}</b><span>at a named spot</span></div><div><b class="fig">${fmtN(spots.length - nx)}</b><span>at a neighbourhood</span></div><div><b class="fig">${fmtN(placed.length - spots.length)}</b><span>area only</span></div></div>`;
+  $('count').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="5.5" fill="${copper}" stroke="${paper}" stroke-width="1.5"/>`)}A named spot</div>
+    <div>${mk(`<circle cx="11" cy="11" r="7" fill="none" stroke="${copper}" stroke-width="2.2"/>`)}A neighbourhood or village</div>
+    <div>${mk(`<circle cx="11" cy="11" r="9" fill="${hc(2, 3)}" fill-opacity=".7" stroke="${copper}"/>`)}Area only: a count at its centre, not a location</div>
+    <div class="heatkey" style="margin:2px 0 0"><span>fewer</span><i></i><span>more</span></div>`;
   drawArea(); drawPatterns(ev);
 }
 const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ` (${e.o})` : '');
@@ -696,9 +828,11 @@ function drawArea() {
 }
 
 /* ---------- Patterns ---------- */
+// Drawn, not listed: where each type concentrates (one bar per type, split by its busiest areas), what stands out by area
+// (how many times the all-area share), an after-dark meter against the all-area mark, and type by time of day as heat.
 function drawPatterns(ev) {
   const placed = ev.filter(e => e.a), out = [];
-  const sec = (title, body) => `<section class="sec"><h3 class="sec-h">${title}</h3>${body}</section>`;
+  const sec = (title, body, sub) => `<section class="sec"><h3 class="sec-h">${title}${sub ? `<span>${sub}</span>` : ''}</h3>${body}</section>`;
   if (placed.length < 25) {
     $('patterns').innerHTML = sec('Patterns', `<p class="say">Too early to say. ${placed.length} placed incidents in this view; patterns are shown from about 25, so that areas can be compared fairly.</p><p class="note">The history grows every hour.</p>`);
     return;
@@ -707,10 +841,10 @@ function drawPatterns(ev) {
   for (const e of placed) { (byCat[e.c] = byCat[e.c] || []).push(e); (byArea[e.a] = byArea[e.a] || []).push(e); }
 
   const conc = CATS.filter(c => (byCat[c.id] || []).length >= 5).map(c => {
-    const t = top(tally(byCat[c.id], e => e.a), 3);
-    return `<p class="say"><b>${esc(c.name)}</b> is reported most in ${t.map(([a, n]) => `${esc(AREA[a].name)} <em>${n}</em>`).join(', ')}.</p>`;
+    const all = byCat[c.id], t = top(tally(all, e => e.a), 3), restN = all.length - t.reduce((s, x) => s + x[1], 0);
+    return `<div class="conc-row"><div class="conc-h"><span>${esc(c.name)}</span><b>${all.length}</b></div><div class="conc-bar">${t.map(([a, n], i) => `<div class="c${i}" style="flex:${n}" title="${esc(AREA[a].name)}: ${n} of ${all.length}"></div>`).join('')}${restN ? `<div class="rest" style="flex:${restN}" title="Other areas: ${restN}"></div>` : ''}</div><p>${t.map(([a, n], i) => `<span class="k${i}">${esc(AREA[a].name)} <b>${n}</b></span>`).join('')}${restN ? `<span>others ${restN}</span>` : ''}</p></div>`;
   });
-  if (conc.length) out.push(sec('Where each type concentrates', conc.join('')));
+  if (conc.length) out.push(sec('Where each type concentrates', `<div class="conc">${conc.join('')}</div><p class="note">Each bar is one type's placed incidents; the three busiest areas lead, the rest are grouped.</p>`));
 
   const share = tally(placed, e => e.c), lifts = [];
   for (const [a, list] of Object.entries(byArea)) {
@@ -721,20 +855,24 @@ function drawPatterns(ev) {
     }
   }
   lifts.sort((p, q) => q.x - p.x);
-  out.push(sec('What stands out by area', lifts.length ? lifts.slice(0, 8).map(l =>
-    `<p class="say"><b>${esc(AREA[l.a].name)}</b>: ${esc(CAT[l.c].name.toLowerCase())} is <em>${Math.round(l.here * 100)}%</em> of incidents here (${l.n} of ${byArea[l.a].length}), against ${Math.round(l.city * 100)}% across all areas.</p>`).join('')
-    : '<p class="note" style="margin-top:0">No area yet has enough incidents (8, with 4 of one type) to say what is unusual about it.</p>'));
+  out.push(sec('What stands out by area', lifts.length ? `<div class="lifts">${lifts.slice(0, 6).map(l =>
+    `<div class="lift"><div class="fig">${fmt1(l.x)}<small>×</small></div><p><b>${esc(AREA[l.a].name)}</b>: ${esc(CAT[l.c].name.toLowerCase())} is ${Math.round(l.here * 100)}% of incidents here (${l.n} of ${byArea[l.a].length}), against ${Math.round(l.city * 100)}% across all areas.</p></div>`).join('')}</div>`
+    : '<p class="note" style="margin-top:0">No area yet has enough incidents (8, with 4 of one type) to say what is unusual about it.</p>', 'times the all-area share'));
 
+  const timedAll = placed.filter(e => e.b), cityDark = timedAll.length ? timedAll.filter(isDark).length / timedAll.length : 0;
   const night = Object.entries(byArea).map(([a, list]) => { const t = list.filter(e => e.b); return { a, t: t.length, d: t.filter(isDark).length }; }).filter(x => x.t >= 5).sort((p, q) => q.d / q.t - p.d / p.t);
-  out.push(sec('After dark, 7 pm to 6 am', (night.length ? night.slice(0, 8).map(x =>
-    `<p class="say"><b>${esc(AREA[x.a].name)}</b>: <em>${Math.round(x.d / x.t * 100)}%</em> after dark (${x.d} of ${x.t} with a stated time).</p>`).join('')
-    : '<p class="note" style="margin-top:0">No area yet has 5 incidents with a stated time.</p>')));
+  out.push(sec('After dark', (night.length ? night.slice(0, 8).map(x =>
+    `<div class="meter" title="${x.d} of ${x.t} with a stated time"><span>${esc(AREA[x.a].name)}</span><div class="m"><i style="width:${x.d / x.t * 100}%"></i><s style="left:${cityDark * 100}%"></s></div><b>${Math.round(x.d / x.t * 100)}%</b></div>`).join('') +
+    `<p class="note">Share of each area's incidents with a stated time that happened 7 pm to 6 am. The line marks all areas together (${Math.round(cityDark * 100)}%).</p>`
+    : '<p class="note" style="margin-top:0">No area yet has 5 incidents with a stated time.</p>'), '7 pm to 6 am'));
 
-  const rows = CATS.filter(c => ev.some(e => e.c === c.id)).map(c => {
-    const l = ev.filter(e => e.c === c.id), v = BANDS.map(b => l.filter(e => e.b === b).length), mx = Math.max(...v);
-    return `<tr><td>${esc(c.name)}</td>${v.map(n => `<td class="${n && n === mx ? 'hi' : n ? '' : 'z'}">${n || '–'}</td>`).join('')}<td class="${l.some(e => !e.b) ? '' : 'z'}">${l.filter(e => !e.b).length || '–'}</td></tr>`;
+  const vals = [], rows = CATS.filter(c => ev.some(e => e.c === c.id)).map(c => {
+    const l = ev.filter(e => e.c === c.id), v = BANDS.map(b => l.filter(e => e.b === b).length); vals.push(...v); return [c, v, l.filter(e => !e.b).length];
   });
-  out.push(sec('Type by time of day', `<table><tr><th></th><th>Morn</th><th>Aft</th><th>Eve</th><th>Night</th><th>n/s</th></tr>${rows.join('')}</table><p class="note">n/s: the report did not state a time.</p>`));
+  const mx = Math.max(1, ...vals);
+  const cell = n => n ? `<td style="background:${hv(n, mx)};color:${Math.ceil(n / mx * 6) >= 4 ? 'var(--on-copper)' : 'var(--ink)'}">${n}</td>` : '<td class="z">–</td>';
+  out.push(sec('Type by time of day', `<table><tr><th></th><th>Morning</th><th>Afternoon</th><th>Evening</th><th>Night</th><th>Not stated</th></tr>${rows.map(([c, v, ns]) =>
+    `<tr><td>${esc(c.name)}</td>${v.map(cell).join('')}<td class="z">${ns || '–'}</td></tr>`).join('')}</table>`));
   $('patterns').innerHTML = out.join('');
 }
 
@@ -759,23 +897,66 @@ function drawSits() {
   const planned = list.filter(g => g.w > today).sort((x, y) => (x.w < y.w ? -1 : 1));
   const now = list.filter(g => g.w <= today && live(g));
   const recent = list.filter(g => g.w < today && !live(g) && g.w >= recentFrom);
-  const item = g => {
+  const dayName = g => g.w > today ? (g.w === istDay(Date.now() + 864e5) ? 'Tomorrow' : fmtDay(g.w + 'T06:30:00Z')) : g.w === today ? 'Today' : fmtDay(g.w + 'T06:30:00Z');
+  const SITS_SHOWN = [...now.map(g => [g, 'now']), ...planned.map(g => [g, 'plan']), ...recent.map(g => [g, 'past'])];
+  const item = (g, i, kind) => {
     const r = g.reports[0], papers = [...new Set(g.reports.map(x => x.n))];
-    const when = g.w > today ? (g.w === istDay(Date.now() + 864e5) ? 'Tomorrow' : fmtDay(g.w + 'T06:30:00Z')) : g.w === today ? 'Today' : fmtDay(g.w + 'T06:30:00Z');
-    return `<article class="rec">
-      <div class="rec-when">${when}</div>
+    return `<article class="rec pick" data-si="${i}" style="--k:${kind === 'now' ? 'var(--copper)' : kind === 'plan' ? 'var(--h2)' : 'transparent'}">
+      <div class="rec-when">${dayName(g)}</div>
       <div>
-        <div class="rec-type"><span>${esc(SITK[g.k] || g.k)}</span>${g.st === 'on' ? '<span class="tag" title="A report says it continues">Ongoing</span>' : ''}</div>
+        <div class="rec-type"><span>${esc(SITK[g.k] || g.k)}</span>${kind === 'now' ? '<span class="tag hot">Today or ongoing</span>' : kind === 'plan' ? '<span class="tag">Planned</span>' : ''}${g.st === 'on' && kind !== 'now' ? '<span class="tag" title="A report says it continues">Continuing</span>' : ''}</div>
         ${link(r, esc(r.t)).replace('<a ', '<a class="rec-head" ')}
-        <div class="rec-meta"><span class="place">${g.a ? esc(AREA[g.a].name) + (g.p ? ', ' + esc(g.p[0]) : '') : 'Pune'}</span><span>${papers.slice(0, 3).map(esc).join(', ')}${papers.length > 3 ? ' and ' + (papers.length - 3) + ' more' : ''}</span>${g.reports.length > 1 ? `<span>${plural(g.reports.length, 'report')}</span>` : ''}<span>First reported ${fmtDay(g.reports.reduce((m, x) => (x.d < m ? x.d : m), g.last))}</span></div>
+        <div class="rec-meta"><span class="place">${g.a ? esc(AREA[g.a].name) + (g.p ? ', ' + esc(g.p[0]) : '') : 'Pune, no place named'}</span><span>${papers.slice(0, 3).map(esc).join(', ')}${papers.length > 3 ? ' and ' + (papers.length - 3) + ' more' : ''}</span>${g.reports.length > 1 ? `<span>${plural(g.reports.length, 'report')}</span>` : ''}<span>First reported ${fmtDay(g.reports.reduce((m, x) => (x.d < m ? x.d : m), g.last))}</span></div>
       </div>
     </article>`;
   };
-  const block = (title, arr, empty) => `<div class="day"><span><b>${title}</b></span><span>${arr.length}</span></div>` + (arr.length ? arr.map(item).join('') : `<p class="note" style="margin:0;padding:12px 20px 16px">${empty}</p>`);
-  $('sitIntro').innerHTML = `<h2 class="rail-h">In this view</h2><dl><dt>Planned</dt><dd>${planned.length}</dd><dt>Today or ongoing</dt><dd>${now.length}</dd><dt>Recent</dt><dd>${recent.length}</dd></dl>
-    <p class="railnote">Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News. The day beside each item is the day it happens or happened.</p>`;
-  $('sitList').innerHTML = block('Planned', planned, 'Nothing announced for the coming days.') + block('Today & ongoing', now, 'Nothing reported for today.') + block('Recent', recent, 'Nothing in this period.');
+  let k = 0;
+  const block = (title, arr, kind, empty) => `<div class="day"><span><b>${title}</b></span><span class="mono">${arr.length}</span></div>` + (arr.length ? arr.map(g => item(g, k++, kind)).join('') : `<p class="note" style="margin:0;padding:14px 22px 18px">${empty}</p>`);
+  $('sitIntro').innerHTML = `<div><h1>Public order</h1><p class="sub">Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News. The day beside each is the day it happens or happened.</p></div>
+    <div class="figs"><div><b class="fig${now.length ? ' hot' : ''}">${now.length}</b><span>today or ongoing</span></div><div><b class="fig">${planned.length}</b><span>planned</span></div><div><b class="fig">${recent.length}</b><span>recent</span></div></div>`;
+  $('sitList').innerHTML = block('Today and ongoing', now, 'now', 'Nothing reported for today.') + block('Planned', planned, 'plan', 'Nothing announced for the coming days.') + block('Recent', recent, 'past', 'Nothing in this period.');
+  drawSitMap(SITS_SHOWN, dayName);
 }
+/* The situations map. Today or ongoing: a solid copper mark inside a ring. Planned: an open ring carrying its date.
+   Recent: a small ash dot. A situation that names only its area sits at the area's centre, inside a faint disc that says so;
+   one that names no place is not drawn (the key counts them). */
+let SITMARK = [];
+function drawSitMap(items, dayName) {
+  const e = MAPS.sitMap || makeMap('sitMap');
+  e.layer.clearLayers(); SITMARK = [];
+  const copper = css('--copper'), ash = css('--ink-3'), n = { now: 0, plan: 0, past: 0 };
+  let unplaced = 0;
+  for (const [g, kind] of [...items].reverse()) {          // recent first, so live and planned marks sit on top
+    const ll = g.p ? [g.p[1], g.p[2]] : g.a && AREA[g.a] ? [AREA[g.a].lat, AREA[g.a].lon] : null;
+    if (!ll) { unplaced++; SITMARK.unshift(null); continue; }
+    n[kind]++;
+    const r = g.reports[0], pop = `<div class="rec-type">${esc(SITK[g.k] || g.k)}<span class="tag${kind === 'now' ? ' hot' : ''}">${dayName(g)}</span></div><div style="margin:6px 0">${link(r, esc(r.t))}</div><div class="label">${esc(g.a ? AREA[g.a].name : 'Pune')}${g.p ? ', ' + esc(g.p[0]) : ', placed at the area centre'}</div>`;
+    if (!g.p) L.circleMarker(ll, { radius: 18, stroke: false, fillColor: copper, fillOpacity: .07, interactive: false }).addTo(e.layer);
+    let m;
+    if (kind === 'now') {
+      L.circleMarker(ll, { radius: 15, color: copper, weight: 1.5, opacity: .55, fill: false, interactive: false }).addTo(e.layer);
+      m = L.circleMarker(ll, { radius: 8, color: css('--paper-2'), weight: 2, fillColor: copper, fillOpacity: 1 });
+    } else if (kind === 'plan') {
+      m = L.circleMarker(ll, { radius: 9, color: copper, weight: 3, fillColor: css('--paper-2'), fillOpacity: .9 });
+      L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'pin', html: esc(dayName(g)), iconSize: [80, 14], iconAnchor: [-14, 7] }) }).addTo(e.layer);
+    } else m = L.circleMarker(ll, { radius: 5, color: css('--paper-2'), weight: 1, fillColor: ash, fillOpacity: .75 });
+    m.bindPopup(pop).addTo(e.layer);
+    SITMARK.unshift(m);
+  }
+  const mk = s => `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">${s}</svg>`;
+  $('sitKey').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="9" fill="none" stroke="${copper}" stroke-opacity=".55" stroke-width="1.5"/><circle cx="11" cy="11" r="5" fill="${copper}"/>`)}Today or ongoing<b>${n.now}</b></div>
+    <div>${mk(`<circle cx="11" cy="11" r="6" fill="none" stroke="${copper}" stroke-width="3"/>`)}Planned, with its date<b>${n.plan}</b></div>
+    <div>${mk(`<circle cx="11" cy="11" r="4" fill="${ash}"/>`)}Recent<b>${n.past}</b></div>
+    ${unplaced ? `<div style="color:var(--ink-3)">${unplaced} name no place in Pune, not on the map</div>` : ''}`;
+}
+// Selecting a situation in the list shows it on the map.
+$('sitList').addEventListener('click', ev => {
+  if (ev.target.closest('a')) return;
+  const row = ev.target.closest('[data-si]'); if (!row) return;
+  const m = SITMARK[+row.dataset.si], e = MAPS.sitMap;
+  document.querySelectorAll('#sitList .rec.sel').forEach(x => x.classList.remove('sel')); row.classList.add('sel');
+  if (m && e) { e.m.setView(m.getLatLng(), Math.max(e.m.getZoom(), 13), { animate: motion() === 'smooth' }); m.openPopup(); if (innerWidth < 1024) $('sitMap').scrollIntoView({ behavior: motion(), block: 'center' }); }
+});
 // How fresh the Reports and Situations tabs are, shown at the top right under the period.
 // The scan clock (clock.yml) starts Situations at :00, :15, :30, :45 (sitstatus "scanned" = when it started) and Reports
 // at :17 past each hour (status "updated" = when it finished, ~25 min later). Past the due time the scan is under way.
@@ -906,7 +1087,9 @@ function drawOc() {
   if (!OC) { $('ocBody').innerHTML = '<div class="empty">The first organised-crime scan has not run yet. It runs with every hourly collection.</div>'; $('ocNote').textContent = ''; $('ocGraph').innerHTML = ''; return; }
   $('ocNote').textContent = 'Groups as publicly reported. Leaders are named as the press names them: accused, not convicted unless a report says so. Minors and victims of sexual offences are never named.';
   const q = $('ocQ').value.trim().toLowerCase();
-  drawOcGraph(q);
+  drawOcGraph(q); drawOcMap(q);
+  const live = OC.groups.filter(g => g.n);
+  $('ocTitle').innerHTML = `${live.length} groups<br><span style="color:var(--ink-3)">${live.filter(g => g.active).length} active</span>`;
   const g = ocOpen && OC.groups.find(x => x.id === ocOpen);
   if (g) { drawOcProfile(g); return; }
   const key = ocKey(q), test = key ? key.test : r => r.t.toLowerCase().includes(q);
@@ -953,7 +1136,7 @@ function drawOcProfile(g) {
     ${sec('Weapons named', ocRows(g.weapons || [], k => OC_WPN[k] || k, g.n))}
     ${sec('Linked groups <span>named together in reports</span>', linked)}
     ${sec('Signals', signals ? `<p class="note" style="margin-top:0">${signals}</p>` : '')}
-    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}; peak ${max} in a month</p>` : '')}
+    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%;background:${hv(n, max)}"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}; peak ${max} in a month</p>` : '')}
     ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
 }
 $('ocBody').onclick = e => {
@@ -963,8 +1146,40 @@ $('ocBody').onclick = e => {
 };
 // After opening a profile, bring the right-hand column's top into view if it has scrolled away.
 function ocToTop() { const y = $('ocBody').getBoundingClientRect().top; if (y < 120 || y > innerHeight) scrollTo({ top: scrollY + y - 130 }); }
+// Hovering a group lights up its ground on the map.
+$('ocBody').addEventListener('mouseover', e => { const c = e.target.closest('.ocard'), g = c ? c.dataset.g : null; if (g !== ocHot) { ocHot = g; if (OC) drawOcMap($('ocQ').value.trim().toLowerCase()); } });
+$('ocBody').addEventListener('mouseleave', () => { if (ocHot) { ocHot = null; if (OC) drawOcMap($('ocQ').value.trim().toLowerCase()); } });
 $('ocQ').oninput = () => { ocOpen = null; sugOn = -1; drawSug(); drawOc(); };
 
+/* Where groups are reported: each area sized and heated by the reports naming a group there. Hover a group in the list
+   (or open its profile) and only its ground stays lit, with its own counts. Each group's busiest area carries its name. */
+let ocHot = null;
+function drawOcMap(q) {
+  const e = MAPS.ocMap || makeMap('ocMap');
+  e.layer.clearLayers();
+  const gs = OC.groups.filter(g => g.n && ocMatch(g, q));
+  const focus = ocHot || (ocOpen && OC.groups.some(x => x.id === ocOpen) ? ocOpen : null), fg = focus && OC.groups.find(x => x.id === focus);
+  const per = {}, tops = {};
+  for (const g of gs) {
+    for (const [a, n] of (g.areas || [])) if (AREA[a]) (per[a] = per[a] || []).push([g, n]);
+    const t = (g.areas || []).find(([a]) => AREA[a]); if (t) (tops[t[0]] = tops[t[0]] || []).push(g.name.replace(' (Pune links)', ''));
+  }
+  const tot = a => per[a].reduce((s, x) => s + x[1], 0), max = Math.max(1, ...Object.keys(per).map(tot));
+  const fmax = fg ? Math.max(1, ...(fg.areas || []).map(x => x[1])) : 1, copper = css('--copper');
+  for (const a of Object.keys(per)) {
+    const here = per[a].sort((x, y) => y[1] - x[1]), t = tot(a), mine = fg ? ((here.find(x => x[0].id === focus) || [0, 0])[1]) : t;
+    const on = !fg || mine > 0, v = on ? mine : t, mx = fg ? fmax : max, ll = [AREA[a].lat, AREA[a].lon];
+    L.circleMarker(ll, { radius: 7 + Math.sqrt(v) * (fg ? 4.2 : 2.8), color: on ? copper : css('--rule-2'), weight: 1.2, fillColor: on ? hc(v, mx) : css('--paper-3'), fillOpacity: on ? .82 : .4 })
+      .bindTooltip(`<b>${esc(AREA[a].name)}</b><br>${here.slice(0, 5).map(([g, n]) => `${esc(g.name)}: ${n} report${n > 1 ? 's' : ''}`).join('<br>')}`, { className: 'tip', direction: 'top', offset: [0, -6] })
+      .on('click', () => { ocOpen = fg && mine ? focus : here[0][0].id; ocHot = null; drawOc(); ocToTop(); })
+      .addTo(e.layer);
+    if (on && (fg || v >= 3)) L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'lbl', html: String(v), iconSize: [30, 14], iconAnchor: [15, 7] }) }).addTo(e.layer);
+    if (!fg && tops[a]) L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'pin', html: tops[a].map(esc).join('<br>'), iconSize: [150, 16 * tops[a].length], iconAnchor: [-14 - Math.sqrt(t) * 2.8, 8 * tops[a].length] }) }).addTo(e.layer);
+  }
+  $('ocKey').innerHTML = fg
+    ? `<div><b style="margin:0;padding:0;font-family:var(--sans)">${esc(fg.name)}</b></div><div>Reports naming this group, by area</div><div class="heatkey" style="margin:0;width:180px"><span>fewer</span><i></i><span>more</span></div>`
+    : `<div>Reports naming a group, by area; each group's name sits on its busiest area</div><div class="heatkey" style="margin:0;width:180px"><span>fewer</span><i></i><span>more</span></div><div style="color:var(--ink-3)">Hover a group to see its ground</div>`;
+}
 /* Gang links: groups named together in reports. A search fades the groups it does not match; an open profile
    lights up that group and the groups linked to it. */
 function drawOcGraph(q) {
@@ -1001,13 +1216,21 @@ function anEvidence(list) {
   const row = r => `<div class="mini">${meta(fmtDay(r.d + 'T06:30:00Z'), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '')}${link(r, esc(r.t))}</div>`;
   return `<div class="ev">${list.slice(0, 3).map(row).join('')}${list.length > 3 ? `<details><summary>Show ${list.length - 3} more report${list.length - 3 > 1 ? 's' : ''}</summary>${list.slice(3).map(row).join('')}</details>` : ''}</div>`;
 }
+// A finding's own leading number (from its sentence, never computed anew) is set large; the sentence stays whole below it.
+function lead_fig(title) {
+  const m = /(\d[\d,]*(?:\.\d+)?)(%| incidents?| reports?| cases?| times?)/.exec(title || '');
+  if (!m) return '';
+  const rest = title.slice(m.index + m[0].length).split(/[,.;:(]/)[0].trim();
+  return `<div class="fig">${m[1]}${m[2] === '%' ? '%' : ''}<small>${esc((m[2] === '%' ? '' : m[2].trim() + ' ') + rest)}</small></div>`;
+}
 function anCard(x) {
+  const arrow = { rising: '↑', steady: '→', falling: '↓' }[x.trend] || '';
   return `<article class="finding">
-    ${x.trend ? `<span class="trend${x.trend === 'rising' ? ' up' : ''}">${TREND[x.trend]}</span>` : ''}
+    <div class="fhead">${lead_fig(x.title)}${x.trend ? `<span class="trend${x.trend === 'rising' ? ' up' : ''}">${arrow} ${TREND[x.trend]}</span>` : ''}</div>
     <p class="say">${esc(x.title)}</p>
-    ${(x.facts || []).length ? `<div class="rec-meta" style="margin-top:0">${x.facts.map(f => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
+    ${(x.facts || []).length ? `<div class="facts">${x.facts.map(f => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
     ${x.test ? `<div class="how">How we know: ${esc(x.test)}</div>` : ''}
-    ${anEvidence(x.evidence)}
+    ${(x.evidence || []).length ? `<div class="ev"><details><summary>${plural(x.evidence.length, 'source report')}</summary>${x.evidence.map(r => `<div class="mini">${meta(fmtDay(r.d + 'T06:30:00Z'), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '')}${link(r, esc(r.t))}</div>`).join('')}</details></div>` : ''}
   </article>`;
 }
 function drawAn() {
@@ -1025,16 +1248,21 @@ function drawAn() {
     ['an-series', 'Possible series', v.series, 'No chain of three or more alike incidents close in place and time.'],
     ['an-when', 'When', v.timing, 'No kind of incident yet differs from an even spread across the day or week (it needs about 30 incidents with a stated time).'],
     ['an-places', 'Repeat places', v.places, 'No named spot has had more than one incident in 90 days.']];
-  $('anSub').textContent = `Last ${INS.window} days, ${plural(cov.incidents, 'counted incident')} in this view. Updated ${ago(INS.updated)}.`;
-  const sec = ([id, title, items, empty]) => `<section class="sec" id="${id}"><h3 class="sec-h">${title} <span>${items.length}</span></h3>${items.length ? items.map(anCard).join('') : `<p class="note" style="margin-top:0">${empty}</p>`}</section>`;
-  $('anBody').innerHTML = `<aside class="rail" aria-label="Sections"><h2 class="rail-h">Sections</h2><nav class="anidx">${S.map(([id, t, it]) => `<a href="#${id}"><span>${t}</span><span>${it.length}</span></a>`).join('')}
+  const rising = [...v.problems, ...v.watch].filter(x => x.trend === 'rising').length;
+  $('anSub').textContent = `Updated ${ago(INS.updated)}. Each finding names the test behind it and the reports it rests on.`;
+  const sec = ([id, title, items, empty]) => `<section class="sec" id="${id}"><h3 class="sec-h">${title}<span>${items.length}</span></h3>${items.length ? `<div class="cards">${items.map(anCard).join('')}</div>` : `<p class="note" style="margin-top:0">${empty}</p>`}</section>`;
+  $('anBody').innerHTML = `<section class="stmt"><div><h1>What the reports say</h1><p class="sub">Last ${INS.window} days in this view, from the counted incidents only. ${esc(cov.note || '')}</p></div>
+      <div class="figs"><div><b class="fig hot">${fmtN(cov.incidents)}</b><span>counted incidents</span></div><div><b class="fig">${v.problems.length}</b><span>problems</span></div><div><b class="fig${rising ? ' hot' : ''}">${rising}</b><span>rising</span></div>${QUAL ? `<div><b class="fig">${QUAL.passed}/${(QUAL.tests || []).length}</b><span>error tests pass</span></div>` : ''}</div></section>
+    <aside class="rail" aria-label="Sections"><h2 class="rail-h">Sections</h2><nav class="anidx">${S.map(([id, t, it]) => `<a href="#${id}"><span>${t}</span><span>${it.length}</span></a>`).join('')}
       <a href="#an-cover"><span>What this data can say</span><span></span></a>${QUAL ? `<a href="#an-checks"><span>Data checks</span><span>${QUAL.passed} of ${(QUAL.tests || []).length}</span></a>` : ''}</nav></aside>
-    <div class="sheet anmain">${S.map(sec).join('')}
-      <section class="sec" id="an-cover"><h3 class="sec-h">What this data can say</h3><p class="note" style="margin-top:0">${cov.spot} of ${cov.incidents} incidents are placed at a named spot, ${cov.timed} have a stated hour. ${cov.top_share}% of reports in this view come from one source (${esc(SRC[cov.top_source] || cov.top_source)}). ${esc(cov.note)}</p></section>
-      ${drawQuality()}</div>`;
+    <div class="anmain">${S.map(sec).join('')}
+      <section class="sec" id="an-cover"><h3 class="sec-h">What this data can say</h3><div class="lifts">
+        <div class="lift"><div class="fig">${cov.incidents ? Math.round(cov.spot / cov.incidents * 100) : 0}<small>%</small></div><p><b>${cov.spot} of ${cov.incidents}</b> incidents are placed at a named spot.</p></div>
+        <div class="lift"><div class="fig">${cov.incidents ? Math.round(cov.timed / cov.incidents * 100) : 0}<small>%</small></div><p><b>${cov.timed} of ${cov.incidents}</b> have a stated hour.</p></div>
+        <div class="lift"><div class="fig">${cov.top_share}<small>%</small></div><p>of reports in this view come from one source, <b>${esc(SRC[cov.top_source] || cov.top_source)}</b>.</p></div>
+      </div></section>
+      <div class="sheet checks">${drawQuality()}</div></div>`;
 }
-// Data checks (quality.json, every hour): the permanent error tests, and detectors that look for the same kinds of
-// error everywhere. Shown in full, failures first, so the page never claims more accuracy than it has.
 function drawQuality() {
   if (!QUAL) return '';
   const D = QUAL.detectors || {}, tests = (QUAL.tests || []).slice().sort((a, b) => a.ok - b.ok);
@@ -1050,8 +1278,8 @@ function drawQuality() {
     ['area_disagreement', 'Reports the AI places in another part of the district than their case'],
     ['silent_days', 'Days with far fewer incidents than the days around them'],
   ].filter(([k]) => D[k] != null);
-  return `<section class="sec" id="an-checks"><h3 class="sec-h">Data checks <span>updated ${ago(QUAL.updated)}</span></h3>
-    <p class="say" style="margin-top:0"><span class="big">${QUAL.passed}</span>of ${tests.length} permanent error tests pass.</p>
+  return `<section id="an-checks" style="scroll-margin-top:calc(var(--stick) + 24px)"><h3 class="sec-h">Data checks<span>updated ${ago(QUAL.updated)}</span></h3>
+    <p class="say" style="margin-top:0"><span class="fig big">${QUAL.passed}</span>of ${tests.length} permanent error tests pass.</p>
     ${tests.map(t => `<div class="qt"><span class="${t.ok ? 'ok' : 'bad'}">${t.ok ? 'Pass' : 'Fail'}</span><span>${esc(t.name)}<small>${esc(t.detail)}</small></span></div>`).join('')}
     <h3 class="sec-h" style="margin-top:24px">Detectors</h3>
     ${det.map(([k, s]) => `<div class="row"><span>${esc(s)}</span><span class="n">${fmtN(D[k])}</span></div>`).join('')}
@@ -1078,7 +1306,10 @@ const FESTIVALS = [['2026-07-24', '2026-07-26', 'Palkhi / Ashadhi'], ['2026-09-1
 const gEv = (typed = true) => INCIDENTS.filter(e => inView(e) && happenedInPeriod(e) && (!typed || !gType || e.c === gType));
 const wd = e => (new Date(e.d).getUTCDay() + 6) % 7;                 // Monday = 0
 const dayKey = e => e.d.slice(0, 10);
-const gBin = (v, max) => v <= 0 ? 0.045 : 0.16 + 0.84 * Math.ceil(Math.min(1, v / max) * 5) / 5;   // five shades, as in the book
+const gBin = (v, max) => v <= 0 ? 0.045 : 0.16 + 0.84 * Math.ceil(Math.min(1, v / max) * 5) / 5;
+// The heat ramp: ash for none, then six steps from oxblood to white heat (light mode runs pale to dark). Charts and maps share it.
+const hv = (v, max) => v <= 0 ? 'var(--h0)' : `var(--h${Math.min(6, Math.max(1, Math.ceil(v / Math.max(max, 1e-9) * 6)))})`;
+const hc = (v, max, cap = 5) => { const s = hv(v, max).slice(4, -1); return css(+s.slice(3) > cap ? '--h' + cap : s); };   // the same step as a colour (Leaflet needs real colours); maps stop at bright copper so labels stay legible
 const fmt1 = v => (Math.round(v * 10) / 10).toString();
 const tip = (t) => ` data-tip="${esc(t)}"`;
 
@@ -1122,13 +1353,13 @@ function gRhythm() {
   hourTot.forEach((v, h) => { const bh = v / hmax * 62; s += `<rect x="${L + h * cw + 3}" y="${T - 10 - bh}" width="${cw - 6}" height="${bh}" class="gn"${tip(`${String(h).padStart(2, '0')}:00–${String((h + 1) % 24).padStart(2, '0')}:00, ${fmt1(v)} incidents (${total ? Math.round(v / total * 100) : 0}% of the week)`)}/>`; });
   m.forEach((row, d) => {
     s += `<text x="${L - 8}" y="${T + d * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${DAYS7[d]}</text>`;
-    row.forEach((v, h) => { s += `<rect x="${L + h * cw + 1}" y="${T + d * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-d="${d}" data-h="${h}"${tip(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00, ${fmt1(v)} incident${v === 1 ? '' : 's'}`)}/>`; });
+    row.forEach((v, h) => { s += `<rect x="${L + h * cw + 1}" y="${T + d * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gcell" style="fill:${hv(v, max)}" data-d="${d}" data-h="${h}"${tip(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00, ${fmt1(v)} incident${v === 1 ? '' : 's'}`)}/>`; });
     const bw = dayTot[d] / dmax * (R - 34);
     s += `<rect x="${W - R + 10}" y="${T + d * ch + 6}" width="${bw}" height="${ch - 12}" class="gn"${tip(`${DAYS7[d]}, ${fmt1(dayTot[d])} incidents (${total ? Math.round(dayTot[d] / total * 100) : 0}%)`)}/><text x="${W - R + 14 + bw}" y="${T + d * ch + ch / 2 + 4}" class="gtx gsm">${total ? Math.round(dayTot[d] / total * 100) : 0}%</text>`;
   });
   for (let h = 0; h < 24; h += 3) s += `<text x="${L + h * cw + cw / 2}" y="${T + 7 * ch + 16}" class="gtx gsm" text-anchor="middle">${h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm'}</text>`;
-  const step = max / 5, lg = v => (max >= 5 ? Math.round(v) : fmt1(v));
-  [0, 1, 2, 3, 4].forEach(i => { s += `<rect x="${L + i * 70}" y="${H - 18}" width="14" height="12" class="gfill" fill-opacity="${gBin(step * (i + 1), max)}"/><text x="${L + i * 70 + 19}" y="${H - 8}" class="gtx gsm">${lg(step * i)}–${lg(step * (i + 1))}</text>`; });
+  const step = max / 6, lg = v => (max >= 5 ? Math.round(v) : fmt1(v));
+  [0, 1, 2, 3, 4, 5].forEach(i => { s += `<rect x="${L + i * 70}" y="${H - 18}" width="14" height="12" style="fill:${hv(step * (i + 1), max)}"/><text x="${L + i * 70 + 19}" y="${H - 8}" class="gtx gsm">${lg(step * i)}–${lg(step * (i + 1))}</text>`; });
   s += `<text x="${L}" y="14" class="gtx gsm">Incidents by hour (all days)</text><text x="${W - R + 10}" y="${T - 10}" class="gtx gsm">By day</text>`;
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">${exact} incidents with an exact hour${gSpread ? `, ${spread} with only a part of day (spread evenly across its hours)` : ''}; ${ev.length - exact - (gSpread ? spread : 0)} more did not say when. Click a cell to see its incidents.</p>`;
   $('gBox').querySelectorAll('.gcell').forEach(el => el.onclick = () => { const d = +el.dataset.d, h = +el.dataset.h; gPickSet(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00`, who[d][h]); });
@@ -1170,7 +1401,7 @@ function gMatrix() {
   types.forEach((t, j) => { s += `<text transform="translate(${L + j * cw + cw / 2},${T - 8}) rotate(-38)" class="gtx gsm">${esc(t.name.replace(' & ', ' & ').split(' (')[0])}</text>`; });
   areas.forEach((a, i) => {
     s += `<text x="${L - 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(AREA[a].name)}</text>`;
-    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name}, ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle">${v}</text>` : ''}`; });
+    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gcell" style="fill:${hv(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name}, ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle">${v}</text>` : ''}`; });
     s += `<text x="${L + types.length * cw + 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm">${byA[a].length}</text>`;
   });
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">The ${areas.length} areas with most incidents in this view and period; the number at the end of a row is the area’s total. Click a cell to see its incidents.</p>`;
@@ -1191,7 +1422,7 @@ function gCalendar() {
   let s = '', lastMonth = '';
   days.forEach((d, i) => {
     const x = L + Math.floor(i / 7) * c, yy = T + (i % 7) * c, v = (byD[d] || []).length;
-    s += `<rect x="${x + 1}" y="${yy + 1}" width="${c - 2}" height="${c - 2}" class="gfill gday" fill-opacity="${gBin(v, max)}" data-d="${d}"${tip(`${fmtDay(d + 'T06:30:00Z')} (${DAYS7[i % 7]}), ${v} incident${v === 1 ? '' : 's'}`)}/>`;
+    s += `<rect x="${x + 1}" y="${yy + 1}" width="${c - 2}" height="${c - 2}" class="gday" style="fill:${hv(v, max)}" data-d="${d}"${tip(`${fmtDay(d + 'T06:30:00Z')} (${DAYS7[i % 7]}), ${v} incident${v === 1 ? '' : 's'}`)}/>`;
     if (d.slice(0, 7) !== lastMonth && i % 7 === 0) { lastMonth = d.slice(0, 7); s += `<text x="${x}" y="${T - 8}" class="gtx gsm">${new Date(d + 'T06:30:00Z').toLocaleDateString('en-IN', { month: 'short' })}</text>`; }
   });
   [0, 2, 4, 6].forEach(r => { s += `<text x="${L - 6}" y="${T + r * c + 11}" class="gtx gsm" text-anchor="end">${DAYS7[r]}</text>`; });
@@ -1272,11 +1503,13 @@ function show(tab) {
   }
   $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map'); $('sitv').classList.toggle('hide', tab !== 'sit');
   $('ocv').classList.toggle('hide', tab !== 'oc');
-  if (tab === 'sit') drawSits();
   $('anv').classList.toggle('hide', tab !== 'an');
-  if (tab === 'oc') drawOc();
+  // Maps are drawn once their tab is visible (Leaflet needs the box's size), then fitted to the area view.
+  const settle = id => setTimeout(() => { const e = MAPS[id]; if (e) { if (e.stale) setBaseOn(e); e.m.invalidateSize(); glResize(e); if (!e.fitted) { fitView(e.m); e.fitted = true; } } }, 80);
+  if (tab === 'sit') { drawSits(); settle('sitMap'); }
+  if (tab === 'oc') { drawOc(); settle('ocMap'); }
   if (tab === 'an') drawAn();
-  if (tab === 'map') { const first = !MAP; drawMap(); setTimeout(() => { MAP.invalidateSize(); if (first) fitView(); }, 80); }
+  if (tab === 'map') { drawMap(); settle('map'); }
   scanTab = tab; drawScan();
   try { history.replaceState(null, '', '#' + tab); } catch {}
 }
@@ -1286,7 +1519,14 @@ function applyTheme(t, save) {
   $('themeSwitch').setAttribute('aria-checked', t === 'dark');
   $('themeWord').textContent = t === 'dark' ? 'Dark' : 'Light';
   $('themeColor').content = css('--paper');
-  if (MAP) { setBase(); if (!$('mapv').classList.contains('hide')) drawMap(); }
+  // Colours on the maps and charts are read from the theme when drawn: re-lay the basemaps and redraw what is open.
+  // A hidden map gets its new basemap when its tab opens (a basemap made in a hidden box keeps a wrong size).
+  Object.values(MAPS).forEach(e => { if (e.m.getContainer().offsetWidth) setBaseOn(e); else e.stale = true; });
+  if (!$('mapv').classList.contains('hide')) drawMap();
+  if (!$('sitv').classList.contains('hide')) drawSits();
+  if (!$('ocv').classList.contains('hide')) drawOc();
+  if (!$('anv').classList.contains('hide')) drawAn();
+  if (!$('news').classList.contains('hide') && EVENTS.length) drawNews();
 }
 $('themeSwitch').onclick = () => applyTheme(isDarkTheme() ? 'light' : 'dark', true);
 applyTheme(document.documentElement.dataset.theme, false);
