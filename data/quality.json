@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T18:46:34.877Z",
+ "updated": "2026-11-18T19:44:50.534Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -19,13 +19,9 @@
   },
   {
    "name": "NDA security post shooting (sepoy who died) is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Army sepoy injured in shooting at NDA post, second incident involving personnel in 10 days"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Trainee PSI dowry harassment is one case",
@@ -85,18 +81,18 @@
   "split_cases": 3,
   "date_spread": 3,
   "waiting_for_judge": 0,
-  "pairs_judged": 807,
-  "pairs_judged_same": 716,
-  "judge_checked_by_expert": 38,
+  "pairs_judged": 814,
+  "pairs_judged_same": 719,
+  "judge_checked_by_expert": 48,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 35,
+  "area_disagreement": 38,
   "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 22,
+  "unverified": 12,
   "ruled_out_by_ai": 171,
-  "reports": 2717,
-  "cases": 1747
+  "reports": 2719,
+  "cases": 1751
  },
  "examples": {
   "split_cases": [
@@ -216,6 +212,18 @@
   ],
   "source_gaps": [
    {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   },
+   {
     "source": "skl",
     "days": 8,
     "examples": [
@@ -250,20 +258,8 @@
      "2026-10-18",
      "2026-11-06"
     ]
-   },
-   {
-    "source": "toi",
-    "days": 11,
-    "examples": [
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-04",
-     "2026-11-11",
-     "2026-11-12"
-    ]
    }
   ]
  },
- "passed": 8
+ "passed": 9
 }
