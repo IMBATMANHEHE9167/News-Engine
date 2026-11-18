@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T14:30:06.860Z",
+ "updated": "2026-11-18T15:12:51.700Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -80,18 +80,18 @@
   "split_cases": 1,
   "date_spread": 1,
   "waiting_for_judge": 7,
-  "pairs_judged": 769,
-  "pairs_judged_same": 684,
+  "pairs_judged": 791,
+  "pairs_judged_same": 704,
   "judge_checked_by_expert": 18,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
   "area_disagreement": 34,
   "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 10,
-  "ruled_out_by_ai": 171,
+  "unverified": 24,
+  "ruled_out_by_ai": 170,
   "reports": 2716,
-  "cases": 1785
+  "cases": 1766
  },
  "examples": {
   "split_cases": [
@@ -145,14 +145,14 @@
     "reading": "Market Yard"
    },
    {
-    "t": "Two held for robbing daily wage workers of Rs50,000 in Pirangut",
-    "case_area": "Mulshi / Pirangut",
-    "reading": "Bavdhan"
+    "t": "Pimpri Chinchwad police raid mephedrone manufacturing unit",
+    "case_area": "Pimple Saudagar / Sangvi",
+    "reading": "Junnar / Ambegaon taluka"
    },
    {
-    "t": "Pune: Three Suspects in Taloja Firing Case Detained by Ambegaon Police",
-    "case_area": "Junnar / Ambegaon taluka",
-    "reading": "Katraj"
+    "t": "Pune Crime: पुण्यात बंद घर चोरट्यांच्या निशाण्यावर; रोकड आणि सोन्या-चांदीचे दागिने असा २.८६ लाखांचा ऐवज चोरीला",
+    "case_area": "Loni Kalbhor",
+    "reading": "Dighi / Alandi"
    }
   ],
   "silent_days": [
@@ -183,8 +183,8 @@
    },
    {
     "day": "2026-10-25",
-    "incidents": 1,
-    "usual": 9
+    "incidents": 2,
+    "usual": 8
    }
   ],
   "source_gaps": [
