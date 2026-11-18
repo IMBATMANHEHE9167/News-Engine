@@ -325,9 +325,9 @@ async function load() {
   try { OC = await j('data/groups.json'); } catch { OC = null; }
   try { INS = await j('data/insights.json'); } catch { INS = null; }
   EVENTS = EVENTS.filter(e => CAT[e.c]);
-  INCIDENTS = EVENTS.filter(e => !e.orphan && !e.u);   // only cases the AI has checked are counted, mapped and graphed
+  INCIDENTS = EVENTS.filter(e => !e.orphan && !e.uv);   // only cases the AI has checked are counted, mapped and graphed
   try { QUAL = await j('data/quality.json'); } catch { QUAL = null; }
-  const checking = EVENTS.filter(e => e.u).length;
+  const checking = EVENTS.filter(e => e.uv).length;
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
   const first = EVENTS.reduce((m, e) => e.reports.reduce((m2, r) => (r.d < m2 ? r.d : m2), m), '9999');
   $('stamp').textContent = EVENTS.length
@@ -396,7 +396,7 @@ function drawNews() {
     const follows = e.orphan ? 0 : e.reports.filter(x => x.k === 'f').length;
     const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? ` · happened ${fmtDay(e.d)}` : '';
     html += `<article class="item">
-      <div class="top"><span class="cat${e.orphan || e.u ? ' fu' : ''}"${e.u ? ' title="Not yet read by the AI, or its two readings disagree. Not counted anywhere until settled."' : ''}>${e.u ? 'Being checked · ' : e.orphan ? 'Later development · ' : ''}${esc(label(e))}</span><span class="when">${ago(e.last)}</span></div>
+      <div class="top"><span class="cat${e.orphan || e.uv ? ' fu' : ''}"${e.uv ? ' title="Not yet read by the AI, or its two readings disagree. Not counted anywhere until settled."' : ''}>${e.uv ? 'Being checked · ' : e.orphan ? 'Later development · ' : ''}${esc(label(e))}</span><span class="when">${ago(e.last)}</span></div>
       ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
       ${r.L && r.L.s && /[ऀ-ॿ]/.test(r.t) ? `<p class="sum">${esc(r.L.s)}</p>` : ''}
       <div class="by"><b>${e.a ? esc(AREA[e.a].name) + (e.p ? ' · ' + esc(e.p[0]) : '') : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${e.reports.length > 1 ? ` · ${e.reports.length} reports${follows ? `, ${follows} later development${follows > 1 ? 's' : ''}` : ''}` : ''}${e.q && CAT[e.q] ? ` · <span class="chk" title="The machine reading disagrees with the rules">check type: reads as ${esc(CAT[e.q].name.toLowerCase())}</span>` : ''}</div>

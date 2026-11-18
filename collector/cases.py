@@ -232,7 +232,7 @@ def _case(xs):
     lead = next((x for x in sorted(new, key=lambda x: x['r']['d']) if x['r'].get('b')), None)
     spots = [r['p'] for r in reports if r.get('p') and r.get('a') == a]
     outs = {r.get('o') for r in reports}
-    unverified = all(r.get('u') for r in reports)
+    unverified = all(r.get('uv') for r in reports)
     e = dict(c=c, a=a, d=E.day_str(day) + 'T06:30:00.000Z', last=reports[0]['d'], stated=stated,
              orphan=not new, h=lead['r'].get('h') if lead else None, b=lead['r'].get('b') if lead else None,
              o='fatal' if 'fatal' in outs else 'injured' if 'injured' in outs else None,
@@ -240,5 +240,5 @@ def _case(xs):
     if c == 'murder':
         e['o'] = 'fatal'
     if unverified:
-        e['u'] = 1
+        e['uv'] = 1
     return e

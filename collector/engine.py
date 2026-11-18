@@ -1206,6 +1206,8 @@ def verdict(rec):
     if a == rules:
         return L
     L2 = rec.get('L2')
+    if L2 and L2.get('v') != R['llm']['version']:
+        L2 = None                                     # a second reading under an older form: read again
     if not L2:
         return 'second'
     b = _view(L2)
@@ -1216,6 +1218,8 @@ def verdict(rec):
     if b == rules:
         return L2
     X = rec.get('X')
+    if X and X.get('v') != R['llm']['version']:
+        X = None
     if not X:
         return 'expert'
     x = _view(X)
@@ -1238,7 +1242,7 @@ def _r0(rec):
             rec[k] = rec['R0'][k]
         else:
             rec.pop(k, None)
-    for k in ('nx', 'cr', 'q2', 'u', 'why'):
+    for k in ('nx', 'cr', 'q2', 'uv', 'why'):
         rec.pop(k, None)
 
 
@@ -1247,7 +1251,7 @@ def apply_llm(rec):
     _r0(rec)
     v = verdict(rec)
     if not isinstance(v, dict):
-        rec['u'] = 1                                                  # unread, or waiting for a second reading
+        rec['uv'] = 1                                                 # unread, or waiting for a second reading
         return
     if not v.get('ok'):
         rec['nx'], rec['why'] = 1, v.get('why') or 'other'          # the readings say: not an incident in Pune

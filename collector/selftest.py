@@ -20,7 +20,7 @@ cats = {c['id'] for c in E.CATS}
 judged = [r for r in items if r.get('c') in cats and not r.get('nx')]
 v = [E.verdict(r) for r in items]
 print('reports %d, judged %d, ruled out by AI %d, unverified %d (second %d, expert %d, unread %d)' % (
-    len(items), len(judged), sum(1 for r in items if r.get('nx')), sum(1 for r in items if r.get('u')),
+    len(items), len(judged), sum(1 for r in items if r.get('nx')), sum(1 for r in items if r.get('uv')),
     v.count('second'), v.count('expert'), v.count(None)))
 
 
@@ -31,10 +31,10 @@ def meaning(r):
 
 vec = embed([dict(id=r['id'], t=meaning(r)) for r in judged])
 t1 = time.time()
-verdicts = json.loads((DATA / 'pairs.json').read_text('utf-8')) if (DATA / 'pairs.json').exists() else {}
+verdicts = json.loads((DATA / 'pairs3.json').read_text('utf-8')) if (DATA / 'pairs3.json').exists() else {}
 ev, ask = C.build(judged, vec, verdicts)
 print('cases %d (counted %d, unverified %d, developments only %d); pairs for the judge %d; build %.1fs' % (
-    len(ev), sum(1 for e in ev if not e.get('u') and not e.get('orphan')), sum(1 for e in ev if e.get('u')),
+    len(ev), sum(1 for e in ev if not e.get('uv') and not e.get('orphan')), sum(1 for e in ev if e.get('uv')),
     sum(1 for e in ev if e.get('orphan')), len(ask), time.time() - t1))
 old = json.loads((DATA / 'events.json').read_text('utf-8'))
 print('before: %d incidents (%d counted)' % (len(old), sum(1 for e in old if not e.get('orphan'))))

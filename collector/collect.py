@@ -56,6 +56,38 @@ def dump_lines(items):
 
 DATA.mkdir(exist_ok=True)
 items = read_json('incidents.json', [])
+LINK_SOURCE = 'https://raw.githubusercontent.com/IMBATMANHEHE9167/News-Engine/43f24d3/data/incidents.json'
+
+
+def has_link(r):
+    return isinstance(r.get('u'), str) and r['u'].startswith('http')
+
+
+def check_integrity(rows, loaded):
+    """Never save damaged data: every report keeps its id, headline, link, source and date, and a run never loses more
+    than a few reports. A failure stops the run before anything is saved (and GitHub reports the failed run)."""
+    bad = [r for r in rows if not (has_link(r) and r.get('id') and r.get('t') and r.get('s') and r.get('d'))]
+    if bad:
+        raise SystemExit('integrity: %d reports lack a link, headline, source or date; nothing saved. First: %s' % (len(bad), json.dumps(bad[0], ensure_ascii=False)[:300]))
+    if loaded and len(rows) < loaded * 0.95:
+        raise SystemExit('integrity: reports fell from %d to %d in one run; nothing saved' % (loaded, len(rows)))
+
+
+# One-time repair (18 Nov 2026): a flag named 'u' overwrote the reports' links ('u'). Links come back from the last data
+# saved before that; the few reports added since cannot be recovered and are dropped (the feeds bring them back).
+if any(not has_link(r) for r in items):
+    try:
+        LINKS = {x['id']: x['u'] for x in json.loads(urllib.request.urlopen(LINK_SOURCE, timeout=60).read().decode('utf-8')) if has_link(x)}
+    except Exception as ex:
+        raise SystemExit('link repair: could not read the saved links (%s); nothing changed' % str(ex)[:100])
+    fixed = 0
+    for r in items:
+        if not has_link(r) and r['id'] in LINKS:
+            r['u'], fixed = LINKS[r['id']], fixed + 1
+    lost = [r for r in items if not has_link(r)]
+    items = [r for r in items if has_link(r)]
+    print('link repair: %d links restored, %d reports without a recoverable link dropped' % (fixed, len(lost)))
+LOADED = len(items)
 class OSet(dict):
     """A set that remembers the order things were added in (the file keeps the newest 20,000)."""
     def add(self, k):
@@ -299,6 +331,7 @@ status = dict(updated=E.iso(datetime.now(timezone.utc)), total=len(items), added
               history=dict(reachedBack=bf['next'], target=bf['stop'], kept=bf['kept'], note=bf['note'], **{'from': HISTORY_FROM}, archives=archives),
               sources=sources)
 (DATA / 'status.json').write_text(json.dumps(status, ensure_ascii=False, indent=1), 'utf-8')
+check_integrity(items, LOADED)
 if added or changed:
     (DATA / 'incidents.json').write_text(dump_lines(items), 'utf-8')
     (DATA / 'rejected.json').write_text(json.dumps(list(rejected)[-20000:], separators=(',', ':')), 'utf-8')
@@ -317,11 +350,11 @@ def meaning(r):
 
 
 vec = embed([dict(id=r['id'], t=meaning(r)) for r in judged])
-review = second_opinion([r for r in judged if not r.get('u')], vec) if vec else {}
+review = second_opinion([r for r in judged if not r.get('uv')], vec) if vec else {}
 (DATA / 'review.json').write_text(dump_lines(sorted(review.values(), key=lambda x: -x['conf'])), 'utf-8')
 print('machine reading: %s, second opinion flags %d' % ('on' if vec else 'off', len(review)))
 
-verdicts = read_json('pairs.json', {})
+verdicts = read_json('pairs3.json', {})    # pairs3: verdicts given since readings use the full article again
 events, ask = C.build(judged, vec, verdicts)
 old_verdicts = dict(verdicts)
 if ask or any(v is True for v in verdicts.values()):
@@ -337,14 +370,14 @@ if ask or any(v is True for v in verdicts.values()):
         events, ask = C.build(judged, vec, verdicts)
 alive = {r['id'] for r in judged}
 verdicts = {k: v for k, v in verdicts.items() if all(x in alive for x in k.split('|'))}
-(DATA / 'pairs.json').write_text(json.dumps(verdicts, separators=(',', ':'), sort_keys=True), 'utf-8')
+(DATA / 'pairs3.json').write_text(json.dumps(verdicts, separators=(',', ':'), sort_keys=True), 'utf-8')
 print('cases: %d from %d reports; %d pairs judged, %d waiting for the judge' % (len(events), len(judged), len(verdicts), len(ask)))
 
 events.sort(key=lambda e: e['last'], reverse=True)
 for e in events:                     # the second opinion on the report that stands for the incident, when it differs
     lead = next((r for r in e['reports'] if r.get('k') != 'f'), e['reports'][0])
     e['q'] = review[lead['id']]['model'] if lead['id'] in review else None
-keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'u', 'reports')
+keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'uv', 'reports')
 DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x')    # working fields the page never needs
 def slim(r):
     out = {k: v for k, v in r.items() if k not in DROP}
@@ -362,7 +395,7 @@ meta = dict(rules=E.RULES_VERSION, cats=E.CATS, sitkinds=[dict(id=k, name=n) for
 print('total=%d new=%d removed=%d incidents=%d' % (len(items), added, removed, len(events)))
 
 # Only checked cases count anywhere (organised crime, analytics, quality); unverified ones wait for their reading.
-counted = [e for e in events if not e.get('u')]
+counted = [e for e in events if not e.get('uv')]
 
 # ---- 7. Organised crime profiles (groups.json): a failure here never stops the incident data from being saved.
 try:

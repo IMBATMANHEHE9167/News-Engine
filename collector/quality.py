@@ -31,7 +31,7 @@ def _day(e):
 
 
 def build(items, events, verdicts, ask):
-    counted = [e for e in events if not e.get('u')]
+    counted = [e for e in events if not e.get('uv')]
     out = dict(updated=E.iso(datetime.now(timezone.utc)), tests=[], detectors={}, examples={})
 
     # 1. Permanent tests.
@@ -135,7 +135,7 @@ def build(items, events, verdicts, ask):
     D['source_gap_days'] = sum(g['days'] for g in gaps)
     X['source_gaps'] = gaps
 
-    D['unverified'] = sum(1 for r in items if r.get('u') and not r.get('nx'))
+    D['unverified'] = sum(1 for r in items if r.get('uv') and not r.get('nx'))
     D['ruled_out_by_ai'] = sum(1 for r in items if r.get('nx'))
     D['reports'] = len(items)
     D['cases'] = len(counted)
