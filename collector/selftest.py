@@ -31,13 +31,14 @@ def meaning(r):
 
 vec = embed([dict(id=r['id'], t=meaning(r)) for r in judged])
 t1 = time.time()
-ev, ask = C.build(judged, vec, {})
+verdicts = json.loads((DATA / 'pairs.json').read_text('utf-8')) if (DATA / 'pairs.json').exists() else {}
+ev, ask = C.build(judged, vec, verdicts)
 print('cases %d (counted %d, unverified %d, developments only %d); pairs for the judge %d; build %.1fs' % (
     len(ev), sum(1 for e in ev if not e.get('u') and not e.get('orphan')), sum(1 for e in ev if e.get('u')),
     sum(1 for e in ev if e.get('orphan')), len(ask), time.time() - t1))
 old = json.loads((DATA / 'events.json').read_text('utf-8'))
 print('before: %d incidents (%d counted)' % (len(old), sum(1 for e in old if not e.get('orphan'))))
-q = Q.build(items, ev, {}, ask)
+q = Q.build(items, ev, verdicts, ask)
 print(json.dumps(q, ensure_ascii=False, indent=1)[:12000])
 print('sample judge pairs:')
 for k, a, b in ask[:12]:
