@@ -1,28 +1,15 @@
 {
- "day": "2026-11-17",
+ "day": "2026-11-18",
  "used": {
-  "gemini-3.5-flash-lite": 391,
-  "gemini-3.6-flash": 13,
-  "gemini-3.1-flash-lite": 206,
-  "gemini-3-flash-preview": 14,
-  "gemini-2.5-flash-lite": 85,
-  "gemini-2.5-flash": 20
+  "gemini-3.5-flash-lite": 10,
+  "gemini-3.1-flash-lite": 30,
+  "gemini-3.6-flash": 1,
+  "gemini-3-flash-preview": 2
  },
- "rested": {
-  "gemini-3.6-flash": true,
-  "gemini-3-flash-preview": true
- },
+ "rested": {},
  "errors": [
   "gemini-3.5-flash-lite: unreadable answer: 'candidates'",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-3.5-flash-lite: unreadable answer: 'candidates'",
-  "gemini-3.5-flash-lite: unreadable answer: 'candidates'",
-  "gemini-3.5-flash-lite: unreadable answer: 'candidates'"
+  "gemini-3-flash-preview: The read operation timed out"
  ],
  "models": {
   "readers": [
@@ -36,9 +23,9 @@
    "gemini-2.5-flash"
   ]
  },
- "read": 2198,
- "waiting": 492,
- "disputes": 286,
- "settled": 32,
- "updated": "2026-11-18T07:24:30.288Z"
+ "read": 2347,
+ "waiting": 344,
+ "disputes": 308,
+ "settled": 40,
+ "updated": "2026-11-18T08:30:16.934Z"
 }

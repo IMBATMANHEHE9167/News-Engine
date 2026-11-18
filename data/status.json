@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-18T07:24:30.458Z",
- "total": 2690,
- "added": 3,
+ "updated": "2026-11-18T08:30:17.113Z",
+ "total": 2691,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -105,7 +105,7 @@
    "name": "Free Press Journal",
    "ok": true,
    "found": 1,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -129,7 +129,7 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -145,7 +145,7 @@
    "name": "Pudhari",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 16,
-   "added": 1,
+   "added": 0,
    "note": ""
   }
  ]
