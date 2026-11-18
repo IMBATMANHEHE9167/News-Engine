@@ -1,10 +1,10 @@
 {
  "day": "2026-11-18",
  "used": {
-  "gemini-3.5-flash-lite": 196,
-  "gemini-3.1-flash-lite": 282,
+  "gemini-3.5-flash-lite": 204,
+  "gemini-3.1-flash-lite": 305,
   "gemini-3.6-flash": 9,
-  "gemini-3-flash-preview": 10,
+  "gemini-3-flash-preview": 11,
   "gemini-2.5-flash-lite": 62,
   "gemini-flash-lite-latest": 15
  },
@@ -12,7 +12,6 @@
   "gemini-3.6-flash": true
  },
  "errors": [
-  "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
@@ -23,7 +22,8 @@
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out"
+  "gemini-3-flash-preview: The read operation timed out",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)"
  ],
  "models": {
   "readers": [
@@ -37,22 +37,22 @@
    "gemini-flash-latest"
   ]
  },
- "read": 527,
+ "read": 667,
  "waiting": 344,
  "disputes": 308,
  "settled": 40,
- "updated": "2026-11-18T15:43:46.133Z",
- "older": 2189,
+ "updated": "2026-11-18T16:43:34.719Z",
+ "older": 2049,
  "unread": 0,
  "second": 4,
  "expert": 12,
- "not_incident": 171,
- "judged": 152,
+ "not_incident": 170,
+ "judged": 153,
  "lx_reset": 1,
- "audited": 18,
+ "audited": 28,
  "overturned": 1,
  "last_run": {
-  "busy": 28,
+  "busy": 25,
   "stop": "out of time"
  }
 }

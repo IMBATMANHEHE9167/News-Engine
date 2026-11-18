@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T15:47:47.402Z",
+ "updated": "2026-11-18T16:45:37.770Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -77,27 +77,35 @@
   }
  ],
  "detectors": {
-  "split_cases": 1,
+  "split_cases": 3,
   "date_spread": 1,
   "waiting_for_judge": 0,
-  "pairs_judged": 796,
-  "pairs_judged_same": 708,
-  "judge_checked_by_expert": 18,
+  "pairs_judged": 804,
+  "pairs_judged_same": 715,
+  "judge_checked_by_expert": 28,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 34,
+  "area_disagreement": 36,
   "silent_days": 6,
   "source_gap_days": 63,
   "unverified": 16,
-  "ruled_out_by_ai": 171,
+  "ruled_out_by_ai": 170,
   "reports": 2716,
-  "cases": 1765
+  "cases": 1758
  },
  "examples": {
   "split_cases": [
    [
     "Man killed over marital dispute; father-in-law, grandfather-in-law held",
     "Pune: Man, Grandfather-in-Law Held For Killing Son-in-Law, Passing it off as Road Accident"
+   ],
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
    ]
   ],
   "date_spread": [
