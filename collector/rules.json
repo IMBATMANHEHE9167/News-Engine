@@ -1,16 +1,17 @@
 {
  "version": 11,
  "llm": {
-  "note": "Gemini free tier. Readers read every report; experts settle disputes with the rules. rpd/rpm are the free limits shown in AI Studio (Nov 2026).",
-  "version": 1,
+  "note": "Gemini free tier. Version 2: the AI reading decides (incident or not, type, case facts, date). A second reader (a different model) checks every report where the first reader and the rules disagree; the expert settles only three-way splits. Judges decide whether two close reports are the same incident. rpd/rpm are the free limits shown in AI Studio (Nov 2026).",
+  "version": 2,
   "readers": ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-2.5-flash-lite"],
-  "experts": ["gemini-3.6-flash", "gemini-3-flash", "gemini-2.5-flash"],
+  "experts": ["gemini-3.6-flash", "gemini-3-flash"],
   "rpd": {"readers": 500, "experts": 20},
   "rpm": {"readers": 15, "experts": 5},
-  "per_run": {"readers": 40, "experts": 3},
-  "batch": 4,
+  "per_run": {"readers": 80, "experts": 3, "judges": 20},
+  "batch": 6,
+  "pair_batch": 10,
   "chars": 2500,
-  "run_seconds": 600
+  "run_seconds": 1500
  },
  "organised": {
   "note": "Groups as publicly reported. Leaders are named as the press names them: accused, not convicted unless a report says so. Never stored: names of juveniles or of victims of sexual offences. Community labels (e.g. 'Irani gang') are not used as group names.",

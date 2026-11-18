@@ -1,0 +1,16 @@
+{
+ "note": "Permanent error tests. Every error found by hand becomes a test here, so the same kind of mistake is caught every hour, for ever. one_case: every counted report matching the pattern is in exactly one case. apart: no case holds reports matching both patterns. not_incident: no counted case holds a report matching the pattern. type: every counted case holding a matching report has this type. Patterns are case-insensitive regular expressions on headlines.",
+ "tests": [
+  {"name": "Ketan Agarwal murder (Lohagad Fort) is one case", "one_case": "ketan ag(a)?r(a)?wal|lohagad (fort )?(murder|trek)|lohgad case|केतन"},
+  {"name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case", "apart": ["Kusgaon Budruk", "ketan|lohagad|केतन"]},
+  {"name": "NDA security post shooting (sepoy who died) is one case", "one_case": "NDA (security|post)|at NDA post|NDA Security Personnel"},
+  {"name": "Trainee PSI dowry harassment is one case", "one_case": "(trainee|probationary) PSI"},
+  {"name": "Trainee PSI dowry harassment is a crime against women", "type": ["(trainee|probationary) PSI", "women"]},
+  {"name": "Kasba Ganpati temple donation-box theft is one case", "one_case": "Kasba (Ganpati )?(temple|मंदिर)|कसबा मंदिर"},
+  {"name": "Ranjangaon worker shot in place of his employer is one case", "one_case": "mistak(e|en|ing) (him )?for|Ranjangaon Murder|मालकाऐवजी"},
+  {"name": "PMRDA notice on the POCSO court building is not an incident", "not_incident": "Pocso Court building"},
+  {"name": "Kho-kho player's suicide is not a crime against women", "not_incident": "Kho-?Kho Player"},
+  {"name": "Special NDPS court set up is not an incident", "not_incident": "Special Court Set Up"}
+ ],
+ "calendar_from": "2026-05-25"
+}

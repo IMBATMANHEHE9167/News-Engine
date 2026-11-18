@@ -313,7 +313,7 @@ const ago = d => { const m = (Date.now() - new Date(d)) / 60000; return m < 60 ?
 const isDark = e => e.h != null ? (e.h >= 19 || e.h < 6) : e.b === 'night';
 const link = (r, text) => `<a href="${esc(r.u)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
 
-let STATUS = null, EVENTS = [], INCIDENTS = [];
+let STATUS = null, EVENTS = [], INCIDENTS = [], QUAL = null;
 
 async function load() {
   // EVENTS: reports joined into incidents, newest report first (the Reports tab). INCIDENTS: without follow-ups
@@ -325,11 +325,13 @@ async function load() {
   try { OC = await j('data/groups.json'); } catch { OC = null; }
   try { INS = await j('data/insights.json'); } catch { INS = null; }
   EVENTS = EVENTS.filter(e => CAT[e.c]);
-  INCIDENTS = EVENTS.filter(e => !e.orphan);
+  INCIDENTS = EVENTS.filter(e => !e.orphan && !e.u);   // only cases the AI has checked are counted, mapped and graphed
+  try { QUAL = await j('data/quality.json'); } catch { QUAL = null; }
+  const checking = EVENTS.filter(e => e.u).length;
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
   const first = EVENTS.reduce((m, e) => e.reports.reduce((m2, r) => (r.d < m2 ? r.d : m2), m), '9999');
   $('stamp').textContent = EVENTS.length
-    ? `${INCIDENTS.length} incidents from ${nReports} reports, since ${fmtDay(first)}` + (STATUS ? ` · checked ${ago(STATUS.updated)}` : '')
+    ? `${INCIDENTS.length} incidents from ${nReports} reports, since ${fmtDay(first)}` + (checking ? ` · ${checking} being checked` : '') + (STATUS ? ` · updated ${ago(STATUS.updated)}` : '')
     : 'Nothing collected yet. The collector runs every hour.';
   drawNews(); drawSources(); drawScan();
 }
@@ -394,10 +396,10 @@ function drawNews() {
     const follows = e.orphan ? 0 : e.reports.filter(x => x.k === 'f').length;
     const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? ` · happened ${fmtDay(e.d)}` : '';
     html += `<article class="item">
-      <div class="top"><span class="cat${e.orphan ? ' fu' : ''}">${e.orphan ? 'Follow-up · ' : ''}${esc(label(e))}</span><span class="when">${ago(e.last)}</span></div>
+      <div class="top"><span class="cat${e.orphan || e.u ? ' fu' : ''}"${e.u ? ' title="Not yet read by the AI, or its two readings disagree. Not counted anywhere until settled."' : ''}>${e.u ? 'Being checked · ' : e.orphan ? 'Later development · ' : ''}${esc(label(e))}</span><span class="when">${ago(e.last)}</span></div>
       ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
       ${r.L && r.L.s && /[ऀ-ॿ]/.test(r.t) ? `<p class="sum">${esc(r.L.s)}</p>` : ''}
-      <div class="by"><b>${e.a ? esc(AREA[e.a].name) + (e.p ? ' · ' + esc(e.p[0]) : '') : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${follows ? ` · ${follows} follow-up${follows > 1 ? 's' : ''}` : ''}${e.q === 'none' ? ` · <span class="chk" title="The AI reading of this article disagrees with the rules; a second reading will settle it">check: AI reads this as not an incident</span>` : e.q && CAT[e.q] ? ` · <span class="chk" title="The machine reading disagrees with the rules">check type: reads as ${esc(CAT[e.q].name.toLowerCase())}</span>` : ''}</div>
+      <div class="by"><b>${e.a ? esc(AREA[e.a].name) + (e.p ? ' · ' + esc(e.p[0]) : '') : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${e.reports.length > 1 ? ` · ${e.reports.length} reports${follows ? `, ${follows} later development${follows > 1 ? 's' : ''}` : ''}` : ''}${e.q && CAT[e.q] ? ` · <span class="chk" title="The machine reading disagrees with the rules">check type: reads as ${esc(CAT[e.q].name.toLowerCase())}</span>` : ''}</div>
     </article>`;
   }
   if (rows.length > newsN) html += '<button class="more" id="more">Show earlier</button>';
@@ -801,7 +803,30 @@ function drawAn() {
     sec('Possible series', v.series, 'No chain of three or more alike incidents close in place and time.') +
     sec('When', v.timing, 'No kind of incident yet differs from an even spread across the day or week (it needs about 30 incidents with a stated time).') +
     sec('Repeat places', v.places, 'No named spot has had more than one incident in 90 days.') +
-    `<section class="sec"><h3 class="label">What this data can say</h3><p class="note" style="margin-top:0">${cov.spot} of ${cov.incidents} incidents are placed at a named spot, ${cov.timed} have a stated hour. ${cov.top_share}% of reports in this view come from one source (${esc(SRC[cov.top_source] || cov.top_source)}). ${esc(cov.note)}</p></section>`;
+    `<section class="sec"><h3 class="label">What this data can say</h3><p class="note" style="margin-top:0">${cov.spot} of ${cov.incidents} incidents are placed at a named spot, ${cov.timed} have a stated hour. ${cov.top_share}% of reports in this view come from one source (${esc(SRC[cov.top_source] || cov.top_source)}). ${esc(cov.note)}</p></section>` +
+    drawQuality();
+}
+// Data checks (quality.json, every hour): the permanent error tests, and detectors that look for the same kinds of
+// error everywhere. Shown in full, failures first, so the page never claims more accuracy than it has.
+function drawQuality() {
+  if (!QUAL) return '';
+  const D = QUAL.detectors || {}, tests = (QUAL.tests || []).slice().sort((a, b) => a.ok - b.ok);
+  const det = [
+    ['unverified', 'reports being checked by the AI (not counted until settled)'],
+    ['ruled_out_by_ai', 'reports the AI ruled out as not an incident in Pune'],
+    ['waiting_for_judge', 'close pairs of reports waiting for the AI judge (same incident or not)'],
+    ['split_cases', 'cases that name the same victim as another case'],
+    ['date_spread', 'cases whose reports disagree on the day by more than three days'],
+    ['non_incident_wording', 'counted cases whose headline reads like policy, buildings or features'],
+    ['area_disagreement', 'reports the AI places in another part of the district than their case'],
+    ['silent_days', 'days with far fewer incidents than the days around them'],
+  ].filter(([k]) => D[k] != null);
+  return `<section class="sec"><h3 class="label">Data checks · updated ${ago(QUAL.updated)}</h3>
+    <p class="say" style="margin-top:0"><b>${QUAL.passed}</b> of ${tests.length} permanent error tests pass.</p>
+    ${tests.map(t => `<div class="mini">${t.ok ? 'Pass' : '<span class="chk">Fail</span>'} · ${esc(t.name)} <span style="color:var(--ink-3)">· ${esc(t.detail)}</span></div>`).join('')}
+    <h3 class="label" style="margin-top:18px">Detectors</h3>
+    ${det.map(([k, s]) => `<div class="row"><span>${esc(s)}</span><span class="n">${D[k]}</span></div>`).join('')}
+    <p class="note">Every error found by hand becomes a permanent test. The detectors look for the same kinds of error across all reports, so mistakes nobody has noticed yet are found too.</p></section>`;
 }
 
 /* ---------- Graphs (inside Analytics) ---------- */

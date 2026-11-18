@@ -1,17 +1,19 @@
-"""The LLM layer: a language model reads each stored report's full article (Marathi or English) and fills a fixed form.
+"""The LLM layer (version 2): a language model reads each stored report's full article (Marathi or English), fills a fixed
+form, and that reading DECIDES: whether the report is a real incident in Pune district, its type, whether it is a new
+incident or a later development in a known case, the day the crime happened, and the facts that identify the case (the
+names of victims and accused, kept only as matching keys, and a short neutral label).
 
-Google Gemini, free tier (key in the GEMINI_API_KEY secret). Readers (Flash-Lite, 500 requests a day each) read every
-report, up to BATCH articles per request. When a reader disagrees with the rules on whether a report is an incident or
-on its type, a stronger model (Flash, about 20 a day each) reads it independently and the majority of the three decides:
-neither the rules nor one model decides alone. The form is enforced by a response schema, so answers are always valid.
-
-What the form adds: outcome, the exact place phrase (pinned with the OpenStreetMap place list), time, weapon, method,
-victim role and age, offenders and whether minors were involved, gang, police action, follow-up or not, and a one-line
-English summary with no personal names. Daily use is counted per model and resets at midnight Pacific time; on a "limit
-reached" answer the model is rested until then. Progress and errors are written to llmstate.json."""
+Google Gemini, free tier (key in the GEMINI_API_KEY secret). Checks, so no single reading decides alone:
+  1. A reader (Flash-Lite) reads every report.
+  2. Where the reader and the rules disagree (incident or not, or the family of type), a SECOND reader of a different model
+     reads the article on its own. Two readings that agree decide; otherwise the one the rules agree with (two of three).
+  3. Only when all three differ does an expert (Flash, ~20 a day) read it.
+  4. Judges: when two reports are close (same kind of crime, same area, within two days) but not certainly the same
+     incident, a reader is shown both and says whether they are the same incident. Verdicts are kept (data/pairs.json).
+The form is enforced by a response schema. Daily use is counted per model (resets at midnight Pacific time); on a
+"limit reached" answer the model is rested until then. Progress and errors go to llmstate.json."""
 import json
 import os
-import re
 import time
 import urllib.error
 import urllib.request
@@ -29,42 +31,65 @@ TYPES = [c['id'] for c in E.CATS]
 PARTS = ['morning', 'afternoon', 'evening', 'night', 'unknown']
 WEAPONS = ['koyta', 'sword_or_knife', 'firearm', 'blunt_object', 'vehicle', 'fire_or_acid', 'none_or_unknown']
 ACTIONS = ['arrest', 'detained', 'fir_registered', 'mcoca', 'mpda', 'externment', 'chargesheet', 'property_action', 'none']
+KINDS = ['new_incident', 'development', 'not_incident']
+WHY = ['none', 'outside_pune_district', 'no_specific_incident', 'suicide_or_natural_death', 'animal_attack', 'other']
 
 SYSTEM = """You read Indian news reports (Marathi or English) about Pune district, Maharashtra, for a crime-incident database.
-For each article, fill the form exactly. Rules:
-- is_incident: true only if the article reports a specific crime, road accident or fire that happened (or a later development
-  in one: arrest, follow-up). False for features, opinion, statistics, court hearings about old cases, policy, protests,
-  political statements, advisories, festivals, suicides, animal attacks, and anything outside Pune district.
-- type: murder = intentional killing (not a road death, not attempt to murder); women = rape, molestation, dowry harassment,
-  POCSO, stalking, domestic violence; kidnap; extortion (incl. ransom, sextortion, protection money); robbery (incl. chain or
-  mobile snatching, dacoity, armed robbery); burglary (house or shop break-in); drugs; cyber (online or any fraud, cheating,
-  scams); violence (assault, attack with weapons, attempt to murder, gang clash, firing without death); theft; accident (road
-  accident only, including vehicle hitting a person); fire (fire or explosion). Use "none" if is_incident is false.
+Accuracy matters more than anything: read the whole article, answer only from it, never guess. For each article:
+- kind:
+  new_incident = the article reports a specific crime, road accident or fire that happened (including the first report of
+    an arrest for a recent specific crime).
+  development = the article is mainly about a later stage of one specific earlier case: arrest days or weeks later,
+    custody, chargesheet, court hearing, probe details, new twist, victim's family speaking, protest over that case.
+  not_incident = anything else: policy, infrastructure, buildings, statistics, crime trends, features, opinion,
+    advisories, awareness drives, festivals, political statements, court rulings on general matters, suicides, natural
+    or accidental deaths that are not road accidents or fires, animal attacks, and ANY incident outside Pune district
+    (Pune city, Pimpri-Chinchwad and Pune rural talukas only).
+- not_reason: why it is not_incident; "none" otherwise.
+- type: murder = intentional killing (not a road death, not attempt to murder); women = rape, molestation, dowry
+  harassment, POCSO, stalking, domestic violence against women or children; kidnap; extortion (incl. ransom, sextortion,
+  protection money); robbery (incl. chain or mobile snatching, dacoity, armed robbery); burglary (house, shop, temple
+  break-in); drugs; cyber (online or any fraud, cheating, scams); violence (assault, attack with weapons, attempt to
+  murder, gang clash, firing without death, illegal weapons seized); theft; accident (road accident only, including a
+  vehicle hitting a person); fire (fire or explosion). For a development, the type of the original crime. "none" only
+  if not_incident.
+- incident_date: the day the crime itself happened (YYYY-MM-DD), for developments too (the day of the original crime,
+  e.g. "the June 22 murder"). The article's publication date is given: resolve "yesterday", "on Monday", "last week",
+  Marathi dates against it. Empty if the article does not state or clearly imply it. Never the publication date by default.
+- incident_date_certain: true if the day is stated or clearly implied; false if approximate.
+- victims: names of the victims exactly as given, in English letters (transliterate Marathi). Empty list if unnamed.
+- accused: names of the accused or suspects, in English letters. Empty list if unnamed.
+- case_label: 6 to 14 words in English that identify THIS specific case so that another report of the same case would
+  get almost the same label, with NO personal names: who, what, where, e.g. "realtor pushed off Lohagad Fort by fiancee
+  and her lover", "trainee police sub-inspector harassed wife for dowry, threatened with pistol".
 - outcome: fatal if anyone died, injured if someone was hurt and no one died, none if no one was hurt, unknown if not stated.
-- follow_up: true if the article is mainly about a later development (arrest days later, custody, chargesheet, new twist).
-- place: the most specific place where it happened, as written, in English letters (transliterate Marathi), e.g.
-  "Vetal Tekdi, Kothrud" or "near Dange Chowk, Wakad". Empty if not stated. Never a person's home town or residence.
-- locality: the neighbourhood, village or police station area where it happened, in English letters. Empty if not stated.
-- date: the day it happened (YYYY-MM-DD) if the article states or clearly implies it, else empty. The article's own date
-  is given; resolve "yesterday", weekday names and Marathi dates against it.
+- place: the most specific place where it happened, as written, in English letters, e.g. "Vetal Tekdi, Kothrud" or
+  "near Dange Chowk, Wakad". Empty if not stated. Never a person's home town, residence, or the court or police station
+  where the case is being heard.
+- locality: the neighbourhood, village or town where it happened, in English letters. Empty if not stated.
+- police_station: the police station that registered the case, in English letters, without the words "police station".
 - time: 24-hour HH:MM if stated, else empty. part_of_day from the article.
-- method: how it was done, at most 12 words, no names (e.g. "two men on a motorcycle snatched gold chain from pedestrian").
-- victim_role: e.g. delivery worker, woman pedestrian, jeweller, senior citizen, IT employee, student; empty if not stated.
-- gang: the name of a criminal gang or group as the article names it (e.g. "Andekar gang", "Ghaywal gang"); empty if none.
-- summary: one neutral English sentence, at most 30 words, with NO personal names of victims, accused or minors.
-Answer only from the article. Do not guess beyond it."""
+- method: how it was done, at most 12 words, no names.
+- victim_role: e.g. delivery worker, woman pedestrian, jeweller, senior citizen; empty if not stated.
+- gang: the name of a criminal gang as the article names it (e.g. "Andekar gang"); empty if none.
+- summary: one neutral English sentence, at most 30 words, with NO personal names."""
 
 ITEM = {
     'type': 'OBJECT',
     'properties': {
         'id': {'type': 'STRING'},
-        'is_incident': {'type': 'BOOLEAN'},
+        'kind': {'type': 'STRING', 'enum': KINDS},
+        'not_reason': {'type': 'STRING', 'enum': WHY},
         'type': {'type': 'STRING', 'enum': TYPES + ['none']},
+        'incident_date': {'type': 'STRING'},
+        'incident_date_certain': {'type': 'BOOLEAN'},
+        'victims': {'type': 'ARRAY', 'items': {'type': 'STRING'}},
+        'accused': {'type': 'ARRAY', 'items': {'type': 'STRING'}},
+        'case_label': {'type': 'STRING'},
         'outcome': {'type': 'STRING', 'enum': ['fatal', 'injured', 'none', 'unknown']},
-        'follow_up': {'type': 'BOOLEAN'},
         'place': {'type': 'STRING'},
         'locality': {'type': 'STRING'},
-        'date': {'type': 'STRING'},
+        'police_station': {'type': 'STRING'},
         'time': {'type': 'STRING'},
         'part_of_day': {'type': 'STRING', 'enum': PARTS},
         'weapon': {'type': 'STRING', 'enum': WEAPONS},
@@ -77,10 +102,19 @@ ITEM = {
         'police_action': {'type': 'ARRAY', 'items': {'type': 'STRING', 'enum': ACTIONS}},
         'summary': {'type': 'STRING'},
     },
-    'required': ['id', 'is_incident', 'type', 'outcome', 'follow_up', 'place', 'locality', 'date', 'time', 'part_of_day',
-                 'weapon', 'method', 'victim_role', 'minor_involved', 'gang', 'police_action', 'summary'],
+    'required': ['id', 'kind', 'not_reason', 'type', 'incident_date', 'incident_date_certain', 'victims', 'accused',
+                 'case_label', 'outcome', 'place', 'locality', 'police_station', 'time', 'part_of_day', 'weapon', 'method',
+                 'victim_role', 'minor_involved', 'gang', 'police_action', 'summary'],
 }
 SCHEMA = {'type': 'ARRAY', 'items': ITEM}
+
+JUDGE = """You compare pairs of news reports from Pune district. For each pair, decide whether both reports are about the
+SAME single incident: the same crime event with the same victims (one may be a later development of the other, or the
+same story from another newspaper). Two similar crimes of the same kind in the same area are NOT the same incident.
+Different victims, different sums, different places or different days mean different incidents. Answer only from what is
+given; if unsure, answer false."""
+PAIR = {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {'pair': {'type': 'STRING'}, 'same': {'type': 'BOOLEAN'}},
+                                   'required': ['pair', 'same']}}
 
 
 class Busy(Exception):
@@ -95,7 +129,7 @@ def pacific_day():
     return datetime.now(ZoneInfo('America/Los_Angeles')).strftime('%Y-%m-%d')
 
 
-def call(key, model, payload, timeout=120):
+def call(key, model, payload, timeout=150):
     req = urllib.request.Request('%s/models/%s:generateContent' % (API, model), data=json.dumps(payload).encode('utf-8'),
                                  headers={'Content-Type': 'application/json', 'x-goog-api-key': key})
     try:
@@ -103,15 +137,24 @@ def call(key, model, payload, timeout=120):
             return json.loads(r.read().decode('utf-8'))
     except urllib.error.HTTPError as e:
         body = e.read().decode('utf-8', 'replace')[:300]
-        if e.code in (500, 503):
+        if e.code in (500, 503, 504):
             raise Busy(body) from None
         if e.code == 429:
             raise Limit(body) from None
         raise RuntimeError('HTTP %d %s' % (e.code, body)) from None
 
 
+def answer(res):
+    """The JSON text of an answer. A missing answer (blocked, cut off) is an error naming the reason."""
+    try:
+        return json.loads(res['candidates'][0]['content']['parts'][0]['text'])
+    except (KeyError, IndexError, TypeError, ValueError):
+        why = (res.get('promptFeedback') or {}).get('blockReason') or ((res.get('candidates') or [{}])[0].get('finishReason'))
+        raise RuntimeError('no usable answer (%s)' % (why or 'empty')) from None
+
+
 def resolve_models(key):
-    """Our configured names -> the IDs this key can actually use (Google renames models; this keeps us working)."""
+    """Our configured names -> the IDs this key can actually use (Google renames and retires models)."""
     req = urllib.request.Request(API + '/models?pageSize=500', headers={'x-goog-api-key': key})
     with urllib.request.urlopen(req, timeout=30) as r:
         models = json.loads(r.read().decode('utf-8')).get('models', [])
@@ -128,168 +171,217 @@ def resolve_models(key):
     return out
 
 
-def read(key, model, batch, pub_days):
-    """One request: up to BATCH articles -> list of filled forms."""
-    parts = []
-    for rec, text in batch:
-        parts.append('ARTICLE id=%s\nPublished: %s\nHeadline: %s\nText: %s' % (rec['id'], pub_days[rec['id']], rec['t'], text[:CFG['chars']]))
+def read(key, model, batch):
+    """One request: several articles -> {id: filled form}."""
+    parts = ['ARTICLE id=%s\nPublished: %s\nHeadline: %s\nText: %s' % (rec['id'], E.day_str(E.day_of(rec['d'])), rec['t'], text[:CFG['chars']])
+             for rec, text in batch]
     payload = {
         'systemInstruction': {'parts': [{'text': SYSTEM}]},
         'contents': [{'role': 'user', 'parts': [{'text': '\n\n-----\n\n'.join(parts)}]}],
         'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': SCHEMA, 'temperature': 0},
     }
-    res = call(key, model, payload)
-    try:
-        txt = res['candidates'][0]['content']['parts'][0]['text']
-        forms = json.loads(txt)
-    except (KeyError, IndexError, ValueError) as e:
-        raise RuntimeError('unreadable answer: %s' % str(e)[:80]) from None
+    forms = answer(call(key, model, payload))
     return {f.get('id'): f for f in forms if isinstance(f, dict)}
 
 
 def compact(f, model):
-    """The stored form: short keys, empty fields left out."""
-    out = dict(v=VERSION, m=model, ok=bool(f.get('is_incident')), c=f.get('type'), o=f.get('outcome'), fu=bool(f.get('follow_up')),
-               pl=f.get('place', ''), lo=f.get('locality', ''), dt=f.get('date', ''), tm=f.get('time', ''), pd=f.get('part_of_day', ''),
-               w=f.get('weapon', ''), mo=f.get('method', ''), vr=f.get('victim_role', ''), va=f.get('victim_age'),
-               n=f.get('offenders'), j=bool(f.get('minor_involved')), g=f.get('gang', ''), act=f.get('police_action') or [],
-               s=f.get('summary', ''))
-    return {k: v for k, v in out.items() if v not in ('', None, [], 'unknown', 'none_or_unknown') or k in ('ok', 'c', 'v', 'm')}
+    """The stored form: short keys, empty fields left out. Names are kept only as matching keys (E.name_keys)."""
+    kind = f.get('kind') if f.get('kind') in KINDS else 'not_incident'
+    ok = kind != 'not_incident'
+    out = dict(v=VERSION, m=model, ok=ok, k={'new_incident': 'n', 'development': 'd'}.get(kind, 'x'),
+               why=f.get('not_reason') if not ok else '', c=f.get('type') if ok else 'none', fu=kind == 'development',
+               dt=E.valid_day(f.get('incident_date', '')), dc=bool(f.get('incident_date_certain')),
+               vn=E.name_keys(f.get('victims') or []), an=E.name_keys(f.get('accused') or []), cl=(f.get('case_label') or '')[:140],
+               o=f.get('outcome'), pl=f.get('place', ''), lo=f.get('locality', ''), ps=f.get('police_station', ''),
+               tm=f.get('time', ''), pd=f.get('part_of_day', ''), w=f.get('weapon', ''), mo=f.get('method', ''),
+               vr=f.get('victim_role', ''), va=f.get('victim_age'), n=f.get('offenders'), j=bool(f.get('minor_involved')),
+               g=f.get('gang', ''), act=[a for a in (f.get('police_action') or []) if a != 'none'], s=f.get('summary', ''))
+    if out['c'] not in TYPES:
+        out['c'] = 'none'
+    return {k: v for k, v in out.items() if v not in ('', None, [], 'unknown', 'none_or_unknown', 'none') or k in ('ok', 'c', 'v', 'm', 'k')}
+
+
+def judge(key, model, pairs):
+    """One request: up to pair_batch pairs of reports -> {pair key: same incident?}."""
+    def side(r):
+        L = E.best_reading(r) or {}
+        return 'published %s | headline: %s | summary: %s | case: %s | happened: %s | where: %s | outcome: %s' % (
+            E.day_str(E.day_of(r['d'])), r['t'], L.get('s', ''), L.get('cl', ''), r.get('i', ''),
+            ', '.join(x for x in (L.get('pl', ''), L.get('lo', ''), E.AREA[r['a']]['name'] if r.get('a') in E.AREA else '') if x),
+            r.get('o') or L.get('o') or 'not stated')
+    text = '\n\n'.join('PAIR %s\nA: %s\nB: %s' % (k, side(a), side(b)) for k, a, b in pairs)
+    payload = {
+        'systemInstruction': {'parts': [{'text': JUDGE}]},
+        'contents': [{'role': 'user', 'parts': [{'text': text}]}],
+        'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': PAIR, 'temperature': 0},
+    }
+    return {x.get('pair'): bool(x.get('same')) for x in answer(call(key, model, payload)) if isinstance(x, dict)}
+
+
+class Session:
+    """Model choice, daily allowance and pacing for one run."""
+
+    def __init__(self):
+        self.key = os.environ.get('GEMINI_API_KEY', '').strip()
+        try:
+            self.state = json.loads((DATA / 'llmstate.json').read_text('utf-8'))
+        except (OSError, ValueError):
+            self.state = {}
+        today = pacific_day()
+        if self.state.get('day') != today:
+            self.state = dict(day=today, used={}, rested={}, errors=[], models=self.state.get('models', {}))
+        self.busy = {}
+        self.started = time.time()
+        self.models = self.state.get('models') or {'readers': CFG['readers'], 'experts': CFG['experts']}
+        if self.key:
+            try:
+                self.models = resolve_models(self.key)
+                self.state['models'] = self.models
+            except Exception as e:
+                self.error('model list: %s' % e)
+        self.gap = {'readers': 60.0 / CFG['rpm']['readers'] + 0.5, 'experts': 60.0 / CFG['rpm']['experts'] + 0.5}
+
+    def error(self, msg):
+        self.state['errors'] = (self.state.get('errors', []) + [str(msg)[:160]])[-12:]
+
+    def has(self, model, role):
+        return self.state['used'].get(model, 0) < CFG['rpd'][role] and not self.state['rested'].get(model) and self.busy.get(model, 0) < 2
+
+    def take(self, role, avoid=None):
+        return next((m for m in self.models.get(role, []) if m != avoid and self.has(m, role)), None)
+
+    def time_left(self):
+        return time.time() - self.started < CFG['run_seconds']
+
+    def ask(self, role, model, fn):
+        """Run one request with the usual handling. Returns its result, or None (and the reason is recorded)."""
+        try:
+            out = fn()
+            self.state['used'][model] = self.state['used'].get(model, 0) + 1
+            return out
+        except Limit:
+            self.state['rested'][model] = True
+        except Busy:
+            self.busy[model] = self.busy.get(model, 0) + 1
+            time.sleep(20)
+        except Exception as e:
+            self.state['used'][model] = self.state['used'].get(model, 0) + 1
+            self.error('%s: %s' % (model, e))
+        finally:
+            time.sleep(self.gap[role])
+        return None
+
+
+def _texts(batch_recs, texts, get):
+    out = []
+    for r in batch_recs:
+        text = texts.get(r['id'])
+        if text is None:
+            try:
+                text = E.page_text(get(r['u']))
+            except Exception:
+                text = ''
+            texts[r['id']] = text
+        out.append((r, text or ''))
+    return out
+
+
+def _read_pass(S, role, field, todo, budget, texts, get, avoid_own=False):
+    """Read the reports in todo into rec[field], a batch per request. Failing articles are retried alone, then left."""
+    i, used = 0, 0
+    size = CFG['batch'] if role == 'readers' else 4
+    while i < len(todo) and used < budget and S.time_left():
+        first = todo[i]
+        avoid = (first.get('L') or {}).get('m') if avoid_own else None
+        model = S.take(role, avoid)
+        if not model:
+            break
+        batch = []
+        while i < len(todo) and len(batch) < size:
+            r = todo[i]
+            if avoid_own and (r.get('L') or {}).get('m') == model:
+                break                               # a second reading must come from another model
+            batch.append(r)
+            i += 1
+        if not batch:
+            i += 1
+            continue
+        pairs = _texts(batch, texts, get)
+        forms = S.ask(role, model, lambda: read(S.key, model, pairs))
+        used += 1
+        if forms is None:
+            for r in batch:                         # failed: count it, so a bad article cannot block the queue for ever
+                r['Lx'] = r.get('Lx', 0) + 1
+            continue
+        for r in batch:
+            f = forms.get(r['id'])
+            if f:
+                r[field] = compact(f, model)
+                r.pop('Lx', None)
+            else:
+                r['Lx'] = r.get('Lx', 0) + 1
+    return used
 
 
 def run(items, texts, get):
-    """Read the reports that have no current reading. Changes items in place; returns a status dict."""
-    key = os.environ.get('GEMINI_API_KEY', '').strip()
-    state = {}
-    try:
-        state = json.loads((DATA / 'llmstate.json').read_text('utf-8'))
-    except (OSError, ValueError):
-        pass
-    today = pacific_day()
-    if state.get('day') != today:
-        state = dict(day=today, used={}, rested={}, errors=[], models=state.get('models', {}))
-    status = dict(state)
-    if not key:
-        status['note'] = 'no GEMINI_API_KEY secret: the LLM layer is off'
-        return finish(status, items)
-    try:
-        models = resolve_models(key)
-        state['models'] = models
-    except Exception as e:
-        models = state.get('models') or {'readers': CFG['readers'], 'experts': CFG['experts']}
-        state['errors'] = (state.get('errors', []) + ['model list: %s' % str(e)[:100]])[-10:]
+    """Bring every report's readings up to date (changes items in place). Returns the status."""
+    S = Session()
+    if not S.key:
+        S.state['note'] = 'no GEMINI_API_KEY secret: the LLM layer is off'
+        return finish(S, items)
+    left = CFG['per_run']['readers']
+    fresh = lambda r: r.get('Lx', 0) < 3
+    newest = lambda xs: sorted(xs, key=lambda r: r['d'], reverse=True)
+    # 1. Reports nobody has read yet (they are kept out of the counts until read).
+    left -= _read_pass(S, 'readers', 'L', newest([r for r in items if not r.get('L') and fresh(r)]), left, texts, get)
+    # 2. Second readings: the first reading and the rules disagree.
+    second = newest([r for r in items if E.verdict(r) == 'second' and fresh(r)])
+    left -= _read_pass(S, 'readers', 'L2', second, left, texts, get, avoid_own=True)
+    # 3. Readings from an older form: read again (newest first), so every report has the case facts.
+    left -= _read_pass(S, 'readers', 'L', newest([r for r in items if r.get('L') and r['L'].get('v') != VERSION and fresh(r)]), left, texts, get)
+    # 4. Three-way splits: the expert reads.
+    split = [r for r in items if E.verdict(r) == 'expert' and r.get('Xx', 0) < 2]
+    for r in split:
+        r['Xx'] = r.get('Xx', 0) + 1
+    _read_pass(S, 'experts', 'X', split, CFG['per_run']['experts'], texts, get)
+    return finish(S, items)
 
-    busy = {}
 
-    def has(model, role):
-        return state['used'].get(model, 0) < CFG['rpd'][role] and not state['rested'].get(model) and busy.get(model, 0) < 2
-
-    def take(role):
-        return next((m for m in models.get(role, []) if has(m, role)), None)
-
-    def spend(model):
-        state['used'][model] = state['used'].get(model, 0) + 1
-
-    gap = {'readers': 60.0 / CFG['rpm']['readers'] + 0.5, 'experts': 60.0 / CFG['rpm']['experts'] + 0.5}
-    started = time.time()
-
-    # 1. Readers. Newest first, so today's news is read before history.
-    todo = [r for r in sorted(items, key=lambda r: r['d'], reverse=True) if (r.get('L') or {}).get('v') != VERSION]
-    pub = {r['id']: r['d'][:10] for r in todo}
-    requests_left = CFG['per_run']['readers']
-    i = 0
-    while i < len(todo) and requests_left > 0 and time.time() - started < CFG['run_seconds']:
-        model = take('readers')
+def run_judges(pairs, cache):
+    """Ask whether close pairs are the same incident. pairs: [(key, rec_a, rec_b)]; answers go into cache {key: bool}."""
+    S = Session()
+    if not S.key or not pairs:
+        return 0
+    asked, n = 0, CFG['pair_batch']
+    for k in range(0, len(pairs), n):
+        if asked >= CFG['per_run']['judges'] or not S.time_left():
+            break
+        model = S.take('readers')
         if not model:
             break
-        batch = []
-        while i < len(todo) and len(batch) < CFG['batch']:
-            r = todo[i]
-            i += 1
-            text = texts.get(r['id'])
-            if text is None:
-                try:
-                    text = E.page_text(get(r['u']))
-                except Exception:
-                    text = ''
-                texts[r['id']] = text
-            batch.append((r, text or ''))
-        try:
-            forms = read(key, model, batch, pub)
-            spend(model)
-            requests_left -= 1
-            for r, _ in batch:
-                if r['id'] in forms:
-                    r['L'] = compact(forms[r['id']], model)
-        except Limit:
-            state['rested'][model] = True
-            i -= len(batch)                          # same articles again with the next model
-        except Busy:
-            busy[model] = busy.get(model, 0) + 1     # overloaded: wait, retry once, then the next model; not counted
-            i -= len(batch)
-            time.sleep(20)
-        except Exception as e:
-            spend(model)
-            requests_left -= 1
-            state['errors'] = (state.get('errors', []) + ['%s: %s' % (model, str(e)[:120])])[-10:]
-        time.sleep(gap['readers'])
-
-    # 2. Tie-breaks. Where the reader and the rules disagree, a stronger model reads the article on its own.
-    disputed = [r for r in items if (r.get('L') or {}).get('v') == VERSION and 'X' not in r and dispute(r)]
-    left = CFG['per_run']['experts']
-    k = 0
-    while k < len(disputed) and left > 0:
-        model = take('experts')
-        if not model:
-            break
-        batch = []
-        for r in disputed[k:k + CFG['batch']]:
-            text = texts.get(r['id'])
-            if text is None:
-                try:
-                    text = E.page_text(get(r['u']))
-                except Exception:
-                    text = ''
-                texts[r['id']] = text
-            batch.append((r, text or ''))
-        try:
-            forms = read(key, model, batch, {r['id']: r['d'][:10] for r, _ in batch})
-            spend(model)
-            left -= 1
-            for r, _ in batch:
-                f = forms.get(r['id'])
-                if f:
-                    r['X'] = dict(v=VERSION, m=model, ok=bool(f.get('is_incident')), c=f.get('type'))
-            k += CFG['batch']
-        except Limit:
-            state['rested'][model] = True
-        except Busy:
-            busy[model] = busy.get(model, 0) + 1
-            time.sleep(20)
-        except Exception as e:
-            spend(model)
-            left -= 1
-            k += CFG['batch']
-            state['errors'] = (state.get('errors', []) + ['%s: %s' % (model, str(e)[:120])])[-10:]
-        time.sleep(gap['experts'])
-
-    status = dict(state)
-    return finish(status, items)
+        chunk = pairs[k:k + n]
+        res = S.ask('readers', model, lambda: judge(S.key, model, chunk))
+        asked += 1
+        for key, _, _ in chunk:
+            if res and key in res:
+                cache[key] = res[key]
+    S.state['judged'] = S.state.get('judged', 0) + asked
+    _save(S.state)
+    return asked
 
 
-def dispute(r):
-    """The reader disagrees with the rules on whether this is an incident, or on its type."""
-    L = r['L']
-    if not L['ok']:
-        return True
-    return E.fam(L.get('c')) != E.fam(r.get('c')) and L.get('c') != 'none'
+def _save(state):
+    (DATA / 'llmstate.json').write_text(json.dumps(state, ensure_ascii=False, indent=1), 'utf-8')
 
 
-def finish(status, items):
-    read_now = [r for r in items if (r.get('L') or {}).get('v') == VERSION]
-    status.update(read=len(read_now), waiting=len(items) - len(read_now),
-                  disputes=sum(1 for r in read_now if dispute(r)),
-                  settled=sum(1 for r in read_now if 'X' in r), updated=E.iso(datetime.now(timezone.utc)))
-    (DATA / 'llmstate.json').write_text(json.dumps(status, ensure_ascii=False, indent=1), 'utf-8')
-    print('llm: %s' % json.dumps({k: status.get(k) for k in ('used', 'read', 'waiting', 'disputes', 'settled', 'note')}, ensure_ascii=False))
-    return status
+def finish(S, items):
+    st = S.state
+    cur = [r for r in items if (r.get('L') or {}).get('v') == VERSION]
+    v = [E.verdict(r) for r in items]
+    st.update(read=len(cur), older=sum(1 for r in items if r.get('L') and r['L'].get('v') != VERSION),
+              unread=sum(1 for r in items if not r.get('L')), second=v.count('second'), expert=v.count('expert'),
+              not_incident=sum(1 for x in v if isinstance(x, dict) and not x.get('ok')),
+              updated=E.iso(datetime.now(timezone.utc)))
+    _save(st)
+    print('llm: %s' % json.dumps({k: st.get(k) for k in ('used', 'read', 'older', 'unread', 'second', 'expert', 'not_incident', 'note')}, ensure_ascii=False))
+    return st

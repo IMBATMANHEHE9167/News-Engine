@@ -1135,62 +1135,161 @@ def parse_gnews(xml):
 #   Undisputed details, applied directly: outcome, exact place, time, and (for reports the rules could not place) area.
 #   Disputed points (is it an incident; its type) are settled only by a majority of rules, reader and expert (X).
 
+# ------------------------------------------------------------------ the AI reading decides (llm.py fills the forms)
+#
+# L = the first reader's form, L2 = a second reader (another model), X = the expert. The rules' own judgement is kept in
+# R0. Whether a report is an incident, and its family of type, is decided by the readings:
+#   L agrees with the rules            -> decided (L's details).
+#   L disagrees                        -> a second reading is needed; until then the report is "unverified".
+#   L and L2 agree                     -> decided by them, even against the rules.
+#   L and L2 disagree                  -> the one the rules agree with (two of three).
+#   all three differ                   -> the expert decides.
+# Unverified reports are shown as "being checked" and kept out of every count, map and graph.
+
+_HONORIFIC = set('mr mrs ms shri smt sri dr adv advocate alias urf alias kumar bhau dada anna tai bai rao'.split())
+
+
+def valid_day(s):
+    s = str(s or '').strip()
+    if not re.match(r'^20\d\d-\d\d-\d\d$', s):
+        return ''
+    try:
+        date.fromisoformat(s)
+        return s
+    except ValueError:
+        return ''
+
+
+def name_keys(names):
+    """Each name -> the short hashes of its words' consonant skeletons, so "Ketan Agarwal", "Ketan Agrawal" and
+    "केतन अग्रवाल" (transliterated by the reader) give the same keys. Only these keys are stored, never the names."""
+    out = []
+    for nm in names[:8]:
+        toks = []
+        for w in re.findall(r'[A-Za-z]{2,}', str(nm)):
+            if w.lower() in _HONORIFIC:
+                continue
+            sk = skeleton(w)
+            if len(sk) >= 2:
+                toks.append(hash_id('n:' + sk)[-5:])
+        if toks:
+            out.append(sorted(set(toks)))
+    return out
+
+
+def names_meet(a, b, rare):
+    """True when a name in a and a name in b are the same person: two words in common, or a lone word that is rare."""
+    for x in a or []:
+        for y in b or []:
+            common = set(x) & set(y)
+            if len(common) >= 2:
+                return True
+            if common and (len(x) == 1 or len(y) == 1) and all(t in rare for t in common):
+                return True
+    return False
+
+
+def _view(f):
+    """(incident?, family) of a reading."""
+    if not f:
+        return None
+    return (bool(f.get('ok')), fam(f.get('c')) if f.get('ok') else None)
+
+
+def verdict(rec):
+    """The deciding reading (a form), or 'second' / 'expert' when another reading is needed, or None when unread."""
+    L = rec.get('L')
+    if not L:
+        return None
+    rules = (True, fam((rec.get('R0') or rec).get('c')))
+    a = _view(L)
+    if a == rules:
+        return L
+    L2 = rec.get('L2')
+    if not L2:
+        return 'second'
+    b = _view(L2)
+    if a == b:
+        if L.get('ok') and L.get('c') != L2.get('c') and L2.get('c') == (rec.get('R0') or rec).get('c'):
+            return L2
+        return L
+    if b == rules:
+        return L2
+    X = rec.get('X')
+    if not X:
+        return 'expert'
+    x = _view(X)
+    return L if x == a else L2 if x == b else X
+
+
+def best_reading(rec):
+    v = verdict(rec)
+    return v if isinstance(v, dict) else rec.get('L')
+
+
 def _r0(rec):
     if 'R0' not in rec:
-        rec['R0'] = {k: rec[k] for k in ('c', 'a', 'o', 'p', 'h', 'b') if k in rec}
-    for k in ('c', 'a', 'o', 'p', 'h', 'b'):
+        rec['R0'] = {k: rec[k] for k in ('c', 'a', 'o', 'p', 'h', 'b', 'i', 'ip', 'k') if k in rec}
+        rec['R0']['v2'] = 1
+    elif not rec['R0'].get('v2'):                   # kept before day and follow-up were part of it: the rules' values
+        rec['R0'].update({k: rec[k] for k in ('i', 'ip', 'k') if k in rec}, v2=1)
+    for k in ('c', 'a', 'o', 'p', 'h', 'b', 'i', 'ip', 'k'):
         if k in rec['R0']:
             rec[k] = rec['R0'][k]
         else:
             rec.pop(k, None)
-    for k in ('nx', 'cr', 'q2'):
+    for k in ('nx', 'cr', 'q2', 'u', 'why'):
         rec.pop(k, None)
 
 
 def apply_llm(rec):
-    L = rec.get('L')
-    if not L:
-        return
+    """Settle a report from its readings. Sets nx (not an incident, with why) or u (unverified), or the decided fields."""
     _r0(rec)
-    X = rec.get('X') if (rec.get('X') or {}).get('v') == L.get('v') else None
-    rule_c = rec['c']
-    reader_c = L.get('c') if L.get('ok') else None
-    disputed = not L.get('ok') or (reader_c and fam(reader_c) != fam(rule_c))
-    if disputed and X:
-        votes_inc = 1 + int(bool(L.get('ok'))) + int(bool(X.get('ok')))
-        if votes_inc < 2:
-            rec['nx'] = 1                                              # two of three readers: not an incident
-            return
-        if reader_c and X.get('ok') and X.get('c') == reader_c and reader_c != rule_c:
-            rec['c'], rec['cr'] = reader_c, rule_c                     # two of three: the type the models agree on
-    elif disputed:
-        rec['q2'] = reader_c or 'none'                                 # awaiting a tie-break: shown as "check"
-    elif reader_c and reader_c != rule_c and fam(reader_c) == fam(rule_c) and SEVERITY.index(reader_c) < SEVERITY.index(rule_c):
-        rec['c'], rec['cr'] = reader_c, rule_c                         # same family, the reader saw the graver type
+    v = verdict(rec)
+    if not isinstance(v, dict):
+        rec['u'] = 1                                                  # unread, or waiting for a second reading
+        return
+    if not v.get('ok'):
+        rec['nx'], rec['why'] = 1, v.get('why') or 'other'          # the readings say: not an incident in Pune
+        return
+    if v.get('c') in SEVERITY and v['c'] != rec['c']:
+        rec['c'], rec['cr'] = v['c'], rec['c']                        # the type the reading gives
+    rec.pop('k', None)
+    if v.get('k') == 'd' or (v.get('k') is None and v.get('fu')):
+        rec['k'] = 'f'                                                # a later development of a case
+    # Day it happened: the reading's, when it is a real day not after publication and within a year before it.
+    dt = valid_day(v.get('dt'))
+    if dt:
+        n = (date.fromisoformat(dt) - date(1970, 1, 1)).days
+        if day_of(rec['d']) - 365 <= n <= day_of(rec['d']) + 1:
+            rec['i'], rec['ip'] = dt, 1
+    elif rec.get('k') == 'f':
+        rec.pop('ip', None)                                           # a development without a day: not the publication day
     # Outcome: the reader saw the whole article.
-    o = L.get('o')
+    o = v.get('o')
     if o in ('fatal', 'injured'):
         rec['o'] = o
     elif o == 'none' and rec.get('o') == 'injured':
         rec.pop('o', None)
     if rec['c'] == 'murder':
         rec['o'] = 'fatal'
-    # Area, when the rules found none: from the reader's locality or place, if it is one of ours.
-    if not rec.get('a'):
-        a = locate(' '.join(x for x in (L.get('lo', ''), L.get('pl', '')) if x))
+    # Area: the reading's locality, place or police station when it is one of ours; else the rules' area.
+    for phrase in (v.get('lo', ''), v.get('pl', ''), v.get('ps', '')):
+        a = locate(phrase) if phrase else None
         if a:
-            rec['a'] = a
-    # Exact place: the reader's place phrase pinned with the place list, inside the area.
-    if rec.get('a') and (L.get('pl') or L.get('lo')):
-        p = spot(rec['a'], L.get('pl', ''), L.get('lo', ''))
+            if a != rec.get('a'):
+                rec['a'] = a
+                rec.pop('p', None)
+            break
+    if rec.get('a') and (v.get('pl') or v.get('lo')):
+        p = spot(rec['a'], v.get('pl', ''), v.get('lo', ''))
         old = rec.get('p')
         if p and (not old or (old[3] == 'n' and p[3] == 'x')):
             rec['p'] = p
-    # Time, when the rules found none.
-    tm = L.get('tm', '')
+    tm = v.get('tm', '')
     m = re.match(r'^(\d{1,2}):(\d{2})$', tm)
-    if rec.get('h') is None and m and int(m.group(1)) < 24:
+    if m and int(m.group(1)) < 24:
         rec['h'] = int(m.group(1))
         rec['b'] = band(rec['h'])
-    elif not rec.get('b') and L.get('pd') in ('morning', 'afternoon', 'evening', 'night'):
-        rec['b'] = L['pd']
+    elif not rec.get('b') and v.get('pd') in ('morning', 'afternoon', 'evening', 'night'):
+        rec['b'] = v['pd']

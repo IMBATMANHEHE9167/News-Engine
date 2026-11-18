@@ -104,9 +104,28 @@ def read_candidates(feed, cands, budget, fallback):
 
 # ---- 1. Today's feeds and indexes
 budget = {'left': MAX_PAGES}
+PAGED_FEEDS = {'pkn': 'https://www.punekarnews.in/feed/?paged={p}', 'ptm': 'https://punemirror.com/feed/?paged={p}',
+               'pcl': 'https://punecitylive.in/feed/?paged={p}'}
 for feed in E.FEEDS:
     row = dict(id=feed['id'], name=feed['name'], ok=False, found=0, added=0, note='')
     urls = [feed['url'].replace('{date}', ist_date(NOW - timedelta(days=k))) for k in (0, 1)] if feed.get('daily') else [feed['url']]
+    # A WordPress feed lists only its latest 10 stories: in a busy hour that is less than an hour of news. Read its
+    # earlier pages too, until they reach back 26 hours, so no story falls off the feed between two runs.
+    if feed['id'] in PAGED_FEEDS:
+        for p in range(2, 9):
+            try:
+                lst = E.parse_feed(get(PAGED_FEEDS[feed['id']].format(p=p)))
+            except Exception:
+                break
+            if not lst:
+                break
+            got = E.extract_items(feed, lst)
+            row['found'] += len(got)
+            row['added'] += E.merge(items, got, rejected)
+            row['ok'] = True
+            if min(x['date'] for x in lst) < NOW - timedelta(hours=26):
+                break
+            time.sleep(0.5)
     for url in urls:
         try:
             res = E.extract(feed, get(url))
@@ -178,6 +197,13 @@ ARCHIVES = [
     dict(id='pcl', kind='paged', url='https://punecitylive.in/feed/?paged={p}'),
 ]
 bf.setdefault('src', {})
+# One-time re-scan (Nov 2026): these feeds showed only their latest 10 stories, so busy hours lost stories. Read their
+# pages again back to REFILL_FROM; known stories are skipped, missing ones are added.
+REFILL_FROM = '2026-09-01'
+for sid in ('pkn', 'ptm', 'pcl'):
+    st0 = bf['src'].setdefault(sid, dict(done=False, kept=0, note=''))
+    if not st0.get('refill'):
+        st0.update(done=False, page=1, refill=1, until=REFILL_FROM)
 ab = {'left': ARCHIVE_PAGES}
 for A in ARCHIVES:
     st = bf['src'].setdefault(A['id'], dict(done=False, kept=0, note=''))
@@ -195,9 +221,9 @@ for A in ARCHIVES:
                 if not lst:
                     st['done'] = True
                     break
-                st['kept'] += E.merge(items, E.extract_items(feed, [x for x in lst if ist_date(x['date']) >= HISTORY_FROM]), rejected)
+                st['kept'] += E.merge(items, E.extract_items(feed, [x for x in lst if ist_date(x['date']) >= st.get('until', HISTORY_FROM)]), rejected)
                 st['reached'] = ist_date(min(x['date'] for x in lst))
-                if st['reached'] < HISTORY_FROM:
+                if st['reached'] < st.get('until', HISTORY_FROM):
                     st['done'] = True
                 else:
                     st['page'] += 1
@@ -257,7 +283,7 @@ if sakal and bf['next'] >= bf['stop']:
     print('backfill next=%s days=%d kept=%d %s' % (bf['next'], bf['days'], bf['kept'], bf['note']))
 (DATA / 'backfill.json').write_text(json.dumps(bf, ensure_ascii=False, indent=1), 'utf-8')
 
-# ---- 4b. LLM layer: a language model reads each report and fills a fixed form (llm.py); the engine applies it.
+# ---- 4b. LLM layer: a language model reads each report and fills a fixed form (llm.py); its reading decides (engine).
 try:
     import llm
     llm.run(items, TEXTS, get)
@@ -277,38 +303,80 @@ if added or changed:
     (DATA / 'incidents.json').write_text(dump_lines(items), 'utf-8')
     (DATA / 'rejected.json').write_text(json.dumps(list(rejected)[-20000:], separators=(',', ':')), 'utf-8')
 
-# ---- 6. Machine reading (optional): meaning-fingerprints join reports of one story; a second opinion flags types.
+# ---- 6. Cases. Meaning-fingerprints of each report (the AI's neutral case label and summary when read, else the
+# headline) find close pairs; names, days and hard details join reports of one case; an AI judge settles close pairs.
 from ml import embed, second_opinion
+import cases as C
 cats = {c['id'] for c in E.CATS}
-judged = [r for r in items if r.get('c') in cats and not r.get('nx')]   # nx: two of three readers say not an incident
-vec = embed(judged)
-review = second_opinion(judged, vec) if vec else {}
+judged = [r for r in items if r.get('c') in cats and not r.get('nx')]     # nx: the readings say not an incident
+
+
+def meaning(r):
+    L = E.best_reading(r) or {}
+    return '. '.join(x for x in (L.get('cl', ''), L.get('s', '')) if x) or r['t']
+
+
+vec = embed([dict(id=r['id'], t=meaning(r)) for r in judged])
+review = second_opinion([r for r in judged if not r.get('u')], vec) if vec else {}
 (DATA / 'review.json').write_text(dump_lines(sorted(review.values(), key=lambda x: -x['conf'])), 'utf-8')
 print('machine reading: %s, second opinion flags %d' % ('on' if vec else 'off', len(review)))
 
-events = E.group_events(judged, vec)
+verdicts = read_json('pairs.json', {})
+events, ask = C.build(judged, vec, verdicts)
+if ask:
+    before = len(verdicts)
+    try:
+        llm.run_judges(ask, verdicts)
+    except Exception as ex:
+        print('judges failed: %s' % str(ex)[:200])
+    if len(verdicts) > before:
+        events, ask = C.build(judged, vec, verdicts)
+alive = {r['id'] for r in judged}
+verdicts = {k: v for k, v in verdicts.items() if all(x in alive for x in k.split('|'))}
+(DATA / 'pairs.json').write_text(json.dumps(verdicts, separators=(',', ':'), sort_keys=True), 'utf-8')
+print('cases: %d from %d reports; %d pairs judged, %d waiting for the judge' % (len(events), len(judged), len(verdicts), len(ask)))
+
 events.sort(key=lambda e: e['last'], reverse=True)
 for e in events:                     # the second opinion on the report that stands for the incident, when it differs
     lead = next((r for r in e['reports'] if r.get('k') != 'f'), e['reports'][0])
-    e['q'] = lead.get('q2') or (review[lead['id']]['model'] if lead['id'] in review else None)
-keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'reports')
-(DATA / 'events.json').write_text(dump_lines([{k: e[k] for k in keep} for e in events]), 'utf-8')
+    e['q'] = review[lead['id']]['model'] if lead['id'] in review else None
+keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'u', 'reports')
+DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x')    # working fields the page never needs
+def slim(r):
+    out = {k: v for k, v in r.items() if k not in DROP}
+    s = (E.best_reading(r) or {}).get('s')
+    if s:
+        out['L'] = {'s': s}                                     # the AI's one-line English summary (shown for Marathi headlines)
+    return out
+
+
+(DATA / 'events.json').write_text(dump_lines([{k: ([slim(r) for r in e[k]] if k == 'reports' else e[k]) for k in keep if k in e} for e in events]), 'utf-8')
 
 meta = dict(rules=E.RULES_VERSION, cats=E.CATS, sitkinds=[dict(id=k, name=n) for k, n in E.SITU_NAMES.items()], areas=[{k: a[k] for k in ('id', 'name', 'lat', 'lon', 'r')} for a in E.AREAS],
             feeds=[dict(id=f['id'], name=f['name']) for f in E.FEEDS])
 (DATA / 'meta.json').write_text(json.dumps(meta, ensure_ascii=False, separators=(',', ':')), 'utf-8')
 print('total=%d new=%d removed=%d incidents=%d' % (len(items), added, removed, len(events)))
 
+# Only checked cases count anywhere (organised crime, analytics, quality); unverified ones wait for their reading.
+counted = [e for e in events if not e.get('u')]
+
 # ---- 7. Organised crime profiles (groups.json): a failure here never stops the incident data from being saved.
 try:
     import oc
-    oc.build(events, get)
+    oc.build(counted, get)
 except Exception as ex:
     print('organised crime step failed: %s' % str(ex)[:200])
 
 # ---- 8. Analytics (insights.json): findings per area view. A failure here never stops the data from being saved.
 try:
     import analytics
-    analytics.build(events, vec, read_json('situations.json', []), read_json('groups.json', {}))
+    analytics.build(counted, vec, read_json('situations.json', []), read_json('groups.json', {}))
 except Exception as ex:
     print('analytics step failed: %s' % str(ex)[:200])
+
+# ---- 9. Quality checks (quality.json): the permanent error tests and the daily detectors.
+try:
+    import quality
+    quality.build(items, events, verdicts, ask)
+except Exception as ex:
+    print('quality step failed: %s' % str(ex)[:200])

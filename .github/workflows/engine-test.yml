@@ -1,0 +1,33 @@
+name: Engine test
+
+# Runs the case engine on the stored reports (no fetching, no AI) on the engine-test branch, and saves the report
+# as _test/result.txt on that branch. Nothing on the live site changes.
+on:
+  push:
+    branches: [engine-test]
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: collector/requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/fastembed
+          key: fastembed-paraphrase-multilingual-minilm-l12-v2
+      - run: pip install -q -r collector/requirements.txt
+      - run: mkdir -p _test && (python -m py_compile collector/*.py && echo "compile ok" || echo "COMPILE FAILED") > _test/result.txt 2>&1 && python collector/selftest.py >> _test/result.txt 2>&1 || true
+      - run: |
+          git config user.name "vidraksh-collector"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f _test/result.txt
+          git commit -q -m "engine test result" && git push -q
