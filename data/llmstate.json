@@ -1,12 +1,12 @@
 {
  "day": "2026-11-17",
  "used": {
-  "gemini-3.5-flash-lite": 280,
+  "gemini-3.5-flash-lite": 320,
   "gemini-3.6-flash": 13,
   "gemini-3.1-flash-lite": 197,
   "gemini-3-flash-preview": 14,
   "gemini-2.5-flash-lite": 85,
-  "gemini-2.5-flash": 17
+  "gemini-2.5-flash": 20
  },
  "rested": {
   "gemini-3.6-flash": true,
@@ -15,11 +15,11 @@
  "errors": [
   "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
   "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-3.5-flash-lite: unreadable answer: 'candidates'",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
-  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
   "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
   "gemini-3.5-flash-lite: unreadable answer: 'candidates'",
+  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
+  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
+  "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
   "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
   "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne",
   "gemini-2.5-flash: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to ne"
@@ -36,9 +36,9 @@
    "gemini-2.5-flash"
   ]
  },
- "read": 1730,
- "waiting": 952,
- "disputes": 232,
+ "read": 1890,
+ "waiting": 793,
+ "disputes": 245,
  "settled": 32,
- "updated": "2026-11-18T04:25:12.420Z"
+ "updated": "2026-11-18T05:25:47.981Z"
 }

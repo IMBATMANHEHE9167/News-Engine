@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-18T04:25:12.551Z",
- "total": 2682,
+ "updated": "2026-11-18T05:25:48.130Z",
+ "total": 2683,
  "added": 1,
  "removed": 0,
  "rules": 11,
@@ -72,8 +72,8 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -81,16 +81,16 @@
    "name": "Punekar News",
    "ok": true,
    "found": 2,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pcl",
@@ -112,7 +112,7 @@
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 3,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -144,7 +144,7 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 6,
+   "found": 5,
    "added": 0,
    "note": ""
   },
