@@ -19,274 +19,408 @@ document.documentElement.dataset.theme=t;})();
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
 <style>
+/* Hallmark · redesign: full · shape: app screen · theme: brand (VIDRAKSH paper, ink, copper) · genre: editorial · signature: the short copper rule marks the open tab and the selected record */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4 · weakest: E, a single-file page on a PC without Node, so sloplint cannot run; Floor and gates walked by hand and in the browser */
+/* Hallmark · waive 12, 13 (hero and word budget): app scope, no hero · answered: labels are sentence case, meta joined by space, not dots */
+/* Unslop · direction: exact, unhurried, accountable · world: the station diary and case register · system: design.md */
 :root{
-  --paper:#E6E6E6; --raised:#EFEFEF; --ink:#181818; --ink-2:#4A4A4A; --ink-3:#7C7C7C; --rule:#CFCFCF;
-  --copper:#9C5A2B; --copper-text:#8A4D22; --copper-wash:rgba(156,90,43,.14);
+  --paper:#E6E6E6; --sheet:#F2F2F2; --raised:#FAFAFA;
+  --ink:#181818; --ink-2:#454545; --ink-3:#666666;
+  --rule:rgba(24,24,24,.12); --rule-2:rgba(24,24,24,.22); --hover:rgba(24,24,24,.045); --bar:rgba(24,24,24,.26);
+  --copper:#9C5A2B; --copper-text:#8A4D22; --copper-wash:rgba(156,90,43,.12);
+  --neg:#A3322A;
+  --shadow:0 8px 24px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
   --serif:"Newsreader","Tiro Devanagari Marathi",Georgia,serif;
+  --ease:cubic-bezier(.22,1,.36,1); --dur:140ms;
+  --r1:4px; --r2:8px;
+  --bar-h:56px; --scope-h:48px; --stick:calc(var(--bar-h) + var(--scope-h));
 }
 :root[data-theme="dark"]{
-  --paper:#131313; --raised:#1B1B1B; --ink:#ECECEC; --ink-2:#B4B4B4; --ink-3:#808080; --rule:#2E2E2E;
+  --paper:#131313; --sheet:#191919; --raised:#232323;
+  --ink:#ECECEC; --ink-2:#B8B8B8; --ink-3:#8C8C8C;
+  --rule:rgba(236,236,236,.11); --rule-2:rgba(236,236,236,.2); --hover:rgba(236,236,236,.05); --bar:rgba(236,236,236,.3);
   --copper:#C98652; --copper-text:#D2925F; --copper-wash:rgba(201,134,82,.16);
+  --neg:#E0786A;
+  --shadow:0 8px 24px rgba(0,0,0,.45);
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 14px/20px var(--sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit}
-button,select{font:inherit;color:inherit}
-.wrap{max-width:680px;margin:0 auto;padding:0 20px}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+::selection{background:var(--copper-wash)}
+.hide{display:none!important}
+.label{font-size:12px;line-height:16px;font-weight:400;color:var(--ink-3)}
+.note{font-size:13px;line-height:20px;color:var(--ink-3);margin:8px 0 0}
+.empty{padding:48px 20px;text-align:center;color:var(--ink-3);font:400 16px/24px var(--serif)}
+.mt{display:flex;flex-wrap:wrap;gap:0 12px}
 
-/* Masthead */
-.mast{position:relative;text-align:center;padding:30px 20px 18px}
-.switch{position:absolute;top:16px;right:18px;appearance:none;background:none;border:0;padding:6px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
-.switch i{display:block;position:relative;width:30px;height:16px;border:1px solid var(--ink-3);border-radius:8px;transition:border-color .2s}
-.switch i::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--ink-3);transition:transform .2s,background .2s}
-:root[data-theme="dark"] .switch i{border-color:var(--copper)}
-:root[data-theme="dark"] .switch i::after{transform:translateX(14px);background:var(--copper)}
-.switch:focus-visible{outline:1px solid var(--copper);outline-offset:2px}
-.mark{font-size:38px;font-weight:500;line-height:1.15;letter-spacing:.01em;margin:0}
+/* Top bar: wordmark, the five tabs, scan clock, theme */
+.bar{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:32px;height:var(--bar-h);padding:0 24px;background:var(--paper);border-bottom:1px solid var(--rule)}
+.brandrow{display:contents}
+.brand{order:0;flex:none;display:flex;align-items:baseline;gap:12px;text-decoration:none}
+.mark{margin:0;font:500 24px/1 var(--sans);letter-spacing:.01em;position:relative;padding-bottom:6px}
 .mark span{color:var(--copper)}
-.mast hr{width:38px;height:1px;border:0;background:var(--copper);margin:9px auto 11px}
-.kicker{font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-2);padding-left:.32em}
-#stamp{font-size:13px;color:var(--ink-3);margin-top:7px}
+.mark::after{content:"";position:absolute;left:0;bottom:0;width:16px;height:1px;background:var(--copper)}
+.brand .place{font-size:13px;color:var(--ink-3)}
+.tabs{order:1;flex:1 1 auto;min-width:0;align-self:stretch;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{position:relative;flex:none;appearance:none;background:none;border:0;padding:0 12px;font-size:14px;color:var(--ink-3);white-space:nowrap;transition:color var(--dur) var(--ease)}
+.tabs button:hover{color:var(--ink)}
+.tabs button.on{color:var(--ink)}
+.tabs button.on::after{content:"";position:absolute;left:12px;bottom:0;width:16px;height:2px;background:var(--copper)}
+.tabs button:focus-visible{outline-offset:-2px}
+.scanline{order:2;flex:none;margin:0;font-size:12px;line-height:16px;color:var(--ink-3);text-align:right;white-space:nowrap}
+.scanline b{font-weight:500;color:var(--ink-2)}
+.scanline .late{color:var(--copper-text)}
+.switch{order:3;flex:none;appearance:none;background:none;border:0;padding:4px;border-radius:var(--r1);display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-3)}
+.switch:hover{color:var(--ink)}
+.switch i{display:block;position:relative;width:28px;height:16px;border:1px solid var(--rule-2);border-radius:8px}
+.switch i::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--ink-3);transition:transform var(--dur) var(--ease)}
+:root[data-theme="dark"] .switch i::after{transform:translateX(12px);background:var(--ink-2)}
 
-/* Tabs */
-nav{position:sticky;top:0;z-index:1000;background:var(--paper);border-bottom:1px solid var(--rule)}
-nav div{display:flex;justify-content:center;gap:34px}
-nav button{appearance:none;background:none;border:0;padding:13px 0 11px;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid transparent;margin-bottom:-1px;cursor:pointer}
-nav button.on{color:var(--ink);border-bottom-color:var(--copper)}
-nav .period{gap:22px;border-top:1px solid var(--rule)}
-nav .period button{padding:8px 0 7px;font-size:13.5px;font-weight:400;letter-spacing:.01em;text-transform:none}
-nav .views{overflow-x:auto;scrollbar-width:none;justify-content:flex-start;padding:0 20px}
-nav .views::-webkit-scrollbar{display:none}
-nav .views button{flex:none;white-space:nowrap}
-nav .views button:first-child{margin-left:auto}
-nav .views button:last-child{margin-right:auto}
+/* Scope bar: area and period apply to every tab */
+.scope{position:sticky;top:var(--bar-h);z-index:999;display:flex;align-items:center;gap:32px;min-height:var(--scope-h);padding:8px 24px;background:var(--paper);border-bottom:1px solid var(--rule)}
+.grp{display:flex;align-items:center;gap:12px;min-width:0}
+.grp .lab{flex:none;font-size:12px;color:var(--ink-3)}
+.seg{display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:none;appearance:none;background:none;border:1px solid transparent;height:28px;padding:0 10px;border-radius:var(--r1);font-size:13px;color:var(--ink-2);white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.seg button:hover{background:var(--hover);color:var(--ink)}
+.seg button.on{background:var(--raised);border-color:var(--rule-2);color:var(--ink)}
+.seg button:focus-visible{outline-offset:-1px}
+.stamp{margin:0 0 0 auto;display:flex;gap:16px;font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap}
+.stamp b{font-weight:500;color:var(--ink)}
 
-.label{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+/* Pages: rail + sheet */
+.page{max-width:1600px;margin:0 auto;padding:24px}
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);min-width:0}
+.rail{position:sticky;top:calc(var(--stick) + 24px);min-width:0}
+.rail-h{margin:0 0 8px;padding:0 8px;font-size:12px;line-height:16px;font-weight:400;color:var(--ink-3)}
+.reports{display:grid;grid-template-columns:208px minmax(0,1fr);gap:24px;align-items:start}
+@media (min-width:1200px){.reports{grid-template-columns:208px minmax(0,1fr) 400px}}
+.sitp{display:grid;grid-template-columns:208px minmax(0,960px);gap:24px;align-items:start}
+.filter{display:flex;flex-direction:column;gap:2px}
+.filter button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;appearance:none;background:none;border:1px solid transparent;padding:4px 8px;border-radius:var(--r1);text-align:left;font-size:13px;line-height:20px;color:var(--ink-2);transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.filter button span:last-child{font-size:12px;color:var(--ink-3)}
+.filter button:hover{background:var(--hover);color:var(--ink)}
+.filter button.on{background:var(--raised);border-color:var(--rule-2);color:var(--ink)}
+.railnote{margin:16px 8px 0;font-size:12px;line-height:16px;color:var(--ink-3)}
+.rail dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;margin:0 8px;font-size:13px;color:var(--ink-2)}
+.rail dd{margin:0;text-align:right;color:var(--ink)}
 
-/* News */
-.filter{display:flex;gap:20px;overflow-x:auto;padding:16px 0 12px;scrollbar-width:none;border-bottom:1px solid var(--rule)}
-.filter::-webkit-scrollbar{display:none}
-.filter button{flex:none;appearance:none;background:none;border:0;padding:0 0 3px;font-size:14px;color:var(--ink-3);border-bottom:1px solid transparent;white-space:nowrap;cursor:pointer}
-.filter button.on{color:var(--ink);border-bottom-color:var(--copper)}
-.day{display:flex;align-items:center;gap:12px;margin:26px 0 2px}
-.day::after{content:"";flex:1;height:1px;background:var(--rule)}
-.item{padding:15px 0 16px;border-bottom:1px solid var(--rule)}
-.item:last-child{border-bottom:0}
-.item .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
-.cat{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--copper-text)}
-.cat.fu{color:var(--ink-3)}
-.when{font-size:12.5px;color:var(--ink-3);white-space:nowrap}
-.head{display:block;font-family:var(--serif);font-size:20px;line-height:1.28;font-weight:400;text-decoration:none;margin:5px 0 6px;text-wrap:pretty}
-.head:hover{text-decoration:underline;text-decoration-color:var(--copper);text-underline-offset:3px;text-decoration-thickness:1px}
-.by{font-size:13px;color:var(--ink-3)}
-.by b{font-weight:500;color:var(--ink-2)}
-.by a{text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px}
-.by .chk{color:var(--copper-text);font-style:italic}
-.sum{margin:0 0 6px;font-size:14px;line-height:1.4;color:var(--ink-2)}
-.more{display:block;margin:22px auto 0;appearance:none;background:none;border:1px solid var(--rule);padding:9px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);cursor:pointer}
-.empty{padding:44px 0;text-align:center;color:var(--ink-3);font-family:var(--serif);font-size:17px}
-/* Analytics: findings / graphs */
-.anmode{display:flex;justify-content:center;gap:0;margin:18px auto 0;max-width:680px;padding:0 20px}
-.anmode button{appearance:none;background:none;border:1px solid var(--rule);padding:7px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);cursor:pointer}
-.anmode button+button{border-left:0}
-.anmode button.on{color:var(--ink);border-color:var(--copper);background:var(--copper-wash)}
-.gwide{max-width:1000px;margin:0 auto;padding:0 20px}
-.gbar{display:flex;gap:20px;overflow-x:auto;scrollbar-width:none;padding:18px 0 10px;border-bottom:1px solid var(--rule);justify-content:center}
-.gbar::-webkit-scrollbar{display:none}
-.gbar button{flex:none;appearance:none;background:none;border:0;padding:0 0 3px;font-size:14px;color:var(--ink-3);border-bottom:1px solid transparent;white-space:nowrap;cursor:pointer}
-.gbar button.on{color:var(--ink);border-bottom-color:var(--copper)}
-.gctl{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:flex-end;padding:12px 0 0}
-.gctl label:first-child{min-width:220px}
-.gabout{margin:10px 0 6px;max-width:760px}
-.gbox{padding:6px 0 0;overflow-x:auto}
-@media (max-width:720px){.gbox .gsvg{min-width:680px}.gbar{justify-content:flex-start}}
+/* Register: the shared record row (reports, situations, groups) */
+.day{position:sticky;top:var(--stick);z-index:2;display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 20px 8px;background:var(--sheet);border-bottom:1px solid var(--rule);font-size:12px;line-height:16px;color:var(--ink-3)}
+.day:first-child{border-radius:var(--r2) var(--r2) 0 0}
+.day b{font-weight:500;color:var(--ink)}
+.reghead{padding:12px 20px;font-size:12px;line-height:16px;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+.rec{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:16px 20px;border-bottom:1px solid var(--rule);transition:background-color var(--dur) var(--ease)}
+.rec:last-child{border-bottom:0}
+.rec.pick{cursor:pointer}
+.rec.pick:hover{background:var(--hover)}
+.rec.sel,.rec.sel:hover{background:var(--raised)}
+.rec-when{font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap;padding-top:2px}
+.rec.sel .rec-when::after{content:"";display:block;width:16px;height:2px;margin-top:8px;background:var(--copper)}
+.rec-type{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:12px;line-height:20px;color:var(--ink-2)}
+.tag{display:inline-block;padding:0 6px;border:1px solid var(--rule-2);border-radius:var(--r1);font-size:12px;line-height:18px;color:var(--ink-2);white-space:nowrap}
+.rec-head{display:block;margin:2px 0 0;font:400 18px/24px var(--serif);color:var(--ink);text-decoration:none;text-wrap:pretty}
+.rec-head:hover{text-decoration:underline;text-decoration-color:var(--copper);text-decoration-thickness:1px;text-underline-offset:4px}
+.rec-sum{margin:4px 0 0;font-size:14px;line-height:20px;color:var(--ink-2)}
+.rec-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin-top:8px;font-size:13px;line-height:20px;color:var(--ink-3)}
+.rec-meta .place{font-weight:500;color:var(--ink-2)}
+.rec-meta a,.lnk{text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
+.rec-meta a:hover,.lnk:hover{text-decoration-color:var(--copper)}
+.acc{font-size:12px;color:var(--ink-3)}
+.rec-open{appearance:none;background:none;border:0;padding:0;border-radius:var(--r1);font-size:13px;line-height:20px;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
+.rec-open:hover{color:var(--ink);text-decoration-color:var(--copper)}
+.rec-inline{padding:0 20px 20px 100px;border-bottom:1px solid var(--rule);background:var(--raised)}
+.more{display:block;margin:0;width:100%;appearance:none;background:none;border:0;border-top:1px solid var(--rule);padding:12px 20px;font-size:13px;color:var(--ink-2);text-align:center;border-radius:0 0 var(--r2) var(--r2)}
+.more:hover{background:var(--hover);color:var(--ink)}
+
+/* Case record: one case's provenance, in the panel or under its row */
+.detail{position:sticky;top:calc(var(--stick) + 24px);max-height:calc(100vh - var(--stick) - 48px);overflow:auto;padding:20px;scrollbar-width:thin}
+@media (max-width:1199px){.reports .detail{display:none}}
+.case-h{margin:0;font:400 22px/28px var(--serif);text-wrap:pretty}
+.case-st{margin:12px 0 0;padding:12px;border:1px solid var(--rule);border-radius:var(--r1);font-size:13px;line-height:20px;color:var(--ink-2)}
+.case-st b{font-weight:500;color:var(--ink)}
+.dl{display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px 12px;margin:16px 0 0;font-size:13px;line-height:20px}
+.dl dt{color:var(--ink-3)}
+.dl dd{margin:0;color:var(--ink)}
+.dl dd small{display:block;font-size:12px;line-height:16px;color:var(--ink-3)}
+.tl-h{display:flex;justify-content:space-between;gap:12px;margin:24px 0 0;font-size:13px;font-weight:500}
+.tl-h span{font-weight:400;color:var(--ink-3)}
+.tl{list-style:none;margin:8px 0 0;padding:0}
+.tl li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid var(--rule)}
+.tl time{font-size:12px;line-height:16px;color:var(--ink-3)}
+.tl .src{display:flex;flex-wrap:wrap;gap:0 8px;font-size:12px;line-height:16px;color:var(--ink-3)}
+.tl .src b{font-weight:500;color:var(--ink-2)}
+.tl a{display:block;margin-top:4px;font:400 15px/20px var(--serif);color:var(--ink);text-decoration:none}
+.tl a:hover{text-decoration:underline;text-decoration-color:var(--copper);text-underline-offset:3px}
+.tl p{margin:4px 0 0;font-size:13px;line-height:20px;color:var(--ink-2)}
+.tl p span{color:var(--ink-3)}
+.key{margin:16px 0 0;padding:0;list-style:none;font-size:13px;line-height:20px;color:var(--ink-2)}
+.key li{padding:8px 0;border-top:1px solid var(--rule)}
+.key b{display:block;font-weight:500;color:var(--ink)}
+
+/* Panels, sections, ranked lists, prose findings */
+.sec{margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)}
+.anmain > .sec:first-child,.mapside .sec:first-child{margin-top:0;padding-top:0;border-top:0}
+.sec-h{margin:0 0 12px;font-size:13px;line-height:20px;font-weight:500;color:var(--ink)}
+.sec-h span{font-weight:400;color:var(--ink-3)}
+.sec h2{font:400 22px/28px var(--serif);margin:0 0 12px}
+.two{display:grid;grid-template-columns:1fr;gap:20px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 40px;column-gap:12px;align-items:baseline;font-size:13px;line-height:20px;padding:4px 0 0;color:var(--ink-2)}
+.row .n{text-align:right;color:var(--ink)}
+.row .track{grid-column:1/-1;height:2px;background:var(--rule);margin-top:4px}
+.row .track i{display:block;height:2px;background:var(--bar)}
+.say{font:400 16px/24px var(--serif);margin:0 0 12px;text-wrap:pretty}
+.say b{font-weight:500}
+.say em{font-style:normal;font-weight:500}
+.mini{padding:8px 0;border-top:1px solid var(--rule);font-size:12px;line-height:16px;color:var(--ink-3)}
+.mini a{display:block;margin-top:4px;font:400 15px/20px var(--serif);color:var(--ink);text-decoration:none}
+.mini a:hover{text-decoration:underline;text-decoration-color:var(--copper);text-underline-offset:3px}
+table{border-collapse:collapse;width:100%;font-size:13px;line-height:20px}
+th,td{padding:6px 4px;text-align:right;border-bottom:1px solid var(--rule);font-weight:400}
+th{font-size:12px;color:var(--ink-3);white-space:nowrap}
+td:first-child,th:first-child{text-align:left;padding-left:0}
+td.hi{color:var(--copper-text);font-weight:500}
+td.z{color:var(--ink-3);opacity:.6}
+.src-row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;font-size:13px;line-height:20px;color:var(--ink-2)}
+.src-row span:last-child{color:var(--ink-3);text-align:right}
+.src-row.off span:first-child{color:var(--ink-3);text-decoration:line-through}
+select{width:100%;height:32px;appearance:none;background-color:var(--raised);border:1px solid var(--rule-2);border-radius:var(--r1);padding:0 28px 0 10px;font-size:13px;color:var(--ink);
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 15px) 55%,calc(100% - 11px) 55%;background-size:4px 4px;background-repeat:no-repeat}
+select:hover{border-color:var(--ink-3)}
+option{background:var(--raised);color:var(--ink)}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.tog{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);cursor:pointer}
+.tog input{accent-color:var(--copper);margin:0}
+
+/* Map & patterns */
+.mapp{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:24px;align-items:start}
+.mapcol{position:sticky;top:calc(var(--stick) + 24px)}
+#map{height:calc(100vh - var(--stick) - 48px);min-height:440px;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r2);z-index:1}
+.mapside{padding:20px}
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.legend{margin:20px 0 0;padding:16px 0 0;border-top:1px solid var(--rule)}
+.legend .tot{font-size:13px;color:var(--ink-2)}
+.legend .tot b{font:500 28px/32px var(--sans);color:var(--ink);margin-right:8px}
+.legend ul{list-style:none;margin:12px 0 0;padding:0}
+.legend li{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:8px;align-items:center;padding:4px 0;font-size:13px;line-height:20px;color:var(--ink-2)}
+.legend li b{font-weight:500;color:var(--ink)}
+.legend svg{display:block}
+
+/* Organised crime */
+.ochead{max-width:720px;margin:0 0 24px}
+.ocsearch{position:relative}
+.search{width:100%;height:40px;padding:0 12px;background:var(--raised);border:1px solid var(--rule-2);border-radius:var(--r1);color:var(--ink);font:16px var(--sans)}
+.search:hover{border-color:var(--ink-3)}
+.search:focus-visible{outline-offset:-1px}
+.sug{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:1500;background:var(--raised);border:1px solid var(--rule-2);border-radius:var(--r1);box-shadow:var(--shadow);max-height:360px;overflow-y:auto;padding:4px}
+.sug .sh{padding:8px 8px 4px}
+.sug button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;appearance:none;background:none;border:0;border-radius:var(--r1);padding:6px 8px;text-align:left;font-size:14px;color:var(--ink)}
+.sug button span:last-child{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.sug button.on,.sug button:hover{background:var(--hover)}
+.ocgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.ocgraph{position:sticky;top:calc(var(--stick) + 24px);padding:20px}
+.ocgraph .gsvg{max-width:760px;margin:0 auto}
+.ocgraph .gtx{font-size:15px}
+.ocprof{padding:20px}
+.ocname{font:400 28px/32px var(--serif);margin:12px 0 8px}
+.back{appearance:none;background:none;border:0;padding:0;font-size:13px;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
+.back:hover{color:var(--ink);text-decoration-color:var(--copper)}
+.spark{display:flex;align-items:flex-end;gap:2px;height:48px;border-bottom:1px solid var(--rule)}
+.spark i{flex:1;background:var(--bar);min-width:3px}
+
+
+/* Analytics */
+.anhead{display:flex;align-items:center;gap:16px;margin:0 0 24px}
+.anhead p{margin:0;font-size:13px;color:var(--ink-3)}
+.anfind{display:grid;grid-template-columns:208px minmax(0,800px);gap:24px;align-items:start}
+.anidx{display:flex;flex-direction:column;gap:2px}
+.anidx a{display:flex;justify-content:space-between;gap:12px;padding:4px 8px;border-radius:var(--r1);font-size:13px;line-height:20px;color:var(--ink-2);text-decoration:none}
+.anidx a span+span{font-size:12px;color:var(--ink-3)}
+#gList .sec{margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)}
+.anidx a:hover{background:var(--hover);color:var(--ink)}
+.anmain{padding:24px}
+.anmain .sec{scroll-margin-top:calc(var(--stick) + 24px)}
+.finding{padding:16px 0;border-top:1px solid var(--rule)}
+.sec-h + .finding{border-top:0;padding-top:4px}
+.finding .say{margin:0 0 8px;font-size:18px;line-height:24px}
+.ev .mini:first-child{border-top:0;padding-top:0}
+.ev .mini a{font:400 14px/20px var(--sans);color:var(--ink-2)}
+.ev .mini a:hover{color:var(--ink)}
+.trend{display:block;margin:0 0 4px;font-size:12px;line-height:16px;color:var(--ink-3)}
+.trend.up{color:var(--copper-text)}
+.how{font-size:13px;line-height:20px;color:var(--ink-3);margin-top:4px}
+.ev{margin-top:12px;padding-left:12px;border-left:2px solid var(--rule)}
+.ev details summary{cursor:pointer;list-style:none;padding:8px 0;border-top:1px solid var(--rule);font-size:12px;color:var(--ink-2)}
+.ev details summary::-webkit-details-marker{display:none}
+.ev details summary:hover{color:var(--ink)}
+.qt{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px solid var(--rule);font-size:13px;line-height:20px}
+.qt .ok{color:var(--ink-3)}
+.qt .bad{color:var(--neg);font-weight:500}
+.qt small{display:block;font-size:12px;line-height:16px;color:var(--ink-3)}
+.big{font:500 28px/32px var(--sans);margin-right:8px}
+.angraphs{padding:20px 24px}
+.gctl{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;padding:16px 0 0}
+.gctl .field{width:240px}
+.gabout{margin:16px 0 0;max-width:760px}
+.gbox{padding:12px 0 0;overflow-x:auto;overflow-y:hidden}
+.gbox > .gsvg{max-width:1080px}
 .gscroll{overflow-x:auto}
 .gsvg{width:100%;height:auto;display:block;overflow:visible}
 .gfill{fill:var(--copper)}
+.gn{fill:var(--bar)}
 .gcell,.gday,.gbarw,.gh{cursor:pointer}
 .gcell:hover,.gday:hover,.gbarw:hover,.gh:hover{stroke:var(--ink);stroke-width:1.2}
-.gtx{fill:var(--ink-2);font:12.5px var(--sans)}
-.gsm{font-size:11px;fill:var(--ink-3)}
-.gnum{fill:var(--ink);font-weight:600}
+.gtx{fill:var(--ink-2);font:12px var(--sans)}
+.gsm{font-size:12px;fill:var(--ink-3)}
+.gnum{fill:var(--ink);font-weight:500}
 .grule{stroke:var(--rule);stroke-width:1}
-.grest{fill:var(--rule);opacity:.45}
-.gline{fill:none;stroke:var(--copper);stroke-width:2.2}
-.gfest{stroke:var(--copper);stroke-width:3}
+.grest{fill:var(--rule)}
+.gline{fill:none;stroke:var(--copper);stroke-width:2}
+.gfest{stroke:var(--copper);stroke-width:2}
 .gedge{stroke:var(--ink-3);opacity:.35}
 .gedge.hot{stroke:var(--copper);opacity:1}
 .gnode{cursor:pointer}
 .gnode:hover circle{stroke:var(--ink);stroke-width:1.5}
-.gtip{position:fixed;z-index:3000;display:none;pointer-events:none;background:var(--paper);color:var(--ink);border:1px solid var(--copper);padding:5px 8px;font:12.5px var(--sans);max-width:280px}
-.how{font-size:12.5px;color:var(--ink-3);margin-top:6px}
-.ev{margin-top:8px}
-.ev details summary{cursor:pointer;margin-top:6px;list-style:none}
-.ev details summary::-webkit-details-marker{display:none}
-nav > div:first-child{overflow-x:auto;scrollbar-width:none;padding:0 20px}
-nav > div:first-child::-webkit-scrollbar{display:none}
-nav > div:first-child button{flex:none;white-space:nowrap}
-@media (max-width:720px){nav > div:first-child{justify-content:flex-start;gap:24px}}
-.search{width:100%;margin:18px 0 0;padding:9px 0 8px;background:transparent;border:0;border-bottom:1px solid var(--rule);color:var(--ink);font:16px var(--sans);outline:0;border-radius:0}
-.search:focus{border-bottom-color:var(--copper)}
-.acc{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.ocwide{max-width:1180px;margin:0 auto;padding:0 20px}
-.ocsearch{position:relative;max-width:680px;margin:0 auto}
-.sug{position:absolute;left:0;right:0;top:100%;z-index:1500;background:var(--paper);border:1px solid var(--rule);border-top:0;max-height:360px;overflow-y:auto}
-.sug .sh{padding:9px 12px 3px}
-.sug button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;appearance:none;background:none;border:0;padding:7px 12px;text-align:left;cursor:pointer;font-size:14.5px;color:var(--ink)}
-.sug button span:last-child{font-size:12px;color:var(--ink-3);white-space:nowrap}
-.sug button.on,.sug button:hover{background:var(--copper-wash)}
-.ocgraph .gsvg{max-width:760px;margin:0 auto}
 .gnode.dim{opacity:.18}
 .gedge.dim{opacity:.08}
 .gnode.sel circle{stroke:var(--ink);stroke-width:2}
-#ocBody .item:first-child{padding-top:18px}
-@media (min-width:960px){
-  .ocgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:44px;align-items:start}
-  .ocgraph{position:sticky;top:120px}
-}
-.ocname{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.15;margin:8px 0 6px}
-.spark{display:flex;align-items:flex-end;gap:2px;height:48px}
-.spark i{flex:1;background:var(--copper);opacity:.7;min-width:3px}
-.scanline{text-align:right;padding:5px 20px 6px;font-size:12px;line-height:1.45;color:var(--ink-3);border-top:1px solid var(--rule)}
-.scanline b{font-weight:500;color:var(--ink-2)}
-.scanline .late{color:var(--copper-text)}
+.gtip{position:fixed;z-index:3000;display:none;pointer-events:none;background:var(--raised);color:var(--ink);border:1px solid var(--rule-2);border-radius:var(--r1);box-shadow:var(--shadow);padding:6px 8px;font:13px/20px var(--sans);max-width:280px}
 
-/* Map */
-.mapgrid{max-width:1180px;margin:0 auto;padding:0 20px}
-.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:16px 0 8px}
-.controls label{display:block}
-select{width:100%;appearance:none;background:transparent;border:0;border-bottom:1px solid var(--rule);border-radius:0;padding:5px 16px 6px 0;font-size:14.5px;
-  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 7px) 55%,calc(100% - 3px) 55%;background-size:4px 4px;background-repeat:no-repeat}
-select:focus{outline:0;border-bottom-color:var(--copper)}
-option{background:var(--paper);color:var(--ink)}
-.tog{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2);padding:6px 0 12px;cursor:pointer}
-.tog input{accent-color:var(--copper);margin:0}
-#map{height:50vh;min-height:320px;background:var(--raised);border:1px solid var(--rule);z-index:1}
-.count{font-size:13.5px;color:var(--ink-2);margin:10px 0 0}
-.count b{font-weight:600;color:var(--ink)}
-.sec{padding:22px 0 4px;border-top:1px solid var(--rule);margin-top:22px}
-.sec h2{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.2;margin:6px 0 12px}
-.sec h3{margin:0 0 8px}
-.two{display:grid;grid-template-columns:1fr;gap:20px}
-.row{display:grid;grid-template-columns:minmax(0,1fr) 30px;column-gap:10px;align-items:baseline;font-size:14px;padding:5px 0 0}
-.row .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
-.row .track{grid-column:1/-1;height:2px;background:var(--rule);margin-top:4px}
-.row .track i{display:block;height:2px;background:var(--copper)}
-.say{font-family:var(--serif);font-size:17.5px;line-height:1.38;margin:0 0 10px;text-wrap:pretty}
-.say b{font-weight:500}
-.say em{font-style:normal;color:var(--copper-text)}
-.note{font-size:13px;color:var(--ink-3);margin:8px 0 0}
-.mini{font-size:13.5px;color:var(--ink-2);padding:7px 0;border-top:1px solid var(--rule)}
-.mini a{text-decoration:none;color:var(--ink)}
-.mini a:hover{text-decoration:underline;text-decoration-color:var(--copper)}
-table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
-th,td{padding:7px 4px;text-align:right;border-bottom:1px solid var(--rule);font-weight:400}
-th{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
-td:first-child,th:first-child{text-align:left;padding-left:0}
-td.hi{color:var(--copper-text);font-weight:600}
-td.z{color:var(--rule)}
-.src{font-size:13.5px;color:var(--ink-2);padding:5px 0;display:flex;justify-content:space-between;gap:12px}
-.src span:last-child{color:var(--ink-3);text-align:right}
-.src.off span:first-child{color:var(--ink-3);text-decoration:line-through}
-.hide{display:none}
-footer{max-width:680px;margin:40px auto 0;padding:18px 20px 48px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3);text-align:center}
+footer{max-width:1600px;margin:0 auto;padding:16px 24px 40px;font-size:12px;line-height:16px;color:var(--ink-3)}
+footer p{margin:0;max-width:760px}
 
-/* Leaflet, restrained */
-.leaflet-container{font-family:var(--sans);background:var(--raised)}
-.leaflet-bar{border:1px solid var(--rule)!important;box-shadow:none!important;border-radius:0!important}
-.leaflet-bar a{background:var(--paper)!important;color:var(--ink)!important;border-bottom:1px solid var(--rule)!important;border-radius:0!important;width:30px!important;height:30px!important;line-height:28px!important;font-weight:400}
-.leaflet-control-attribution{background:color-mix(in srgb,var(--paper) 80%,transparent)!important;color:var(--ink-3)!important;font-size:10px!important}
+/* Leaflet, in the page's materials */
+.leaflet-container{font-family:var(--sans);background:var(--sheet);border-radius:var(--r2)}
+.leaflet-bar{border:1px solid var(--rule-2)!important;box-shadow:none!important;border-radius:var(--r1)!important;overflow:hidden}
+.leaflet-bar a{background:var(--raised)!important;color:var(--ink)!important;border-bottom:1px solid var(--rule)!important;border-radius:0!important;width:32px!important;height:32px!important;line-height:30px!important;font-weight:400}
+.leaflet-bar a:hover{background:var(--sheet)!important}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--paper) 85%,transparent)!important;color:var(--ink-3)!important;font-size:11px!important;border-radius:var(--r1) 0 0 0}
 .leaflet-control-attribution a{color:var(--ink-2)!important}
-.lbl{background:none!important;border:0!important;box-shadow:none!important;color:var(--ink)!important;font:600 12px var(--sans);padding:0!important}
+.lbl{background:none!important;border:0!important;box-shadow:none!important;color:var(--ink)!important;font:500 12px var(--sans);padding:0!important}
 .lbl::before{display:none!important}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--paper)!important;color:var(--ink)!important;border:1px solid var(--rule);border-radius:0!important;box-shadow:none!important}
-.leaflet-popup-content{margin:10px 12px!important;font:14px/1.35 var(--sans);max-width:240px}
-.leaflet-popup-content a{color:var(--ink);font-family:var(--serif);font-size:15.5px;text-decoration:none}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--raised)!important;color:var(--ink)!important;border:1px solid var(--rule-2);border-radius:var(--r2)!important;box-shadow:var(--shadow)!important}
+.leaflet-popup-content{margin:12px 16px!important;font:13px/20px var(--sans);max-width:260px}
+.leaflet-popup-content a{color:var(--ink);font:400 15px/20px var(--serif);text-decoration:none}
+.leaflet-popup-content a:hover{text-decoration:underline;text-decoration-color:var(--copper)}
+.leaflet-popup-content .rec-type{line-height:16px}
 .leaflet-container a.leaflet-popup-close-button{color:var(--ink-3)!important}
 
-@media (min-width:960px){
-  .mast{padding-top:40px}
-  .mark{font-size:46px}
-  .mapgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:44px;align-items:start}
-  .mapcol{position:sticky;top:92px}
-  #map{height:calc(100vh - 225px)}
-  .sidecol .sec:first-child{border-top:0;margin-top:0;padding-top:16px}
+/* Tablet and phone */
+@media (max-width:1023px){
+  .bar{display:contents}
+  .brandrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px 8px;background:var(--paper)}
+  .tabs{position:sticky;top:0;z-index:1000;height:44px;padding:0 4px;background:var(--paper);border-bottom:1px solid var(--rule)}
+  .scanline{display:block;padding:8px 16px 0;text-align:left;white-space:normal}
+  .scope{position:static;flex-wrap:wrap;gap:8px 24px;padding:8px 16px;border-bottom:0}
+  .stamp{margin:0;flex-wrap:wrap;gap:0 12px;white-space:normal;width:100%}
+  .page{padding:16px}
+  .reports,.sitp,.anfind{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static}
+  .filter,.anidx{flex-direction:row;overflow-x:auto;scrollbar-width:none;gap:4px}
+  .filter::-webkit-scrollbar,.anidx::-webkit-scrollbar{display:none}
+  .filter button,.anidx a{flex:none;white-space:nowrap}
+  .rail-h{padding:0}
+  .day{top:44px}
+  .mapp,.ocgrid{grid-template-columns:minmax(0,1fr)}
+  .mapcol,.ocgraph{position:static}
+  #map{height:60vh;min-height:320px}
+  .rail dl{margin:0;max-width:360px}
+  .railnote{margin:12px 0 0}
+}
+@media (max-width:759px){
+  .grp{width:100%}
+  .rec{grid-template-columns:52px minmax(0,1fr);gap:12px;padding:16px}
+  .rec-inline{padding:0 16px 16px}
+  .day{padding:12px 16px 8px}
+  .rec-head{font-size:17px}
+  .anmain,.angraphs,.mapside,.ocprof,.ocgraph{padding:16px}
+  .gbox .gsvg{min-width:680px}
+  .search{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
 <body>
-<header class="mast">
-  <button class="switch" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span id="themeWord">Light</span><i></i></button>
-  <h1 class="mark" lang="mr" aria-label="Vidraksh">विद्र<span>क्ष</span></h1>
-  <hr>
-  <div class="kicker">Live · Pune</div>
-  <div id="stamp">Loading</div>
-</header>
-
-<nav><div>
-  <button id="tabNews" class="on">Reports</button>
-  <button id="tabMap">Map &amp; patterns</button>
-  <button id="tabSit">Situations</button>
-  <button id="tabOc">Organised crime</button>
-  <button id="tabAn">Analytics</button>
-</div><div class="period views" id="views" role="group" aria-label="Area"></div><div class="period" id="period" role="group" aria-label="Period"></div><p class="scanline" id="scanLine" aria-live="polite"></p></nav>
-
-<main id="news" class="wrap">
-  <div class="filter" id="newsFilter"></div>
-  <div id="newsList"></div>
-</main>
-
-<main id="mapv" class="hide">
-  <div class="mapgrid">
-    <div class="mapcol">
-      <div class="controls">
-        <label><span class="label">Type</span><select id="fCat"></select></label>
-        <label><span class="label">Time</span>
-          <select id="fTime"><option value="">Any time</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
-      </div>
-      <div id="map"></div>
-      <p class="count" id="count"></p>
-    </div>
-    <div class="sidecol">
-      <div id="areaBox"></div>
-      <div id="patterns"></div>
-      <section class="sec"><h3 class="label">Sources</h3><div id="sources"></div></section>
-    </div>
+<div class="bar">
+  <div class="brandrow">
+    <a class="brand" href="#news" id="brandLink" aria-label="Vidraksh, Pune: open Reports"><h1 class="mark" lang="mr">विद्र<span>क्ष</span></h1><span class="place">Pune</span></a>
+    <button class="switch" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span id="themeWord">Light</span><i></i></button>
   </div>
+  <nav class="tabs" aria-label="Sections">
+    <button id="tabNews" class="on" type="button">Reports</button>
+    <button id="tabMap" type="button">Map &amp; patterns</button>
+    <button id="tabSit" type="button">Situations</button>
+    <button id="tabOc" type="button">Organised crime</button>
+    <button id="tabAn" type="button">Analytics</button>
+  </nav>
+  <p class="scanline" id="scanLine" aria-live="polite"></p>
+</div>
+<div class="scope">
+  <div class="grp"><span class="lab" id="areaLab">Area</span><div class="seg" id="views" role="group" aria-labelledby="areaLab"></div></div>
+  <div class="grp"><span class="lab" id="perLab">Period</span><div class="seg" id="period" role="group" aria-labelledby="perLab"></div></div>
+  <p class="stamp" id="stamp">Loading</p>
+</div>
+
+<main id="news" class="page reports">
+  <aside class="rail" aria-label="Filter by type"><h2 class="rail-h">Type</h2><div class="filter" id="newsFilter"></div></aside>
+  <section class="sheet" aria-label="Reports register"><div id="newsList"><div class="empty">Loading reports</div></div></section>
+  <aside class="sheet detail" id="newsDetail" aria-label="Case record" aria-live="polite"></aside>
 </main>
 
-<main id="anv" class="hide">
-  <div class="anmode" id="anMode"><button data-anm="findings" class="on">Findings</button><button data-anm="graphs">Graphs</button></div>
+<main id="mapv" class="page mapp hide">
+  <div class="mapcol"><div id="map" role="region" aria-label="Map of incidents"></div></div>
+  <aside class="sheet mapside">
+    <div class="controls">
+      <label class="field"><span class="label">Type</span><select id="fCat"></select></label>
+      <label class="field"><span class="label">Time</span>
+        <select id="fTime"><option value="">Any time</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
+    </div>
+    <div class="legend" id="count"></div>
+    <div class="sec" id="areaBox"></div>
+    <div id="patterns"></div>
+    <section class="sec"><h3 class="sec-h">Sources</h3><div id="sources"></div></section>
+  </aside>
+</main>
+
+<main id="anv" class="page hide">
+  <div class="anhead"><div class="seg" id="anMode" role="group" aria-label="Analytics view"><button data-anm="findings" class="on" type="button">Findings</button><button data-anm="graphs" type="button">Graphs</button></div><p id="anSub"></p></div>
   <div id="anBody"></div>
 </main>
 
-<main id="ocv" class="hide">
-  <div class="ocwide">
+<main id="ocv" class="page hide">
+  <div class="ochead">
     <div class="ocsearch">
-      <input id="ocQ" class="search" type="search" placeholder="Search a gang, or a word like koyta, MCOCA, extortion" autocomplete="off"
+      <input id="ocQ" class="search" type="search" placeholder="Search a gang, or a word like koyta, MCOCA, extortion" autocomplete="off" aria-label="Search groups and words"
         role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ocSug">
       <div id="ocSug" class="sug hide" role="listbox"></div>
     </div>
-    <p class="note" id="ocNote" style="margin:10px auto 0;max-width:680px;text-align:center"></p>
-    <div class="ocgrid">
-      <section class="ocgraph"><h3 class="label" style="margin:22px 0 4px">Gang links</h3><div id="ocGraph"></div></section>
-      <div id="ocBody"></div>
-    </div>
+    <p class="note" id="ocNote"></p>
+  </div>
+  <div class="ocgrid">
+    <section class="sheet ocgraph"><h2 class="sec-h">Gang links</h2><div id="ocGraph"></div></section>
+    <div id="ocBody" class="sheet"></div>
   </div>
 </main>
 
-<main id="sitv" class="wrap hide">
-  <p class="note" id="sitIntro" style="margin:16px 0 0"></p>
-  <div id="sitList"></div>
+<main id="sitv" class="page sitp hide">
+  <aside class="rail" aria-label="Summary"><div id="sitIntro"></div></aside>
+  <section class="sheet" aria-label="Situations register"><div id="sitList"></div></section>
 </main>
 
 <div id="gTip" class="gtip"></div>
-<footer>
-  Compiled from public news reports; every headline links to its publisher. Areas and types are read from the report by rule, so a few will be wrong.
-  This reflects what the press reported, not all crime.
-</footer>
+<footer><p>
+  Compiled from public news reports; every headline links to its publisher. Each report is read by machine (an AI reading, checked against rules), so a few areas and types will be wrong.
+  This reflects what the press reported, not all crime, and a report is not an independently verified fact.
+</p></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
@@ -303,7 +437,7 @@ const AREA = Object.fromEntries(AREAS.map(a => [a.id, a]));
 const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
 const SRC = Object.fromEntries(META.feeds.map(f => [f.id, f.name]));
 const BANDS = ['morning', 'afternoon', 'evening', 'night'];
-const BAND_NAME = { morning: 'Morning · 6am–12', afternoon: 'Afternoon · 12–5pm', evening: 'Evening · 5–9pm', night: 'Night · 9pm–6am' };
+const BAND_NAME = { morning: 'Morning, 6 am to noon', afternoon: 'Afternoon, noon to 5 pm', evening: 'Evening, 5 to 9 pm', night: 'Night, 9 pm to 6 am' };
 const isDarkTheme = () => document.documentElement.dataset.theme === 'dark';
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const IST = 19800000;
@@ -312,6 +446,13 @@ const fmtDay = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', mo
 const ago = d => { const m = (Date.now() - new Date(d)) / 60000; return m < 60 ? Math.max(1, m | 0) + ' min ago' : m < 1440 ? (m / 60 | 0) + ' h ago' : fmtDay(d); };
 const isDark = e => e.h != null ? (e.h >= 19 || e.h < 6) : e.b === 'night';
 const link = (r, text) => `<a href="${esc(r.u)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+const fmtN = n => Number(n).toLocaleString('en-IN');
+const clock = d => new Date(d).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' });
+const hourName = h => (h % 12 || 12) + (h < 12 ? ' am' : ' pm');
+const motion = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+const plural = (n, w) => `${fmtN(n)} ${w}${n === 1 ? '' : 's'}`;
+// Meta fields sit side by side, separated by space (never joined by dots).
+const meta = (...parts) => `<span class="mt">${parts.filter(Boolean).map(p => `<span>${p}</span>`).join('')}</span>`;
 
 let STATUS = null, EVENTS = [], INCIDENTS = [], QUAL = null;
 
@@ -330,8 +471,8 @@ async function load() {
   const checking = EVENTS.filter(e => e.uv).length;
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
   const first = EVENTS.reduce((m, e) => e.reports.reduce((m2, r) => (r.d < m2 ? r.d : m2), m), '9999');
-  $('stamp').textContent = EVENTS.length
-    ? `${INCIDENTS.length} incidents from ${nReports} reports, since ${fmtDay(first)}` + (checking ? ` · ${checking} being checked` : '') + (STATUS ? ` · updated ${ago(STATUS.updated)}` : '')
+  $('stamp').innerHTML = EVENTS.length
+    ? `<span><b>${fmtN(INCIDENTS.length)}</b> incidents counted</span><span>${plural(nReports, 'report')} since ${fmtDay(first)}</span>` + (checking ? `<span>${fmtN(checking)} being checked</span>` : '') + (STATUS ? `<span>Updated ${ago(STATUS.updated)}</span>` : '')
     : 'Nothing collected yet. The collector runs every hour.';
   drawNews(); drawSources(); drawScan();
 }
@@ -377,36 +518,105 @@ $('period').onclick = e => {
   if (!$('mapv').classList.contains('hide')) drawMap();
 };
 
-let newsCat = '', newsN = 60;
+let newsCat = '', newsN = 60, newsSel = null;
+// A case keeps the id of its first report, so a selection survives new reports joining it.
+const keyOf = e => e.reports[e.reports.length - 1].id;
+const wideCase = matchMedia('(min-width:1200px)');
+const timed = d => !/T(00:00|18:30|06:30):00/.test(d);           // a few feeds give only the day
+const pubTime = d => timed(d) ? clock(d) : 'no time';
+const fmtWk = d => new Date(d).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Asia/Kolkata' });
+const STATUS_TXT = {
+  counted: ['Counted', 'The reading is settled (by the AI, or by the rules where the AI declined), so this case is counted on the map and in analytics.'],
+  uv: ['Being checked', 'Not yet read by the AI, or its two readings disagree. Not counted anywhere until settled.'],
+  orphan: ['Later development', 'A follow-up report that could not yet be tied to a case. Shown here, not counted.']
+};
+const statusOf = e => STATUS_TXT[e.uv ? 'uv' : e.orphan ? 'orphan' : 'counted'];
+
+// The case record: everything the engine knows about one case, with the incident, the reports and the status kept apart.
+function caseDetail(e) {
+  const [st, why] = statusOf(e);
+  const reps = [...e.reports].sort((x, y) => (x.d < y.d ? -1 : 1));      // oldest first: the record in time order
+  const time = e.h != null ? `${hourName(e.h)}<small>Hour stated in the report</small>`
+    : e.b ? `${BAND_NAME[e.b]}<small>Only the part of day is stated</small>` : 'Not stated';
+  const prec = e.p ? (e.p[3] === 'x' ? 'Named spot' : 'Neighbourhood or village') : e.a ? 'Area only; no place named' : 'None';
+  return `<p class="rec-type">${esc(label(e))}</p><h2 class="case-h">${esc(lead(e).t)}</h2>
+    <p class="case-st"><b>${st}.</b> ${why} These are press reports, not independently verified facts.</p>
+    <dl class="dl">
+      <dt>Incident day</dt><dd>${fmtDay(e.d)}<small>${e.stated ? 'Stated in the reports' : 'Not stated; the day of the first report is used'}</small></dd>
+      <dt>Time of day</dt><dd>${time}</dd>
+      <dt>Where</dt><dd>${e.a ? esc(AREA[e.a].name) : 'Not stated'}${e.p ? `<small>${esc(e.p[0])}</small>` : ''}</dd>
+      <dt>Place precision</dt><dd>${prec}</dd>
+      ${e.o ? `<dt>Outcome</dt><dd>${e.o === 'fatal' ? 'Fatal' : 'Someone injured'}</dd>` : ''}
+      ${e.q && CAT[e.q] ? `<dt>Type</dt><dd>Under check<small>The machine reading suggests ${esc(CAT[e.q].name.toLowerCase())}</small></dd>` : ''}
+      <dt>First published</dt><dd>${fmtDay(reps[0].d)}${timed(reps[0].d) ? ', ' + clock(reps[0].d) : ''}</dd>
+      <dt>Latest</dt><dd>${fmtDay(e.last)}${timed(e.last) ? ', ' + clock(e.last) : ''}</dd>
+    </dl>
+    <h3 class="tl-h">Reports in time order <span>${e.reports.length}</span></h3>
+    <ol class="tl">${reps.map(r => `<li><time datetime="${esc(r.d)}">${fmtDay(r.d)}<br>${pubTime(r.d)}</time><div>
+      <div class="src"><b>${esc(SRC[r.s] || r.s)}</b><span>${r.k === 'f' ? 'Later development' : 'Report'}</span></div>
+      ${link(r, esc(r.t))}${r.L && r.L.s ? `<p><span>Machine summary:</span> ${esc(r.L.s)}</p>` : ''}</div></li>`).join('')}</ol>`;
+}
+// With no case selected, the panel explains the register and counts what is listed.
+function newsPanel(rows) {
+  const e = newsSel && rows.find(x => keyOf(x) === newsSel);
+  if (e) { $('newsDetail').innerHTML = caseDetail(e); return; }
+  const n = k => fmtN(rows.filter(x => statusOf(x) === STATUS_TXT[k]).length);
+  $('newsDetail').innerHTML = `<h2 class="case-h">Case record</h2>
+    <p class="note">Select a case to see its reports in time order, with the incident day, publication times, sources and status kept apart.</p>
+    <h3 class="tl-h">Listed in this view and period</h3>
+    <dl class="dl"><dt>Cases</dt><dd>${fmtN(rows.length)}</dd><dt>Counted</dt><dd>${n('counted')}</dd><dt>Being checked</dt><dd>${n('uv')}</dd><dt>Later developments</dt><dd>${n('orphan')}</dd><dt>Reports</dt><dd>${fmtN(rows.reduce((s, x) => s + x.reports.length, 0))}</dd></dl>
+    <ul class="key">${Object.values(STATUS_TXT).map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join('')}
+      <li><b>Times</b>The time beside a case is when its latest report was published, in India time. The incident day is shown when it differs.</li></ul>`;
+}
+function newsRow(e) {
+  const r = lead(e), k = keyOf(e), sel = k === newsSel;
+  const others = e.reports.filter(x => x !== r).filter((x, i, a) => a.findIndex(y => y.s === x.s) === i && x.s !== r.s);
+  const follows = e.orphan ? 0 : e.reports.filter(x => x.k === 'f').length;
+  const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? `Incident ${fmtDay(e.d)}` : '';
+  const tag = e.uv || e.orphan ? `<span class="tag" title="${esc(statusOf(e)[1])}">${statusOf(e)[0]}</span>` : '';
+  const open = e.reports.length > 1 ? `${e.reports.length} reports${follows ? `, ${plural(follows, 'later development')}` : ''}` : 'Details';
+  return `<article class="rec pick${sel ? ' sel' : ''}" data-k="${esc(k)}">
+    <div class="rec-when" title="Latest report published ${esc(ago(e.last))}">${pubTime(e.last)}</div>
+    <div>
+      <div class="rec-type">${tag}<span>${esc(label(e))}</span></div>
+      ${link(r, esc(r.t)).replace('<a ', '<a class="rec-head" ')}
+      ${r.L && r.L.s && /[ऀ-ॿ]/.test(r.t) ? `<p class="rec-sum">${esc(r.L.s)}</p>` : ''}
+      <div class="rec-meta"><span class="place">${e.a ? esc(AREA[e.a].name) + (e.p ? ', ' + esc(e.p[0]) : '') : 'Area not stated'}</span>${happened ? `<span>${happened}</span>` : ''}<span>${esc(SRC[r.s] || r.s)}${others.length ? ', also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}</span>${e.q && CAT[e.q] ? `<span title="The machine reading disagrees with the rules">Type under check: reads as ${esc(CAT[e.q].name.toLowerCase())}</span>` : ''}<button type="button" class="rec-open" data-k="${esc(k)}" aria-expanded="${sel}">${open}</button></div>
+    </div>
+  </article>${sel && !wideCase.matches ? `<div class="rec-inline">${caseDetail(e)}</div>` : ''}`;
+}
 function drawNews() {
   const inP = EVENTS.filter(e => inPeriod(e) && inView(e));
-  const used = new Set(inP.map(e => e.c));
+  const used = new Set(inP.map(e => e.c)), cnt = tally(inP, e => e.c);
   if (newsCat && !used.has(newsCat)) newsCat = '';
-  $('newsFilter').innerHTML = `<button class="${newsCat ? '' : 'on'}" data-c="">All</button>` +
-    CATS.filter(c => used.has(c.id)).map(c => `<button class="${newsCat === c.id ? 'on' : ''}" data-c="${c.id}">${esc(c.name)}</button>`).join('');
+  $('newsFilter').innerHTML = `<button type="button" class="${newsCat ? '' : 'on'}" data-c="" aria-pressed="${!newsCat}"><span>All types</span><span>${fmtN(inP.length)}</span></button>` +
+    CATS.filter(c => used.has(c.id)).map(c => `<button type="button" class="${newsCat === c.id ? 'on' : ''}" data-c="${c.id}" aria-pressed="${newsCat === c.id}"><span>${esc(c.name)}</span><span>${fmtN(cnt[c.id])}</span></button>`).join('');
   const rows = inP.filter(e => !newsCat || e.c === newsCat);
+  if (newsSel && !rows.some(e => keyOf(e) === newsSel)) newsSel = null;
+  newsPanel(rows);
   if (!rows.length) { $('newsList').innerHTML = `<div class="empty">${EVENTS.length ? 'No incidents reported in this period.' : 'Nothing here yet.'}</div>`; return; }
-  const today = istDay(Date.now()), yest = istDay(Date.now() - 864e5);
-  let html = '', day = '';
+  const today = istDay(Date.now()), yest = istDay(Date.now() - 864e5), perDay = tally(rows, e => istDay(e.last));
+  let html = '<div class="reghead">Newest first. The time beside each case is when its latest report was published (India time).</div>', day = '';
   for (const e of rows.slice(0, newsN)) {
     const d = istDay(e.last);
-    if (d !== day) { day = d; html += `<div class="day label">${d === today ? 'Today' : d === yest ? 'Yesterday' : fmtDay(e.last)}</div>`; }
-    const r = lead(e);
-    const others = e.reports.filter(x => x !== r).filter((x, i, a) => a.findIndex(y => y.s === x.s) === i && x.s !== r.s);
-    const follows = e.orphan ? 0 : e.reports.filter(x => x.k === 'f').length;
-    const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? ` · happened ${fmtDay(e.d)}` : '';
-    html += `<article class="item">
-      <div class="top"><span class="cat${e.orphan || e.uv ? ' fu' : ''}"${e.uv ? ' title="Not yet read by the AI, or its two readings disagree. Not counted anywhere until settled."' : ''}>${e.uv ? 'Being checked · ' : e.orphan ? 'Later development · ' : ''}${esc(label(e))}</span><span class="when">${ago(e.last)}</span></div>
-      ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
-      ${r.L && r.L.s && /[ऀ-ॿ]/.test(r.t) ? `<p class="sum">${esc(r.L.s)}</p>` : ''}
-      <div class="by"><b>${e.a ? esc(AREA[e.a].name) + (e.p ? ' · ' + esc(e.p[0]) : '') : 'Area not stated'}</b>${happened} · ${esc(SRC[r.s] || r.s)}${others.length ? ' · also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}${e.reports.length > 1 ? ` · ${e.reports.length} reports${follows ? `, ${follows} later development${follows > 1 ? 's' : ''}` : ''}` : ''}${e.q && CAT[e.q] ? ` · <span class="chk" title="The machine reading disagrees with the rules">check type: reads as ${esc(CAT[e.q].name.toLowerCase())}</span>` : ''}</div>
-    </article>`;
+    if (d !== day) { day = d; html += `<div class="day"><span><b>${d === today ? 'Today' : d === yest ? 'Yesterday' : fmtWk(e.last)}</b>${d === today || d === yest ? ' ' + fmtDay(e.last) : ''}</span><span>${plural(perDay[d], 'case')}</span></div>`; }
+    html += newsRow(e);
   }
-  if (rows.length > newsN) html += '<button class="more" id="more">Show earlier</button>';
+  if (rows.length > newsN) html += `<button type="button" class="more" id="more">Show earlier (${fmtN(rows.length - newsN)} more)</button>`;
   $('newsList').innerHTML = html;
 }
 $('newsFilter').onclick = e => { const b = e.target.closest('button'); if (b) { newsCat = b.dataset.c; newsN = 60; drawNews(); } };
-$('newsList').onclick = e => { if (e.target.id === 'more') { newsN += 60; drawNews(); } };
+$('newsList').onclick = e => {
+  if (e.target.id === 'more') { newsN += 60; drawNews(); return; }
+  if (e.target.closest('a') || e.target.closest('.rec-inline')) return;   // links open the publisher
+  const row = e.target.closest('[data-k]'); if (!row) return;
+  newsSel = newsSel === row.dataset.k ? null : row.dataset.k;
+  drawNews();
+  if (wideCase.matches) $('newsDetail').scrollTop = 0;
+  else if (newsSel) document.querySelector(`.rec-open[data-k="${CSS.escape(newsSel)}"]`)?.focus({ preventScroll: true });
+};
+wideCase.addEventListener('change', () => drawNews());
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && newsSel && !$('news').classList.contains('hide')) { newsSel = null; drawNews(); } });
 
 /* ---------- Map ---------- */
 let MAP, LAYER, BASE, picked = null;
@@ -445,7 +655,7 @@ function drawMap() {
   const per = {}, rough = {};
   for (const e of placed) { (per[e.a] = per[e.a] || []).push(e); if (!e.p) (rough[e.a] = rough[e.a] || []).push(e); }
   if (picked && !per[picked]) picked = null;
-  const pick = id => { picked = id; drawMap(); if (innerWidth < 960) $('areaBox').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  const pick = id => { picked = id; drawMap(); if (innerWidth < 1024) $('areaBox').scrollIntoView({ behavior: motion(), block: 'start' }); };
   for (const [id, list] of Object.entries(rough)) {
     const a = AREA[id], on = id === picked;
     L.circleMarker([a.lat, a.lon], { radius: 8 + Math.sqrt(list.length) * 3.2, color: copper, weight: 1, dashArray: '3 4', opacity: on ? .9 : .55, fillColor: copper, fillOpacity: on ? .22 : .07 })
@@ -456,34 +666,39 @@ function drawMap() {
   for (const e of spots) {
     const exact = e.p[3] === 'x', r = lead(e);
     L.circleMarker([e.p[1], e.p[2]], { radius: exact ? 5 : 6, color: copper, weight: exact ? 1 : 1.6, fillColor: copper, fillOpacity: exact ? .85 : 0 })
-      .bindPopup(`<div class="cat">${esc(label(e))}</div><div style="margin:3px 0 4px">${link(r, esc(r.t))}</div><div class="by">${esc(e.p[0])} · ${fmtDay(e.d)}</div>`)
+      .bindPopup(`<div class="rec-type">${esc(label(e))}</div><div style="margin:4px 0">${link(r, esc(r.t))}</div><div class="label">${meta(esc(e.p[0]), (exact ? 'Named spot' : 'Neighbourhood') , 'Incident ' + fmtDay(e.d), plural(e.reports.length, 'report'))}</div>`)
       .on('click', () => { picked = e.a; drawArea(); })
       .addTo(LAYER);
   }
   const none = ev.length - placed.length, nx = spots.filter(e => e.p[3] === 'x').length;
-  $('count').innerHTML = `<b>${ev.length}</b> incidents · <b>${nx}</b> at a named spot (dots), <b>${spots.length - nx}</b> at a neighbourhood or village (rings), <b>${placed.length - spots.length}</b> known only to the area (faint discs, counted at the area centre)${none ? ` · ${none} with no area stated` : ''}.`;
+  // The legend is the map's key and its count at once: each precision with its own mark.
+  const mk = s => `<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">${s}</svg>`;
+  $('count').innerHTML = `<div class="tot"><b>${fmtN(ev.length)}</b>counted incidents in this view</div><ul>
+    <li>${mk(`<circle cx="10" cy="10" r="5" fill="${copper}" fill-opacity=".85" stroke="${copper}"/>`)}<span>At a named spot</span><b>${fmtN(nx)}</b></li>
+    <li>${mk(`<circle cx="10" cy="10" r="6" fill="none" stroke="${copper}" stroke-width="1.6"/>`)}<span>At a neighbourhood or village</span><b>${fmtN(spots.length - nx)}</b></li>
+    <li>${mk(`<circle cx="10" cy="10" r="8" fill="${copper}" fill-opacity=".08" stroke="${copper}" stroke-dasharray="3 3" stroke-opacity=".6"/>`)}<span>Area only, counted at its centre (not a location)</span><b>${fmtN(placed.length - spots.length)}</b></li>
+  </ul>${none ? `<p class="note">${plural(none, 'incident')} with no area stated, not on the map.</p>` : ''}`;
   drawArea(); drawPatterns(ev);
 }
-const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ' · ' + e.o : '');
+const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ` (${e.o})` : '');
 
 function drawArea() {
-  if (!picked) { $('areaBox').innerHTML = `<section class="sec"><h3 class="label">Area</h3><p class="note" style="margin-top:0">Select a circle on the map to see that area.</p></section>`; return; }
+  if (!picked) { $('areaBox').innerHTML = `<h3 class="sec-h">Area</h3><p class="note" style="margin-top:0">Select a circle on the map to see that area.</p>`; return; }
   const list = current().filter(e => e.a === picked), timed = list.filter(e => e.b);
-  $('areaBox').innerHTML = `<section class="sec"><h3 class="label">Area</h3>
+  $('areaBox').innerHTML = `<h3 class="sec-h">Area</h3>
     <h2>${esc(AREA[picked].name)}</h2>
     <div class="two">
-      <div><div class="label">By type · ${list.length}</div>${rowsOf(top(tally(list, e => e.c), 12), k => CAT[k].name)}</div>
+      <div><div class="label">By type, ${plural(list.length, 'incident')}</div>${rowsOf(top(tally(list, e => e.c), 12), k => CAT[k].name)}</div>
       <div><div class="label">By time of day</div>${timed.length ? rowsOf(BANDS.map(b => [b, timed.filter(e => e.b === b).length]), k => BAND_NAME[k]) : ''}
         <p class="note">${timed.length ? `${list.length - timed.length} of ${list.length} did not state a time.` : 'No report here stated a time of day.'}</p></div>
     </div>
-    <div style="margin-top:18px">${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${fmtDay(e.d)} · ${esc(label(e))}${e.p ? " · " + esc(e.p[0]) : ""}<br>${link(lead(e), esc(lead(e).t))}${e.reports.length > 1 ? ` <span style="color:var(--ink-3)">· ${e.reports.length} reports</span>` : ''}</div>`).join('')}</div>
-  </section>`;
+    <div style="margin-top:16px"><div class="label" style="margin-bottom:4px">Latest here</div>${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${meta(fmtDay(e.d), esc(label(e)), e.p ? esc(e.p[0]) : '', e.reports.length > 1 ? plural(e.reports.length, 'report') : '')}${link(lead(e), esc(lead(e).t))}</div>`).join('')}</div>`;
 }
 
 /* ---------- Patterns ---------- */
 function drawPatterns(ev) {
   const placed = ev.filter(e => e.a), out = [];
-  const sec = (title, body) => `<section class="sec"><h3 class="label">${title}</h3>${body}</section>`;
+  const sec = (title, body) => `<section class="sec"><h3 class="sec-h">${title}</h3>${body}</section>`;
   if (placed.length < 25) {
     $('patterns').innerHTML = sec('Patterns', `<p class="say">Too early to say. ${placed.length} placed incidents in this view; patterns are shown from about 25, so that areas can be compared fairly.</p><p class="note">The history grows every hour.</p>`);
     return;
@@ -511,7 +726,7 @@ function drawPatterns(ev) {
     : '<p class="note" style="margin-top:0">No area yet has enough incidents (8, with 4 of one type) to say what is unusual about it.</p>'));
 
   const night = Object.entries(byArea).map(([a, list]) => { const t = list.filter(e => e.b); return { a, t: t.length, d: t.filter(isDark).length }; }).filter(x => x.t >= 5).sort((p, q) => q.d / q.t - p.d / p.t);
-  out.push(sec('After dark · 7pm–6am', (night.length ? night.slice(0, 8).map(x =>
+  out.push(sec('After dark, 7 pm to 6 am', (night.length ? night.slice(0, 8).map(x =>
     `<p class="say"><b>${esc(AREA[x.a].name)}</b>: <em>${Math.round(x.d / x.t * 100)}%</em> after dark (${x.d} of ${x.t} with a stated time).</p>`).join('')
     : '<p class="note" style="margin-top:0">No area yet has 5 incidents with a stated time.</p>')));
 
@@ -525,7 +740,7 @@ function drawPatterns(ev) {
 
 function drawSources() {
   $('sources').innerHTML = STATUS
-    ? STATUS.sources.map(s => `<div class="src ${s.ok ? '' : 'off'}"><span>${esc(s.name)}</span><span>${s.ok ? `${s.found} incident items in feed` : 'not reachable'}</span></div>`).join('') + `<p class="note">Last checked ${new Date(STATUS.updated).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}.</p>`
+    ? STATUS.sources.map(s => `<div class="src-row ${s.ok ? '' : 'off'}"><span>${esc(s.name)}</span><span>${s.ok ? `${s.found} incident items in feed` : 'not reachable'}</span></div>`).join('') + `<p class="note">Last checked ${new Date(STATUS.updated).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}.</p>`
     : '<p class="note" style="margin-top:0">No collector run recorded yet.</p>';
 }
 
@@ -547,14 +762,18 @@ function drawSits() {
   const item = g => {
     const r = g.reports[0], papers = [...new Set(g.reports.map(x => x.n))];
     const when = g.w > today ? (g.w === istDay(Date.now() + 864e5) ? 'Tomorrow' : fmtDay(g.w + 'T06:30:00Z')) : g.w === today ? 'Today' : fmtDay(g.w + 'T06:30:00Z');
-    return `<article class="item">
-      <div class="top"><span class="cat">${esc(SITK[g.k] || g.k)}</span><span class="when">${when}</span></div>
-      ${link(r, esc(r.t)).replace('<a ', '<a class="head" ')}
-      <div class="by"><b>${g.a ? esc(AREA[g.a].name) + (g.p ? ' · ' + esc(g.p[0]) : '') : 'Pune'}</b> · ${papers.slice(0, 3).map(esc).join(', ')}${papers.length > 3 ? ' and ' + (papers.length - 3) + ' more' : ''}${g.reports.length > 1 ? ` · ${g.reports.length} reports` : ''}</div>
+    return `<article class="rec">
+      <div class="rec-when">${when}</div>
+      <div>
+        <div class="rec-type"><span>${esc(SITK[g.k] || g.k)}</span>${g.st === 'on' ? '<span class="tag" title="A report says it continues">Ongoing</span>' : ''}</div>
+        ${link(r, esc(r.t)).replace('<a ', '<a class="rec-head" ')}
+        <div class="rec-meta"><span class="place">${g.a ? esc(AREA[g.a].name) + (g.p ? ', ' + esc(g.p[0]) : '') : 'Pune'}</span><span>${papers.slice(0, 3).map(esc).join(', ')}${papers.length > 3 ? ' and ' + (papers.length - 3) + ' more' : ''}</span>${g.reports.length > 1 ? `<span>${plural(g.reports.length, 'report')}</span>` : ''}<span>First reported ${fmtDay(g.reports.reduce((m, x) => (x.d < m ? x.d : m), g.last))}</span></div>
+      </div>
     </article>`;
   };
-  const block = (title, arr, empty) => `<div class="day label">${title}</div>` + (arr.length ? arr.map(item).join('') : `<p class="note" style="margin:10px 0 0">${empty}</p>`);
-  $('sitIntro').textContent = `${planned.length} planned · ${now.length} today or ongoing · ${recent.length} recent. Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News.`;
+  const block = (title, arr, empty) => `<div class="day"><span><b>${title}</b></span><span>${arr.length}</span></div>` + (arr.length ? arr.map(item).join('') : `<p class="note" style="margin:0;padding:12px 20px 16px">${empty}</p>`);
+  $('sitIntro').innerHTML = `<h2 class="rail-h">In this view</h2><dl><dt>Planned</dt><dd>${planned.length}</dd><dt>Today or ongoing</dt><dd>${now.length}</dd><dt>Recent</dt><dd>${recent.length}</dd></dl>
+    <p class="railnote">Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News. The day beside each item is the day it happens or happened.</p>`;
   $('sitList').innerHTML = block('Planned', planned, 'Nothing announced for the coming days.') + block('Today & ongoing', now, 'Nothing reported for today.') + block('Recent', recent, 'Nothing in this period.');
 }
 // How fresh the Reports and Situations tabs are, shown at the top right under the period.
@@ -577,9 +796,9 @@ function drawScan() {
     const h = 3600e3, off = 17 * 60e3, last = new Date(lastIso).getTime();
     next = Math.floor((last - off) / h) * h + off + h; // the next :17 after the run that produced this
   }
-  el.innerHTML = `Last scan <b>${t(new Date(lastIso).getTime())}</b> · ${ago(lastIso)}<br>` +
+  el.innerHTML = `Last scan <b>${t(new Date(lastIso).getTime())}</b>, ${ago(lastIso)}<br>` +
     (Date.now() >= next ? `<span class="late">Next scan in progress</span>`
-          : `Next scan at <b>${t(next)}</b> · every ${every === 60 ? 'hour' : every + ' min'}`);
+          : `Next scan at <b>${t(next)}</b>, every ${every === 60 ? 'hour' : every + ' min'}`);
 }
 // Every minute: re-read the two small status files; when a new scan has landed, reload that tab's data and redraw.
 async function refresh() {
@@ -665,7 +884,7 @@ function drawSug() {
   sugOn = Math.min(sugOn, sugItems.length - 1);
   let i = 0;
   const btn = (main, side) => `<button type="button" role="option" data-i="${i}" class="${i++ === sugOn ? 'on' : ''}"><span>${main}</span><span>${side}</span></button>`;
-  box.innerHTML = (gs.length ? `<div class="sh label">Groups</div>` + gs.slice(0, q ? 8 : 40).map(g => btn(esc(g.name), `${esc(OC_TYPE[g.type] || g.type)} · ${g.n} reports`)).join('') : '') +
+  box.innerHTML = (gs.length ? `<div class="sh label">Groups</div>` + gs.slice(0, q ? 8 : 40).map(g => btn(esc(g.name), `${esc(OC_TYPE[g.type] || g.type)}, ${g.n} reports`)).join('') : '') +
     (ks.length ? `<div class="sh label">Words in reports</div>` + ks.map(({ k, n }) => btn(esc(k.name), `${n} report${n > 1 ? 's' : ''}`)).join('') : '');
   box.classList.remove('hide'); $('ocQ').setAttribute('aria-expanded', 'true');
 }
@@ -699,39 +918,43 @@ function drawOc() {
   const card = x => {
     const acts = Object.fromEntries(x.actions || []), mine = (x.reports || []).filter(ocInView);
     const where = (x.areas || []).slice(0, 3).map(([a]) => AREA[a] ? esc(AREA[a].name) : esc(a)).join(', ');
-    return `<article class="item ocard" data-g="${x.id}">
-      <div class="top"><span class="cat">${esc(OC_TYPE[x.type] || x.type)}</span><span class="when">${x.active ? 'Active' : 'Quiet'} · last ${ocDay(x.last)}</span></div>
-      <a class="head" href="#oc" data-g="${x.id}">${esc(x.name)}</a>
-      <div class="by">${x.leader ? `<b>${esc(x.leader)}</b> <span class="acc">accused</span> · ` : ''}${x.n} reports${x.incidents ? ` · ${x.incidents} incidents in the engine` : ''}${acts.mcoca ? ` · MCOCA in ${acts.mcoca}` : ''}${where ? ' · ' + where : ''}${view !== 'all' ? ` · ${mine.length} in this view` : ''}${key ? ` · <b>${(x.reports || []).filter(test).length}</b> mention ${esc(key.name.toLowerCase())}` : ''}</div>
+    return `<article class="rec pick ocard" data-g="${x.id}">
+      <div class="rec-when" title="Latest report about the group">${ocDay(x.last)}</div>
+      <div>
+        <div class="rec-type"><span>${esc(OC_TYPE[x.type] || x.type)}</span><span class="tag" title="${x.active ? 'Reported in the last four months' : 'No report for over four months'}">${x.active ? 'Active' : 'Quiet'}</span></div>
+        <a class="rec-head" href="#oc" data-g="${x.id}">${esc(x.name)}</a>
+        <div class="rec-meta">${x.leader ? `<span><span class="place">${esc(x.leader)}</span> <span class="acc">accused</span></span>` : ''}<span>${plural(x.n, 'report')}</span>${x.incidents ? `<span>${plural(x.incidents, 'incident')} in the engine</span>` : ''}${acts.mcoca ? `<span>MCOCA in ${acts.mcoca}</span>` : ''}${where ? `<span>${where}</span>` : ''}${view !== 'all' ? `<span>${mine.length} in this view</span>` : ''}${key ? `<span><b>${(x.reports || []).filter(test).length}</b> mention ${esc(key.name.toLowerCase())}</span>` : ''}</div>
+      </div>
     </article>`;
   };
-  $('ocBody').innerHTML = (list.length ? list.map(card).join('') : `<div class="empty">No group matches “${esc(q)}”.</div>`) +
-    (hits.length ? `<div class="day label">Reports mentioning “${esc(key ? key.name : q)}” · ${hits.length}</div>` +
-      hits.slice(0, 30).map(r => `<div class="mini">${ocDay(r.d)} · ${esc(r.g.name)}<br>${link(r, esc(r.t))}</div>`).join('') : '');
+  $('ocBody').innerHTML = `<div class="reghead">${list.length ? `${plural(list.length, 'group')}${q ? ' matching the search' : ''}, busiest first. The date beside each is its latest report.` : ''}</div>` +
+    (list.length ? list.map(card).join('') : `<div class="empty">No group matches “${esc(q)}”.</div>`) +
+    (hits.length ? `<div class="day"><span><b>Reports mentioning “${esc(key ? key.name : q)}”</b></span><span>${hits.length}</span></div><div style="padding:0 20px 8px">` +
+      hits.slice(0, 30).map(r => `<div class="mini">${meta(ocDay(r.d), esc(r.g.name))}${link(r, esc(r.t))}</div>`).join('') + '</div>' : '');
 }
 function drawOcProfile(g) {
   const reps = (g.reports || []).filter(ocInView);
   const months = g.months || [], max = Math.max(1, ...months.map(m => m[1]));
-  const sec = (title, body) => body ? `<section class="sec"><h3 class="label">${title}</h3>${body}</section>` : '';
+  const sec = (title, body) => body ? `<section class="sec"><h3 class="sec-h">${title}</h3>${body}</section>` : '';
   const tags = r => [...(r.act || []).map(k => OC_ACT[k]), ...(r.wpn || []).map(k => OC_WPN[k]), r.j ? 'minor involved' : ''].filter(Boolean);
   const linked = (g.linked || []).map(([id, n]) => {
     const o = OC.groups.find(x => x.id === id);
-    return `<div class="mini"><a href="#oc" data-g="${id}">${esc(o ? o.name : id)}</a> · named together in ${n} report${n > 1 ? 's' : ''}</div>`;
+    return `<div class="row"><span><a class="lnk" href="#oc" data-g="${id}">${esc(o ? o.name : id)}</a></span><span class="n" title="Named together in ${plural(n, 'report')}">${n}</span></div>`;
   }).join('');
   const signals = [g.juvenile ? `${g.juvenile} report${g.juvenile > 1 ? 's' : ''} involve minors (never named here).` : '',
     g.rivalry ? `${g.rivalry} report${g.rivalry > 1 ? 's' : ''} speak of rivalry or revenge.` : ''].filter(Boolean).join(' ');
-  $('ocBody').innerHTML = `<p style="margin:18px 0 0"><a href="#oc" id="ocBack" class="label" style="text-decoration:none">← All groups</a></p>
+  $('ocBody').innerHTML = `<div class="ocprof"><button type="button" id="ocBack" class="back">Back to all groups</button>
     <h2 class="ocname">${esc(g.name)}</h2>
-    <div class="by">${esc(OC_TYPE[g.type] || g.type)}${g.leader ? ` · led by <b>${esc(g.leader)}</b> <span class="acc">accused, not convicted unless a report says so</span>` : ''}</div>
+    <div class="rec-meta" style="margin-top:0"><span>${esc(OC_TYPE[g.type] || g.type)}</span>${g.leader ? `<span>Led by <span class="place">${esc(g.leader)}</span> <span class="acc">accused, not convicted unless a report says so</span></span>` : ''}</div>
     ${g.about ? `<p class="say" style="margin-top:12px">${esc(g.about)}</p>` : ''}
     <p class="say" style="margin-top:12px"><b>${g.n}</b> reports from ${ocDay(g.first)} to ${ocDay(g.last)}${g.incidents ? `, <b>${g.incidents}</b> of them incidents in the engine` : ''}. ${g.active ? '<em>Active</em> in the last four months.' : 'Quiet for over four months.'}</p>
     ${sec('Police action', ocRows(g.actions || [], k => OC_ACT[k] || k, g.n))}
     ${sec('Where', ocRows((g.areas || []).slice(0, 8), a => AREA[a] ? AREA[a].name : a, (g.areas || [[0, 1]])[0][1]))}
     ${sec('Weapons named', ocRows(g.weapons || [], k => OC_WPN[k] || k, g.n))}
-    ${sec('Linked groups', linked)}
+    ${sec('Linked groups <span>named together in reports</span>', linked)}
     ${sec('Signals', signals ? `<p class="note" style="margin-top:0">${signals}</p>` : '')}
-    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}</p>` : '')}
-    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} · ${reps.length}`, reps.map(r => `<div class="mini">${ocDay(r.d)}${r.a && AREA[r.a] ? ' · ' + esc(AREA[r.a].name) : ''}${tags(r).length ? ' · ' + tags(r).join(', ') : ''}<br>${link(r, esc(r.t))} <span style="color:var(--ink-3)">· ${esc(SRC[r.n] || r.n)}</span></div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}`;
+    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}; peak ${max} in a month</p>` : '')}
+    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
 }
 $('ocBody').onclick = e => {
   if (e.target.closest('#ocBack')) { e.preventDefault(); ocOpen = null; drawOc(); return; }
@@ -758,7 +981,7 @@ function drawOcGraph(q) {
   let s = edges.map(([a, b, n]) => `<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" class="gedge${sel && (a === sel || b === sel) ? ' hot' : ''}${lit(a) && lit(b) ? '' : ' dim'}" data-a="${a}" data-b="${b}" stroke-width="${1 + 7 * n / maxE}"${tip(`${gs.find(g => g.id === a).name} and ${gs.find(g => g.id === b).name}: named together in ${n} report${n > 1 ? 's' : ''}`)}/>`).join('');
   gs.forEach(g => {
     const [x, y] = pos[g.id], r = 10 + 26 * Math.sqrt(g.n / maxN), out = x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle', dx = out === 'start' ? r + 8 : out === 'end' ? -r - 8 : 0, dy = out === 'middle' ? (y < cy ? -r - 10 : r + 18) : 4;
-    s += `<g class="gnode${lit(g.id) ? '' : ' dim'}${g.id === sel ? ' sel' : ''}" data-g="${g.id}"${tip(`${g.name} · ${g.n} reports${g.active ? ' · active' : ' · quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="gfill" fill-opacity="${g.active ? .8 : .3}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
+    s += `<g class="gnode${lit(g.id) ? '' : ' dim'}${g.id === sel ? ' sel' : ''}" data-g="${g.id}"${tip(`${g.name}, ${g.n} reports${g.active ? ', active' : ', quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="gfill" fill-opacity="${g.active ? .8 : .3}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
   });
   $('ocGraph').innerHTML = `<div class="gscroll"><svg viewBox="-60 0 ${W + 120} ${H}" class="gsvg">${s}</svg></div><p class="note">Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Circle size: reports about the group; solid is active in the last four months, faint is quiet. Hover a group to light up its links; click it to open its profile.</p>`;
   $('ocGraph').querySelectorAll('.gnode').forEach(el => {
@@ -775,36 +998,40 @@ let INS = null;
 const TREND = { rising: 'Rising', steady: 'Steady', falling: 'Falling' };
 function anEvidence(list) {
   if (!list || !list.length) return '';
-  return `<div class="ev">${list.slice(0, 3).map(r => `<div class="mini">${fmtDay(r.d + 'T06:30:00Z')}${r.a && AREA[r.a] ? ' · ' + esc(AREA[r.a].name) : ''}<br>${link(r, esc(r.t))}</div>`).join('')}${list.length > 3 ? `<details><summary class="label">${list.length - 3} more</summary>${list.slice(3).map(r => `<div class="mini">${fmtDay(r.d + 'T06:30:00Z')}<br>${link(r, esc(r.t))}</div>`).join('')}</details>` : ''}</div>`;
+  const row = r => `<div class="mini">${meta(fmtDay(r.d + 'T06:30:00Z'), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '')}${link(r, esc(r.t))}</div>`;
+  return `<div class="ev">${list.slice(0, 3).map(row).join('')}${list.length > 3 ? `<details><summary>Show ${list.length - 3} more report${list.length - 3 > 1 ? 's' : ''}</summary>${list.slice(3).map(row).join('')}</details>` : ''}</div>`;
 }
 function anCard(x) {
-  return `<article class="item">
-    ${x.trend ? `<div class="top"><span class="cat">${TREND[x.trend]}</span></div>` : ''}
-    <p class="say" style="margin:4px 0 6px">${esc(x.title)}</p>
-    ${(x.facts || []).length ? `<div class="by">${x.facts.map(esc).join(' · ')}</div>` : ''}
+  return `<article class="finding">
+    ${x.trend ? `<span class="trend${x.trend === 'rising' ? ' up' : ''}">${TREND[x.trend]}</span>` : ''}
+    <p class="say">${esc(x.title)}</p>
+    ${(x.facts || []).length ? `<div class="rec-meta" style="margin-top:0">${x.facts.map(f => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
     ${x.test ? `<div class="how">How we know: ${esc(x.test)}</div>` : ''}
     ${anEvidence(x.evidence)}
   </article>`;
 }
 function drawAn() {
-  $('anMode').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.anm === anMode));
-  $('anBody').className = anMode === 'graphs' ? 'gwide' : 'wrap';
-  if (anMode === 'graphs') { drawGraphs(); return; }
-  if (!INS) { $('anBody').innerHTML = '<div class="empty">The first analysis has not run yet. It runs with every hourly collection.</div>'; return; }
+  $('anMode').querySelectorAll('button').forEach(b => { b.classList.toggle('on', b.dataset.anm === anMode); b.setAttribute('aria-pressed', b.dataset.anm === anMode); });
+  if (anMode === 'graphs') { $('anSub').textContent = 'Drawn from the counted incidents in this view and period. Hover for numbers; click to list incidents.'; $('anBody').className = 'sheet angraphs'; drawGraphs(); return; }
+  $('anBody').className = 'anfind';
+  if (!INS) { $('anSub').textContent = ''; $('anBody').innerHTML = '<div class="sheet empty" style="grid-column:1/-1">The first analysis has not run yet. It runs with every hourly collection.</div>'; return; }
   const v = INS.views[view] || INS.views.all, cov = v.coverage;
-  const sec = (title, items, empty) => `<section class="sec"><h3 class="label">${title}</h3>${items.length ? items.map(anCard).join('') : `<p class="note" style="margin-top:0">${empty}</p>`}</section>`;
   const watch = [...v.watch,
     ...INS.gang.map(g => ({ title: g.title, evidence: g.evidence })),
     ...INS.planned.filter(p => view === 'all' || !p.a || areaInView(p.a)).map(p => ({ title: p.title + ' (' + fmtDay(p.d + 'T06:30:00Z') + ')', evidence: [{ t: 'Source report', u: p.u, d: p.d }] }))];
-  $('anBody').innerHTML =
-    `<p class="note" style="margin:16px 0 0">Last ${INS.window} days, ${cov.incidents} incidents in this view. Updated ${ago(INS.updated)}.</p>` +
-    sec('Problems', v.problems, 'No problem in this view yet has enough incidents (four of one kind in one area in 90 days).') +
-    sec('Watch', watch, 'No surge, gang violence or planned situation right now.') +
-    sec('Possible series', v.series, 'No chain of three or more alike incidents close in place and time.') +
-    sec('When', v.timing, 'No kind of incident yet differs from an even spread across the day or week (it needs about 30 incidents with a stated time).') +
-    sec('Repeat places', v.places, 'No named spot has had more than one incident in 90 days.') +
-    `<section class="sec"><h3 class="label">What this data can say</h3><p class="note" style="margin-top:0">${cov.spot} of ${cov.incidents} incidents are placed at a named spot, ${cov.timed} have a stated hour. ${cov.top_share}% of reports in this view come from one source (${esc(SRC[cov.top_source] || cov.top_source)}). ${esc(cov.note)}</p></section>` +
-    drawQuality();
+  const S = [
+    ['an-problems', 'Problems', v.problems, 'No problem in this view yet has enough incidents (four of one kind in one area in 90 days).'],
+    ['an-watch', 'Watch', watch, 'No surge, gang violence or planned situation right now.'],
+    ['an-series', 'Possible series', v.series, 'No chain of three or more alike incidents close in place and time.'],
+    ['an-when', 'When', v.timing, 'No kind of incident yet differs from an even spread across the day or week (it needs about 30 incidents with a stated time).'],
+    ['an-places', 'Repeat places', v.places, 'No named spot has had more than one incident in 90 days.']];
+  $('anSub').textContent = `Last ${INS.window} days, ${plural(cov.incidents, 'counted incident')} in this view. Updated ${ago(INS.updated)}.`;
+  const sec = ([id, title, items, empty]) => `<section class="sec" id="${id}"><h3 class="sec-h">${title} <span>${items.length}</span></h3>${items.length ? items.map(anCard).join('') : `<p class="note" style="margin-top:0">${empty}</p>`}</section>`;
+  $('anBody').innerHTML = `<aside class="rail" aria-label="Sections"><h2 class="rail-h">Sections</h2><nav class="anidx">${S.map(([id, t, it]) => `<a href="#${id}"><span>${t}</span><span>${it.length}</span></a>`).join('')}
+      <a href="#an-cover"><span>What this data can say</span><span></span></a>${QUAL ? `<a href="#an-checks"><span>Data checks</span><span>${QUAL.passed} of ${(QUAL.tests || []).length}</span></a>` : ''}</nav></aside>
+    <div class="sheet anmain">${S.map(sec).join('')}
+      <section class="sec" id="an-cover"><h3 class="sec-h">What this data can say</h3><p class="note" style="margin-top:0">${cov.spot} of ${cov.incidents} incidents are placed at a named spot, ${cov.timed} have a stated hour. ${cov.top_share}% of reports in this view come from one source (${esc(SRC[cov.top_source] || cov.top_source)}). ${esc(cov.note)}</p></section>
+      ${drawQuality()}</div>`;
 }
 // Data checks (quality.json, every hour): the permanent error tests, and detectors that look for the same kinds of
 // error everywhere. Shown in full, failures first, so the page never claims more accuracy than it has.
@@ -812,22 +1039,22 @@ function drawQuality() {
   if (!QUAL) return '';
   const D = QUAL.detectors || {}, tests = (QUAL.tests || []).slice().sort((a, b) => a.ok - b.ok);
   const det = [
-    ['unverified', 'reports being checked by the AI (not counted until settled)'],
-    ['ruled_out_by_ai', 'reports the AI ruled out as not an incident in Pune'],
-    ['waiting_for_judge', 'close pairs of reports waiting for the AI judge (same incident or not)'],
-    ['judge_checked_by_expert', 'judge verdicts re-checked by the stronger expert model'],
-    ['judge_overturned_by_expert', 'of those, wrongly merged and split apart again'],
-    ['split_cases', 'cases that name the same victim as another case'],
-    ['date_spread', 'cases whose reports disagree on the day by more than three days'],
-    ['non_incident_wording', 'counted cases whose headline reads like policy, buildings or features'],
-    ['area_disagreement', 'reports the AI places in another part of the district than their case'],
-    ['silent_days', 'days with far fewer incidents than the days around them'],
+    ['unverified', 'Reports being checked by the AI (not counted until settled)'],
+    ['ruled_out_by_ai', 'Reports the AI ruled out as not an incident in Pune'],
+    ['waiting_for_judge', 'Close pairs of reports waiting for the AI judge (same incident or not)'],
+    ['judge_checked_by_expert', 'Judge verdicts re-checked by the stronger expert model'],
+    ['judge_overturned_by_expert', 'Of those, wrongly merged and split apart again'],
+    ['split_cases', 'Cases that name the same victim as another case'],
+    ['date_spread', 'Cases whose reports disagree on the day by more than three days'],
+    ['non_incident_wording', 'Counted cases whose headline reads like policy, buildings or features'],
+    ['area_disagreement', 'Reports the AI places in another part of the district than their case'],
+    ['silent_days', 'Days with far fewer incidents than the days around them'],
   ].filter(([k]) => D[k] != null);
-  return `<section class="sec"><h3 class="label">Data checks · updated ${ago(QUAL.updated)}</h3>
-    <p class="say" style="margin-top:0"><b>${QUAL.passed}</b> of ${tests.length} permanent error tests pass.</p>
-    ${tests.map(t => `<div class="mini">${t.ok ? 'Pass' : '<span class="chk">Fail</span>'} · ${esc(t.name)} <span style="color:var(--ink-3)">· ${esc(t.detail)}</span></div>`).join('')}
-    <h3 class="label" style="margin-top:18px">Detectors</h3>
-    ${det.map(([k, s]) => `<div class="row"><span>${esc(s)}</span><span class="n">${D[k]}</span></div>`).join('')}
+  return `<section class="sec" id="an-checks"><h3 class="sec-h">Data checks <span>updated ${ago(QUAL.updated)}</span></h3>
+    <p class="say" style="margin-top:0"><span class="big">${QUAL.passed}</span>of ${tests.length} permanent error tests pass.</p>
+    ${tests.map(t => `<div class="qt"><span class="${t.ok ? 'ok' : 'bad'}">${t.ok ? 'Pass' : 'Fail'}</span><span>${esc(t.name)}<small>${esc(t.detail)}</small></span></div>`).join('')}
+    <h3 class="sec-h" style="margin-top:24px">Detectors</h3>
+    ${det.map(([k, s]) => `<div class="row"><span>${esc(s)}</span><span class="n">${fmtN(D[k])}</span></div>`).join('')}
     <p class="note">Every error found by hand becomes a permanent test. The detectors look for the same kinds of error across all reports, so mistakes nobody has noticed yet are found too.</p></section>`;
 }
 
@@ -859,9 +1086,9 @@ function drawGraphs() {
   const typed = !['matrix', 'harm'].includes(gSel);
   const types = CATS.filter(c => INCIDENTS.some(e => e.c === c.id && inView(e)));
   $('anBody').innerHTML = `
-    <div class="gbar">${GRAPHS.map(([k, n]) => `<button class="${k === gSel ? 'on' : ''}" data-gs="${k}">${n}</button>`).join('')}</div>
-    <div class="gctl">${typed ? `<label><span class="label">Type</span><select id="gType"><option value="">All types</option>${types.map(c => `<option value="${c.id}"${c.id === gType ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></label>` : ''}
-      ${gSel === 'rhythm' ? `<label class="tog"><input type="checkbox" id="gSpread"${gSpread ? ' checked' : ''}> Include reports that give only a part of day, spread across its hours</label>` : ''}</div>
+    <div class="seg" role="group" aria-label="Graph">${GRAPHS.map(([k, n]) => `<button type="button" class="${k === gSel ? 'on' : ''}" data-gs="${k}" aria-pressed="${k === gSel}">${n}</button>`).join('')}</div>
+    ${typed ? `<div class="gctl"><label class="field"><span class="label">Type</span><select id="gType"><option value="">All types</option>${types.map(c => `<option value="${c.id}"${c.id === gType ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></label>
+      ${gSel === 'rhythm' ? `<label class="tog"><input type="checkbox" id="gSpread"${gSpread ? ' checked' : ''}> Include reports that give only a part of day, spread across its hours</label>` : ''}</div>` : ''}
     <p class="note gabout">${G_ABOUT[gSel]}</p>
     <div class="gbox" id="gBox"></div>
     <div id="gList"></div>`;
@@ -872,12 +1099,12 @@ function drawGraphs() {
 function gListDraw() {
   if (!gPick) { $('gList').innerHTML = ''; return; }
   const list = gPick.list.slice().sort((x, y) => (x.d < y.d ? 1 : -1));
-  $('gList').innerHTML = `<section class="sec"><h3 class="label">${esc(gPick.title)} · ${list.length}</h3>${list.slice(0, 40).map(e => {
+  $('gList').innerHTML = `<section class="sec"><h3 class="sec-h">${esc(gPick.title)} <span>${list.length}</span></h3>${list.slice(0, 40).map(e => {
     const r = lead(e);
-    return `<div class="mini">${fmtDay(e.d)} · ${esc(label(e))}${e.a ? ' · ' + esc(AREA[e.a].name) : ''}<br>${link(r, esc(r.t))}</div>`;
+    return `<div class="mini">${meta(fmtDay(e.d), esc(label(e)), e.a ? esc(AREA[e.a].name) : '')}${link(r, esc(r.t))}</div>`;
   }).join('')}${list.length > 40 ? `<p class="note">and ${list.length - 40} more.</p>` : ''}</section>`;
 }
-const gPickSet = (title, list) => { gPick = { title, list }; gListDraw(); $('gList').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); };
+const gPickSet = (title, list) => { gPick = { title, list }; gListDraw(); $('gList').scrollIntoView({ behavior: motion(), block: 'nearest' }); };
 
 /* Rhythm: Chart C, with the hour totals above (chart A) and the day totals beside it (chart B). */
 function gRhythm() {
@@ -892,12 +1119,12 @@ function gRhythm() {
   const max = Math.max(0.0001, ...m.flat()), W = 960, L = 46, R = 96, T = 86, cw = (W - L - R) / 24, ch = 32, H = T + 7 * ch + 46;
   const hmax = Math.max(0.0001, ...hourTot), dmax = Math.max(0.0001, ...dayTot), total = exact + spread;
   let s = '';
-  hourTot.forEach((v, h) => { const bh = v / hmax * 62; s += `<rect x="${L + h * cw + 3}" y="${T - 10 - bh}" width="${cw - 6}" height="${bh}" class="gfill" fill-opacity=".75"${tip(`${String(h).padStart(2, '0')}:00–${String((h + 1) % 24).padStart(2, '0')}:00 · ${fmt1(v)} incidents (${total ? Math.round(v / total * 100) : 0}% of the week)`)}/>`; });
+  hourTot.forEach((v, h) => { const bh = v / hmax * 62; s += `<rect x="${L + h * cw + 3}" y="${T - 10 - bh}" width="${cw - 6}" height="${bh}" class="gn"${tip(`${String(h).padStart(2, '0')}:00–${String((h + 1) % 24).padStart(2, '0')}:00, ${fmt1(v)} incidents (${total ? Math.round(v / total * 100) : 0}% of the week)`)}/>`; });
   m.forEach((row, d) => {
     s += `<text x="${L - 8}" y="${T + d * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${DAYS7[d]}</text>`;
-    row.forEach((v, h) => { s += `<rect x="${L + h * cw + 1}" y="${T + d * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-d="${d}" data-h="${h}"${tip(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00 · ${fmt1(v)} incident${v === 1 ? '' : 's'}`)}/>`; });
+    row.forEach((v, h) => { s += `<rect x="${L + h * cw + 1}" y="${T + d * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-d="${d}" data-h="${h}"${tip(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00, ${fmt1(v)} incident${v === 1 ? '' : 's'}`)}/>`; });
     const bw = dayTot[d] / dmax * (R - 34);
-    s += `<rect x="${W - R + 10}" y="${T + d * ch + 6}" width="${bw}" height="${ch - 12}" class="gfill" fill-opacity=".75"${tip(`${DAYS7[d]} · ${fmt1(dayTot[d])} incidents (${total ? Math.round(dayTot[d] / total * 100) : 0}%)`)}/><text x="${W - R + 14 + bw}" y="${T + d * ch + ch / 2 + 4}" class="gtx gsm">${total ? Math.round(dayTot[d] / total * 100) : 0}%</text>`;
+    s += `<rect x="${W - R + 10}" y="${T + d * ch + 6}" width="${bw}" height="${ch - 12}" class="gn"${tip(`${DAYS7[d]}, ${fmt1(dayTot[d])} incidents (${total ? Math.round(dayTot[d] / total * 100) : 0}%)`)}/><text x="${W - R + 14 + bw}" y="${T + d * ch + ch / 2 + 4}" class="gtx gsm">${total ? Math.round(dayTot[d] / total * 100) : 0}%</text>`;
   });
   for (let h = 0; h < 24; h += 3) s += `<text x="${L + h * cw + cw / 2}" y="${T + 7 * ch + 16}" class="gtx gsm" text-anchor="middle">${h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm'}</text>`;
   const step = max / 5, lg = v => (max >= 5 ? Math.round(v) : fmt1(v));
@@ -920,7 +1147,7 @@ function gTrend() {
   let s = '';
   [0, .5, 1].forEach(f => { const v = Math.round(max * f); s += `<line x1="${L}" x2="${W - 10}" y1="${y(v)}" y2="${y(v)}" class="grule"/><text x="${L - 6}" y="${y(v) + 4}" class="gtx gsm" text-anchor="end">${v}</text>`; });
   weeks.forEach((w, i) => {
-    s += `<rect x="${L + i * bw + 1}" y="${y(n[i])}" width="${Math.max(1, bw - 2)}" height="${H - B - y(n[i])}" class="gfill gbarw" fill-opacity=".45" data-i="${i}"${tip(`Week of ${fmtDay(w + 'T06:30:00Z')} · ${n[i]} incidents`)}/>`;
+    s += `<rect x="${L + i * bw + 1}" y="${y(n[i])}" width="${Math.max(1, bw - 2)}" height="${H - B - y(n[i])}" class="gn gbarw" data-i="${i}"${tip(`Week of ${fmtDay(w + 'T06:30:00Z')}, ${n[i]} incidents`)}/>`;
     if (i % Math.ceil(weeks.length / 8) === 0) s += `<text x="${L + i * bw + bw / 2}" y="${H - B + 16}" class="gtx gsm" text-anchor="middle">${fmtDay(w + 'T06:30:00Z')}</text>`;
   });
   const avg = n.map((_, i) => { const a = n.slice(Math.max(0, i - 3), i + 1); return a.reduce((p, q) => p + q, 0) / a.length; });
@@ -943,11 +1170,11 @@ function gMatrix() {
   types.forEach((t, j) => { s += `<text transform="translate(${L + j * cw + cw / 2},${T - 8}) rotate(-38)" class="gtx gsm">${esc(t.name.replace(' & ', ' & ').split(' (')[0])}</text>`; });
   areas.forEach((a, i) => {
     s += `<text x="${L - 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(AREA[a].name)}</text>`;
-    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name} · ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle">${v}</text>` : ''}`; });
+    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gfill gcell" fill-opacity="${gBin(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name}, ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle">${v}</text>` : ''}`; });
     s += `<text x="${L + types.length * cw + 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm">${byA[a].length}</text>`;
   });
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">The ${areas.length} areas with most incidents in this view and period; the number at the end of a row is the area’s total. Click a cell to see its incidents.</p>`;
-  $('gBox').querySelectorAll('.gcell').forEach(el => el.onclick = () => gPickSet(`${AREA[el.dataset.a].name} · ${CAT[el.dataset.c].name}`, cell(el.dataset.a, el.dataset.c)));
+  $('gBox').querySelectorAll('.gcell').forEach(el => el.onclick = () => gPickSet(`${AREA[el.dataset.a].name}, ${CAT[el.dataset.c].name}`, cell(el.dataset.a, el.dataset.c)));
 }
 
 /* Calendar: every day, with festivals marked. */
@@ -964,7 +1191,7 @@ function gCalendar() {
   let s = '', lastMonth = '';
   days.forEach((d, i) => {
     const x = L + Math.floor(i / 7) * c, yy = T + (i % 7) * c, v = (byD[d] || []).length;
-    s += `<rect x="${x + 1}" y="${yy + 1}" width="${c - 2}" height="${c - 2}" class="gfill gday" fill-opacity="${gBin(v, max)}" data-d="${d}"${tip(`${fmtDay(d + 'T06:30:00Z')} (${DAYS7[i % 7]}) · ${v} incident${v === 1 ? '' : 's'}`)}/>`;
+    s += `<rect x="${x + 1}" y="${yy + 1}" width="${c - 2}" height="${c - 2}" class="gfill gday" fill-opacity="${gBin(v, max)}" data-d="${d}"${tip(`${fmtDay(d + 'T06:30:00Z')} (${DAYS7[i % 7]}), ${v} incident${v === 1 ? '' : 's'}`)}/>`;
     if (d.slice(0, 7) !== lastMonth && i % 7 === 0) { lastMonth = d.slice(0, 7); s += `<text x="${x}" y="${T - 8}" class="gtx gsm">${new Date(d + 'T06:30:00Z').toLocaleDateString('en-IN', { month: 'short' })}</text>`; }
   });
   [0, 2, 4, 6].forEach(r => { s += `<text x="${L - 6}" y="${T + r * c + 11}" class="gtx gsm" text-anchor="end">${DAYS7[r]}</text>`; });
@@ -1002,23 +1229,25 @@ function gHarm() {
     .sort((p, q) => q.f.length / q.n - p.f.length / p.n || q.n - p.n);
   if (!rows.length) { $('gBox').innerHTML = '<div class="empty">No incidents in this view and period.</div>'; return; }
   const L = 220, W = 960, ch = 30, T = 30, H = T + rows.length * ch + 30, bw = W - L - 120;
-  let s = `<text x="${L}" y="16" class="gtx gsm">■ fatal   ▪ injured   □ not stated</text>`;
+  let s = `<rect x="${L}" y="6" width="12" height="12" class="gfill"/><text x="${L + 18}" y="16" class="gtx gsm">Fatal</text><rect x="${L + 70}" y="6" width="12" height="12" class="gfill" fill-opacity=".4"/><text x="${L + 88}" y="16" class="gtx gsm">Injured</text><rect x="${L + 150}" y="6" width="12" height="12" class="grest"/><text x="${L + 168}" y="16" class="gtx gsm">Not stated</text>`;
   rows.forEach((r, k) => {
     const y = T + k * ch, f = r.f.length / r.n * bw, i = r.i.length / r.n * bw;
     s += `<text x="${L - 10}" y="${y + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(r.c.name)}</text>
       <rect x="${L}" y="${y + 6}" width="${bw}" height="${ch - 12}" class="grest"/>
       <rect x="${L}" y="${y + 6}" width="${f}" height="${ch - 12}" class="gfill gh" data-k="${k}" data-o="f"${tip(`${r.c.name}: ${r.f.length} of ${r.n} fatal (${Math.round(r.f.length / r.n * 100)}%)`)}/>
       <rect x="${L + f}" y="${y + 6}" width="${i}" height="${ch - 12}" class="gfill gh" fill-opacity=".4" data-k="${k}" data-o="i"${tip(`${r.c.name}: ${r.i.length} of ${r.n} injured someone (${Math.round(r.i.length / r.n * 100)}%)`)}/>
-      <text x="${L + bw + 10}" y="${y + ch / 2 + 4}" class="gtx gsm">${r.f.length} fatal · ${r.i.length} injured · ${r.n}</text>`;
+      <text x="${L + bw + 10}" y="${y + ch / 2 + 4}" class="gtx gsm">${r.f.length} fatal, ${r.i.length} injured, of ${r.n}</text>`;
   });
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">Sorted by the share that were fatal. "Not stated" means the report did not say anyone died or was hurt. Click a bar to see its incidents.</p>`;
-  $('gBox').querySelectorAll('.gh').forEach(el => el.onclick = () => { const r = rows[+el.dataset.k]; gPickSet(`${r.c.name} · ${el.dataset.o === 'f' ? 'fatal' : 'injured'}`, el.dataset.o === 'f' ? r.f : r.i); });
+  $('gBox').querySelectorAll('.gh').forEach(el => el.onclick = () => { const r = rows[+el.dataset.k]; gPickSet(`${r.c.name}, ${el.dataset.o === 'f' ? 'fatal' : 'injured'}`, el.dataset.o === 'f' ? r.f : r.i); });
 }
 
 // Controls and the hover tooltip.
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-gs]'); if (b) { gSel = b.dataset.gs; gPick = null; drawGraphs(); }
   const m = e.target.closest('[data-anm]'); if (m) { anMode = m.dataset.anm; gPick = null; drawAn(); }
+  const ix = e.target.closest('.anidx a');   // section index: scroll within the page, keep the tab in the address
+  if (ix) { e.preventDefault(); document.getElementById(ix.getAttribute('href').slice(1))?.scrollIntoView({ behavior: motion(), block: 'start' }); }
 });
 document.addEventListener('change', e => {
   if (e.target.id === 'gType') { gType = e.target.value; gPick = null; drawGraphs(); }
@@ -1038,7 +1267,7 @@ drawViews();
 for (const id of ['fCat', 'fTime']) $(id).onchange = drawMap;
 function show(tab) {
   for (const [b, v] of [['tabNews', 'news'], ['tabMap', 'map'], ['tabSit', 'sit'], ['tabOc', 'oc'], ['tabAn', 'an']]) {
-    $(b).classList.toggle('on', tab === v);
+    $(b).classList.toggle('on', tab === v); $(b).setAttribute('aria-current', tab === v ? 'page' : 'false');
     if (tab === v) { const row = $(b).parentElement; row.scrollLeft = $(b).offsetLeft - (row.clientWidth - $(b).offsetWidth) / 2; }
   }
   $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map'); $('sitv').classList.toggle('hide', tab !== 'sit');
@@ -1056,7 +1285,7 @@ function applyTheme(t, save) {
   if (save) try { localStorage.setItem('vidraksh-theme', t); } catch {}
   $('themeSwitch').setAttribute('aria-checked', t === 'dark');
   $('themeWord').textContent = t === 'dark' ? 'Dark' : 'Light';
-  $('themeColor').content = t === 'dark' ? '#131313' : '#E6E6E6';
+  $('themeColor').content = css('--paper');
   if (MAP) { setBase(); if (!$('mapv').classList.contains('hide')) drawMap(); }
 }
 $('themeSwitch').onclick = () => applyTheme(isDarkTheme() ? 'light' : 'dark', true);
@@ -1066,6 +1295,7 @@ $('tabMap').onclick = () => show('map');
 $('tabSit').onclick = () => show('sit');
 $('tabOc').onclick = () => show('oc');
 $('tabAn').onclick = () => show('an');
+$('brandLink').onclick = e => { e.preventDefault(); show('news'); scrollTo({ top: 0 }); };
 await load();
 show({ '#map': 'map', '#sit': 'sit', '#oc': 'oc', '#an': 'an' }[location.hash] || 'news');
 </script>
