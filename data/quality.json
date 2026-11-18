@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T17:47:14.052Z",
+ "updated": "2026-11-18T18:46:34.877Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -47,9 +47,14 @@
   },
   {
    "name": "Ranjangaon worker shot in place of his employer is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Ranjangaon Murder: रांजणगावात ‘खुन्नस’ वादातून कामगारावर कोयत्याने जीवघेणा हल्ला; उपचारादरम्यान मृत्यू",
+     "Pune Crime: ‘रागाने बघितल्याचा’ वाद चिघळला; रांजणगावात दोघांवर कोयता, फायटर अन् लाठ्याकाठ्यांनी हल्ला"
+    ]
+   ]
   },
   {
    "name": "PMRDA notice on the POCSO court building is not an incident",
@@ -78,20 +83,20 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "date_spread": 2,
+  "date_spread": 3,
   "waiting_for_judge": 0,
-  "pairs_judged": 806,
+  "pairs_judged": 807,
   "pairs_judged_same": 716,
-  "judge_checked_by_expert": 28,
+  "judge_checked_by_expert": 38,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 36,
+  "area_disagreement": 35,
   "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 13,
-  "ruled_out_by_ai": 172,
-  "reports": 2716,
-  "cases": 1758
+  "unverified": 22,
+  "ruled_out_by_ai": 171,
+  "reports": 2717,
+  "cases": 1747
  },
  "examples": {
   "split_cases": [
@@ -121,6 +126,13 @@
     "days": [
      "2026-08-28",
      "2026-10-04"
+    ]
+   },
+   {
+    "t": "Pune: ‘Bigg Boss’ Fame Divya Shinde’s Police Custody Extended Till October 2 in Extortion, Attack Case",
+    "days": [
+     "2026-09-17",
+     "2026-09-24"
     ]
    }
   ],
@@ -253,5 +265,5 @@
    }
   ]
  },
- "passed": 9
+ "passed": 8
 }
