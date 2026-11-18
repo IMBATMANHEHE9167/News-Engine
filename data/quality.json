@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T16:45:37.770Z",
+ "updated": "2026-11-18T17:47:14.052Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -78,18 +78,18 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "date_spread": 1,
+  "date_spread": 2,
   "waiting_for_judge": 0,
-  "pairs_judged": 804,
-  "pairs_judged_same": 715,
+  "pairs_judged": 806,
+  "pairs_judged_same": 716,
   "judge_checked_by_expert": 28,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
   "area_disagreement": 36,
   "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 16,
-  "ruled_out_by_ai": 170,
+  "unverified": 13,
+  "ruled_out_by_ai": 172,
   "reports": 2716,
   "cases": 1758
  },
@@ -114,6 +114,13 @@
     "days": [
      "2026-06-10",
      "2026-11-03"
+    ]
+   },
+   {
+    "t": "Gang uses mule bank accounts to defraud 19 people of ₹1.80 cr; five arrested",
+    "days": [
+     "2026-08-28",
+     "2026-10-04"
     ]
    }
   ],
