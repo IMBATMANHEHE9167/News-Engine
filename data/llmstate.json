@@ -1,9 +1,9 @@
 {
  "day": "2026-11-18",
  "used": {
-  "gemini-3.5-flash-lite": 72,
-  "gemini-3.1-flash-lite": 56,
-  "gemini-3.6-flash": 1,
+  "gemini-3.5-flash-lite": 94,
+  "gemini-3.1-flash-lite": 133,
+  "gemini-3.6-flash": 3,
   "gemini-3-flash-preview": 2,
   "gemini-2.5-flash-lite": 62
  },
@@ -20,7 +20,7 @@
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
-  "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple"
+  "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)"
  ],
  "models": {
   "readers": [
@@ -32,16 +32,16 @@
    "gemini-3-flash-preview"
   ]
  },
- "read": 287,
+ "read": 616,
  "waiting": 344,
  "disputes": 308,
  "settled": 40,
- "updated": "2026-11-18T09:33:54.405Z",
- "older": 2347,
- "unread": 63,
- "second": 379,
+ "updated": "2026-11-18T09:49:50.563Z",
+ "older": 2083,
+ "unread": 0,
+ "second": 276,
  "expert": 0,
- "not_incident": 0,
- "judged": 40,
+ "not_incident": 50,
+ "judged": 60,
  "lx_reset": 1
 }

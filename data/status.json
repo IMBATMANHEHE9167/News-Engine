@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-18T09:33:54.888Z",
- "total": 2697,
- "added": 2,
+ "updated": "2026-11-18T09:49:51.618Z",
+ "total": 2699,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -25,14 +25,14 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-10-26",
+    "reached": "2026-10-15",
     "kept": 472,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-10-25",
-    "kept": 452,
+    "reached": "2026-10-15",
+    "kept": 454,
     "note": ""
    },
    "pcl": {
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 4,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -81,7 +81,7 @@
    "name": "Punekar News",
    "ok": true,
    "found": 6,
-   "added": 2,
+   "added": 1,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 5,
+   "found": 4,
    "added": 0,
    "note": ""
   },

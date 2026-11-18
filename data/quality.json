@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T09:37:00.852Z",
+ "updated": "2026-11-18T09:53:10.869Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -66,6 +66,12 @@
    "bad": []
   },
   {
+   "name": "ITI student stabbed at Ambegaon (Pune city) is placed in the city, not Ambegaon taluka",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
    "name": "Special NDPS court set up is not an incident",
    "ok": true,
    "detail": "not counted",
@@ -75,23 +81,23 @@
  "detectors": {
   "split_cases": 0,
   "date_spread": 1,
-  "waiting_for_judge": 379,
-  "pairs_judged": 380,
-  "pairs_judged_same": 348,
+  "waiting_for_judge": 221,
+  "pairs_judged": 573,
+  "pairs_judged_same": 518,
   "non_incident_wording": 2,
-  "area_disagreement": 2,
-  "silent_days": 7,
-  "source_gap_days": 64,
-  "unverified": 442,
-  "ruled_out_by_ai": 0,
-  "reports": 2697,
-  "cases": 1780
+  "area_disagreement": 23,
+  "silent_days": 10,
+  "source_gap_days": 63,
+  "unverified": 276,
+  "ruled_out_by_ai": 50,
+  "reports": 2699,
+  "cases": 1785
  },
  "examples": {
   "split_cases": [],
   "date_spread": [
    {
-    "t": "Pune: After Ketan Agarwal’s death, Siya Goyal Searched ChatGPT On How To Express Grief, Say Police in Chargesheet",
+    "t": "Lohagad Murder Case: Framing of Charges Deferred; Three Accused Appear Via Video Conferencing, Proceedings Adjourned to November 17",
     "days": [
      "2026-06-18",
      "2026-06-20",
@@ -105,19 +111,59 @@
   ],
   "area_disagreement": [
    {
-    "t": "2 killed, 12 hurt after truck rams truck, setting off multi-vehicle collision on Pune-Bengaluru highway",
+    "t": "Two held for robbing daily wage workers of Rs50,000 in Pirangut",
+    "case_area": "Mulshi / Pirangut",
+    "reading": "Bavdhan"
+   },
+   {
+    "t": "Pune: Three Suspects in Taloja Firing Case Detained by Ambegaon Police",
+    "case_area": "Junnar / Ambegaon taluka",
+    "reading": "Katraj"
+   },
+   {
+    "t": "Pune: Businessman Rana Suryawanshi’s Attack Case May Take New Turn; Friends Under Police Scanner",
+    "case_area": "Karve Nagar",
+    "reading": "Baramati"
+   },
+   {
+    "t": "Rider dies, pillion seriously injured as scooter crashes into stationary truck on Katraj bypass",
     "case_area": "Katraj",
     "reading": "Junnar / Ambegaon taluka"
    },
    {
-    "t": "STES Founder & others booked for defrauding teachers of over ₹5.06 crore",
-    "case_area": "Bharati Vidyapeeth",
+    "t": "20-Year-Old Held With 7 Grams Of MD In Mulshi, Juvenile Detained",
+    "case_area": "Mulshi / Pirangut",
+    "reading": "Bavdhan"
+   },
+   {
+    "t": "Three held for robbing couple near Katraj tunnel",
+    "case_area": "Katraj",
     "reading": "Junnar / Ambegaon taluka"
+   },
+   {
+    "t": "Pune: Jejuri Temple Trustee Arrested For Cheating Job Seekers Of Rs 2.75 Crore",
+    "case_area": "Saswad / Jejuri",
+    "reading": "Shivajinagar"
+   },
+   {
+    "t": "तरुणाचा खून करून मृतदेह फेकला तळ्यात",
+    "case_area": "Bavdhan",
+    "reading": "Mulshi / Pirangut"
    }
   ],
   "silent_days": [
    {
-    "day": "2026-06-07",
+    "day": "2026-05-30",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
+    "day": "2026-05-31",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
+    "day": "2026-06-04",
     "incidents": 2,
     "usual": 8
    },
@@ -129,7 +175,7 @@
    {
     "day": "2026-07-06",
     "incidents": 2,
-    "usual": 9
+    "usual": 8
    },
    {
     "day": "2026-07-07",
@@ -147,15 +193,20 @@
     "usual": 8
    },
    {
-    "day": "2026-10-25",
+    "day": "2026-10-06",
     "incidents": 1,
-    "usual": 8
+    "usual": 7
+   },
+   {
+    "day": "2026-10-25",
+    "incidents": 0,
+    "usual": 9
    }
   ],
   "source_gaps": [
    {
     "source": "pkn",
-    "days": 28,
+    "days": 27,
     "examples": [
      "2026-10-25",
      "2026-10-28",
@@ -203,5 +254,5 @@
    }
   ]
  },
- "passed": 8
+ "passed": 9
 }
