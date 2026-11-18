@@ -1,15 +1,20 @@
 {
- "updated": "2026-11-18T10:34:38.899Z",
+ "updated": "2026-11-18T11:48:54.438Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
    "ok": false,
-   "detail": "2 cases",
+   "detail": "3 cases",
    "bad": [
     [
-     "‘I Didn’t Meet Siya’: Accused’s Father Speaks After Police Search at Pune Home",
-     "Lohagad Murder Fallout: Accused Chetan Choudhary’s Family Leaves Home Amid Public Outrage",
-     "Pune Police Push for Lie-Detector Test as Ketan Agarwal Murder Probe Hits a Wall"
+     "Pune: After Ketan Agarwal’s death, Siya Goyal Searched ChatGPT On How To Express Grief, Say Police in Chargesheet",
+     "Ketan Agarwal Murder: Fake Instagram Account, Recce and Digital Trail in 5,053-Page Chargesheet",
+     "Lonavla recce, fake Insta account, Meghalaya honeymoon murder study: Chargesheet details Ketan Agarwal murder plot"
+    ],
+    [
+     "Hoodie Clue Cracks Lohagad Death Mystery: How a Pune Businessman’s ‘Accidental Fall’ Turned Into an Alleged Murder Case",
+     "Lohagad Fort murder in Pune: Ketan Agarwal's father says they initially rejected marriage proposal, claims Siya's family kept requesting",
+     "Pre-Wedding Bali Trip, Missing Passport and Two Alleged Murder Attempts: Chilling Details Emerge in Lohagad Death Case"
     ]
    ]
   },
@@ -25,7 +30,7 @@
    "detail": "2 cases",
    "bad": [
     [
-     "NDA Security Personnel Dies Days After Gunshot Injury in Pune"
+     "Army sepoy injured in shooting at NDA post, second incident involving personnel in 10 days"
     ]
    ]
   },
@@ -67,9 +72,11 @@
   },
   {
    "name": "ITI student stabbed at Ambegaon (Pune city) is placed in the city, not Ambegaon taluka",
-   "ok": true,
-   "detail": "right part of the district",
-   "bad": []
+   "ok": false,
+   "detail": "Dighi / Alandi",
+   "bad": [
+    "Case against six for assaulting man following dispute over spitting"
+   ]
   },
   {
    "name": "Special NDPS court set up is not an incident",
@@ -79,31 +86,35 @@
   }
  ],
  "detectors": {
-  "split_cases": 0,
+  "split_cases": 1,
   "date_spread": 1,
-  "waiting_for_judge": 560,
-  "pairs_judged": 190,
-  "pairs_judged_same": 172,
-  "judge_checked_by_expert": 10,
-  "judge_overturned_by_expert": 0,
+  "waiting_for_judge": 412,
+  "pairs_judged": 376,
+  "pairs_judged_same": 337,
+  "judge_checked_by_expert": 20,
+  "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 24,
-  "silent_days": 9,
+  "area_disagreement": 27,
+  "silent_days": 6,
   "source_gap_days": 64,
-  "unverified": 358,
-  "ruled_out_by_ai": 6,
-  "reports": 2697,
-  "cases": 1914
+  "unverified": 56,
+  "ruled_out_by_ai": 151,
+  "reports": 2705,
+  "cases": 1941
  },
  "examples": {
-  "split_cases": [],
+  "split_cases": [
+   [
+    "Man killed over marital dispute; father-in-law, grandfather-in-law held",
+    "Pune: Man, Grandfather-in-Law Held For Killing Son-in-Law, Passing it off as Road Accident"
+   ]
+  ],
   "date_spread": [
    {
-    "t": "Lohagad Murder Case: Framing of Charges Deferred; Three Accused Appear Via Video Conferencing, Proceedings Adjourned to November 17",
+    "t": "Case against six for assaulting man following dispute over spitting",
     "days": [
-     "2026-06-18",
-     "2026-06-20",
-     "2026-06-23"
+     "2026-06-06",
+     "2026-11-07"
     ]
    }
   ],
@@ -123,6 +134,26 @@
     "reading": "Pimple Saudagar / Sangvi"
    },
    {
+    "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
+    "case_area": "Karve Nagar",
+    "reading": "Dighi / Alandi"
+   },
+   {
+    "t": "Pune: ITI Student Stabbed to Death by Classmate on Campus Terrace in Ambegaon, Accused Held",
+    "case_area": "Dighi / Alandi",
+    "reading": "Junnar / Ambegaon taluka"
+   },
+   {
+    "t": "ITI student killed, hostel mate arrested",
+    "case_area": "Dighi / Alandi",
+    "reading": "Junnar / Ambegaon taluka"
+   },
+   {
+    "t": "‘I Didn’t Meet Siya’: Accused’s Father Speaks After Police Search at Pune Home",
+    "case_area": "Lonavala / Maval",
+    "reading": "Market Yard"
+   },
+   {
     "t": "Two held for robbing daily wage workers of Rs50,000 in Pirangut",
     "case_area": "Mulshi / Pirangut",
     "reading": "Bavdhan"
@@ -131,26 +162,6 @@
     "t": "Pune: Three Suspects in Taloja Firing Case Detained by Ambegaon Police",
     "case_area": "Junnar / Ambegaon taluka",
     "reading": "Katraj"
-   },
-   {
-    "t": "Pune: Businessman Rana Suryawanshi’s Attack Case May Take New Turn; Friends Under Police Scanner",
-    "case_area": "Karve Nagar",
-    "reading": "Baramati"
-   },
-   {
-    "t": "Rider dies, pillion seriously injured as scooter crashes into stationary truck on Katraj bypass",
-    "case_area": "Katraj",
-    "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "20-Year-Old Held With 7 Grams Of MD In Mulshi, Juvenile Detained",
-    "case_area": "Mulshi / Pirangut",
-    "reading": "Bavdhan"
-   },
-   {
-    "t": "Three held for robbing couple near Katraj tunnel",
-    "case_area": "Katraj",
-    "reading": "Junnar / Ambegaon taluka"
    }
   ],
   "silent_days": [
@@ -170,47 +181,32 @@
     "usual": 8
    },
    {
-    "day": "2026-07-04",
-    "incidents": 2,
-    "usual": 9
-   },
-   {
     "day": "2026-07-06",
     "incidents": 2,
     "usual": 9
    },
    {
-    "day": "2026-07-07",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
     "day": "2026-07-10",
     "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-10-06",
-    "incidents": 1,
-    "usual": 7
+    "usual": 9
    },
    {
     "day": "2026-10-25",
-    "incidents": 1,
+    "incidents": 0,
     "usual": 9
    }
   ],
   "source_gaps": [
    {
-    "source": "pkn",
-    "days": 28,
+    "source": "ptm",
+    "days": 17,
     "examples": [
-     "2026-10-25",
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-15"
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
     ]
    },
    {
@@ -226,15 +222,15 @@
     ]
    },
    {
-    "source": "ptm",
-    "days": 17,
+    "source": "pkn",
+    "days": 28,
     "examples": [
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10",
-     "2026-10-18",
-     "2026-11-06"
+     "2026-10-25",
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15"
     ]
    },
    {
@@ -251,5 +247,5 @@
    }
   ]
  },
- "passed": 9
+ "passed": 8
 }

@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-18T10:30:57.416Z",
- "total": 2697,
- "added": 2,
- "removed": 0,
+ "updated": "2026-11-18T11:43:35.915Z",
+ "total": 2705,
+ "added": 5,
+ "removed": 1,
  "rules": 11,
  "history": {
   "reachedBack": "2026-05-18",
@@ -25,14 +25,14 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-10-05",
-    "kept": 474,
+    "reached": "2026-09-23",
+    "kept": 477,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-10-06",
-    "kept": 456,
+    "reached": "2026-09-26",
+    "kept": 457,
     "note": ""
    },
    "pcl": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 25,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -64,16 +64,16 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -81,16 +81,16 @@
    "name": "Punekar News",
    "ok": true,
    "found": 6,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
    "id": "ppl",
    "name": "Pune Pulse",
-   "ok": false,
-   "found": 0,
-   "added": 0,
-   "note": "HTTP 403"
+   "ok": true,
+   "found": 3,
+   "added": 2,
+   "note": ""
   },
   {
    "id": "pcl",
@@ -104,7 +104,7 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -135,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
@@ -160,8 +160,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 16,
-   "added": 0,
+   "found": 18,
+   "added": 1,
    "note": ""
   }
  ]
