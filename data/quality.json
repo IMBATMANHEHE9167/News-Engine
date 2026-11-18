@@ -1,20 +1,13 @@
 {
- "updated": "2026-11-18T13:07:37.465Z",
+ "updated": "2026-11-18T13:43:48.791Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
    "ok": false,
-   "detail": "3 cases",
+   "detail": "2 cases",
    "bad": [
     [
-     "Pune: After Ketan Agarwal’s death, Siya Goyal Searched ChatGPT On How To Express Grief, Say Police in Chargesheet",
-     "Ketan Agarwal Murder: Fake Instagram Account, Recce and Digital Trail in 5,053-Page Chargesheet",
-     "Lonavla recce, fake Insta account, Meghalaya honeymoon murder study: Chargesheet details Ketan Agarwal murder plot"
-    ],
-    [
-     "Hoodie Clue Cracks Lohagad Death Mystery: How a Pune Businessman’s ‘Accidental Fall’ Turned Into an Alleged Murder Case",
-     "Lohagad Fort murder in Pune: Ketan Agarwal's father says they initially rejected marriage proposal, claims Siya's family kept requesting",
-     "Pre-Wedding Bali Trip, Missing Passport and Two Alleged Murder Attempts: Chilling Details Emerge in Lohagad Death Case"
+     "पुण्याची 'सोनम'! केतन पाय घसरून पडला नाही, खून झाला; लोहगडावर काय घडलं? तरुणीसह प्रियकराला अटक"
     ]
    ]
   },
@@ -72,11 +65,9 @@
   },
   {
    "name": "ITI student stabbed at Ambegaon (Pune city) is placed in the city, not Ambegaon taluka",
-   "ok": false,
-   "detail": "Dighi / Alandi",
-   "bad": [
-    "Case against six for assaulting man following dispute over spitting"
-   ]
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
   },
   {
    "name": "Special NDPS court set up is not an incident",
@@ -87,20 +78,20 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "date_spread": 2,
-  "waiting_for_judge": 220,
-  "pairs_judged": 556,
-  "pairs_judged_same": 498,
-  "judge_checked_by_expert": 20,
+  "date_spread": 1,
+  "waiting_for_judge": 46,
+  "pairs_judged": 723,
+  "pairs_judged_same": 648,
+  "judge_checked_by_expert": 18,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
   "area_disagreement": 34,
   "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 58,
-  "ruled_out_by_ai": 150,
-  "reports": 2710,
-  "cases": 1849
+  "unverified": 13,
+  "ruled_out_by_ai": 171,
+  "reports": 2711,
+  "cases": 1805
  },
  "examples": {
   "split_cases": [
@@ -110,13 +101,6 @@
    ]
   ],
   "date_spread": [
-   {
-    "t": "Case against six for assaulting man following dispute over spitting",
-    "days": [
-     "2026-06-06",
-     "2026-11-07"
-    ]
-   },
    {
     "t": "Scooterist dies in hit-and-run",
     "days": [
@@ -142,33 +126,33 @@
    },
    {
     "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
-    "case_area": "Warje",
+    "case_area": "Vishrantwadi",
     "reading": "Dighi / Alandi"
    },
    {
-    "t": "26-year-old dies by suicide in Bhosari after alleged blackmail over gold earring; woman booked",
-    "case_area": "Loni Kalbhor",
-    "reading": "Bhosari"
+    "t": "Pune News: दिवाळीच्या दिवशीच शिंदे कुटुंबावर संकट! नवीन गॅस सिलिंडर जोडताच स्फोट, घरातील सर्व साहित्य जळून खाक",
+    "case_area": "Shirur",
+    "reading": "Talegaon Dabhade"
    },
    {
-    "t": "Pimpri-Chinchwad Grocer Dies by Suicide After Alleged Extortion Over Lost Earring; Woman Booked",
-    "case_area": "Loni Kalbhor",
-    "reading": "Bhosari"
-   },
-   {
-    "t": "Pune: ITI Student Stabbed to Death by Classmate on Campus Terrace in Ambegaon, Accused Held",
-    "case_area": "Dighi / Alandi",
-    "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "ITI student killed, hostel mate arrested",
-    "case_area": "Dighi / Alandi",
-    "reading": "Junnar / Ambegaon taluka"
+    "t": "Siya Goyal’s father says viral 'middle finger' moment was caused by car door accident",
+    "case_area": "Lonavala / Maval",
+    "reading": "Market Yard"
    },
    {
     "t": "‘I Didn’t Meet Siya’: Accused’s Father Speaks After Police Search at Pune Home",
     "case_area": "Lonavala / Maval",
     "reading": "Market Yard"
+   },
+   {
+    "t": "Two held for robbing daily wage workers of Rs50,000 in Pirangut",
+    "case_area": "Mulshi / Pirangut",
+    "reading": "Bavdhan"
+   },
+   {
+    "t": "Pune: Three Suspects in Taloja Firing Case Detained by Ambegaon Police",
+    "case_area": "Junnar / Ambegaon taluka",
+    "reading": "Katraj"
    }
   ],
   "silent_days": [
@@ -180,17 +164,17 @@
    {
     "day": "2026-05-31",
     "incidents": 2,
-    "usual": 8
+    "usual": 9
    },
    {
     "day": "2026-06-04",
     "incidents": 2,
-    "usual": 8
+    "usual": 9
    },
    {
     "day": "2026-07-06",
     "incidents": 2,
-    "usual": 9
+    "usual": 8
    },
    {
     "day": "2026-07-10",
@@ -199,7 +183,7 @@
    },
    {
     "day": "2026-10-25",
-    "incidents": 0,
+    "incidents": 1,
     "usual": 9
    }
   ],
@@ -254,5 +238,5 @@
    }
   ]
  },
- "passed": 8
+ "passed": 9
 }
