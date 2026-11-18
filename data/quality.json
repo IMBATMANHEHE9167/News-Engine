@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T09:53:10.869Z",
+ "updated": "2026-11-18T10:34:38.899Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -81,17 +81,19 @@
  "detectors": {
   "split_cases": 0,
   "date_spread": 1,
-  "waiting_for_judge": 221,
-  "pairs_judged": 573,
-  "pairs_judged_same": 518,
+  "waiting_for_judge": 560,
+  "pairs_judged": 190,
+  "pairs_judged_same": 172,
+  "judge_checked_by_expert": 10,
+  "judge_overturned_by_expert": 0,
   "non_incident_wording": 2,
-  "area_disagreement": 23,
-  "silent_days": 10,
-  "source_gap_days": 63,
-  "unverified": 276,
-  "ruled_out_by_ai": 50,
-  "reports": 2699,
-  "cases": 1785
+  "area_disagreement": 24,
+  "silent_days": 9,
+  "source_gap_days": 64,
+  "unverified": 358,
+  "ruled_out_by_ai": 6,
+  "reports": 2697,
+  "cases": 1914
  },
  "examples": {
   "split_cases": [],
@@ -110,6 +112,16 @@
    "Elderly man assaulted in upscale building in Gahunje"
   ],
   "area_disagreement": [
+   {
+    "t": "Police patil hacked to death over land dispute in Pune district; search on for three accused",
+    "case_area": "Bhor",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
+    "case_area": "Bhor",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
    {
     "t": "Two held for robbing daily wage workers of Rs50,000 in Pirangut",
     "case_area": "Mulshi / Pirangut",
@@ -139,16 +151,6 @@
     "t": "Three held for robbing couple near Katraj tunnel",
     "case_area": "Katraj",
     "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "Pune: Jejuri Temple Trustee Arrested For Cheating Job Seekers Of Rs 2.75 Crore",
-    "case_area": "Saswad / Jejuri",
-    "reading": "Shivajinagar"
-   },
-   {
-    "t": "तरुणाचा खून करून मृतदेह फेकला तळ्यात",
-    "case_area": "Bavdhan",
-    "reading": "Mulshi / Pirangut"
    }
   ],
   "silent_days": [
@@ -175,7 +177,7 @@
    {
     "day": "2026-07-06",
     "incidents": 2,
-    "usual": 8
+    "usual": 9
    },
    {
     "day": "2026-07-07",
@@ -188,25 +190,20 @@
     "usual": 8
    },
    {
-    "day": "2026-09-06",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
     "day": "2026-10-06",
     "incidents": 1,
     "usual": 7
    },
    {
     "day": "2026-10-25",
-    "incidents": 0,
+    "incidents": 1,
     "usual": 9
    }
   ],
   "source_gaps": [
    {
     "source": "pkn",
-    "days": 27,
+    "days": 28,
     "examples": [
      "2026-10-25",
      "2026-10-28",

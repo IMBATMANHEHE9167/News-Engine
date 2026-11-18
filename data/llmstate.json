@@ -1,11 +1,12 @@
 {
  "day": "2026-11-18",
  "used": {
-  "gemini-3.5-flash-lite": 94,
-  "gemini-3.1-flash-lite": 133,
-  "gemini-3.6-flash": 3,
+  "gemini-3.5-flash-lite": 115,
+  "gemini-3.1-flash-lite": 145,
+  "gemini-3.6-flash": 4,
   "gemini-3-flash-preview": 2,
-  "gemini-2.5-flash-lite": 62
+  "gemini-2.5-flash-lite": 62,
+  "gemini-flash-lite-latest": 2
  },
  "rested": {},
  "errors": [
@@ -25,23 +26,27 @@
  "models": {
   "readers": [
    "gemini-3.5-flash-lite",
-   "gemini-3.1-flash-lite"
+   "gemini-3.1-flash-lite",
+   "gemini-flash-lite-latest"
   ],
   "experts": [
    "gemini-3.6-flash",
-   "gemini-3-flash-preview"
+   "gemini-3-flash-preview",
+   "gemini-flash-latest"
   ]
  },
- "read": 616,
+ "read": 76,
  "waiting": 344,
  "disputes": 308,
  "settled": 40,
- "updated": "2026-11-18T09:49:50.563Z",
- "older": 2083,
+ "updated": "2026-11-18T10:30:56.549Z",
+ "older": 2621,
  "unread": 0,
- "second": 276,
+ "second": 358,
  "expert": 0,
- "not_incident": 50,
- "judged": 60,
- "lx_reset": 1
+ "not_incident": 6,
+ "judged": 80,
+ "lx_reset": 1,
+ "audited": 10,
+ "overturned": 0
 }
