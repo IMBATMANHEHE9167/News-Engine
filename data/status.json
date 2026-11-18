@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-18T05:25:48.130Z",
- "total": 2683,
- "added": 1,
+ "updated": "2026-11-18T06:24:40.176Z",
+ "total": 2687,
+ "added": 4,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -72,8 +72,8 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 1,
-   "added": 1,
+   "found": 0,
+   "added": 0,
    "note": ""
   },
   {
@@ -144,7 +144,7 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 5,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -152,8 +152,8 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 5,
+   "added": 4,
    "note": ""
   },
   {

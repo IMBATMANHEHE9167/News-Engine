@@ -1,9 +1,9 @@
 {
  "day": "2026-11-17",
  "used": {
-  "gemini-3.5-flash-lite": 320,
+  "gemini-3.5-flash-lite": 351,
   "gemini-3.6-flash": 13,
-  "gemini-3.1-flash-lite": 197,
+  "gemini-3.1-flash-lite": 206,
   "gemini-3-flash-preview": 14,
   "gemini-2.5-flash-lite": 85,
   "gemini-2.5-flash": 20
@@ -36,9 +36,9 @@
    "gemini-2.5-flash"
   ]
  },
- "read": 1890,
- "waiting": 793,
- "disputes": 245,
+ "read": 2050,
+ "waiting": 637,
+ "disputes": 276,
  "settled": 32,
- "updated": "2026-11-18T05:25:47.981Z"
+ "updated": "2026-11-18T06:24:40.055Z"
 }
