@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-18T09:19:40.955Z",
- "total": 2696,
- "added": 1,
+ "updated": "2026-11-18T09:33:54.888Z",
+ "total": 2697,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -31,7 +31,7 @@
    },
    "pkn": {
     "done": false,
-    "reached": "2026-10-24",
+    "reached": "2026-10-25",
     "kept": 452,
     "note": ""
    },
@@ -80,8 +80,8 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 5,
-   "added": 1,
+   "found": 6,
+   "added": 2,
    "note": ""
   },
   {
@@ -95,10 +95,10 @@
   {
    "id": "pcl",
    "name": "Pune City Live",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 4,
    "added": 0,
-   "note": "HTTP 520"
+   "note": ""
   },
   {
    "id": "fpj",
@@ -127,10 +127,10 @@
   {
    "id": "prb",
    "name": "Dainik Prabhat",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 1,
    "added": 0,
-   "note": "The read operation timed out"
+   "note": ""
   },
   {
    "id": "lks",
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 6,
+   "found": 5,
    "added": 0,
    "note": ""
   },

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T09:22:41.966Z",
+ "updated": "2026-11-18T09:37:00.852Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -75,17 +75,17 @@
  "detectors": {
   "split_cases": 0,
   "date_spread": 1,
-  "waiting_for_judge": 380,
-  "pairs_judged": 389,
-  "pairs_judged_same": 355,
+  "waiting_for_judge": 379,
+  "pairs_judged": 380,
+  "pairs_judged_same": 348,
   "non_incident_wording": 2,
-  "area_disagreement": 4,
-  "silent_days": 10,
+  "area_disagreement": 2,
+  "silent_days": 7,
   "source_gap_days": 64,
-  "unverified": 378,
-  "ruled_out_by_ai": 2,
-  "reports": 2696,
-  "cases": 1831
+  "unverified": 442,
+  "ruled_out_by_ai": 0,
+  "reports": 2697,
+  "cases": 1780
  },
  "examples": {
   "split_cases": [],
@@ -113,31 +113,11 @@
     "t": "STES Founder & others booked for defrauding teachers of over ₹5.06 crore",
     "case_area": "Bharati Vidyapeeth",
     "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "Pune: ITI Student Stabbed to Death by Classmate on Campus Terrace in Ambegaon, Accused Held",
-    "case_area": "Bibwewadi",
-    "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "ITI student killed, hostel mate arrested",
-    "case_area": "Bibwewadi",
-    "reading": "Junnar / Ambegaon taluka"
    }
   ],
   "silent_days": [
    {
-    "day": "2026-05-30",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-05-31",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-06-04",
+    "day": "2026-06-07",
     "incidents": 2,
     "usual": 8
    },
@@ -165,11 +145,6 @@
     "day": "2026-09-06",
     "incidents": 2,
     "usual": 8
-   },
-   {
-    "day": "2026-10-06",
-    "incidents": 1,
-    "usual": 7
    },
    {
     "day": "2026-10-25",
