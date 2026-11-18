@@ -236,7 +236,9 @@ class Session:
         today = pacific_day()
         if self.state.get('day') != today:
             self.state = dict(day=today, used={}, rested={}, errors=[], models=self.state.get('models', {}))
-        self.busy = {}
+        self.busy = {}          # "busy" answers per model this run
+        self.cool = {}          # a busy model rests until this time, then is tried again (it is not out for the run)
+        self.stop = None        # why reading stopped early, kept in llmstate so a slow run explains itself
         self.started = time.time()
         self.models = self.state.get('models') or {'readers': CFG['readers'], 'experts': CFG['experts']}
         if self.key:
@@ -251,10 +253,24 @@ class Session:
         self.state['errors'] = (self.state.get('errors', []) + [str(msg)[:160]])[-12:]
 
     def has(self, model, role):
-        return self.state['used'].get(model, 0) < CFG['rpd'][role] and not self.state['rested'].get(model) and self.busy.get(model, 0) < 2
+        return self.state['used'].get(model, 0) < CFG['rpd'][role] and not self.state['rested'].get(model) and self.cool.get(model, 0) <= time.time()
 
     def take(self, role, avoid=None):
         return next((m for m in self.models.get(role, []) if m != avoid and self.has(m, role)), None)
+
+    def pick(self, role, avoid=None):
+        """A model with allowance left. If the only ones left are resting after "busy" answers, wait for the first to
+        come back (within the run's time) instead of ending the run: Google's free tier is often briefly busy."""
+        while True:
+            m = self.take(role, avoid)
+            if m:
+                return m
+            resting = [self.cool[x] for x in self.models.get(role, []) if x != avoid and self.cool.get(x, 0) > time.time()
+                       and self.state['used'].get(x, 0) < CFG['rpd'][role] and not self.state['rested'].get(x)]
+            if not resting or not self.time_left():
+                self.stop = self.stop or ('out of time' if resting else 'no model left today (allowance used or retired)')
+                return None
+            time.sleep(min(60, max(1, min(resting) - time.time())))
 
     def time_left(self):
         return time.time() - self.started < CFG['run_seconds']
@@ -273,9 +289,9 @@ class Session:
             if isinstance(e, Gone):
                 self.error('%s: not available, rested for today' % model)
         except Busy:
-            self.busy[model] = self.busy.get(model, 0) + 1
+            n = self.busy[model] = self.busy.get(model, 0) + 1
+            self.cool[model] = time.time() + min(300, 30 * n)     # rest 30 s, 60 s, ... up to 5 min, then try again
             self.retry = True
-            time.sleep(20)
         except Exception as e:
             self.state['used'][model] = self.state['used'].get(model, 0) + 1
             self.error('%s: %s' % (model, e))
@@ -305,7 +321,7 @@ def _read_pass(S, role, field, todo, budget, texts, get, avoid_own=False):
     while i < len(todo) and used < budget and S.time_left():
         first = todo[i]
         avoid = (first.get('L') or {}).get('m') if avoid_own else None
-        model = S.take(role, avoid)
+        model = S.pick(role, avoid)
         if not model:
             break
         batch = []
@@ -441,6 +457,7 @@ def finish(S, items):
     st = S.state
     cur = [r for r in items if (r.get('L') or {}).get('v') == VERSION]
     v = [E.verdict(r) for r in items]
+    st['last_run'] = dict(busy=sum(S.busy.values()), stop=S.stop or ('out of time' if not S.time_left() else "nothing left to read, or this run's share used"))
     st.update(read=len(cur), older=sum(1 for r in items if r.get('L') and r['L'].get('v') != VERSION),
               unread=sum(1 for r in items if not r.get('L')), second=v.count('second'), expert=v.count('expert'),
               not_incident=sum(1 for x in v if isinstance(x, dict) and not x.get('ok')),
