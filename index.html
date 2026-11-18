@@ -98,8 +98,9 @@ button{cursor:pointer}
 .seg button{flex:none;appearance:none;background:none;border:0;height:32px;padding:0 14px;border-radius:var(--r-ctl);font-size:13px;color:var(--ink-2);white-space:nowrap;box-shadow:inset 0 0 0 1px transparent;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .seg button:hover{background:var(--hover);color:var(--ink)}
 .seg button.on{background:var(--paper-2);color:var(--ink);font-weight:500;box-shadow:inset 0 0 0 1px var(--rule-2)}
-.stamp{margin:0 0 0 auto;display:flex;gap:18px;font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap}
-.stamp b{font-family:var(--mono);font-weight:500;color:var(--copper-text)}
+.stamp{margin:0 0 0 auto;display:flex;gap:20px;font-size:13px;line-height:18px;color:var(--ink-3);white-space:nowrap}
+.stamp b{font-family:var(--mono);font-weight:500;color:var(--ink)}
+.stamp span:first-child b{color:var(--copper-text)}
 
 /* Pages */
 .page{max-width:1640px;margin:0 auto;padding:28px}
@@ -165,8 +166,9 @@ button{cursor:pointer}
 .rec-meta a,.lnk{text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
 .rec-meta a:hover,.lnk:hover{text-decoration-color:var(--copper)}
 .acc{font-size:12px;color:var(--ink-3)}
-.rec-open{appearance:none;background:none;border:0;padding:0;border-radius:var(--r-ctl);font-size:13px;font-weight:500;line-height:20px;color:var(--copper-text)}
-.rec-open:hover{text-decoration:underline;text-underline-offset:3px}
+.rec-open{appearance:none;background:none;border:0;padding:0;border-radius:var(--r-ctl);font-size:13px;font-weight:500;line-height:20px;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
+.rec-open:hover{color:var(--copper-text);text-decoration-color:var(--copper)}
+.rec.sel .rec-open{color:var(--copper-text)}
 .rec-inline{padding:0 22px 22px;border-bottom:1px solid var(--rule);background:var(--copper-wash)}
 .rec-inline .casefile{margin:0}
 .more{display:block;margin:0;width:100%;appearance:none;background:none;border:0;border-top:1px solid var(--rule);padding:14px 22px;font-size:13px;font-weight:500;color:var(--copper-text);text-align:center;border-radius:0 0 var(--r-card) var(--r-card)}
@@ -365,7 +367,7 @@ option{background:var(--paper-2);color:var(--ink)}
 .gcell:hover,.gday:hover,.gbarw:hover,.gh:hover{stroke:var(--ink);stroke-width:1.5}
 .gtx{fill:var(--ink-2);font:12px var(--sans)}
 .gsm{font-size:12px;fill:var(--ink-3)}
-.gnum{fill:var(--ink);font-weight:600;font-family:var(--mono);font-size:11px;paint-order:stroke;stroke:var(--paper-2);stroke-width:3px}
+.gnum{fill:var(--ink);font-weight:600;font-family:var(--mono);font-size:11px}
 .gnum.dk{fill:var(--on-copper)}
 .grule{stroke:var(--rule);stroke-width:1}
 .grest{fill:var(--paper-3)}
@@ -428,8 +430,14 @@ footer p{margin:0;max-width:820px}
 }
 @media (max-width:759px){
   .grp{width:100%}
-  .stmt h1,.ochead h1{font-size:38px}
-  .figs .fig{font-size:34px}
+  .stmt h1,.ochead h1{font-size:32px}
+  .stmt{gap:10px 20px;margin-bottom:18px}
+  .stmt .sub{font-size:13px;line-height:19px;margin-top:8px}
+  .figs{gap:20px}
+  .figs .fig{font-size:30px}
+  .figs div{gap:4px}
+  .strip{height:34px}
+  .legend .tot .fig,.lift .fig,.finding .fig{font-size:40px}
   .rec{grid-template-columns:58px minmax(0,1fr);gap:12px;padding:16px}
   .rec-inline{padding:0 12px 12px}
   .day{padding:12px 16px 8px}
@@ -815,7 +823,8 @@ function drawMap() {
 const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ` (${e.o})` : '');
 
 function drawArea() {
-  if (!picked) { $('areaBox').innerHTML = `<h3 class="sec-h">Area</h3><p class="note" style="margin-top:0">Select a circle on the map to see that area.</p>`; return; }
+  $('areaBox').className = picked ? 'sec' : '';
+  if (!picked) { $('areaBox').innerHTML = `<p class="note" style="margin:14px 0 0">Select a circle on the map to open that area: its types, times of day and latest cases.</p>`; return; }
   const list = current().filter(e => e.a === picked), timed = list.filter(e => e.b);
   $('areaBox').innerHTML = `<h3 class="sec-h">Area</h3>
     <h2>${esc(AREA[picked].name)}</h2>
@@ -1154,15 +1163,29 @@ $('ocQ').oninput = () => { ocOpen = null; sugOn = -1; drawSug(); drawOc(); };
 /* Where groups are reported: each area sized and heated by the reports naming a group there. Hover a group in the list
    (or open its profile) and only its ground stays lit, with its own counts. Each group's busiest area carries its name. */
 let ocHot = null;
+// Names beside their circles without overlapping: each tries right, left, above, below, in order of the group's size.
+function placeLabels(e, labels) {
+  const boxes = [], hit = b => boxes.some(o => b.x < o.x + o.w && o.x < b.x + b.w && b.y < o.y + o.h && o.y < b.y + b.h);
+  for (const l of labels) {
+    const p = e.m.latLngToContainerPoint(l.ll), w = Math.ceil(l.text.length * 6.4) + 8, h = 16;
+    for (const [dx, dy] of [[l.r + 3, -h / 2], [-l.r - 3 - w, -h / 2], [-w / 2, -l.r - h - 1], [-w / 2, l.r + 1], [l.r + 3, h / 2 + 2], [l.r + 3, -h * 1.5 - 2]]) {
+      const b = { x: p.x + dx, y: p.y + dy, w, h };
+      if (hit(b)) continue;
+      boxes.push(b);
+      L.marker(l.ll, { interactive: false, icon: L.divIcon({ className: 'pin', html: esc(l.text), iconSize: [w, h], iconAnchor: [-dx, -dy] }) }).addTo(e.layer);
+      break;
+    }
+  }
+}
 function drawOcMap(q) {
   const e = MAPS.ocMap || makeMap('ocMap');
   e.layer.clearLayers();
   const gs = OC.groups.filter(g => g.n && ocMatch(g, q));
   const focus = ocHot || (ocOpen && OC.groups.some(x => x.id === ocOpen) ? ocOpen : null), fg = focus && OC.groups.find(x => x.id === focus);
-  const per = {}, tops = {};
-  for (const g of gs) {
-    for (const [a, n] of (g.areas || [])) if (AREA[a]) (per[a] = per[a] || []).push([g, n]);
-    const t = (g.areas || []).find(([a]) => AREA[a]); if (t) (tops[t[0]] = tops[t[0]] || []).push(g.name.replace(' (Pune links)', ''));
+  const per = {}, names = [], seen = a => AREA[a] && (view === 'all' || areaInView(a));   // only the areas of this view
+  for (const g of [...gs].sort((x, y) => y.n - x.n)) {
+    for (const [a, n] of (g.areas || [])) if (seen(a)) (per[a] = per[a] || []).push([g, n]);
+    const t = (g.areas || []).find(([a]) => seen(a)); if (t) names.push({ a: t[0], text: g.name.replace(' (Pune links)', '') });
   }
   const tot = a => per[a].reduce((s, x) => s + x[1], 0), max = Math.max(1, ...Object.keys(per).map(tot));
   const fmax = fg ? Math.max(1, ...(fg.areas || []).map(x => x[1])) : 1, copper = css('--copper');
@@ -1174,8 +1197,9 @@ function drawOcMap(q) {
       .on('click', () => { ocOpen = fg && mine ? focus : here[0][0].id; ocHot = null; drawOc(); ocToTop(); })
       .addTo(e.layer);
     if (on && (fg || v >= 3)) L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'lbl', html: String(v), iconSize: [30, 14], iconAnchor: [15, 7] }) }).addTo(e.layer);
-    if (!fg && tops[a]) L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'pin', html: tops[a].map(esc).join('<br>'), iconSize: [150, 16 * tops[a].length], iconAnchor: [-14 - Math.sqrt(t) * 2.8, 8 * tops[a].length] }) }).addTo(e.layer);
   }
+  if (!fg) placeLabels(e, names.map(x => ({ ll: [AREA[x.a].lat, AREA[x.a].lon], text: x.text, r: 7 + Math.sqrt(tot(x.a)) * 2.8 })));
+  if (!e.zoomHook) { e.zoomHook = true; e.m.on('zoomend', () => { if (OC && !$('ocv').classList.contains('hide')) drawOcMap($('ocQ').value.trim().toLowerCase()); }); }
   $('ocKey').innerHTML = fg
     ? `<div><b style="margin:0;padding:0;font-family:var(--sans)">${esc(fg.name)}</b></div><div>Reports naming this group, by area</div><div class="heatkey" style="margin:0;width:180px"><span>fewer</span><i></i><span>more</span></div>`
     : `<div>Reports naming a group, by area; each group's name sits on its busiest area</div><div class="heatkey" style="margin:0;width:180px"><span>fewer</span><i></i><span>more</span></div><div style="color:var(--ink-3)">Hover a group to see its ground</div>`;
@@ -1310,6 +1334,7 @@ const gBin = (v, max) => v <= 0 ? 0.045 : 0.16 + 0.84 * Math.ceil(Math.min(1, v 
 // The heat ramp: ash for none, then six steps from oxblood to white heat (light mode runs pale to dark). Charts and maps share it.
 const hv = (v, max) => v <= 0 ? 'var(--h0)' : `var(--h${Math.min(6, Math.max(1, Math.ceil(v / Math.max(max, 1e-9) * 6)))})`;
 const hc = (v, max, cap = 5) => { const s = hv(v, max).slice(4, -1); return css(+s.slice(3) > cap ? '--h' + cap : s); };   // the same step as a colour (Leaflet needs real colours); maps stop at bright copper so labels stay legible
+const hInk = (v, max) => v > 0 && Math.ceil(v / Math.max(max, 1e-9) * 6) >= 4 ? 'var(--on-copper)' : 'var(--ink)';   // text that stays legible on a heat cell
 const fmt1 = v => (Math.round(v * 10) / 10).toString();
 const tip = (t) => ` data-tip="${esc(t)}"`;
 
@@ -1401,7 +1426,7 @@ function gMatrix() {
   types.forEach((t, j) => { s += `<text transform="translate(${L + j * cw + cw / 2},${T - 8}) rotate(-38)" class="gtx gsm">${esc(t.name.replace(' & ', ' & ').split(' (')[0])}</text>`; });
   areas.forEach((a, i) => {
     s += `<text x="${L - 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(AREA[a].name)}</text>`;
-    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gcell" style="fill:${hv(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name}, ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle">${v}</text>` : ''}`; });
+    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gcell" style="fill:${hv(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name}, ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle" style="fill:${hInk(v, max)}">${v}</text>` : ''}`; });
     s += `<text x="${L + types.length * cw + 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm">${byA[a].length}</text>`;
   });
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">The ${areas.length} areas with most incidents in this view and period; the number at the end of a row is the area’s total. Click a cell to see its incidents.</p>`;
