@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T12:45:04.132Z",
+ "updated": "2026-11-18T13:07:37.465Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -73,10 +73,9 @@
   {
    "name": "ITI student stabbed at Ambegaon (Pune city) is placed in the city, not Ambegaon taluka",
    "ok": false,
-   "detail": "Junnar / Ambegaon taluka",
+   "detail": "Dighi / Alandi",
    "bad": [
-    "Pune: ITI Student Stabbed to Death by Classmate on Campus Terrace in Ambegaon, Accused Held",
-    "ITI student killed, hostel mate arrested"
+    "Case against six for assaulting man following dispute over spitting"
    ]
   },
   {
@@ -88,20 +87,20 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "date_spread": 1,
-  "waiting_for_judge": 236,
-  "pairs_judged": 552,
-  "pairs_judged_same": 497,
-  "judge_checked_by_expert": 28,
+  "date_spread": 2,
+  "waiting_for_judge": 220,
+  "pairs_judged": 556,
+  "pairs_judged_same": 498,
+  "judge_checked_by_expert": 20,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 23,
+  "area_disagreement": 34,
   "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 18,
-  "ruled_out_by_ai": 175,
-  "reports": 2707,
-  "cases": 1855
+  "unverified": 58,
+  "ruled_out_by_ai": 150,
+  "reports": 2710,
+  "cases": 1849
  },
  "examples": {
   "split_cases": [
@@ -111,6 +110,13 @@
    ]
   ],
   "date_spread": [
+   {
+    "t": "Case against six for assaulting man following dispute over spitting",
+    "days": [
+     "2026-06-06",
+     "2026-11-07"
+    ]
+   },
    {
     "t": "Scooterist dies in hit-and-run",
     "days": [
@@ -126,43 +132,43 @@
   "area_disagreement": [
    {
     "t": "Police patil hacked to death over land dispute in Pune district; search on for three accused",
-    "case_area": "Bhor",
+    "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
    },
    {
     "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
-    "case_area": "Bhor",
+    "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
    },
    {
     "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
-    "case_area": "Vishrantwadi",
+    "case_area": "Warje",
     "reading": "Dighi / Alandi"
+   },
+   {
+    "t": "26-year-old dies by suicide in Bhosari after alleged blackmail over gold earring; woman booked",
+    "case_area": "Loni Kalbhor",
+    "reading": "Bhosari"
+   },
+   {
+    "t": "Pimpri-Chinchwad Grocer Dies by Suicide After Alleged Extortion Over Lost Earring; Woman Booked",
+    "case_area": "Loni Kalbhor",
+    "reading": "Bhosari"
+   },
+   {
+    "t": "Pune: ITI Student Stabbed to Death by Classmate on Campus Terrace in Ambegaon, Accused Held",
+    "case_area": "Dighi / Alandi",
+    "reading": "Junnar / Ambegaon taluka"
+   },
+   {
+    "t": "ITI student killed, hostel mate arrested",
+    "case_area": "Dighi / Alandi",
+    "reading": "Junnar / Ambegaon taluka"
    },
    {
     "t": "‘I Didn’t Meet Siya’: Accused’s Father Speaks After Police Search at Pune Home",
     "case_area": "Lonavala / Maval",
     "reading": "Market Yard"
-   },
-   {
-    "t": "Rider dies, pillion seriously injured as scooter crashes into stationary truck on Katraj bypass",
-    "case_area": "Katraj",
-    "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "20-Year-Old Held With 7 Grams Of MD In Mulshi, Juvenile Detained",
-    "case_area": "Mulshi / Pirangut",
-    "reading": "Bavdhan"
-   },
-   {
-    "t": "Three held for robbing couple near Katraj tunnel",
-    "case_area": "Katraj",
-    "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "Pune: Jejuri Temple Trustee Arrested For Cheating Job Seekers Of Rs 2.75 Crore",
-    "case_area": "Saswad / Jejuri",
-    "reading": "Shivajinagar"
    }
   ],
   "silent_days": [
@@ -174,17 +180,17 @@
    {
     "day": "2026-05-31",
     "incidents": 2,
-    "usual": 9
+    "usual": 8
    },
    {
     "day": "2026-06-04",
     "incidents": 2,
-    "usual": 9
+    "usual": 8
    },
    {
     "day": "2026-07-06",
     "incidents": 2,
-    "usual": 8
+    "usual": 9
    },
    {
     "day": "2026-07-10",
@@ -193,23 +199,11 @@
    },
    {
     "day": "2026-10-25",
-    "incidents": 1,
-    "usual": 8
+    "incidents": 0,
+    "usual": 9
    }
   ],
   "source_gaps": [
-   {
-    "source": "ptm",
-    "days": 17,
-    "examples": [
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10",
-     "2026-10-18",
-     "2026-11-06"
-    ]
-   },
    {
     "source": "skl",
     "days": 8,
@@ -220,6 +214,18 @@
      "2026-10-01",
      "2026-10-11",
      "2026-11-10"
+    ]
+   },
+   {
+    "source": "ptm",
+    "days": 17,
+    "examples": [
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
     ]
    },
    {

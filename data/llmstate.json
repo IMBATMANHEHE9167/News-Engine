@@ -1,14 +1,16 @@
 {
  "day": "2026-11-18",
  "used": {
-  "gemini-3.5-flash-lite": 175,
-  "gemini-3.1-flash-lite": 237,
-  "gemini-3.6-flash": 11,
+  "gemini-3.5-flash-lite": 165,
+  "gemini-3.1-flash-lite": 218,
+  "gemini-3.6-flash": 9,
   "gemini-3-flash-preview": 3,
   "gemini-2.5-flash-lite": 62,
-  "gemini-flash-lite-latest": 18
+  "gemini-flash-lite-latest": 7
  },
- "rested": {},
+ "rested": {
+  "gemini-3.6-flash": true
+ },
  "errors": [
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
@@ -17,11 +19,11 @@
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
   "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
-  "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
-  "gemini-2.5-flash-lite: HTTP 404 {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash-lite is no longer available to new users. Ple",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
-  "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)"
+  "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3.6-flash: The read operation timed out",
+  "gemini-3-flash-preview: The read operation timed out"
  ],
  "models": {
   "readers": [
@@ -35,18 +37,18 @@
    "gemini-flash-latest"
   ]
  },
- "read": 405,
+ "read": 215,
  "waiting": 344,
  "disputes": 308,
  "settled": 40,
- "updated": "2026-11-18T12:40:21.940Z",
- "older": 2302,
+ "updated": "2026-11-18T12:58:41.644Z",
+ "older": 2495,
  "unread": 0,
- "second": 17,
- "expert": 1,
- "not_incident": 175,
+ "second": 48,
+ "expert": 10,
+ "not_incident": 150,
  "judged": 120,
  "lx_reset": 1,
- "audited": 30,
+ "audited": 20,
  "overturned": 1
 }
