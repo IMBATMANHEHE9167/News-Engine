@@ -121,6 +121,10 @@ class Busy(Exception):
     """The model is overloaded right now (HTTP 500/503): try again shortly or use the next model. Not counted."""
 
 
+class Gone(Exception):
+    """The model refuses this key (retired, or not available to new users): rest it for the day. Not counted."""
+
+
 class Limit(Exception):
     """The model's allowance is used up for now."""
 
@@ -139,6 +143,8 @@ def call(key, model, payload, timeout=150):
         body = e.read().decode('utf-8', 'replace')[:300]
         if e.code in (500, 503, 504):
             raise Busy(body) from None
+        if e.code in (403, 404):
+            raise Gone(body) from None
         if e.code == 429:
             raise Limit(body) from None
         raise RuntimeError('HTTP %d %s' % (e.code, body)) from None
@@ -254,15 +260,21 @@ class Session:
         return time.time() - self.started < CFG['run_seconds']
 
     def ask(self, role, model, fn):
-        """Run one request with the usual handling. Returns its result, or None (and the reason is recorded)."""
+        """Run one request with the usual handling. Returns its result, or None (and the reason is recorded).
+        self.retry is True when the failure was the model's (limit, overload, retired), not the articles'."""
+        self.retry = False
         try:
             out = fn()
             self.state['used'][model] = self.state['used'].get(model, 0) + 1
             return out
-        except Limit:
+        except (Limit, Gone) as e:
             self.state['rested'][model] = True
+            self.retry = True
+            if isinstance(e, Gone):
+                self.error('%s: not available, rested for today' % model)
         except Busy:
             self.busy[model] = self.busy.get(model, 0) + 1
+            self.retry = True
             time.sleep(20)
         except Exception as e:
             self.state['used'][model] = self.state['used'].get(model, 0) + 1
@@ -310,7 +322,11 @@ def _read_pass(S, role, field, todo, budget, texts, get, avoid_own=False):
         forms = S.ask(role, model, lambda: read(S.key, model, pairs))
         used += 1
         if forms is None:
-            for r in batch:                         # failed: count it, so a bad article cannot block the queue for ever
+            if S.retry:
+                i -= len(batch)                     # the model's failure: the same articles go to the next model
+                used -= 1
+                continue
+            for r in batch:                         # an unusable answer: count it, so a bad article cannot block the queue
                 r['Lx'] = r.get('Lx', 0) + 1
             continue
         for r in batch:
@@ -330,6 +346,10 @@ def run(items, texts, get):
         S.state['note'] = 'no GEMINI_API_KEY secret: the LLM layer is off'
         return finish(S, items)
     left = CFG['per_run']['readers']
+    if not S.state.get('lx_reset'):                     # failures counted while a retired model was in use: forgive
+        for r in items:
+            r.pop('Lx', None)
+        S.state['lx_reset'] = 1
     fresh = lambda r: r.get('Lx', 0) < 3
     newest = lambda xs: sorted(xs, key=lambda r: r['d'], reverse=True)
     # 1. Reports nobody has read yet (they are kept out of the counts until read).
