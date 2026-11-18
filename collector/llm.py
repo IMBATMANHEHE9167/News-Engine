@@ -326,8 +326,18 @@ def _read_pass(S, role, field, todo, budget, texts, get, avoid_own=False):
                 i -= len(batch)                     # the model's failure: the same articles go to the next model
                 used -= 1
                 continue
-            for r in batch:                         # an unusable answer: count it, so a bad article cannot block the queue
-                r['Lx'] = r.get('Lx', 0) + 1
+            # An unusable answer (often a safety block on ONE article): read each article on its own, so the others are
+            # not held back; only an article that fails on its own is counted against it.
+            for r, t in (pairs if len(pairs) > 1 else []):
+                one = S.ask(role, model, lambda: read(S.key, model, [(r, t)]))
+                used += 1
+                if one and one.get(r['id']):
+                    r[field] = compact(one[r['id']], model)
+                    r.pop('Lx', None)
+                elif not S.retry:
+                    r['Lx'] = r.get('Lx', 0) + 1
+            if len(pairs) == 1:
+                batch[0]['Lx'] = batch[0].get('Lx', 0) + 1
             continue
         for r in batch:
             f = forms.get(r['id'])

@@ -1200,6 +1200,8 @@ def verdict(rec):
     """The deciding reading (a form), or 'second' / 'expert' when another reading is needed, or None when unread."""
     L = rec.get('L')
     if not L:
+        if rec.get('Lx', 0) >= 3:                      # the AI refused this article three times (safety block):
+            return {'ok': True, 'c': (rec.get('R0') or rec).get('c'), 'ro': 1}   # the rules decide; retried tomorrow
         return None
     rules = (True, fam((rec.get('R0') or rec).get('c')))
     a = _view(L)
@@ -1282,7 +1284,7 @@ def apply_llm(rec):
     # would move the report to another part of the district (city / Pimpri-Chinchwad / rural) than the rules found,
     # it must be backed by the police station or by the place and locality together; otherwise the rules' area stays.
     found = [locate(x) if x else None for x in (v.get('lo', ''), v.get('pl', ''), v.get('ps', ''))]
-    a = next((x for x in found if x), None)
+    a = found[2] or next((x for x in found if x), None)     # the police station that registered the case comes first
     old = rec.get('a')
     if a and old and a != old and AREA[a]['r'] != AREA[old]['r']:
         backed = found[2] == a or (found[0] == a and found[1] == a)
