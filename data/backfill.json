@@ -51,20 +51,20 @@
    "reached": "may 2026"
   },
   "ptm": {
-   "done": false,
+   "done": true,
    "kept": 478,
    "note": "",
-   "page": 176,
-   "reached": "2026-09-02",
+   "page": 178,
+   "reached": "2026-08-31",
    "refill": 1,
    "until": "2026-09-01"
   },
   "pkn": {
-   "done": false,
+   "done": true,
    "kept": 458,
    "note": "",
-   "page": 176,
-   "reached": "2026-09-09",
+   "page": 200,
+   "reached": "2026-08-31",
    "refill": 1,
    "until": "2026-09-01"
   },
