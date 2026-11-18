@@ -1274,13 +1274,19 @@ def apply_llm(rec):
     if rec['c'] == 'murder':
         rec['o'] = 'fatal'
     # Area: the reading's locality, place or police station when it is one of ours; else the rules' area.
-    for phrase in (v.get('lo', ''), v.get('pl', ''), v.get('ps', '')):
-        a = locate(phrase) if phrase else None
-        if a:
-            if a != rec.get('a'):
-                rec['a'] = a
-                rec.pop('p', None)
-            break
+    # Some names exist twice in the district ("Ambegaon" is a city neighbourhood and a rural taluka): when the reading
+    # would move the report to another part of the district (city / Pimpri-Chinchwad / rural) than the rules found,
+    # it must be backed by the police station or by the place and locality together; otherwise the rules' area stays.
+    found = [locate(x) if x else None for x in (v.get('lo', ''), v.get('pl', ''), v.get('ps', ''))]
+    a = next((x for x in found if x), None)
+    old = rec.get('a')
+    if a and old and a != old and AREA[a]['r'] != AREA[old]['r']:
+        backed = found[2] == a or (found[0] == a and found[1] == a)
+        if not backed:
+            a = None
+    if a and a != old:
+        rec['a'] = a
+        rec.pop('p', None)
     if rec.get('a') and (v.get('pl') or v.get('lo')):
         p = spot(rec['a'], v.get('pl', ''), v.get('lo', ''))
         old = rec.get('p')

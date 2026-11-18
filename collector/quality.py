@@ -51,6 +51,10 @@ def build(items, events, verdicts, ask):
         elif 'not_incident' in t:
             hs = holders(t['not_incident'])
             ok, detail, bad = not hs, '%d counted' % len(hs) if hs else 'not counted', [e['reports'][0]['t'] for e in hs[:5]]
+        elif 'region' in t:
+            pat, want = t['region']
+            hs = [e for e in holders(pat) if not e['a'] or E.AREA[e['a']]['r'] != want]
+            ok, detail, bad = not hs, ', '.join(sorted({E.AREA[e['a']]['name'] if e['a'] else 'no area' for e in hs})) or 'right part of the district', [e['reports'][0]['t'] for e in hs[:5]]
         elif 'type' in t:
             pat, want = t['type']
             hs = [e for e in holders(pat) if e['c'] != want]
