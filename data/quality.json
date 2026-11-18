@@ -1,0 +1,190 @@
+{
+ "updated": "2026-11-18T08:58:51.328Z",
+ "tests": [
+  {
+   "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
+   "ok": false,
+   "detail": "3 cases",
+   "bad": [
+    [
+     "‘I Didn’t Meet Siya’: Accused’s Father Speaks After Police Search at Pune Home",
+     "Lohagad Murder Fallout: Accused Chetan Choudhary’s Family Leaves Home Amid Public Outrage",
+     "Pune Police Push for Lie-Detector Test as Ketan Agarwal Murder Probe Hits a Wall"
+    ],
+    [
+     "Hoodie Clue Cracks Lohagad Death Mystery: How a Pune Businessman’s ‘Accidental Fall’ Turned Into an Alleged Murder Case",
+     "Lohagad Fort murder in Pune: Ketan Agarwal's father says they initially rejected marriage proposal, claims Siya's family kept requesting",
+     "Why Is Everyone Talking About Lohagad Fort? The Historic Site at the Centre of a Murder Investigation"
+    ]
+   ]
+  },
+  {
+   "name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "NDA security post shooting (sepoy who died) is one case",
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "NDA Security Personnel Dies Days After Gunshot Injury in Pune"
+    ]
+   ]
+  },
+  {
+   "name": "Trainee PSI dowry harassment is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Trainee PSI dowry harassment is a crime against women",
+   "ok": true,
+   "detail": "right type",
+   "bad": []
+  },
+  {
+   "name": "Kasba Ganpati temple donation-box theft is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Ranjangaon worker shot in place of his employer is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "PMRDA notice on the POCSO court building is not an incident",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  },
+  {
+   "name": "Kho-kho player's suicide is not a crime against women",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  },
+  {
+   "name": "Special NDPS court set up is not an incident",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  }
+ ],
+ "detectors": {
+  "split_cases": 0,
+  "date_spread": 0,
+  "waiting_for_judge": 603,
+  "pairs_judged": 190,
+  "pairs_judged_same": 179,
+  "non_incident_wording": 0,
+  "area_disagreement": 1,
+  "silent_days": 6,
+  "source_gap_days": 64,
+  "unverified": 602,
+  "ruled_out_by_ai": 0,
+  "reports": 2693,
+  "cases": 1712
+ },
+ "examples": {
+  "split_cases": [],
+  "date_spread": [],
+  "non_incident_wording": [],
+  "area_disagreement": [
+   {
+    "t": "STES Founder & others booked for defrauding teachers of over ₹5.06 crore",
+    "case_area": "Bharati Vidyapeeth",
+    "reading": "Junnar / Ambegaon taluka"
+   }
+  ],
+  "silent_days": [
+   {
+    "day": "2026-07-04",
+    "incidents": 2,
+    "usual": 9
+   },
+   {
+    "day": "2026-07-06",
+    "incidents": 2,
+    "usual": 9
+   },
+   {
+    "day": "2026-07-07",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
+    "day": "2026-07-10",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
+    "day": "2026-09-27",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
+    "day": "2026-10-25",
+    "incidents": 1,
+    "usual": 8
+   }
+  ],
+  "source_gaps": [
+   {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
+    ]
+   },
+   {
+    "source": "ptm",
+    "days": 17,
+    "examples": [
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
+    ]
+   },
+   {
+    "source": "pkn",
+    "days": 28,
+    "examples": [
+     "2026-10-25",
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15"
+    ]
+   },
+   {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   }
+  ]
+ },
+ "passed": 8
+}

@@ -51,25 +51,31 @@
    "reached": "may 2026"
   },
   "ptm": {
-   "done": true,
-   "kept": 470,
+   "done": false,
+   "kept": 471,
    "note": "",
-   "page": 358,
-   "reached": "2026-06-17"
+   "page": 26,
+   "reached": "2026-11-04",
+   "refill": 1,
+   "until": "2026-09-01"
   },
   "pkn": {
-   "done": true,
-   "kept": 450,
+   "done": false,
+   "kept": 451,
    "note": "",
-   "page": 483,
-   "reached": "2026-05-18"
+   "page": 26,
+   "reached": "2026-11-05",
+   "refill": 1,
+   "until": "2026-09-01"
   },
   "pcl": {
    "done": true,
    "kept": 28,
    "note": "",
-   "page": 10,
-   "reached": "2026-04-27"
+   "page": 6,
+   "reached": "2026-08-23",
+   "refill": 1,
+   "until": "2026-09-01"
   }
  }
 }

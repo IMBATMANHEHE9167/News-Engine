@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-18T08:30:17.113Z",
- "total": 2691,
- "added": 1,
+ "updated": "2026-11-18T08:55:47.749Z",
+ "total": 2693,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -24,20 +24,20 @@
     "note": ""
    },
    "ptm": {
-    "done": true,
-    "reached": "2026-06-17",
-    "kept": 470,
+    "done": false,
+    "reached": "2026-11-04",
+    "kept": 471,
     "note": ""
    },
    "pkn": {
-    "done": true,
-    "reached": "2026-05-18",
-    "kept": 450,
+    "done": false,
+    "reached": "2026-11-05",
+    "kept": 451,
     "note": ""
    },
    "pcl": {
     "done": true,
-    "reached": "2026-04-27",
+    "reached": "2026-08-23",
     "kept": 28,
     "note": ""
    }
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 0,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -80,7 +80,7 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 0,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -96,7 +96,7 @@
    "id": "pcl",
    "name": "Pune City Live",
    "ok": true,
-   "found": 2,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -105,7 +105,7 @@
    "name": "Free Press Journal",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 5,
+   "found": 6,
    "added": 0,
    "note": ""
   },
