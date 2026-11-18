@@ -86,7 +86,9 @@ def build(items, events, verdicts, ask):
 
     D['waiting_for_judge'] = len(ask)
     D['pairs_judged'] = len(verdicts)
-    D['pairs_judged_same'] = sum(1 for v in verdicts.values() if v)
+    D['pairs_judged_same'] = sum(1 for v in verdicts.values() if E.same(v))
+    D['judge_checked_by_expert'] = sum(1 for v in verdicts.values() if v in ('same', 'diff'))
+    D['judge_overturned_by_expert'] = sum(1 for v in verdicts.values() if v == 'diff')
 
     wording = [e for e in counted if not e.get('orphan') and e['c'] != 'fire' and NOT_EVENT.search(e['reports'][-1]['t'])]
     D['non_incident_wording'] = len(wording)

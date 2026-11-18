@@ -323,13 +323,17 @@ print('machine reading: %s, second opinion flags %d' % ('on' if vec else 'off', 
 
 verdicts = read_json('pairs.json', {})
 events, ask = C.build(judged, vec, verdicts)
-if ask:
-    before = len(verdicts)
+old_verdicts = dict(verdicts)
+if ask or any(v is True for v in verdicts.values()):
     try:
         llm.run_judges(ask, verdicts)
     except Exception as ex:
         print('judges failed: %s' % str(ex)[:200])
-    if len(verdicts) > before:
+    try:
+        llm.audit_judges(verdicts, {r['id']: r for r in judged})     # the expert re-checks the riskiest merges
+    except Exception as ex:
+        print('judge audit failed: %s' % str(ex)[:200])
+    if verdicts != old_verdicts:
         events, ask = C.build(judged, vec, verdicts)
 alive = {r['id'] for r in judged}
 verdicts = {k: v for k, v in verdicts.items() if all(x in alive for x in k.split('|'))}

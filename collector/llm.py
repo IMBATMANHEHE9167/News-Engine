@@ -383,9 +383,42 @@ def run_judges(pairs, cache):
         res = S.ask('readers', model, lambda: judge(S.key, model, chunk))
         asked += 1
         for key, _, _ in chunk:
-            if res and key in res:
+            if res and key in res and cache.get(key) not in ('same', 'diff'):
                 cache[key] = res[key]
     S.state['judged'] = S.state.get('judged', 0) + asked
+    _save(S.state)
+    return asked
+
+
+def audit_judges(cache, by_id):
+    """A stronger model re-judges the riskiest "same incident" verdicts of the fast judge (different days or areas
+    first, then the newest). Its answer is final: stored as 'same' or 'diff', never asked again."""
+    S = Session()
+    if not S.key:
+        return 0
+    def risk(k):
+        a, b = (by_id.get(x) for x in k.split('|'))
+        if not a or not b:
+            return None
+        da = E.day_of(a['d']) if not a.get('i') else (E.date.fromisoformat(a['i']) - E.date(1970, 1, 1)).days
+        db = E.day_of(b['d']) if not b.get('i') else (E.date.fromisoformat(b['i']) - E.date(1970, 1, 1)).days
+        return (abs(da - db) > 1) + (a.get('a') != b.get('a')) + (a.get('c') != b.get('c')), max(a['d'], b['d'])
+    todo = sorted((k for k, v in cache.items() if v is True and risk(k)), key=risk, reverse=True)
+    asked, n = 0, CFG['pair_batch']
+    for k in range(0, len(todo), n):
+        if asked >= CFG['per_run'].get('audit', 1):
+            break
+        model = S.take('experts')
+        if not model:
+            break
+        chunk = [(key, by_id[key.split('|')[0]], by_id[key.split('|')[1]]) for key in todo[k:k + n]]
+        res = S.ask('experts', model, lambda: judge(S.key, model, chunk))
+        asked += 1
+        for key, _, _ in chunk:
+            if res and key in res:
+                cache[key] = 'same' if res[key] else 'diff'
+    S.state['audited'] = sum(1 for v in cache.values() if v in ('same', 'diff'))
+    S.state['overturned'] = sum(1 for v in cache.values() if v == 'diff')
     _save(S.state)
     return asked
 

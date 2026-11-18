@@ -1299,3 +1299,8 @@ def apply_llm(rec):
         rec['b'] = band(rec['h'])
     elif not rec.get('b') and v.get('pd') in ('morning', 'afternoon', 'evening', 'night'):
         rec['b'] = v['pd']
+
+
+def same(v):
+    """A judge's verdict on a pair: True (fast judge) or 'same' (confirmed by the expert) mean the same incident."""
+    return v is True or v == 'same'

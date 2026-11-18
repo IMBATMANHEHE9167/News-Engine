@@ -181,7 +181,7 @@ def build(items, vec=None, verdicts=None):
                     E.shares(x['fp'], y['fp'], E.big_sum)
                 s = sim(i, j)
                 if key in verdicts:
-                    if verdicts[key]:
+                    if E.same(verdicts[key]):
                         S.join(i, j, rare, details=False)
                     continue
                 if S.conflict(i, j, rare):
