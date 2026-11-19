@@ -1,0 +1,206 @@
+{
+ "compiled": "2026-11-19",
+ "note": "Official figures for Pune as the police and the National Crime Records Bureau published them: registered cases, not news reports. Compiled by hand from each release or from press reports of it; every figure names its source and date. Where two reports of one release disagree, the figure is left out and the disagreement is noted. Bodies count differently, so compare a body only with itself.",
+ "bodies": [
+  {
+   "id": "pcp",
+   "name": "Pune City Police",
+   "area": "Pune city (Pune Police Commissionerate)",
+   "views": ["city", "all"],
+   "releases": [
+    {
+     "id": "pcp-2025",
+     "kind": "annual",
+     "title": "Annual Crime Review 2025",
+     "by": "Commissioner Amitesh Kumar, Pune City Police",
+     "date": "2025-12-29",
+     "years": [2023, 2024, 2025],
+     "unit": "registered cases",
+     "via": [
+      { "name": "Free Press Journal", "u": "https://www.freepressjournal.in/pune/murder-cheating-cases-decline-theft-on-the-rise-as-cybercrime-remains-major-challenge-what-pune-polices-2025-crime-report-reveals", "d": "2025-12-29" },
+      { "name": "PTI, in The Week", "u": "https://www.theweek.in/wire-updates/national/2025/12/29/bes26-mh-year-crime-pune.html", "d": "2025-12-29" }
+     ],
+     "heads": [
+      { "id": "murder", "name": "Murder", "v": [101, 93, 79] },
+      { "id": "hurt", "name": "Hurt", "v": [1362, 1515, 1453] },
+      { "id": "robbery", "name": "Dacoity and robbery", "v": [236, 245, 242] },
+      { "id": "chain", "name": "Chain snatching", "v": [54, 103, 127] },
+      { "id": "hbt", "name": "Housebreaking theft", "v": [606, 512, 528] },
+      { "id": "vehicle", "name": "Vehicle theft", "v": [1962, 1927, 1572] },
+      { "id": "theft", "name": "Other thefts", "v": [1311, 1522, 1143] },
+      { "id": "rape", "name": "Rape", "v": [407, 499, 473] },
+      { "id": "molest", "name": "Molestation", "v": [775, 844, 836] },
+      { "id": "juvenile", "name": "Crimes by juveniles", "v": [414, 446, 368] },
+      { "id": "ndps", "name": "Narcotics (NDPS Act)", "v": [120, 111, 215] },
+      { "id": "cyber", "name": "Cybercrime, cases registered", "v": [null, 1505, 743] },
+      { "id": "mcoca", "name": "MCOCA cases", "v": [null, 48, 52], "action": true },
+      { "id": "mpda", "name": "MPDA detentions", "v": [null, 103, 110], "action": true }
+     ],
+     "money": [
+      { "name": "Lost to cybercrime", "v": [null, 4469304398, 2213151133] },
+      { "name": "Recovered from cybercrime", "v": [null, 110458422, 414870794] }
+     ],
+     "notes": [
+      "Attempt to murder is left out: the two press reports of this review disagree (PTI gives 240 in 2024 and 179 in 2025; the Free Press Journal gives 179 and 153).",
+      "MCOCA and MPDA are police actions, not crimes."
+     ]
+    },
+    {
+     "id": "pcp-2026-may",
+     "kind": "change",
+     "title": "Commissioner's letter on crime so far in 2026",
+     "by": "Commissioner Amitesh Kumar, Pune City Police",
+     "date": "2026-06-02",
+     "period": "1 January to 27 May 2026, against the same days of 2025",
+     "via": [
+      { "name": "The Bridge Chronicle", "u": "https://www.thebridgechronicle.com/pune/pune-police-commissioner-responds-to-supriya-sule-crime-allegations-agn97", "d": "2026-06-02" },
+      { "name": "The Daily Pioneer", "u": "https://dailypioneer.com/news/slug-lite/pune-police-chief-refutes-ncp-mps-charge-says-pune-is-a-safe-city?year=2026", "d": "2026-06-03" }
+     ],
+     "changes": [
+      { "name": "Chain snatching", "pct": -56 },
+      { "name": "Robbery", "pct": -36 },
+      { "name": "Vehicle theft", "pct": -28 },
+      { "name": "Attempt to murder", "pct": -27 },
+      { "name": "Rape", "pct": -7 },
+      { "name": "Molestation", "pct": -1 }
+     ],
+     "notes": [
+      "Murder is left out: one report gives a 10.5% fall in murder; another gives 10.5% for murder and attempt to murder together and says murders rose slightly, most of them within families.",
+      "The letter gives percentages only, no counts."
+     ]
+    },
+    {
+     "id": "pcp-2026-jul",
+     "kind": "count",
+     "title": "Police data, 1 January to 27 July 2026",
+     "by": "Pune City Police data, as reported",
+     "date": "2026-08-11",
+     "period": "1 January to 27 July 2026",
+     "via": [
+      { "name": "Punekar News", "u": "https://www.punekarnews.in/punes-violent-crime-puzzle-50-murders-80-attempted-murders-in-seven-months/", "d": "2026-08-11" }
+     ],
+     "counts": [
+      { "name": "People murdered", "v": 50 },
+      { "name": "Victims of attempted murder", "v": 80 },
+      { "name": "Hurt cases", "v": 814 }
+     ],
+     "notes": [
+      "Counted as people (victims), not as cases, so these do not compare directly with the annual review."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ncrb",
+   "name": "National Crime Records Bureau",
+   "area": "Pune city, one of India's 19 metropolitan cities",
+   "views": ["city", "all"],
+   "releases": [
+    {
+     "id": "ncrb-2024",
+     "kind": "annual",
+     "title": "Crime in India 2024",
+     "by": "National Crime Records Bureau, Ministry of Home Affairs",
+     "date": "2026-05-07",
+     "years": [2022, 2023, 2024],
+     "unit": "cases (IPC or BNS, and special and local laws)",
+     "via": [
+      { "name": "NCRB, Crime in India 2024, Volume I", "u": "https://www.ncrb.mha.gov.in/uploads/files/11CrimeinIndia2024-VolumeI.pdf", "d": "2026-05-07" },
+      { "name": "Pune Pulse", "u": "https://www.mypunepulse.com/pune-sees-sharp-rise-in-cybercrime-economic-offences-and-crimes-against-women-in-2024-ncrb-report/", "d": "2026-05-09" }
+     ],
+     "heads": [
+      { "id": "total", "name": "All cases", "v": [14173, 17022, 18560] },
+      { "id": "violent", "name": "Violent crimes", "v": [2417, 2296, 3573] },
+      { "id": "murder", "name": "Murder", "v": [105, 101, 94] },
+      { "id": "kidnap", "name": "Kidnapping and abduction", "v": [693, 787, 734] },
+      { "id": "women", "name": "Crimes against women", "v": [2074, 2550, 2631] },
+      { "id": "children", "name": "Crimes against children", "v": [732, 1234, 1330] },
+      { "id": "senior", "name": "Crimes against senior citizens", "v": [69, 57, 151] },
+      { "id": "economic", "name": "Economic offences", "v": [1023, 1207, 2125] },
+      { "id": "cyber", "name": "Cybercrime", "v": [357, 487, 1504] },
+      { "id": "juvenile", "name": "Juveniles in conflict with law", "v": [278, 275, 102] }
+     ],
+     "ranks": {
+      "of": 19,
+      "rows": [
+       { "name": "Rate of cognisable crime", "rank": 18 },
+       { "name": "Total IPC and BNS crimes", "rank": 15 },
+       { "name": "Murder rate", "rank": 11 }
+      ],
+      "by": "Commissioner Amitesh Kumar, citing the NCRB, in his letter of June 2026 (1 is the highest)",
+      "via": { "name": "The Daily Pioneer", "u": "https://dailypioneer.com/news/slug-lite/pune-police-chief-refutes-ncp-mps-charge-says-pune-is-a-safe-city?year=2026", "d": "2026-06-03" }
+     },
+     "notes": [
+      "Read from press coverage of the report; the NCRB volume is linked as the authority.",
+      "2024 is the first year counted partly under the new Bharatiya Nyaya Sanhita (from 1 July 2024), so some heads shift between laws.",
+      "NCRB counts by its own rules, so its figures differ a little from the city police's own (murder in 2024: 94 here, 93 in the police review)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pcmc",
+   "name": "Pimpri-Chinchwad Police",
+   "area": "Pimpri-Chinchwad (Pimpri-Chinchwad Police Commissionerate), which includes Hinjewadi",
+   "views": ["pcmc", "hinj", "all"],
+   "releases": [
+    {
+     "id": "pcmc-2025",
+     "kind": "annual",
+     "title": "Annual review 2025",
+     "by": "Commissioner Vinoy Kumar Choubey, Pimpri-Chinchwad Police",
+     "date": "2026-01-07",
+     "years": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
+     "unit": "registered cases",
+     "via": [
+      { "name": "Free Press Journal", "u": "https://www.freepressjournal.in/pune/pune-pimpri-chinchwad-records-6904-crimes-in-2025-murders-drop-but-city-still-unsafe-says-data", "d": "2026-01-07" }
+     ],
+     "heads": [
+      { "id": "total", "name": "Crime cases registered", "v": [4294, 6913, 6915, 8739, 7269, 7152, 6904] },
+      { "id": "murder", "name": "Murder", "v": [68, 71, 85, 80, 69, 85, 63] },
+      { "id": "attempt", "name": "Attempt to murder", "v": [91, 66, 122, 116, 116, 168, 194] },
+      { "id": "body", "name": "Offences against the body", "v": [1036, 936, 1022, 1654, 1207, 1183, 1087] },
+      { "id": "molest", "name": "Molestation", "v": [443, 285, 351, 445, 396, 387, 392] },
+      { "id": "rape", "name": "Rape", "v": [171, 153, 164, 244, 260, 261, 301] }
+     ],
+     "solved": {
+      "year": 2025,
+      "rows": [
+       { "name": "Dacoity", "n": 20, "pct": 100 },
+       { "name": "Robbery", "n": 182, "pct": 87 },
+       { "name": "Chain snatching", "n": 75, "pct": 83 },
+       { "name": "Burglary", "n": 285, "pct": 51 },
+       { "name": "Vehicle theft", "n": 960, "pct": 39 },
+       { "name": "All property offences", "n": 2129, "pct": 47 }
+      ]
+     },
+     "actions": {
+      "year": 2025,
+      "rows": [
+       { "name": "Externment orders", "v": 368 },
+       { "name": "MCOCA", "v": 213 },
+       { "name": "MPDA detentions", "v": 35 },
+       { "name": "Firearms seized (cases)", "v": 243 },
+       { "name": "Sharp weapons (cases)", "v": 908 },
+       { "name": "Narcotics cases", "v": 172 }
+      ]
+     },
+     "notes": [
+      "Totals depend on what is counted: another report of 2024 gives nearly 16,000 crimes for Pimpri-Chinchwad, so compare these figures only with each other.",
+      "Murder in 2025: 62 of 63 were solved, the commissioner said."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rural",
+   "name": "Pune Rural Police",
+   "area": "Pune district outside the two commissionerates",
+   "views": ["rural", "all"],
+   "releases": [],
+   "notes": [
+    "No annual figures from the Pune Rural police were found in a search on 19 November 2026."
+   ]
+  }
+ ]
+}
