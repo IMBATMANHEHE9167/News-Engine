@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T15:22:42.086Z",
+ "updated": "2026-11-19T16:20:28.207Z",
  "tests": [
   {
    "name": "Drunk policeman molesting a woman (Chaturshringi, Sep 2026) is one case",
@@ -101,7 +101,7 @@
  "detectors": {
   "split_cases": 7,
   "date_spread": 7,
-  "waiting_for_judge": 1,
+  "waiting_for_judge": 4,
   "pairs_judged": 907,
   "pairs_judged_same": 798,
   "judge_checked_by_expert": 78,
@@ -112,8 +112,8 @@
   "source_gap_days": 63,
   "unverified": 8,
   "ruled_out_by_ai": 174,
-  "reports": 2747,
-  "cases": 1631
+  "reports": 2749,
+  "cases": 1633
  },
  "examples": {
   "split_cases": [
