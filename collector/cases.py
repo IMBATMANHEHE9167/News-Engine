@@ -229,6 +229,9 @@ def _case(xs):
         votes[x['c']] += 1 if x['dev'] else 2
     top = max(votes.values())
     c = min((k for k, v in votes.items() if v == top), key=E.SEVERITY.index)
+    # An attack whose victim died later is a murder: a later report reads it as murder and says someone died.
+    if c in ('violence', 'kidnap') and any(x['c'] == 'murder' and x['r'].get('o') == 'fatal' for x in xs):
+        c = 'murder'
     areas = Counter(x['a'] for x in base if x['a']) or Counter(x['a'] for x in xs if x['a'])
     a = areas.most_common(1)[0][0] if areas else None
     first_pub = min(x['pub'] for x in xs)
