@@ -24,22 +24,20 @@ document.documentElement.dataset.theme=t;})();
 /* Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V5 · weakest: E, no Node on this PC so sloplint cannot run; checked by hand and in the browser at four widths */
 /* Hallmark · waive 12, 13: app scope, no marketing hero · waive "never orange type": copper is the brand's own ink, used for figures and the open tab, AA on both grounds */
 /* Unslop · direction: exact, physical, unhurried · world: a forge at night, metal glowing where the heat is · moments: the heat strip, the case file, the maps · system: design.md */
-/* Impeccable (Operate, colorize, craft floor) + Taste Skill (colour, contrast, type floor): colourway refinement, neutral grounds, ink shell band, single-hue heat ramp */
-/* Colourways (Impeccable colorize + Taste system): the logo's own three materials. Neutrals stay neutral (a trace of warmth,
-   chroma near zero) so copper is the only colour on the page and reads as the brand, not as a tint over everything.
-   Shell: the ink band across the top in both colourways, the logo's ink with its copper; the work sits on paper below it.
-   Heat ramp: one copper hue, lightness stepping, chroma reduced near paper and near ink (no maroon, no cream). */
+/* Impeccable (Operate, colorize, craft floor) + Taste Skill (colour, contrast, type floor): neutral grounds, ink shell band */
+/* Copper is sacred: it appears only as true copper (one value on paper, one lit value on ink), never as a paler, darker,
+   browner or see-through shade. How much happened is carried by size, height and light: a bigger mark, a taller bar,
+   and a copper glow for the busiest places and days. Everything that is not copper is neutral. */
 :root{
   color-scheme:light;
-  --paper:#E7E5E1; --paper-2:#F8F7F5; --paper-3:#DCD9D4;
+  --paper:#EEECE8; --paper-2:#F9F8F6; --paper-3:#E0DDD8;
   --ink:#181818; --ink-2:#3D3B38; --ink-3:#5C5853;
   --rule:rgba(24,24,24,.12); --rule-2:rgba(24,24,24,.24); --hover:rgba(24,24,24,.05);
-  --copper:#9C5A2B; --copper-text:#8A4D22; --on-copper:#FFF8F0; --copper-wash:rgba(156,90,43,.11); --select:rgba(156,90,43,.24);
-  --h0:#DCD9D4; --h1:#EAD4BF; --h2:#DBAE87; --h3:#C3834E; --h4:#9C5A2B; --h5:#76411E; --h6:#4C2911;
+  --copper:#9C5A2B; --copper-text:#9C5A2B; --on-copper:#FFF8F0; --glow:rgba(214,126,58,.55); --well:#E6E3DF;
   --neg:#A3322A; --bar:rgba(24,24,24,.22);
-  --shell:#181818; --shell-2:#2B2A28; --shell-ink:#F2F0EC; --shell-ink-2:#ABA69E; --shell-rule:rgba(242,240,236,.10); --shell-hover:rgba(242,240,236,.07); --shell-copper:#D08E5A;
+  --shell:#181818; --shell-2:#2B2A28; --shell-ink:#F2F0EC; --shell-ink-2:#ABA69E; --shell-rule:rgba(242,240,236,.10); --shell-hover:rgba(242,240,236,.07); --shell-copper:#D08A52; --on-shell-copper:#170F09;
   --shadow:0 24px 48px -24px rgba(24,24,24,.28),0 1px 3px rgba(24,24,24,.08);
-  --tile-filter:grayscale(.9) sepia(.06) contrast(.98);
+  --tile-filter:grayscale(1) contrast(.97);
   --display:"Boska","Tiro Devanagari Marathi",Georgia,serif;
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -52,12 +50,11 @@ document.documentElement.dataset.theme=t;})();
   --paper:#151413; --paper-2:#1E1D1B; --paper-3:#2A2826;
   --ink:#EEEBE6; --ink-2:#C5C0B9; --ink-3:#969089;
   --rule:rgba(238,235,230,.10); --rule-2:rgba(238,235,230,.20); --hover:rgba(238,235,230,.05);
-  --copper:#C98652; --copper-text:#DA9B69; --on-copper:#170F09; --copper-wash:rgba(201,134,82,.13); --select:rgba(201,134,82,.32);
-  --h0:#272523; --h1:#3B2D22; --h2:#5E412A; --h3:#8A5A34; --h4:#C27E48; --h5:#DDA16E; --h6:#EFC79E;
+  --copper:#D08A52; --copper-text:#D08A52; --on-copper:#170F09; --glow:rgba(244,154,86,.62); --well:#272624;
   --neg:#EE8573; --bar:rgba(238,235,230,.22);
-  --shell:#090908; --shell-2:#242321; --shell-ink:#EEEBE6; --shell-ink-2:#A49E96; --shell-rule:rgba(238,235,230,.09); --shell-hover:rgba(238,235,230,.06); --shell-copper:#D2925F;
+  --shell:#090908; --shell-2:#242321; --shell-ink:#EEEBE6; --shell-ink-2:#A49E96; --shell-rule:rgba(238,235,230,.09); --shell-hover:rgba(238,235,230,.06); --shell-copper:#D08A52; --on-shell-copper:#170F09;
   --shadow:0 28px 56px -24px rgba(0,0,0,.75),0 0 0 1px rgba(238,235,230,.04);
-  --tile-filter:grayscale(.6) sepia(.12) brightness(.92) contrast(1.02);
+  --tile-filter:grayscale(1) brightness(.95);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
@@ -68,7 +65,7 @@ button{cursor:pointer}
 :focus-visible{outline:2px solid var(--copper);outline-offset:2px}
 html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-color:var(--copper)}
 .bar :focus-visible,.brandrow :focus-visible{outline-color:var(--shell-copper)}
-::selection{background:var(--select);color:var(--ink)}
+::selection{background:var(--copper);color:var(--on-copper)}
 .hide{display:none!important}
 .label{font-size:12px;line-height:16px;font-weight:500;color:var(--ink-3)}
 .note{font-size:13px;line-height:20px;color:var(--ink-3);margin:8px 0 0}
@@ -81,15 +78,16 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .bar{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:28px;height:var(--bar-h);padding:0 28px;background:var(--shell);color:var(--shell-ink);border-bottom:1px solid var(--shell-rule)}
 .brandrow{display:contents}
 .brand{order:0;flex:none;display:flex;align-items:baseline;gap:10px;text-decoration:none}
-.mark{margin:0;color:var(--shell-ink);font:500 28px/1 var(--sans);letter-spacing:.01em;position:relative;padding-bottom:6px}
+.mark{margin:0;color:var(--shell-ink);font:500 28px/1 var(--sans);letter-spacing:.01em;position:relative;padding-bottom:9px}
 .mark span{color:var(--shell-copper)}
-.mark::after{content:"";position:absolute;left:0;bottom:0;width:18px;height:2px;background:var(--shell-copper)}
+/* The logo's rule: centred under the whole wordmark, a third of its width, hairline thin */
+.mark::after{content:"";position:absolute;left:50%;bottom:0;width:32%;height:1.5px;transform:translateX(-50%);background:var(--shell-copper)}
 .brand .place{font:400 18px/1 var(--display);color:var(--shell-ink-2)}
 .tabs{order:1;flex:1 1 auto;min-width:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:4px 0}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:none;appearance:none;background:none;border:0;height:38px;padding:0 16px;border-radius:var(--r-ctl);font-size:14px;font-weight:500;color:var(--shell-ink-2);white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .tabs button:hover{background:var(--shell-hover);color:var(--shell-ink)}
-.tabs button.on{background:var(--copper);color:var(--on-copper)}
+.tabs button.on{background:var(--shell-copper);color:var(--on-shell-copper)}
 .scanline{order:2;flex:none;margin:0;font-size:12px;line-height:16px;color:var(--shell-ink-2);text-align:right;white-space:nowrap}
 .scanline b{font-family:var(--mono);font-weight:500;color:var(--shell-ink)}
 .scanline .late{display:inline-flex;align-items:center;gap:6px;color:var(--shell-copper);font-weight:500}
@@ -131,10 +129,12 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .figs .fig.hot{color:var(--copper)}
 .figs span{font-size:12px;font-weight:500;color:var(--ink-3)}
 .strip{grid-column:1/-1;display:grid;gap:3px;align-items:end;height:56px}
-.strip i{display:block;border-radius:3px;min-height:4px;background:var(--h0)}
+.strip i{display:block;border-radius:2px;min-height:3px;background:var(--copper);box-shadow:0 0 calc(var(--g,0) * 18px) calc(var(--g,0) * 2px) var(--glow)}
+.strip i.z{background:var(--paper-3);box-shadow:none}
 .strip-k{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink-3)}
-.strip-k .ramp{display:inline-flex;align-items:center;gap:6px}
-.strip-k .ramp i{display:inline-block;width:14px;height:8px;border-radius:2px}
+.strip-k .ramp{display:inline-flex;align-items:flex-end;gap:5px}
+.strip-k .ramp i{display:inline-block;width:5px;border-radius:1px;margin-bottom:4px;background:var(--copper);box-shadow:0 0 calc(var(--g,0) * 10px) calc(var(--g,0) * 1px) var(--glow)}
+.strip-k .ramp i:first-of-type{margin-left:4px}.strip-k .ramp i:last-of-type{margin-right:6px}
 
 /* Reports */
 .reports{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;align-items:start}
@@ -145,7 +145,7 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .filter{display:flex;flex-direction:column;gap:2px}
 .filter button{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:baseline;appearance:none;background:none;border:0;padding:6px 12px;border-radius:var(--r-well);text-align:left;font-size:14px;line-height:20px;color:var(--ink-2);overflow:hidden;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .filter button span:last-child{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
-.filter button i{position:absolute;left:0;bottom:0;height:2px;background:var(--copper);opacity:.55}
+.filter button i{position:absolute;left:0;bottom:0;height:2px;background:var(--copper)}
 .filter button:hover{background:var(--hover);color:var(--ink)}
 .filter button.on{background:var(--paper-2);color:var(--ink);font-weight:500;box-shadow:inset 0 0 0 1px var(--rule-2)}
 .filter button.on span:last-child{color:var(--copper-text)}
@@ -159,11 +159,13 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .day .mono{color:var(--ink-3)}
 .reghead{padding:14px 22px;font-size:12px;line-height:16px;color:var(--ink-3);border-bottom:1px solid var(--rule)}
 .rec{position:relative;display:grid;grid-template-columns:76px minmax(0,1fr);gap:16px;padding:16px 22px 16px 22px;border-bottom:1px solid var(--rule);transition:background-color var(--dur) var(--ease)}
-.rec-when::after{content:"";display:block;width:18px;height:3px;margin-top:10px;border-radius:1px;background:var(--k,transparent)}
+.rec-when::after{content:"";display:block;margin-top:10px}
+.rec.k1 .rec-when::after{width:18px;height:3px;border-radius:1px;background:var(--copper)}
+.rec.k2 .rec-when::after{width:6px;height:6px;border-radius:50%;background:var(--copper)}
 .rec:last-child{border-bottom:0}
 .rec.pick{cursor:pointer}
 .rec.pick:hover{background:var(--hover)}
-.rec.sel,.rec.sel:hover{background:var(--copper-wash)}
+.rec.sel,.rec.sel:hover{background:var(--paper-3)}
 .rec.sel .rec-when{color:var(--copper-text)}
 .rec-when{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--ink-3);white-space:nowrap;padding-top:2px}
 .rec-type{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:12px;line-height:18px;font-weight:500;color:var(--ink-2)}
@@ -180,7 +182,7 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .rec-open{appearance:none;background:none;border:0;padding:0;border-radius:var(--r-ctl);font-size:13px;font-weight:500;line-height:20px;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
 .rec-open:hover{color:var(--copper-text);text-decoration-color:var(--copper)}
 .rec.sel .rec-open{color:var(--copper-text)}
-.rec-inline{padding:0 22px 22px;border-bottom:1px solid var(--rule);background:var(--copper-wash)}
+.rec-inline{padding:0 22px 22px;border-bottom:1px solid var(--rule);background:var(--paper-3)}
 .rec-inline .casefile{margin:0}
 .more{display:block;margin:0;width:100%;appearance:none;background:none;border:0;border-top:1px solid var(--rule);padding:14px 22px;font-size:13px;font-weight:500;color:var(--copper-text);text-align:center;border-radius:0 0 var(--r-card) var(--r-card)}
 .more:hover{background:var(--hover)}
@@ -208,8 +210,8 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .tl-h span{font:500 12px var(--mono);color:var(--ink-3)}
 .tl{list-style:none;margin:10px 0 0;padding:0;position:relative}
 .tl li{position:relative;display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding:12px 0;border-top:1px solid var(--rule)}
-.tl li::after{content:"";position:absolute;left:77px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--h3)}
-.tl li.dev::after{background:transparent;box-shadow:inset 0 0 0 1.5px var(--h3)}
+.tl li::after{content:"";position:absolute;left:77px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--copper)}
+.tl li.dev::after{background:transparent;box-shadow:inset 0 0 0 1.5px var(--copper)}
 .tl li > div{padding-left:4px}
 .tl time{font-family:var(--mono);font-size:12px;line-height:16px;color:var(--ink-3)}
 .tl .src{display:flex;flex-wrap:wrap;gap:0 8px;font-size:12px;line-height:16px;color:var(--ink-3)}
@@ -244,6 +246,8 @@ th{font-size:12px;font-weight:500;color:var(--ink-3);white-space:nowrap}
 td{font-family:var(--mono);font-size:12px;border-radius:6px}
 td:first-child,th:first-child{text-align:left;padding-left:0;font-family:var(--sans);font-size:13px;color:var(--ink-2)}
 td.z{color:var(--ink-3)}
+td.hcell{background:linear-gradient(var(--copper),var(--copper)) 8px calc(100% - 4px)/calc(var(--f) * (100% - 16px)) 3px no-repeat,var(--well);padding-bottom:10px}
+td.hcell.top{color:var(--ink);font-weight:600}
 .src-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--rule);font-size:13px;line-height:20px;color:var(--ink-2)}
 .src-row span:last-child{font-family:var(--mono);font-size:12px;color:var(--ink-3);text-align:right}
 .src-row.off span:first-child{color:var(--ink-3);text-decoration:line-through}
@@ -276,7 +280,8 @@ option{background:var(--paper-2);color:var(--ink)}
 .legend li b{font-family:var(--mono);font-weight:500;color:var(--ink)}
 .legend svg{display:block}
 .heatkey{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:var(--ink-3)}
-.heatkey i{flex:1;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--h1),var(--h2),var(--h3),var(--h4),var(--h5))}
+.heatkey i{flex:none;border-radius:50%;background:var(--copper)}
+.heatkey i.hot{box-shadow:0 0 12px 2px var(--glow)}
 
 /* Patterns, drawn: concentration rows, lift tiles, an after-dark meter, a heat table */
 .conc{display:grid}
@@ -288,10 +293,8 @@ option{background:var(--paper-2);color:var(--ink)}
 .conc-row p{display:flex;flex-wrap:wrap;gap:2px 14px;margin:0;font-size:12px;line-height:17px;color:var(--ink-3)}
 .conc-row p b{font-family:var(--mono);font-weight:500;color:var(--ink-2)}
 .conc-row p span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;background:var(--paper-3);vertical-align:0}
-.conc-row p .k0::before{background:var(--h4)}.conc-row p .k1::before{background:var(--h3)}.conc-row p .k2::before{background:var(--h2)}
-.conc-bar div.c0{background:var(--h4);color:var(--on-copper)}
-.conc-bar div.c1{background:var(--h3);color:var(--on-copper)}
-.conc-bar div.c2{background:var(--h2)}
+.conc-row p .k0::before,.conc-row p .k1::before,.conc-row p .k2::before{background:var(--copper)}
+.conc-bar div.c0,.conc-bar div.c1,.conc-bar div.c2{background:var(--copper)}
 .conc-bar div.rest{background:var(--paper-3);color:var(--ink-3)}
 .lifts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .lift{padding:14px;border-radius:var(--r-well);background:var(--paper-3)}
@@ -301,7 +304,7 @@ option{background:var(--paper-2);color:var(--ink)}
 .lift p b{color:var(--ink);font-weight:600}
 .meter{display:grid;grid-template-columns:120px minmax(0,1fr) 46px;gap:10px;align-items:center;padding:5px 0;font-size:13px;color:var(--ink-2)}
 .meter .m{position:relative;height:12px;border-radius:6px;background:var(--paper-3);overflow:hidden}
-.meter .m i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:linear-gradient(90deg,var(--h2),var(--h4))}
+.meter .m i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--copper)}
 .meter .m s{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink-3)}
 .meter b{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink);text-align:right}
 
@@ -316,7 +319,7 @@ option{background:var(--paper-2);color:var(--ink)}
 .sug .sh{padding:8px 10px 4px}
 .sug button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;appearance:none;background:none;border:0;border-radius:10px;padding:8px 10px;text-align:left;font-size:14px;color:var(--ink)}
 .sug button span:last-child{font-size:12px;color:var(--ink-3);white-space:nowrap}
-.sug button.on,.sug button:hover{background:var(--copper-wash)}
+.sug button.on,.sug button:hover{background:var(--hover)}
 .ocgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
 .ocleft{position:sticky;top:calc(var(--stick) + 24px);display:grid;gap:20px}
 .ocgraph{padding:20px 22px}
@@ -327,7 +330,7 @@ option{background:var(--paper-2);color:var(--ink)}
 .back{appearance:none;background:none;border:0;padding:0;font-size:13px;font-weight:500;color:var(--copper-text)}
 .back:hover{text-decoration:underline;text-underline-offset:3px}
 .spark{display:flex;align-items:flex-end;gap:3px;height:64px}
-.spark i{flex:1;border-radius:3px 3px 0 0;min-width:3px}
+.spark i{flex:1;border-radius:2px 2px 0 0;min-width:3px;background:var(--copper);box-shadow:0 0 calc(var(--g,0) * 14px) calc(var(--g,0) * 2px) var(--glow)}
 
 /* Analytics */
 .anhead{display:flex;align-items:center;gap:16px;margin:0 0 24px}
@@ -373,12 +376,19 @@ option{background:var(--paper-2);color:var(--ink)}
 .gscroll{overflow-x:auto}
 .gsvg{width:100%;height:auto;display:block;overflow:visible}
 .gfill{fill:var(--copper)}
+.gring{fill:var(--paper-2);stroke:var(--copper);stroke-width:1.5}
+.garea{fill:var(--ink);fill-opacity:.06}
+/* Heat cells: a neutral well holding a copper square whose area is the count; the busiest cells glow */
+.gwell{fill:var(--well)}
+.gsq{fill:var(--copper);pointer-events:none}
+.gglow{fill:var(--glow);pointer-events:none;filter:url(#glow)}
 .gn{fill:var(--bar)}
 .gcell,.gday,.gbarw,.gh{cursor:pointer}
 .gcell:hover,.gday:hover,.gbarw:hover,.gh:hover{stroke:var(--ink);stroke-width:1.5}
 .gtx{fill:var(--ink-2);font:12px var(--sans)}
 .gsm{font-size:12px;fill:var(--ink-3)}
-.gnum{fill:var(--ink);font-weight:600;font-family:var(--mono);font-size:11px}
+.gnum{fill:var(--ink-2);font-weight:600;font-family:var(--mono);font-size:11px}
+.gnum.gtop{fill:var(--ink)}
 .gnum.dk{fill:var(--on-copper)}
 .grule{stroke:var(--rule);stroke-width:1}
 .grest{fill:var(--paper-3)}
@@ -388,7 +398,8 @@ option{background:var(--paper-2);color:var(--ink)}
 .gedge.hot{stroke:var(--copper);opacity:1}
 .gnode{cursor:pointer}
 .gnode:hover circle{stroke:var(--ink);stroke-width:1.5}
-.gnode.dim{opacity:.18}
+.gnode.dim .gfill,.gnode.dim .gring{fill:var(--paper-3);stroke:none}
+.gnode.dim text{opacity:.45}
 .gedge.dim{opacity:.08}
 .gnode.sel circle{stroke:var(--ink);stroke-width:2.5}
 .gtip{position:fixed;z-index:3000;display:none;pointer-events:none;background:var(--paper-2);color:var(--ink);border:1px solid var(--rule-2);border-radius:10px;box-shadow:var(--shadow);padding:8px 10px;font:13px/19px var(--sans);max-width:300px}
@@ -416,6 +427,13 @@ footer p{margin:0;max-width:820px}
 .leaflet-container a.leaflet-popup-close-button{color:var(--ink-3)!important}
 .leaflet-tooltip.tip{background:var(--paper-2);color:var(--ink);border:1px solid var(--rule-2);border-radius:10px;box-shadow:var(--shadow);font:12px/17px var(--sans);padding:6px 10px}
 .leaflet-tooltip.tip::before{display:none}
+/* Heat on the maps: a solid copper disc. Its size is the count; the busiest areas glow. Never a tint of copper. */
+.disc{display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--copper);color:var(--on-copper);font:600 11px/1 var(--mono);box-shadow:0 0 0 1.5px var(--paper-2);cursor:pointer}
+.disc.warm{box-shadow:0 0 0 1.5px var(--paper-2),0 0 14px 2px var(--glow)}
+.disc.hot{box-shadow:0 0 0 1.5px var(--paper-2),0 0 28px 7px var(--glow)}
+.disc.on{box-shadow:0 0 0 2px var(--paper-2),0 0 0 4.5px var(--ink),0 0 28px 7px var(--glow)}
+.disc.mute{background:var(--paper-3);color:var(--ink-3);box-shadow:0 0 0 1px var(--rule-2)}
+.disc:hover{box-shadow:0 0 0 2px var(--paper-2),0 0 0 3.5px var(--ink)}
 
 /* Tablet and phone */
 @media (max-width:1023px){
@@ -464,6 +482,7 @@ footer p{margin:0;max-width:820px}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4"/></filter></defs></svg>
 <div class="bar">
   <div class="brandrow">
     <a class="brand" href="#news" id="brandLink" aria-label="Vidraksh, Pune: open Reports"><h1 class="mark" lang="mr">विद्र<span>क्ष</span></h1><span class="place">Pune</span></a>
@@ -693,7 +712,7 @@ function newsPanel(rows) {
       <div><small>Later developments</small><span class="mono">${n('orphan')}</span></div><div><small>Reports</small><span class="mono">${fmtN(rows.reduce((s, x) => s + x.reports.length, 0))}</span></div></div>
     <ul class="key">${Object.values(STATUS_TXT).map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join('')}
       <li><b>Times</b>The time beside a case is when its latest report was published, in India time. The incident day is shown when it differs.</li>
-      <li><b>The mark under the time</b>Copper for a fatal case, lighter copper when someone was injured.</li></ul></div>`;
+      <li><b>The mark under the time</b>A copper rule for a fatal case, a copper dot when someone was injured.</li></ul></div>`;
 }
 function newsRow(e) {
   const r = lead(e), k = keyOf(e), sel = k === newsSel;
@@ -702,8 +721,8 @@ function newsRow(e) {
   const happened = e.stated && !e.orphan && istDay(e.d) !== istDay(e.last) ? `Incident ${fmtDay(e.d)}` : '';
   const tag = e.uv || e.orphan ? `<span class="tag" title="${esc(statusOf(e)[1])}">${statusOf(e)[0]}</span>` : '';
   const open = e.reports.length > 1 ? `${e.reports.length} reports${follows ? `, ${plural(follows, 'later development')}` : ''}` : 'Open file';
-  const kmark = e.o === 'fatal' || (e.c === 'murder' && !e.orphan && !e.uv) ? 'var(--h4)' : e.o === 'injured' ? 'var(--h2)' : 'transparent';
-  return `<article class="rec pick${sel ? ' sel' : ''}" data-k="${esc(k)}" style="--k:${kmark}">
+  const kmark = e.o === 'fatal' || (e.c === 'murder' && !e.orphan && !e.uv) ? ' k1' : e.o === 'injured' ? ' k2' : '';
+  return `<article class="rec pick${kmark}${sel ? ' sel' : ''}" data-k="${esc(k)}">
     <div class="rec-when" title="Latest report published ${esc(ago(e.last))}">${pubTime(e.last)}</div>
     <div>
       <div class="rec-type">${tag}<span>${esc(label(e))}</span></div>
@@ -721,8 +740,8 @@ function newsStmt(inP) {
   const wd = new Date().toLocaleDateString('en-IN', { weekday: 'long', timeZone: 'Asia/Kolkata' }), dm = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' });
   $('newsStmt').innerHTML = `<div><h1>${dm} <span>${wd}</span></h1><p class="sub">${esc(VIEWS.find(x => x[0] === view)[1])}. What the press reported, joined into cases; only settled cases are counted on the map and in analytics.</p></div>
     <div class="figs"><div><b class="fig hot">${fmtN(nToday)}</b><span>cases reported today</span></div><div><b class="fig">${fmtN(inP.filter(e => !e.uv && !e.orphan).length)}</b><span>counted, ${esc(PERIODS.find(p => p[0] === period)[1].toLowerCase())}</span></div><div><b class="fig">${fmtN(inP.filter(e => e.uv).length)}</b><span>being checked</span></div></div>
-    <div class="strip" style="grid-template-columns:repeat(60,minmax(0,1fr))" role="img" aria-label="Counted incidents per day, last 60 days">${days.map(d => { const n = byDay[d] || 0; return `<i title="${fmtDay(d + 'T06:30:00Z')}: ${n} counted incident${n === 1 ? '' : 's'}" style="height:${n ? 18 + n / mx * 82 : 6}%;background:${hv(n, mx)}"></i>`; }).join('')}</div>
-    <div class="strip-k"><span>Counted incidents per day, by the day they happened, last 60 days</span><span class="ramp">fewer<i style="background:var(--h1)"></i><i style="background:var(--h3)"></i><i style="background:var(--h5)"></i>more</span></div>`;
+    <div class="strip" style="grid-template-columns:repeat(60,minmax(0,1fr))" role="img" aria-label="Counted incidents per day, last 60 days">${days.map(d => { const n = byDay[d] || 0; return `<i title="${fmtDay(d + 'T06:30:00Z')}: ${n} counted incident${n === 1 ? '' : 's'}" ${n ? ` style="height:${18 + n / mx * 82}%;--g:${glowOf(n, mx)}"` : ' class="z" style="height:6%"'}></i>`; }).join('')}</div>
+    <div class="strip-k"><span>Counted incidents per day, by the day they happened, last 60 days; the busiest days glow</span><span class="ramp">fewer<i style="height:5px"></i><i style="height:9px"></i><i style="height:14px;--g:1"></i>more</span></div>`;
 }
 function drawNews() {
   const inP = EVENTS.filter(e => inPeriod(e) && inView(e));
@@ -766,6 +785,7 @@ function makeMap(id) {
   const m = L.map(id, { zoomControl: true, scrollWheelZoom: false }).setView([18.53, 73.86], 11);
   m.attributionControl.setPrefix(false);
   const e = MAPS[id] = { m, base: null, layer: null, fitted: false };
+  m.createPane('heat').style.zIndex = 390;                 // copper discs sit under the precise marks
   setBaseOn(e);
   e.layer = L.layerGroup().addTo(m);
   return e;
@@ -782,6 +802,14 @@ function setBaseOn(e) {
 // The vector basemap draws on its own canvas: tell it the box size whenever its map is shown again.
 const glResize = e => { try { const g = e.base && (e.base.getMaplibreMap || e.base.getMapboxMap); if (g) g.call(e.base).resize(); } catch {} };
 function initMap() { const e = makeMap('map'); MAP = e.m; LAYER = e.layer; }
+// A count drawn on a map: a solid copper disc of radius r; the busiest glow. Smaller discs sit on top of larger ones.
+function heatDisc(layer, ll, r, v, max, o = {}) {
+  const f = v / Math.max(max, 1e-9), cls = 'disc' + (o.mute ? ' mute' : f >= .6 ? ' hot' : f >= .3 ? ' warm' : '') + (o.on ? ' on' : '');
+  return L.marker(ll, { pane: 'heat', keyboard: false, zIndexOffset: -Math.round(r * 10),
+    icon: L.divIcon({ className: cls, html: o.label != null ? String(o.label) : '', iconSize: [2 * r, 2 * r], iconAnchor: [r, r] }) }).addTo(layer);
+}
+// The key for disc sizes: three discs, the largest glowing.
+const sizeKey = () => `<div class="heatkey"><span>fewer</span><i style="width:8px;height:8px"></i><i style="width:13px;height:13px"></i><i class="hot" style="width:18px;height:18px"></i><span>more, and the busiest glow</span></div>`;
 
 function current() {
   const cat = $('fCat').value, t = $('fTime').value;
@@ -796,7 +824,7 @@ const rowsOf = (pairs, label) => { const mx = Math.max(1, ...pairs.map(p => p[1]
 // Drawn as precisely as the reports allow, and no more:
 //   a solid dot   the spot the report names (a hill, chowk, bridge, society, station)
 //   a ring        the neighbourhood or village the report names
-//   a faint disc  only the area is known: a count at the area centre, never read as a location
+//   a disc        only the area is known: a count at the area centre, never read as a location
 function drawMap() {
   if (!MAP) initMap();
   const ev = current(), placed = ev.filter(e => e.a), copper = css('--copper');
@@ -808,14 +836,12 @@ function drawMap() {
   const mx = Math.max(1, ...Object.values(rough).map(l => l.length)), paper = css('--paper-2');
   for (const [id, list] of Object.entries(rough)) {
     const a = AREA[id], on = id === picked, n = list.length;
-    L.circleMarker([a.lat, a.lon], { radius: 9 + Math.sqrt(n) * 3.2, color: on ? css('--ink') : copper, weight: on ? 2.5 : 1, opacity: .9, fillColor: hc(n, mx), fillOpacity: on ? .9 : .7 })
-      .bindTooltip(String(n), { permanent: true, direction: 'center', className: 'lbl' })
-      .on('click', () => pick(id)).addTo(LAYER);
+    heatDisc(LAYER, [a.lat, a.lon], 9 + Math.sqrt(n) * 3.2, n, mx, { on, label: n }).on('click', () => pick(id));
   }
   const spots = placed.filter(e => e.p);
   for (const e of spots) {
     const exact = e.p[3] === 'x', r = lead(e);
-    L.circleMarker([e.p[1], e.p[2]], exact ? { radius: 5.5, color: paper, weight: 1.5, fillColor: copper, fillOpacity: 1 } : { radius: 7, color: copper, weight: 2.2, fillColor: paper, fillOpacity: .35 })
+    L.circleMarker([e.p[1], e.p[2]], exact ? { radius: 5.5, color: paper, weight: 1.5, fillColor: copper, fillOpacity: 1 } : { radius: 7, color: copper, weight: 2.2, fillColor: paper, fillOpacity: 1 })
       .bindPopup(`<div class="rec-type">${esc(label(e))}</div><div style="margin:4px 0">${link(r, esc(r.t))}</div><div class="label">${meta(esc(e.p[0]), (exact ? 'Named spot' : 'Neighbourhood') , 'Incident ' + fmtDay(e.d), plural(e.reports.length, 'report'))}</div>`)
       .on('click', () => { picked = e.a; drawArea(); })
       .addTo(LAYER);
@@ -827,8 +853,8 @@ function drawMap() {
     <div class="figs"><div><b class="fig hot">${fmtN(ev.length)}</b><span>counted incidents</span></div><div><b class="fig">${fmtN(nx)}</b><span>at a named spot</span></div><div><b class="fig">${fmtN(spots.length - nx)}</b><span>at a neighbourhood</span></div><div><b class="fig">${fmtN(placed.length - spots.length)}</b><span>area only</span></div></div>`;
   $('count').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="5.5" fill="${copper}" stroke="${paper}" stroke-width="1.5"/>`)}A named spot</div>
     <div>${mk(`<circle cx="11" cy="11" r="7" fill="none" stroke="${copper}" stroke-width="2.2"/>`)}A neighbourhood or village</div>
-    <div>${mk(`<circle cx="11" cy="11" r="9" fill="${hc(2, 3)}" fill-opacity=".7" stroke="${copper}"/>`)}Area only: a count at its centre, not a location</div>
-    <div class="heatkey" style="margin:2px 0 0"><span>fewer</span><i></i><span>more</span></div>`;
+    <div>${mk(`<circle cx="11" cy="11" r="9" fill="${copper}"/>`)}Area only: a count at its centre, not a location</div>
+    ${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:2px 0 0"')}`;
   drawArea(); drawPatterns(ev);
 }
 const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ` (${e.o})` : '');
@@ -890,7 +916,8 @@ function drawPatterns(ev) {
     const l = ev.filter(e => e.c === c.id), v = BANDS.map(b => l.filter(e => e.b === b).length); vals.push(...v); return [c, v, l.filter(e => !e.b).length];
   });
   const mx = Math.max(1, ...vals);
-  const cell = n => n ? `<td style="background:${hv(n, mx)};color:${Math.ceil(n / mx * 6) >= 4 ? 'var(--on-copper)' : 'var(--ink)'}">${n}</td>` : '<td class="z">–</td>';
+  // A count with a copper rule under it whose length is the count; the busiest cell's number is bold.
+  const cell = n => n ? `<td class="hcell${n === mx ? ' top' : ''}" style="--f:${(n / mx).toFixed(3)}">${n}</td>` : '<td class="z">–</td>';
   out.push(sec('Type by time of day', `<table><tr><th></th><th>Morning</th><th>Afternoon</th><th>Evening</th><th>Night</th><th>Not stated</th></tr>${rows.map(([c, v, ns]) =>
     `<tr><td>${esc(c.name)}</td>${v.map(cell).join('')}<td class="z">${ns || '–'}</td></tr>`).join('')}</table>`));
   $('patterns').innerHTML = out.join('');
@@ -921,7 +948,7 @@ function drawSits() {
   const SITS_SHOWN = [...now.map(g => [g, 'now']), ...planned.map(g => [g, 'plan']), ...recent.map(g => [g, 'past'])];
   const item = (g, i, kind) => {
     const r = g.reports[0], papers = [...new Set(g.reports.map(x => x.n))];
-    return `<article class="rec pick" data-si="${i}" style="--k:${kind === 'now' ? 'var(--copper)' : kind === 'plan' ? 'var(--h2)' : 'transparent'}">
+    return `<article class="rec pick${kind === 'now' ? ' k1' : kind === 'plan' ? ' k2' : ''}" data-si="${i}">
       <div class="rec-when">${dayName(g)}</div>
       <div>
         <div class="rec-type"><span>${esc(SITK[g.k] || g.k)}</span>${kind === 'now' ? '<span class="tag hot">Today or ongoing</span>' : kind === 'plan' ? '<span class="tag">Planned</span>' : ''}${g.st === 'on' && kind !== 'now' ? '<span class="tag" title="A report says it continues">Continuing</span>' : ''}</div>
@@ -938,7 +965,7 @@ function drawSits() {
   drawSitMap(SITS_SHOWN, dayName);
 }
 /* The situations map. Today or ongoing: a solid copper mark inside a ring. Planned: an open ring carrying its date.
-   Recent: a small ash dot. A situation that names only its area sits at the area's centre, inside a faint disc that says so;
+   Recent: a small ash dot. A situation that names only its area sits at the area's centre, inside a dashed ring that says so;
    one that names no place is not drawn (the key counts them). */
 let SITMARK = [];
 function drawSitMap(items, dayName) {
@@ -951,20 +978,20 @@ function drawSitMap(items, dayName) {
     if (!ll) { unplaced++; SITMARK.unshift(null); continue; }
     n[kind]++;
     const r = g.reports[0], pop = `<div class="rec-type">${esc(SITK[g.k] || g.k)}<span class="tag${kind === 'now' ? ' hot' : ''}">${dayName(g)}</span></div><div style="margin:6px 0">${link(r, esc(r.t))}</div><div class="label">${esc(g.a ? AREA[g.a].name : 'Pune')}${g.p ? ', ' + esc(g.p[0]) : ', placed at the area centre'}</div>`;
-    if (!g.p) L.circleMarker(ll, { radius: 18, stroke: false, fillColor: copper, fillOpacity: .07, interactive: false }).addTo(e.layer);
+    if (!g.p) L.circleMarker(ll, { radius: 18, color: copper, weight: 1, dashArray: '2 4', fill: false, interactive: false }).addTo(e.layer);
     let m;
     if (kind === 'now') {
-      L.circleMarker(ll, { radius: 15, color: copper, weight: 1.5, opacity: .55, fill: false, interactive: false }).addTo(e.layer);
+      L.circleMarker(ll, { radius: 15, color: copper, weight: 1, fill: false, interactive: false }).addTo(e.layer);
       m = L.circleMarker(ll, { radius: 8, color: css('--paper-2'), weight: 2, fillColor: copper, fillOpacity: 1 });
     } else if (kind === 'plan') {
-      m = L.circleMarker(ll, { radius: 9, color: copper, weight: 3, fillColor: css('--paper-2'), fillOpacity: .9 });
+      m = L.circleMarker(ll, { radius: 9, color: copper, weight: 3, fillColor: css('--paper-2'), fillOpacity: 1 });
       L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'pin', html: esc(dayName(g)), iconSize: [80, 14], iconAnchor: [-14, 7] }) }).addTo(e.layer);
-    } else m = L.circleMarker(ll, { radius: 5, color: css('--paper-2'), weight: 1, fillColor: ash, fillOpacity: .75 });
+    } else m = L.circleMarker(ll, { radius: 5, color: css('--paper-2'), weight: 1, fillColor: ash, fillOpacity: 1 });
     m.bindPopup(pop).addTo(e.layer);
     SITMARK.unshift(m);
   }
   const mk = s => `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">${s}</svg>`;
-  $('sitKey').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="9" fill="none" stroke="${copper}" stroke-opacity=".55" stroke-width="1.5"/><circle cx="11" cy="11" r="5" fill="${copper}"/>`)}Today or ongoing<b>${n.now}</b></div>
+  $('sitKey').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="9" fill="none" stroke="${copper}" stroke-width="1"/><circle cx="11" cy="11" r="5" fill="${copper}"/>`)}Today or ongoing<b>${n.now}</b></div>
     <div>${mk(`<circle cx="11" cy="11" r="6" fill="none" stroke="${copper}" stroke-width="3"/>`)}Planned, with its date<b>${n.plan}</b></div>
     <div>${mk(`<circle cx="11" cy="11" r="4" fill="${ash}"/>`)}Recent<b>${n.past}</b></div>
     ${unplaced ? `<div style="color:var(--ink-3)">${unplaced} name no place in Pune, not on the map</div>` : ''}`;
@@ -1156,7 +1183,7 @@ function drawOcProfile(g) {
     ${sec('Weapons named', ocRows(g.weapons || [], k => OC_WPN[k] || k, g.n))}
     ${sec('Linked groups <span>named together in reports</span>', linked)}
     ${sec('Signals', signals ? `<p class="note" style="margin-top:0">${signals}</p>` : '')}
-    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%;background:${hv(n, max)}"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}; peak ${max} in a month</p>` : '')}
+    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%;--g:${glowOf(n, max)}"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}; peak ${max} in a month</p>` : '')}
     ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
 }
 $('ocBody').onclick = e => {
@@ -1203,17 +1230,15 @@ function drawOcMap(q) {
   for (const a of Object.keys(per)) {
     const here = per[a].sort((x, y) => y[1] - x[1]), t = tot(a), mine = fg ? ((here.find(x => x[0].id === focus) || [0, 0])[1]) : t;
     const on = !fg || mine > 0, v = on ? mine : t, mx = fg ? fmax : max, ll = [AREA[a].lat, AREA[a].lon];
-    L.circleMarker(ll, { radius: 7 + Math.sqrt(v) * (fg ? 4.2 : 2.8), color: on ? copper : css('--rule-2'), weight: 1.2, fillColor: on ? hc(v, mx) : css('--paper-3'), fillOpacity: on ? .82 : .4 })
+    heatDisc(e.layer, ll, 7 + Math.sqrt(v) * (fg ? 4.2 : 2.8), v, mx, { mute: !on, label: on && (fg || v >= 3) ? v : null })
       .bindTooltip(`<b>${esc(AREA[a].name)}</b><br>${here.slice(0, 5).map(([g, n]) => `${esc(g.name)}: ${n} report${n > 1 ? 's' : ''}`).join('<br>')}`, { className: 'tip', direction: 'top', offset: [0, -6] })
-      .on('click', () => { ocOpen = fg && mine ? focus : here[0][0].id; ocHot = null; drawOc(); ocToTop(); })
-      .addTo(e.layer);
-    if (on && (fg || v >= 3)) L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'lbl', html: String(v), iconSize: [30, 14], iconAnchor: [15, 7] }) }).addTo(e.layer);
+      .on('click', () => { ocOpen = fg && mine ? focus : here[0][0].id; ocHot = null; drawOc(); ocToTop(); });
   }
   if (!fg) placeLabels(e, names.map(x => ({ ll: [AREA[x.a].lat, AREA[x.a].lon], text: x.text, r: 7 + Math.sqrt(tot(x.a)) * 2.8 })));
   if (!e.zoomHook) { e.zoomHook = true; e.m.on('zoomend', () => { if (OC && !$('ocv').classList.contains('hide')) drawOcMap($('ocQ').value.trim().toLowerCase()); }); }
   $('ocKey').innerHTML = fg
-    ? `<div><b style="margin:0;padding:0;font-family:var(--sans)">${esc(fg.name)}</b></div><div>Reports naming this group, by area</div><div class="heatkey" style="margin:0;width:180px"><span>fewer</span><i></i><span>more</span></div>`
-    : `<div>Reports naming a group, by area; each group's name sits on its busiest area</div><div class="heatkey" style="margin:0;width:180px"><span>fewer</span><i></i><span>more</span></div><div style="color:var(--ink-3)">Hover a group to see its ground</div>`;
+    ? `<div><b style="margin:0;padding:0;font-family:var(--sans)">${esc(fg.name)}</b></div><div>Reports naming this group, by area</div>${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:0"')}`
+    : `<div>Reports naming a group, by area; each group's name sits on its busiest area</div>${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:0"')}<div style="color:var(--ink-3)">Hover a group to see its ground</div>`;
 }
 /* Gang links: groups named together in reports. A search fades the groups it does not match; an open profile
    lights up that group and the groups linked to it. */
@@ -1231,9 +1256,9 @@ function drawOcGraph(q) {
   let s = edges.map(([a, b, n]) => `<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" class="gedge${sel && (a === sel || b === sel) ? ' hot' : ''}${lit(a) && lit(b) ? '' : ' dim'}" data-a="${a}" data-b="${b}" stroke-width="${1 + 7 * n / maxE}"${tip(`${gs.find(g => g.id === a).name} and ${gs.find(g => g.id === b).name}: named together in ${n} report${n > 1 ? 's' : ''}`)}/>`).join('');
   gs.forEach(g => {
     const [x, y] = pos[g.id], r = 10 + 26 * Math.sqrt(g.n / maxN), out = x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle', dx = out === 'start' ? r + 8 : out === 'end' ? -r - 8 : 0, dy = out === 'middle' ? (y < cy ? -r - 10 : r + 18) : 4;
-    s += `<g class="gnode${lit(g.id) ? '' : ' dim'}${g.id === sel ? ' sel' : ''}" data-g="${g.id}"${tip(`${g.name}, ${g.n} reports${g.active ? ', active' : ', quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="gfill" fill-opacity="${g.active ? .8 : .3}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
+    s += `<g class="gnode${lit(g.id) ? '' : ' dim'}${g.id === sel ? ' sel' : ''}" data-g="${g.id}"${tip(`${g.name}, ${g.n} reports${g.active ? ', active' : ', quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="${g.active ? 'gfill' : 'gring'}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
   });
-  $('ocGraph').innerHTML = `<div class="gscroll"><svg viewBox="-60 0 ${W + 120} ${H}" class="gsvg">${s}</svg></div><p class="note">Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Circle size: reports about the group; solid is active in the last four months, faint is quiet. Hover a group to light up its links; click it to open its profile.</p>`;
+  $('ocGraph').innerHTML = `<div class="gscroll"><svg viewBox="-60 0 ${W + 120} ${H}" class="gsvg">${s}</svg></div><p class="note">Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Circle size: reports about the group; solid is active in the last four months, an open ring is quiet. Hover a group to light up its links; click it to open its profile.</p>`;
   $('ocGraph').querySelectorAll('.gnode').forEach(el => {
     el.onmouseenter = () => $('ocGraph').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', l.dataset.a === el.dataset.g || l.dataset.b === el.dataset.g));
     el.onmouseleave = () => $('ocGraph').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', !!sel && (l.dataset.a === sel || l.dataset.b === sel)));
@@ -1327,7 +1352,7 @@ function drawQuality() {
 let anMode = 'findings', gSel = 'rhythm', gType = '', gSpread = true, gPick = null;
 const GRAPHS = [['rhythm', 'Rhythm'], ['trend', 'Trend'], ['matrix', 'Where × what'], ['calendar', 'Calendar'], ['conc', 'Concentration'], ['harm', 'Harm']];
 const G_ABOUT = {
-  rhythm: 'Which hours of which days. After Clarke & Eck, Step 25 (chart C): days down the side, hours across, darker is more.',
+  rhythm: 'Which hours of which days. After Clarke & Eck, Step 25 (chart C): days down the side, hours across; a bigger copper square is more, and the busiest hours glow.',
   trend: 'Incidents per week, with the four-week average. Early weeks rest mostly on one paper’s history, so compare recent weeks with care.',
   matrix: 'Where each kind of incident happens: the busiest areas in this view against the types.',
   calendar: 'Every day’s incidents, with festivals marked. Look for the days around them.',
@@ -1342,10 +1367,28 @@ const gEv = (typed = true) => INCIDENTS.filter(e => inView(e) && happenedInPerio
 const wd = e => (new Date(e.d).getUTCDay() + 6) % 7;                 // Monday = 0
 const dayKey = e => e.d.slice(0, 10);
 const gBin = (v, max) => v <= 0 ? 0.045 : 0.16 + 0.84 * Math.ceil(Math.min(1, v / max) * 5) / 5;
-// The heat ramp: ash for none, then six steps from oxblood to white heat (light mode runs pale to dark). Charts and maps share it.
-const hv = (v, max) => v <= 0 ? 'var(--h0)' : `var(--h${Math.min(6, Math.max(1, Math.ceil(v / Math.max(max, 1e-9) * 6)))})`;
-const hc = (v, max, cap = 5) => { const s = hv(v, max).slice(4, -1); return css(+s.slice(3) > cap ? '--h' + cap : s); };   // the same step as a colour (Leaflet needs real colours); maps stop at bright copper so labels stay legible
-const hInk = (v, max) => v > 0 && Math.ceil(v / Math.max(max, 1e-9) * 6) >= 4 ? 'var(--on-copper)' : 'var(--ink)';   // text that stays legible on a heat cell
+// Heat, without shades of copper: copper stays one colour; size and height carry the count, and light marks the busiest.
+// glowOf: 0 for most values, rising steeply to 1 at the maximum, so only the peaks glow.
+const glowOf = (v, max) => v > 0 ? +Math.pow(Math.min(1, v / Math.max(max, 1e-9)), 2.2).toFixed(2) : 0;
+// A heat cell in a chart: a neutral well (the clickable target) holding a copper square whose area is the count.
+// cls and extra (data attributes, tooltip) go on the well; left = true puts the square at the cell's left, for a number beside it.
+function heatCell(x, y, w, h, v, max, cls = '', extra = '', left = false) {
+  let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" class="gwell ${cls}" ${extra}/>`;
+  if (v > 0) {
+    const f = Math.min(1, v / Math.max(max, 1e-9)), side = Math.max(3, (Math.min(w, h) - 4) * Math.sqrt(f));
+    const sx = left ? x + 2 + (h - 4 - side) / 2 : x + (w - side) / 2, sy = y + (h - side) / 2;
+    if (f >= .75) s += `<rect x="${sx}" y="${sy}" width="${side}" height="${side}" class="gglow"/>`;
+    s += `<rect x="${sx}" y="${sy}" width="${side}" height="${side}" rx="1" class="gsq"/>`;
+  }
+  return s;
+}
+// The key for heat cells: squares growing to the busiest, which glows; each labelled with its range.
+function heatCellKey(x, y, max, steps = 5) {
+  const lg = v => (max >= 5 ? Math.round(v) : fmt1(v));
+  let s = '';
+  for (let i = 1; i <= steps; i++) s += heatCell(x + (i - 1) * 76, y, 18, 18, max * i / steps, max) + `<text x="${x + (i - 1) * 76 + 24}" y="${y + 13}" class="gtx gsm">${lg(max * (i - 1) / steps)}–${lg(max * i / steps)}</text>`;
+  return s;
+}
 const fmt1 = v => (Math.round(v * 10) / 10).toString();
 const tip = (t) => ` data-tip="${esc(t)}"`;
 
@@ -1389,13 +1432,12 @@ function gRhythm() {
   hourTot.forEach((v, h) => { const bh = v / hmax * 62; s += `<rect x="${L + h * cw + 3}" y="${T - 10 - bh}" width="${cw - 6}" height="${bh}" class="gn"${tip(`${String(h).padStart(2, '0')}:00–${String((h + 1) % 24).padStart(2, '0')}:00, ${fmt1(v)} incidents (${total ? Math.round(v / total * 100) : 0}% of the week)`)}/>`; });
   m.forEach((row, d) => {
     s += `<text x="${L - 8}" y="${T + d * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${DAYS7[d]}</text>`;
-    row.forEach((v, h) => { s += `<rect x="${L + h * cw + 1}" y="${T + d * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gcell" style="fill:${hv(v, max)}" data-d="${d}" data-h="${h}"${tip(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00, ${fmt1(v)} incident${v === 1 ? '' : 's'}`)}/>`; });
+    row.forEach((v, h) => { s += heatCell(L + h * cw + 1, T + d * ch + 1, cw - 2, ch - 2, v, max, 'gcell', `data-d="${d}" data-h="${h}"${tip(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00, ${fmt1(v)} incident${v === 1 ? '' : 's'}`)}`); });
     const bw = dayTot[d] / dmax * (R - 34);
     s += `<rect x="${W - R + 10}" y="${T + d * ch + 6}" width="${bw}" height="${ch - 12}" class="gn"${tip(`${DAYS7[d]}, ${fmt1(dayTot[d])} incidents (${total ? Math.round(dayTot[d] / total * 100) : 0}%)`)}/><text x="${W - R + 14 + bw}" y="${T + d * ch + ch / 2 + 4}" class="gtx gsm">${total ? Math.round(dayTot[d] / total * 100) : 0}%</text>`;
   });
   for (let h = 0; h < 24; h += 3) s += `<text x="${L + h * cw + cw / 2}" y="${T + 7 * ch + 16}" class="gtx gsm" text-anchor="middle">${h === 0 ? '12am' : h < 12 ? h + 'am' : h === 12 ? '12pm' : (h - 12) + 'pm'}</text>`;
-  const step = max / 6, lg = v => (max >= 5 ? Math.round(v) : fmt1(v));
-  [0, 1, 2, 3, 4, 5].forEach(i => { s += `<rect x="${L + i * 70}" y="${H - 18}" width="14" height="12" style="fill:${hv(step * (i + 1), max)}"/><text x="${L + i * 70 + 19}" y="${H - 8}" class="gtx gsm">${lg(step * i)}–${lg(step * (i + 1))}</text>`; });
+  s += heatCellKey(L, H - 22, max);
   s += `<text x="${L}" y="14" class="gtx gsm">Incidents by hour (all days)</text><text x="${W - R + 10}" y="${T - 10}" class="gtx gsm">By day</text>`;
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">${exact} incidents with an exact hour${gSpread ? `, ${spread} with only a part of day (spread evenly across its hours)` : ''}; ${ev.length - exact - (gSpread ? spread : 0)} more did not say when. Click a cell to see its incidents.</p>`;
   $('gBox').querySelectorAll('.gcell').forEach(el => el.onclick = () => { const d = +el.dataset.d, h = +el.dataset.h; gPickSet(`${DAYS7[d]} ${String(h).padStart(2, '0')}:00`, who[d][h]); });
@@ -1437,7 +1479,7 @@ function gMatrix() {
   types.forEach((t, j) => { s += `<text transform="translate(${L + j * cw + cw / 2},${T - 8}) rotate(-38)" class="gtx gsm">${esc(t.name.replace(' & ', ' & ').split(' (')[0])}</text>`; });
   areas.forEach((a, i) => {
     s += `<text x="${L - 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(AREA[a].name)}</text>`;
-    types.forEach((t, j) => { const v = cell(a, t.id).length; s += `<rect x="${L + j * cw + 1}" y="${T + i * ch + 1}" width="${cw - 2}" height="${ch - 2}" class="gcell" style="fill:${hv(v, max)}" data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name}, ${t.name}: ${v}`)}/>${v ? `<text x="${L + j * cw + cw / 2}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum" text-anchor="middle" style="fill:${hInk(v, max)}">${v}</text>` : ''}`; });
+    types.forEach((t, j) => { const v = cell(a, t.id).length; s += heatCell(L + j * cw + 1, T + i * ch + 1, cw - 2, ch - 2, v, max, 'gcell', `data-a="${a}" data-c="${t.id}"${tip(`${AREA[a].name}, ${t.name}: ${v}`)}`, true) + (v ? `<text x="${L + j * cw + ch}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm gnum${v === max ? ' gtop' : ''}">${v}</text>` : ''); });
     s += `<text x="${L + types.length * cw + 8}" y="${T + i * ch + ch / 2 + 4}" class="gtx gsm">${byA[a].length}</text>`;
   });
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">The ${areas.length} areas with most incidents in this view and period; the number at the end of a row is the area’s total. Click a cell to see its incidents.</p>`;
@@ -1458,7 +1500,7 @@ function gCalendar() {
   let s = '', lastMonth = '';
   days.forEach((d, i) => {
     const x = L + Math.floor(i / 7) * c, yy = T + (i % 7) * c, v = (byD[d] || []).length;
-    s += `<rect x="${x + 1}" y="${yy + 1}" width="${c - 2}" height="${c - 2}" class="gday" style="fill:${hv(v, max)}" data-d="${d}"${tip(`${fmtDay(d + 'T06:30:00Z')} (${DAYS7[i % 7]}), ${v} incident${v === 1 ? '' : 's'}`)}/>`;
+    s += heatCell(x + 1, yy + 1, c - 2, c - 2, v, max, 'gday', `data-d="${d}"${tip(`${fmtDay(d + 'T06:30:00Z')} (${DAYS7[i % 7]}), ${v} incident${v === 1 ? '' : 's'}`)}`);
     if (d.slice(0, 7) !== lastMonth && i % 7 === 0) { lastMonth = d.slice(0, 7); s += `<text x="${x}" y="${T - 8}" class="gtx gsm">${new Date(d + 'T06:30:00Z').toLocaleDateString('en-IN', { month: 'short' })}</text>`; }
   });
   [0, 2, 4, 6].forEach(r => { s += `<text x="${L - 6}" y="${T + r * c + 11}" class="gtx gsm" text-anchor="end">${DAYS7[r]}</text>`; });
@@ -1468,7 +1510,7 @@ function gCalendar() {
     const x0 = L + Math.floor(Math.max(0, i0) / 7) * c, x1 = L + Math.floor((i1 < 0 ? days.length - 1 : i1) / 7) * c + c, yy = T + 7 * c + 10 + (k % 2) * 22;
     s += `<line x1="${x0}" x2="${x1}" y1="${yy}" y2="${yy}" class="gfest"/><text x="${x0}" y="${yy + 14}" class="gtx gsm">${name}</text>`;
   });
-  $('gBox').innerHTML = `<div class="gscroll"><svg viewBox="0 0 ${W} ${H}" class="gsvg" style="min-width:${Math.min(W, 900)}px">${s}</svg></div><p class="note">Each square is a day; darker means more incidents. Lines under the grid mark festivals. Click a day to see its incidents.</p>`;
+  $('gBox').innerHTML = `<div class="gscroll"><svg viewBox="0 0 ${W} ${H}" class="gsvg" style="min-width:${Math.min(W, 900)}px">${s}</svg></div><p class="note">Each square is a day; a bigger copper square means more incidents, and the busiest days glow. Lines under the grid mark festivals. Click a day to see its incidents.</p>`;
   $('gBox').querySelectorAll('.gday').forEach(el => el.onclick = () => gPickSet(fmtDay(el.dataset.d + 'T06:30:00Z'), byD[el.dataset.d] || []));
 }
 
@@ -1483,7 +1525,7 @@ function gConc() {
   const W = 640, H = 420, L = 60, B = 50, T = 20, R = 20, X = f => L + f * (W - L - R), Y = f => H - B - f * (H - B - T);
   let s = `<line x1="${X(0)}" y1="${Y(0)}" x2="${X(1)}" y2="${Y(1)}" class="grule" stroke-dasharray="4 4"/>`;
   [0, .2, .4, .6, .8, 1].forEach(f => { s += `<text x="${X(f)}" y="${H - B + 18}" class="gtx gsm" text-anchor="middle">${f * 100}%</text><text x="${L - 8}" y="${Y(f) + 4}" class="gtx gsm" text-anchor="end">${f * 100}%</text>`; });
-  s += `<polygon points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')} ${X(1)},${Y(0)}" class="gfill" fill-opacity=".12"/><polyline points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')}" class="gline"/>`;
+  s += `<polygon points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')} ${X(1)},${Y(0)}" class="garea"/><polyline points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')}" class="gline"/>`;
   s += `<line x1="${X(k / n.length)}" x2="${X(k / n.length)}" y1="${Y(0)}" y2="${Y(topShare)}" class="grule"/><circle cx="${X(k / n.length)}" cy="${Y(topShare)}" r="5" class="gfill"/>`;
   s += `<text x="${X(0.5)}" y="${H - 8}" class="gtx gsm" text-anchor="middle">Share of areas, busiest first</text><text transform="translate(16,${Y(0.5)}) rotate(-90)" class="gtx gsm" text-anchor="middle">Share of incidents</text>`;
   const busiest = areas.map(a => [a.name, cnt[a.id] || 0]).sort((p, q) => q[1] - p[1]).slice(0, k);
@@ -1496,13 +1538,13 @@ function gHarm() {
     .sort((p, q) => q.f.length / q.n - p.f.length / p.n || q.n - p.n);
   if (!rows.length) { $('gBox').innerHTML = '<div class="empty">No incidents in this view and period.</div>'; return; }
   const L = 220, W = 960, ch = 30, T = 30, H = T + rows.length * ch + 30, bw = W - L - 120;
-  let s = `<rect x="${L}" y="6" width="12" height="12" class="gfill"/><text x="${L + 18}" y="16" class="gtx gsm">Fatal</text><rect x="${L + 70}" y="6" width="12" height="12" class="gfill" fill-opacity=".4"/><text x="${L + 88}" y="16" class="gtx gsm">Injured</text><rect x="${L + 150}" y="6" width="12" height="12" class="grest"/><text x="${L + 168}" y="16" class="gtx gsm">Not stated</text>`;
+  let s = `<rect x="${L}" y="6" width="12" height="12" class="gfill"/><text x="${L + 18}" y="16" class="gtx gsm">Fatal</text><rect x="${L + 70}" y="6" width="12" height="12" class="gring"/><text x="${L + 88}" y="16" class="gtx gsm">Injured</text><rect x="${L + 150}" y="6" width="12" height="12" class="grest"/><text x="${L + 168}" y="16" class="gtx gsm">Not stated</text>`;
   rows.forEach((r, k) => {
     const y = T + k * ch, f = r.f.length / r.n * bw, i = r.i.length / r.n * bw;
     s += `<text x="${L - 10}" y="${y + ch / 2 + 4}" class="gtx" text-anchor="end">${esc(r.c.name)}</text>
       <rect x="${L}" y="${y + 6}" width="${bw}" height="${ch - 12}" class="grest"/>
       <rect x="${L}" y="${y + 6}" width="${f}" height="${ch - 12}" class="gfill gh" data-k="${k}" data-o="f"${tip(`${r.c.name}: ${r.f.length} of ${r.n} fatal (${Math.round(r.f.length / r.n * 100)}%)`)}/>
-      <rect x="${L + f}" y="${y + 6}" width="${i}" height="${ch - 12}" class="gfill gh" fill-opacity=".4" data-k="${k}" data-o="i"${tip(`${r.c.name}: ${r.i.length} of ${r.n} injured someone (${Math.round(r.i.length / r.n * 100)}%)`)}/>
+      <rect x="${L + f}" y="${y + 6}" width="${i}" height="${ch - 12}" class="gring gh" data-k="${k}" data-o="i"${tip(`${r.c.name}: ${r.i.length} of ${r.n} injured someone (${Math.round(r.i.length / r.n * 100)}%)`)}/>
       <text x="${L + bw + 10}" y="${y + ch / 2 + 4}" class="gtx gsm">${r.f.length} fatal, ${r.i.length} injured, of ${r.n}</text>`;
   });
   $('gBox').innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">Sorted by the share that were fatal. "Not stated" means the report did not say anyone died or was hurt. Click a bar to see its incidents.</p>`;
