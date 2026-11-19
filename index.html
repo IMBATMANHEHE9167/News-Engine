@@ -86,6 +86,7 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .mark::after{content:"";position:absolute;left:50%;bottom:0;width:32%;height:1.5px;transform:translateX(-50%);background:var(--shell-copper)}
 .brand .place{font:400 18px/1 var(--display);color:var(--shell-ink-2)}
 .tabs{order:1;flex:1 1 auto;min-width:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:4px 0}
+.tabs button:first-child{margin-left:auto}.tabs button:last-child{margin-right:auto}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:none;appearance:none;background:none;border:0;height:38px;padding:0 16px;border-radius:var(--r-ctl);font-size:14px;font-weight:500;color:var(--shell-ink-2);white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .tabs button:hover{background:var(--shell-hover);color:var(--shell-ink)}
@@ -544,7 +545,9 @@ footer p{margin:0;max-width:820px}
 /* Tablet and phone */
 @media (max-width:1023px){
   .bar{display:contents}
-  .brandrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 16px 2px;background:var(--shell)}
+  .brandrow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:8px 16px 2px;background:var(--shell)}
+  .brand{grid-column:2}
+  .switch{grid-column:3;justify-self:end}
   .tabs{order:0;flex:none;position:sticky;top:0;z-index:1000;padding:2px 10px 6px;background:var(--shell);border-bottom:1px solid var(--shell-rule)}
   .scanline{order:0;flex:none}
   .brandrow,.scope{flex:none}
@@ -1735,6 +1738,8 @@ const BAND_HOURS = { morning: [6, 7, 8, 9, 10, 11], afternoon: [12, 13, 14, 15, 
 const DAYS7 = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 // Festivals of 2026 that move crowds, traffic and policing in Pune.
 const FESTIVALS = [['2026-07-24', '2026-07-26', 'Palkhi / Ashadhi'], ['2026-09-14', '2026-09-25', 'Ganeshotsav'], ['2026-10-11', '2026-10-19', 'Navratri'], ['2026-10-20', '2026-10-20', 'Dussehra'], ['2026-11-06', '2026-11-11', 'Diwali']];
+// The first day of the news history (the collector reached back to it); earlier incidents are scattered follow-ups.
+const HFROM = () => (STATUS && STATUS.history && STATUS.history.from) || "2026-05-19";
 const gEv = (typed = true) => INCIDENTS.filter(e => inView(e) && happenedInPeriod(e) && (!typed || !gType || e.c === gType));
 const wd = e => (new Date(e.d).getUTCDay() + 6) % 7;                 // Monday = 0
 const dayKey = e => e.d.slice(0, 10);
@@ -1819,7 +1824,7 @@ function gRhythm() {
 
 /* Trend: weekly counts and the four-week average. */
 function gTrend() {
-  const ev = gEv(), wk = {};
+  const ev = gEv().filter(e => dayKey(e) >= HFROM()), wk = {};   // from the day the news history begins
   const monday = d => { const t = new Date(d.slice(0, 10) + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() - (t.getUTCDay() + 6) % 7); return t.toISOString().slice(0, 10); };
   for (const e of ev) (wk[monday(e.d)] = wk[monday(e.d)] || []).push(e);
   const first = Object.keys(wk).sort()[0];
@@ -1862,7 +1867,7 @@ function gMatrix() {
 
 /* Calendar: every day, with festivals marked. */
 function gCalendar() {
-  const ev = gEv(), byD = {};
+  const ev = gEv().filter(e => dayKey(e) >= HFROM()), byD = {};   // from the day the news history begins
   for (const e of ev) (byD[dayKey(e)] = byD[dayKey(e)] || []).push(e);
   const keys = Object.keys(byD).sort();
   if (!keys.length) { $('gBox').innerHTML = '<div class="empty">No incidents in this view and period.</div>'; return; }
