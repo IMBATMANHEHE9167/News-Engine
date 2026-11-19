@@ -199,7 +199,10 @@ def build(items, vec=None, verdicts=None):
                 if hard and gap <= 2:
                     S.join(i, j, rare)
                     continue
-                if s >= JUDGE_FROM or (not vec and gap <= 1):
+                # A victim name word in common on close days is worth the judge's look even when the headlines are
+                # worded apart ("DRDO dream" and "fell off a bus" were one student).
+                name_hint = gap <= 2 and any(set(p) & set(q) for p in x['vn'] for q in y['vn'])
+                if s >= JUDGE_FROM or name_hint or (not vec and gap <= 1):
                     ask[key] = (s, key, i, j)
                     if s >= PROVISIONAL and gap <= 2 and S.join(i, j, rare):
                         provisional.add(key)

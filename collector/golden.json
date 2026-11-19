@@ -16,7 +16,7 @@
   {"name": "Ranjangaon worker shot in place of his employer is one case", "one_case": "mistak(e|en|ing) (him )?for|Ranjangaon Murder|मालकाऐवजी"},
   {"name": "PMRDA notice on the POCSO court building is not an incident", "not_incident": "Pocso Court building"},
   {"name": "Kho-kho player's suicide is not a crime against women", "not_incident": "Kho-?Kho Player"},
-  {"name": "ITI student stabbed at Ambegaon (Pune city) is placed in the city, not Ambegaon taluka", "region": ["ITI Student Stabbed|ITI student killed", "city"]},
+  {"name": "ITI student stabbed at Gonwadi (Ambegaon taluka, Ghodegaon police; corrected 19 Nov 2026) is in Pune Rural", "region": ["ITI Student Stabbed|ITI student killed", "rural"]},
   {"name": "Special NDPS court set up is not an incident", "not_incident": "Special Court Set Up"}
  ],
  "calendar_from": "2026-05-25"
