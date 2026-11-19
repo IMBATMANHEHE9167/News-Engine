@@ -557,8 +557,8 @@ footer p{margin:0;max-width:820px}
   .brand .place{font-size:15px}
   .tabs button{height:34px;padding:0 13px;font-size:13px}
   .scope{position:static;height:auto;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px 16px;border-bottom:1px solid var(--rule)}
-  .picks{grid-column:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
-  .dd select{width:100%}
+  .picks{grid-column:1;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  .dd select{max-width:calc(100vw - 32px)}
   .stamp{grid-column:1;justify-self:start;flex-wrap:wrap;gap:0 14px;white-space:normal}
   .stamp .s-src,.stamp .s-chk{display:none}
   body.fullv .stamp{display:none}
@@ -783,8 +783,18 @@ const areaInView = id => view === 'all' || (view === 'pcmc' ? AREA[id].r === 'pc
 const inView = e => view === 'all' || (!!e.a && areaInView(e.a));
 const viewName = () => VIEWS.find(x => x[0] === view)[1];
 let view = 'city';
+// A dropdown is as wide as the choice it shows (its text, the icon and the arrow), not as its longest option.
+function fitSel(s) {
+  const cs = getComputedStyle(s), c = fitSel.c || (fitSel.c = document.createElement('canvas').getContext('2d')), o = s.options[s.selectedIndex];
+  c.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  s.style.width = Math.ceil(c.measureText(o ? o.text : '').width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 4) + 'px';
+}
+const fitSels = () => { fitSel($('views')); fitSel($('period')); };
+addEventListener('resize', fitSels);
+if (document.fonts) document.fonts.ready.then(fitSels);
 function drawViews() {
   $('views').innerHTML = VIEWS.map(([v, name]) => `<option value="${v}"${v === view ? ' selected' : ''}>${name}</option>`).join('');
+  if ($('period').options.length) fitSels();
 }
 $('views').onchange = () => { view = $('views').value; picked = null; newsN = 60; newsSel = null; rescope(true); };
 // The band decides every tab: redraw the open tab (the News tab is always kept current; its strip is on top).
@@ -828,6 +838,7 @@ function drawPeriod() {
   const d = dayOf();
   $('period').innerHTML = (d ? `<option value="${period}" selected>${new Date(dayDate(d)).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' })}</option>` : '') +
     PERIODS.map(([p, name]) => `<option value="${p}"${p === period ? ' selected' : ''}>${name}</option>`).join('');
+  if ($('views').options.length) fitSels();
 }
 $('period').onchange = () => setPeriod($('period').value);
 function setPeriod(p) { if (!p.startsWith('d:')) lastRange = p; period = p; newsN = 60; newsSel = null; rescope(false); }
