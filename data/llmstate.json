@@ -1,25 +1,26 @@
 {
  "day": "2026-11-19",
  "used": {
-  "gemini-3.5-flash-lite": 125,
-  "gemini-3.1-flash-lite": 115,
+  "gemini-3.5-flash-lite": 198,
+  "gemini-3.1-flash-lite": 123,
   "gemini-3-flash-preview": 8,
-  "gemini-flash-lite-latest": 5
+  "gemini-flash-lite-latest": 5,
+  "gemini-3.6-flash": 1
  },
  "rested": {},
  "errors": [
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
-  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
-  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out"
+  "gemini-3-flash-preview: The read operation timed out",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)"
  ],
  "models": {
   "readers": [
@@ -35,17 +36,17 @@
  },
  "lx_reset": 1,
  "last_run": {
-  "busy": 8,
-  "stop": "out of time"
+  "busy": 2,
+  "stop": "nothing left to read, or this run's share used"
  },
- "read": 2307,
- "older": 436,
+ "read": 2694,
+ "older": 49,
  "unread": 0,
- "second": 5,
- "expert": 12,
- "not_incident": 175,
- "updated": "2026-11-19T10:43:43.019Z",
- "judged": 8,
+ "second": 9,
+ "expert": 8,
+ "not_incident": 173,
+ "updated": "2026-11-19T11:33:05.891Z",
+ "judged": 10,
  "audited": 68,
  "overturned": 1
 }

@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T10:43:44.205Z",
+ "updated": "2026-11-19T11:33:07.426Z",
  "total": 2743,
- "added": 4,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 25,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -73,7 +73,7 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 5,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -129,16 +129,16 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
@@ -152,15 +152,15 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 5,
-   "added": 1,
+   "found": 3,
+   "added": 0,
    "note": ""
   },
   {
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 16,
+   "found": 17,
    "added": 0,
    "note": ""
   }

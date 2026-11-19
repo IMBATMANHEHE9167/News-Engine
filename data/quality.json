@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T10:45:18.583Z",
+ "updated": "2026-11-19T11:34:57.968Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -62,9 +62,11 @@
   },
   {
    "name": "ITI student stabbed at Ambegaon (Pune city) is placed in the city, not Ambegaon taluka",
-   "ok": true,
-   "detail": "right part of the district",
-   "bad": []
+   "ok": false,
+   "detail": "Junnar / Ambegaon taluka",
+   "bad": [
+    "Pune: ITI Student Stabbed to Death by Classmate on Campus Terrace in Ambegaon, Accused Held"
+   ]
   },
   {
    "name": "Special NDPS court set up is not an incident",
@@ -74,21 +76,21 @@
   }
  ],
  "detectors": {
-  "split_cases": 5,
-  "date_spread": 6,
+  "split_cases": 6,
+  "date_spread": 7,
   "waiting_for_judge": 0,
-  "pairs_judged": 878,
-  "pairs_judged_same": 770,
+  "pairs_judged": 889,
+  "pairs_judged_same": 780,
   "judge_checked_by_expert": 68,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 48,
-  "silent_days": 5,
+  "area_disagreement": 46,
+  "silent_days": 2,
   "source_gap_days": 63,
   "unverified": 17,
-  "ruled_out_by_ai": 175,
+  "ruled_out_by_ai": 173,
   "reports": 2743,
-  "cases": 1671
+  "cases": 1641
  },
  "examples": {
   "split_cases": [
@@ -111,6 +113,10 @@
    [
     "Scrap collecting woman robbed, left on road, dies in crash; accused held",
     "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
+   ],
+   [
+    "Student killed, two friends injured after speeding bike hits speedbreaker",
+    "Pune Accident : पुणे शहरात वेगवेगळ्या अपघातात तिघांचा मृत्यू"
    ]
   ],
   "date_spread": [
@@ -154,6 +160,13 @@
     "days": [
      "2026-07-02",
      "2026-08-15"
+    ]
+   },
+   {
+    "t": "Nasrapur minor rape and murder case: Prosecution records cyber expert’s testimony",
+    "days": [
+     "2026-05-01",
+     "2026-06-01"
     ]
    }
   ],
@@ -204,21 +217,6 @@
    }
   ],
   "silent_days": [
-   {
-    "day": "2026-05-30",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-05-31",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-06-04",
-    "incidents": 2,
-    "usual": 9
-   },
    {
     "day": "2026-07-22",
     "incidents": 2,
@@ -281,5 +279,5 @@
    }
   ]
  },
- "passed": 10
+ "passed": 9
 }
