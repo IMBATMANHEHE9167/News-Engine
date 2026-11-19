@@ -255,6 +255,9 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .tl a:hover{text-decoration:underline;text-decoration-color:var(--copper)}
 .tl p{margin:6px 0 0;font-size:13px;line-height:19px;color:var(--ink-2)}
 .tl p span{font-weight:500;color:var(--ink-3)}
+.seemap{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:44px;margin:18px 0 0;appearance:none;border:0;border-radius:var(--r-ctl);background:var(--ink);color:var(--paper-2);font-size:14px;font-weight:600;transition:background-color var(--dur) var(--ease)}
+.seemap:hover{background:var(--ink-2)}
+.seemap svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .key{margin:16px 0 0;padding:0;list-style:none;font-size:13px;line-height:20px;color:var(--ink-2)}
 .key li{padding:10px 0;border-top:1px solid var(--rule)}
 .key b{display:block;font-weight:600;color:var(--ink)}
@@ -882,7 +885,9 @@ function caseDetail(e) {
     <h3 class="tl-h">Reports in time order <span>${e.reports.length}</span></h3>
     <ol class="tl">${reps.map(r => `<li class="${r.k === 'f' ? 'dev' : ''}"><time datetime="${esc(r.d)}">${fmtDay(r.d)}<br>${pubTime(r.d)}</time><div>
       <div class="src"><b>${esc(SRC[r.s] || r.s)}</b><span>${r.k === 'f' ? 'Later development' : 'Report'}</span></div>
-      ${link(r, esc(r.t))}${r.L && r.L.s ? `<p><span>Machine summary:</span> ${esc(r.L.s)}</p>` : ''}</div></li>`).join('')}</ol></div>`;
+      ${link(r, esc(r.t))}${r.L && r.L.s ? `<p><span>Machine summary:</span> ${esc(r.L.s)}</p>` : ''}</div></li>`).join('')}</ol>
+    ${e.uv || e.orphan ? '<p class="note">Not on the map until it is settled.</p>' : !e.a ? '<p class="note">No area is stated, so it is not on the map.</p>'
+      : `<button type="button" class="seemap" data-map="${esc(keyOf(e))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>See on map</button>`}</div>`;
 }
 // With no case selected, the panel explains the register and counts what is listed.
 function newsPanel(rows) {
@@ -1061,7 +1066,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && newsSel &&
 /* ---------- Map ---------- */
 // Every map on the page (incidents, situations, groups) is made the same way and shares the basemap and the heat ramp.
 const MAPS = {};
-let MAP, LAYER, picked = null;
+let MAP, LAYER, picked = null, SPOTS = {};   // SPOTS: news key -> its mark on the map, for "See on map"
 function makeMap(id) {
   // Full-screen maps: the wheel (or a pinch) zooms; there are no plus and minus buttons.
   const m = L.map(id, { zoomControl: false, scrollWheelZoom: true, wheelPxPerZoomLevel: 90, wheelDebounceTime: 30, zoomSnap: 0.25, zoomDelta: 0.5 }).setView([18.53, 73.86], 11);
@@ -1110,7 +1115,7 @@ const rowsOf = (pairs, label) => { const mx = Math.max(1, ...pairs.map(p => p[1]
 function drawMap() {
   if (!MAP) initMap();
   const ev = current(), placed = ev.filter(e => e.a), copper = css('--copper');
-  LAYER.clearLayers();
+  LAYER.clearLayers(); SPOTS = {};
   const per = {}, rough = {};
   for (const e of placed) { (per[e.a] = per[e.a] || []).push(e); if (!e.p) (rough[e.a] = rough[e.a] || []).push(e); }
   if (picked && !per[picked]) picked = null;
@@ -1123,7 +1128,7 @@ function drawMap() {
   const spots = placed.filter(e => e.p);
   for (const e of spots) {
     const exact = e.p[3] === 'x', r = lead(e);
-    L.circleMarker([e.p[1], e.p[2]], exact ? { radius: 5.5, color: paper, weight: 1.5, fillColor: copper, fillOpacity: 1 } : { radius: 7, color: copper, weight: 2.2, fillColor: paper, fillOpacity: 1 })
+    SPOTS[keyOf(e)] = L.circleMarker([e.p[1], e.p[2]], exact ? { radius: 5.5, color: paper, weight: 1.5, fillColor: copper, fillOpacity: 1 } : { radius: 7, color: copper, weight: 2.2, fillColor: paper, fillOpacity: 1 })
       .bindPopup(`<div class="rec-type">${esc(label(e))}</div><div style="margin:4px 0">${link(r, esc(r.t))}${enP(r)}</div><div class="label">${meta(esc(e.p[0]), (exact ? 'Named spot' : 'Neighbourhood') , 'Incident ' + fmtDay(e.d), plural(e.reports.length, 'report'))}</div>`)
       .on('click', () => { picked = e.a; drawArea(); })
       .addTo(LAYER);
@@ -1139,6 +1144,25 @@ function drawMap() {
     ${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:2px 0 0"')}<div style="color:var(--ink-3)">Scroll or pinch to zoom; select a disc to open its area.</div>`;
   drawArea(); drawPatterns(ev);
 }
+// "See on map" in a news file: open Map & patterns on that news item. If the area or time chosen above (or a map filter)
+// would hide it, they are widened just enough to show it; then the map zooms to its spot (popup open) or to its area.
+function seeOnMap(k) {
+  const e = INCIDENTS.find(x => keyOf(x) === k); if (!e || !e.a) return;
+  if (!areaInView(e.a)) view = regionOf(e.a);
+  if (!happenedInPeriod(e)) { period = '0'; lastRange = '0'; }
+  if (!current().includes(e)) { $('fCat').value = ''; $('fTime').value = ''; }
+  picked = e.a; drawViews(); drawPeriod(); drawNews();
+  show('map');
+  if (MAPS.map) MAPS.map.fitted = true;                 // keep the zoom below, not the fit to the whole area view
+  setTimeout(() => {
+    if (innerWidth < 1024) sheet('mapv', 'pl', false);
+    const m = SPOTS[k];
+    if (m) { MAP.setView(m.getLatLng(), 16, { animate: motion() === 'smooth' }); m.openPopup(); }
+    else MAP.setView([AREA[e.a].lat, AREA[e.a].lon], 14, { animate: motion() === 'smooth' });
+    drawArea(); panelTo($('areaBox'));
+  }, 260);
+}
+document.addEventListener('click', ev => { const b = ev.target.closest('[data-map]'); if (b) seeOnMap(b.dataset.map); });
 // Bring a block into view inside its own panel (the page itself never scrolls on a map tab).
 function panelTo(el) {
   const p = el && el.closest('.panel'); if (!p) return;
