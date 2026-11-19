@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T06:18:03.436Z",
- "total": 2730,
- "added": 0,
+ "updated": "2026-11-19T07:17:54.187Z",
+ "total": 2732,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 25,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -88,7 +88,7 @@
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 2,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -120,31 +120,31 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 3,
-   "added": 0,
+   "found": 4,
+   "added": 1,
    "note": ""
   },
   {
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 4,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -152,8 +152,8 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
