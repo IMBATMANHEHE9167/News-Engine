@@ -1030,6 +1030,8 @@
     "आंबेगाव बुद्रुक",
     "आंबेगाव खुर्द",
     "आंबेगाव पठार",
+    "आंबेगाव",
+    "ambegaon",
     "narhe",
     "नऱ्हे"
    ]
@@ -1203,7 +1205,9 @@
     "sus road",
     "sus gaon",
     "mhalunge",
-    "म्हाळुंगे"
+    "mahalunge",
+    "म्हाळुंगे",
+    "महाळुंगे"
    ]
   ],
   [
@@ -1387,7 +1391,12 @@
    "pcmc",
    [
     "chakan",
-    "mahalunge",
+    "mahalunge ingale",
+    "mhalunge ingale",
+    "mahalunge midc",
+    "mhalunge midc",
+    "महाळुंगे इंगळे",
+    "म्हाळुंगे इंगळे",
     "nighoje",
     "चाकण"
    ]
@@ -1497,8 +1506,11 @@
     "घोडेगाव",
     "निरगुडसर",
     "आंबेगाव तालुक",
-    "आंबेगाव",
-    "ambegaon",
+    "ambegaon tehsil",
+    "bhimashankar",
+    "भीमाशंकर",
+    "avsari",
+    "अवसरी",
     "पिंपळवंडी",
     "junnar",
     "narayangaon",

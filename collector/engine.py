@@ -301,15 +301,17 @@ def locate(title, text=''):
     """Area of the incident. The headline wins. In the article body a place counts only when the wording ties it
     to the incident ("in Kothrud", "Kothrud police", "कोथरूडमध्ये"), never when it is where someone lives."""
     t = clean_place(title)
-    best, pos = None, float('inf')
+    best, pos, size = None, float('inf'), 0
+    # The earliest name wins; at the same spot the longer, more specific name wins ("आंबेगाव तालुका" is the rural
+    # taluka, "आंबेगाव" alone the city neighbourhood).
     for a, pat in area_res():
         m = pat.search(t)
-        if m and m.start() < pos:
-            pos, best = m.start(), a
+        if m and (m.start() < pos or (m.start() == pos and len(m.group(0)) > size)):
+            pos, best, size = m.start(), a, len(m.group(0))
     if best:
         return best['id']
     body = clean_place(text[:2500])
-    score = 0
+    score, size = 0, 0
     for a, pat in area_res():
         for m in pat.finditer(body):
             name = next((g for g in m.groups() if g), '')
@@ -326,8 +328,8 @@ def locate(title, text=''):
             else:
                 s = 1
             s += 0.5 if re.search('[ऀ-ॿ]', name) else 0
-            if s >= 2 and (s > score or (s == score and start < pos)):
-                score, pos, best = s, start, a
+            if s >= 2 and (s > score or (s == score and (start < pos or (start == pos and len(name) > size)))):
+                score, pos, best, size = s, start, a, len(name)
     return best['id'] if best else None
 
 
@@ -1284,10 +1286,17 @@ def apply_llm(rec):
     # would move the report to another part of the district (city / Pimpri-Chinchwad / rural) than the rules found,
     # it must be backed by the police station or by the place and locality together; otherwise the rules' area stays.
     found = [locate(x) if x else None for x in (v.get('lo', ''), v.get('pl', ''), v.get('ps', ''))]
-    a = found[2] or next((x for x in found if x), None)     # the police station that registered the case comes first
+    # A locality and a place that agree say where it happened; otherwise the police station that registered the case
+    # comes first (a station's jurisdiction is wider than the neighbourhood: Ambegaon police cover parts of Katraj).
+    a = found[0] if found[0] and found[0] == found[1] else found[2] or next((x for x in found if x), None)
     old = rec.get('a')
     if a and old and a != old and AREA[a]['r'] != AREA[old]['r']:
-        backed = found[2] == a or (found[0] == a and found[1] == a)
+        # The police station backs the move only when the locality and the place do not both say otherwise: a station
+        # name can be ambiguous too, but a locality and a place agreeing with each other are not.
+        lo_pl = [f for f in found[:2] if f]
+        against = len(lo_pl) == 2 and all(AREA[f]['r'] != AREA[a]['r'] for f in lo_pl) or \
+            (len(lo_pl) == 1 and AREA[lo_pl[0]]['r'] == AREA[old]['r'] and lo_pl[0] == old)
+        backed = (found[2] == a and not against) or (found[0] == a and found[1] == a)
         if not backed:
             a = None
     if a and a != old:
