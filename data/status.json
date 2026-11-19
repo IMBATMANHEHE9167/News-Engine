@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T21:17:49.698Z",
+ "updated": "2026-11-19T22:18:04.168Z",
  "total": 2757,
  "added": 0,
  "removed": 0,
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 24,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 9,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -135,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 2,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
