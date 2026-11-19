@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T12:24:02.857Z",
+ "updated": "2026-11-19T13:23:01.730Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -87,10 +87,10 @@
   "area_disagreement": 47,
   "silent_days": 2,
   "source_gap_days": 63,
-  "unverified": 9,
+  "unverified": 8,
   "ruled_out_by_ai": 174,
-  "reports": 2744,
-  "cases": 1644
+  "reports": 2746,
+  "cases": 1646
  },
  "examples": {
   "split_cases": [
