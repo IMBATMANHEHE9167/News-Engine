@@ -9,7 +9,9 @@ How reports are joined, strongest evidence first:
   3. Hard details: the same exact spot and type within a day, or the same large sum of money.
   4. Close reports (same family, same or unstated area, within two days; developments within 60 days) that are not
      certainly the same are shown to an AI judge, both side by side; its verdict is kept (data/pairs.json). Until a pair
-     is judged, only near-identical headlines are joined.
+     is judged, only near-identical headlines are joined. A report that gives no day of the crime is dated by its
+     publication, so it counts as close to a report that does when both came out within two days and the crime was at
+     most a week before (one paper says "on Thursday", another only reports it on Tuesday).
 Never joined, whatever else matches: reports whose named victims differ, or whose stated ages or sums contradict.
 
 A case's day is the day most of its new-incident reports say it happened (not the day of a development), never after
@@ -27,6 +29,7 @@ except Exception:             # the case builder works without numpy, more slowl
 PERSON = {'murder', 'women', 'kidnap', 'violence'}   # crimes against a person: a victim's name links these to each other
 CASE_SPAN = 365                                       # days: developments of one named case
 DEV_SPAN = 60                                         # days: an unnamed development may follow its incident by this much
+LATE_SPAN = 7                                         # days: a report with no stated day may come this long after the crime
 JUDGE_FROM = 0.58                                     # similarity from which a close pair is worth asking the judge
 PROVISIONAL = 0.88                                    # until judged, headlines this alike are joined
 RARE_TOKEN = 25                                       # a lone name word in at most this many reports can identify a person
@@ -163,6 +166,13 @@ def build(items, vec=None, verdicts=None):
                 y = recs[j]
                 gap = y['day'] - x['day']
                 dev_pair = (x['dev'] and not x['stated']) or (y['dev'] and not y['stated'])
+                # One paper states the day of the crime, another does not (so it is dated by its publication): their
+                # days can lie days apart although it is one crime. Published within two days of each other, the
+                # unstated one no earlier than the stated day and at most LATE_SPAN after it, they are close.
+                if x['stated'] != y['stated'] and not dev_pair:
+                    s_, u_ = (x, y) if x['stated'] else (y, x)
+                    if abs(x['pub'] - y['pub']) <= 2 and 0 <= u_['pub'] - s_['day'] <= LATE_SPAN:
+                        gap = abs(x['pub'] - y['pub'])
                 if gap > (DEV_SPAN if dev_pair else 2):
                     if not dev_pair and gap > DEV_SPAN:
                         break
