@@ -1,6 +1,24 @@
 {
- "updated": "2026-11-19T16:20:28.207Z",
+ "updated": "2026-11-19T16:28:56.475Z",
  "tests": [
+  {
+   "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Jambhulwadi multi-vehicle crash (near Katraj) is placed in the city, not Ambegaon taluka",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Talegaon Dhamdhere (Shirur taluka) is Pune Rural, not Talegaon Dabhade",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
   {
    "name": "Drunk policeman molesting a woman (Chaturshringi, Sep 2026) is one case",
    "ok": true,
@@ -15,14 +33,9 @@
   },
   {
    "name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "She rejected Rs 32 lakh offer to chase DRDO dream: Dad of IIT-BHU grad killed in Pune accident",
-     "MTech student dies after falling off public bus, run over by school bus in Pune"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -84,12 +97,10 @@
    "bad": []
   },
   {
-   "name": "ITI student stabbed at Ambegaon (Pune city) is placed in the city, not Ambegaon taluka",
-   "ok": false,
-   "detail": "Junnar / Ambegaon taluka",
-   "bad": [
-    "Pune: ITI Student Stabbed to Death by Classmate on Campus Terrace in Ambegaon, Accused Held"
-   ]
+   "name": "ITI student stabbed at Gonwadi (Ambegaon taluka, Ghodegaon police; corrected 19 Nov 2026) is in Pune Rural",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
   },
   {
    "name": "Special NDPS court set up is not an incident",
@@ -100,20 +111,20 @@
  ],
  "detectors": {
   "split_cases": 7,
-  "date_spread": 7,
-  "waiting_for_judge": 4,
-  "pairs_judged": 907,
-  "pairs_judged_same": 798,
+  "date_spread": 8,
+  "waiting_for_judge": 0,
+  "pairs_judged": 914,
+  "pairs_judged_same": 802,
   "judge_checked_by_expert": 78,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 48,
+  "area_disagreement": 22,
   "silent_days": 2,
   "source_gap_days": 63,
   "unverified": 8,
   "ruled_out_by_ai": 174,
   "reports": 2749,
-  "cases": 1633
+  "cases": 1622
  },
  "examples": {
   "split_cases": [
@@ -162,6 +173,13 @@
     ]
    },
    {
+    "t": "Husband among four arrested for Moshi woman’s murder",
+    "days": [
+     "2026-08-12",
+     "2026-10-12"
+    ]
+   },
+   {
     "t": "Gang uses mule bank accounts to defraud 19 people of ₹1.80 cr; five arrested",
     "days": [
      "2026-08-28",
@@ -203,16 +221,6 @@
   ],
   "area_disagreement": [
    {
-    "t": "Opium Seized : कात्रजमध्ये ५२ हजार रुपयांचा अफू जप्त, एकाला अटक",
-    "case_area": "Junnar / Ambegaon taluka",
-    "reading": "Katraj"
-   },
-   {
-    "t": "Man Held In Katraj With Opium Worth ₹36,985 During Police Raid",
-    "case_area": "Junnar / Ambegaon taluka",
-    "reading": "Katraj"
-   },
-   {
     "t": "Pune: Man Held For Killing Maternal Uncle Over Ancestral Land Dispute in Bhor; Two Friends Arrested",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
@@ -238,9 +246,19 @@
     "reading": "Dighi / Alandi"
    },
    {
-    "t": "Pune News: दिवाळीच्या दिवशीच शिंदे कुटुंबावर संकट! नवीन गॅस सिलिंडर जोडताच स्फोट, घरातील सर्व साहित्य जळून खाक",
-    "case_area": "Shirur",
-    "reading": "Talegaon Dabhade"
+    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
+    "case_area": "Lonavala / Maval",
+    "reading": "Wanowrie"
+   },
+   {
+    "t": "Pune Rural Police Take Sia Goyal to Site Near Lullanagar Where Lohagad Murder Plot Was Allegedly Rehearsed",
+    "case_area": "Lonavala / Maval",
+    "reading": "Wanowrie"
+   },
+   {
+    "t": "Two die, four suffer injuries as van plunges into 200ft gorge in Pokhari Ghat",
+    "case_area": "Junnar / Ambegaon taluka",
+    "reading": "Ambegaon / Narhe"
    }
   ],
   "silent_days": [
@@ -252,7 +270,7 @@
    {
     "day": "2026-10-25",
     "incidents": 2,
-    "usual": 9
+    "usual": 8
    }
   ],
   "source_gaps": [
@@ -306,5 +324,5 @@
    }
   ]
  },
- "passed": 11
+ "passed": 16
 }
