@@ -1,0 +1,343 @@
+compile ok
+[0;93m2026-11-19 16:46:50.367682594 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+reports 2749, judged 2575, ruled out by AI 174, unverified 8 (second 0, expert 8, unread 0)
+cases 1628 (counted 1476, unverified 6, developments only 146); pairs for the judge 0; build 0.5s
+before: 1628 incidents (1482 counted)
+quality: 19/19 tests pass; {"split_cases": 7, "date_spread": 8, "waiting_for_judge": 0, "pairs_judged": 914, "pairs_judged_same": 802, "judge_checked_by_expert": 78, "judge_overturned_by_expert": 1, "non_incident_wording": 2, "area_disagreement": 22, "silent_days": 2, "source_gap_days": 63, "unverified": 8, "ruled_out_by_ai": 174, "reports": 2749, "cases": 1622}
+{
+ "updated": "2026-11-19T16:47:25.018Z",
+ "tests": [
+  {
+   "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Jambhulwadi multi-vehicle crash (near Katraj) is placed in the city, not Ambegaon taluka",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Talegaon Dhamdhere (Shirur taluka) is Pune Rural, not Talegaon Dabhade",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Drunk policeman molesting a woman (Chaturshringi, Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Talegaon woman booked under POCSO (Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "NDA security post shooting (sepoy who died) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Trainee PSI dowry harassment is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Trainee PSI dowry harassment is a crime against women",
+   "ok": true,
+   "detail": "right type",
+   "bad": []
+  },
+  {
+   "name": "Kasba Ganpati temple donation-box theft is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Karegaon water-filter plant worker shot in place of his employer (29 Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Ranjangaon koyta attack over a stare (18 Sep 2026) is not the Karegaon shooting",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "Ranjangaon koyta attack whose victim died later is a murder",
+   "ok": true,
+   "detail": "right type",
+   "bad": []
+  },
+  {
+   "name": "PMRDA notice on the POCSO court building is not an incident",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  },
+  {
+   "name": "Kho-kho player's suicide is not a crime against women",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  },
+  {
+   "name": "ITI student stabbed at Gonwadi (Ambegaon taluka, Ghodegaon police; corrected 19 Nov 2026) is in Pune Rural",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Special NDPS court set up is not an incident",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  }
+ ],
+ "detectors": {
+  "split_cases": 7,
+  "date_spread": 8,
+  "waiting_for_judge": 0,
+  "pairs_judged": 914,
+  "pairs_judged_same": 802,
+  "judge_checked_by_expert": 78,
+  "judge_overturned_by_expert": 1,
+  "non_incident_wording": 2,
+  "area_disagreement": 22,
+  "silent_days": 2,
+  "source_gap_days": 63,
+  "unverified": 8,
+  "ruled_out_by_ai": 174,
+  "reports": 2749,
+  "cases": 1622
+ },
+ "examples": {
+  "split_cases": [
+   [
+    "Man killed over marital dispute; father-in-law, grandfather-in-law held",
+    "Pune: Man, Grandfather-in-Law Held For Killing Son-in-Law, Passing it off as Road Accident"
+   ],
+   [
+    "Chain Snacher Arrested : पुणे जिल्ह्यातील सोनसाखळी चोरीचे सहा गुन्हे उघड; दोघांना अटक",
+    "शेतात पाला तोडणाऱ्या ज्येष्ठ महिलेचे दागिने हिसकावले"
+   ],
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Scrap collecting woman robbed, left on road, dies in crash; accused held",
+    "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
+   ],
+   [
+    "Student killed, two friends injured after speeding bike hits speedbreaker",
+    "Pune Accident : पुणे शहरात वेगवेगळ्या अपघातात तिघांचा मृत्यू"
+   ],
+   [
+    "Delivery partner held after fatal accident in Pune turns out to be murder",
+    "Pedestrian dies in hit-and-run accident in Baner"
+   ]
+  ],
+  "date_spread": [
+   {
+    "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
+    "days": [
+     "2026-06-22",
+     "2026-11-01"
+    ]
+   },
+   {
+    "t": "Scooterist dies in hit-and-run",
+    "days": [
+     "2026-06-10",
+     "2026-11-03"
+    ]
+   },
+   {
+    "t": "Husband among four arrested for Moshi woman’s murder",
+    "days": [
+     "2026-08-12",
+     "2026-10-12"
+    ]
+   },
+   {
+    "t": "Gang uses mule bank accounts to defraud 19 people of ₹1.80 cr; five arrested",
+    "days": [
+     "2026-08-28",
+     "2026-10-04"
+    ]
+   },
+   {
+    "t": "Pune: ‘Bigg Boss’ Fame Divya Shinde’s Police Custody Extended Till October 2 in Extortion, Attack Case",
+    "days": [
+     "2026-09-17",
+     "2026-09-24"
+    ]
+   },
+   {
+    "t": "Man murdered over character suspicion; accused held",
+    "days": [
+     "2026-06-26",
+     "2026-08-27"
+    ]
+   },
+   {
+    "t": "Reel Fight Turns Violent At Deccan Cafe; 7 Arrested After 19-Year-Old Attacked With Scythe",
+    "days": [
+     "2026-07-02",
+     "2026-08-15"
+    ]
+   },
+   {
+    "t": "Builder booked for cheating flat buyers of Rs50 crore",
+    "days": [
+     "2026-06-12",
+     "2026-06-16"
+    ]
+   }
+  ],
+  "non_incident_wording": [
+   "Three engineers assault building contractor in road rage, booked",
+   "Elderly man assaulted in upscale building in Gahunje"
+  ],
+  "area_disagreement": [
+   {
+    "t": "Pune: Man Held For Killing Maternal Uncle Over Ancestral Land Dispute in Bhor; Two Friends Arrested",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Bhor Police Patil’s Nephew Held In Land Dispute Killing, Two Friends Also Arrested",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Police patil hacked to death over land dispute in Pune district; search on for three accused",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
+    "case_area": "Vishrantwadi",
+    "reading": "Dighi / Alandi"
+   },
+   {
+    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
+    "case_area": "Lonavala / Maval",
+    "reading": "Wanowrie"
+   },
+   {
+    "t": "Pune Rural Police Take Sia Goyal to Site Near Lullanagar Where Lohagad Murder Plot Was Allegedly Rehearsed",
+    "case_area": "Lonavala / Maval",
+    "reading": "Wanowrie"
+   },
+   {
+    "t": "Two die, four suffer injuries as van plunges into 200ft gorge in Pokhari Ghat",
+    "case_area": "Junnar / Ambegaon taluka",
+    "reading": "Ambegaon / Narhe"
+   }
+  ],
+  "silent_days": [
+   {
+    "day": "2026-07-22",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
+    "day": "2026-10-25",
+    "incidents": 2,
+    "usual": 8
+   }
+  ],
+  "source_gaps": [
+   {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
+    ]
+   },
+   {
+    "source": "ptm",
+    "days": 17,
+    "examples": [
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
+    ]
+   },
+   {
+    "source": "pkn",
+    "days": 27,
+    "examples": [
+     "2026-10-25",
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15"
+    ]
+   },
+   {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   }
+  ]
+ },
+ "passed": 19
+}
+sample judge pairs:
+total 37.1s

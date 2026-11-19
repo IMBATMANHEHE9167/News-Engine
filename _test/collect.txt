@@ -1,0 +1,24 @@
+[0;93m2026-11-19 16:48:23.389105768 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+ie   ERR found=0 new=0 HTTP 403
+ht   ok  found=5 new=0 
+toi  ok  found=1 new=0 
+ptm  ok  found=9 new=0 
+pkn  ok  found=2 new=0 
+ppl  ok  found=0 new=0 
+pcl  ok  found=4 new=0 
+fpj  ok  found=0 new=0 
+tv9  ok  found=1 new=0 
+abp  ok  found=4 new=0 
+prb  ok  found=0 new=0 
+lks  ERR found=0 new=0 HTTP 403
+pud  ok  found=5 new=0 
+lkm  ok  found=2 new=0 
+skl  ok  found=23 new=1 
+llm: {"used": {"gemini-3.5-flash-lite": 230, "gemini-3.1-flash-lite": 124, "gemini-3-flash-preview": 8, "gemini-flash-lite-latest": 8, "gemini-3.6-flash": 4}, "read": 2744, "older": 5, "unread": 1, "second": 0, "expert": 8, "not_incident": 174, "note": "no GEMINI_API_KEY secret: the LLM layer is off"}
+machine reading: on, second opinion flags 31
+cases: 1629 from 2576 reports; 914 pairs judged, 0 waiting for the judge
+total=2750 new=1 removed=0 incidents=1629
+organised crime: 492 tagged reports, andekar 161, bishnoi 61, ghaywal 57, marne 39, mohol 38, pathan 24, thombre 9, koyta 124
+analytics: city 7 problems, 2 surges, 2 series, 1 timing, 5 places
+quality: 19/19 tests pass; {"split_cases": 7, "date_spread": 8, "waiting_for_judge": 0, "pairs_judged": 914, "pairs_judged_same": 802, "judge_checked_by_expert": 78, "judge_overturned_by_expert": 1, "non_incident_wording": 2, "area_disagreement": 22, "silent_days": 2, "source_gap_days": 63, "unverified": 9, "ruled_out_by_ai": 174, "reports": 2750, "cases": 1622}
+exit 0
