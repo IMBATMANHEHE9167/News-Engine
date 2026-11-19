@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T14:35:09.226Z",
- "total": 2746,
- "added": 0,
+ "updated": "2026-11-19T15:19:01.116Z",
+ "total": 2747,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -80,7 +80,7 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 3,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -160,8 +160,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 18,
-   "added": 0,
+   "found": 21,
+   "added": 1,
    "note": ""
   }
  ]

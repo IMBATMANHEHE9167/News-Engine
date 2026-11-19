@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T14:41:44.285Z",
+ "updated": "2026-11-19T15:22:42.086Z",
  "tests": [
   {
    "name": "Drunk policeman molesting a woman (Chaturshringi, Sep 2026) is one case",
@@ -9,19 +9,20 @@
   },
   {
    "name": "Talegaon woman booked under POCSO (Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case",
    "ok": false,
    "detail": "2 cases",
    "bad": [
     [
-     "Talegaon Woman Booked Under POCSO Over Minor Complaint"
+     "She rejected Rs 32 lakh offer to chase DRDO dream: Dad of IIT-BHU grad killed in Pune accident",
+     "MTech student dies after falling off public bus, run over by school bus in Pune"
     ]
    ]
-  },
-  {
-   "name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
   },
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -100,19 +101,19 @@
  "detectors": {
   "split_cases": 7,
   "date_spread": 7,
-  "waiting_for_judge": 14,
-  "pairs_judged": 893,
-  "pairs_judged_same": 784,
+  "waiting_for_judge": 1,
+  "pairs_judged": 907,
+  "pairs_judged_same": 798,
   "judge_checked_by_expert": 78,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 47,
+  "area_disagreement": 48,
   "silent_days": 2,
   "source_gap_days": 63,
   "unverified": 8,
   "ruled_out_by_ai": 174,
-  "reports": 2746,
-  "cases": 1639
+  "reports": 2747,
+  "cases": 1631
  },
  "examples": {
   "split_cases": [
@@ -202,6 +203,16 @@
   ],
   "area_disagreement": [
    {
+    "t": "Opium Seized : कात्रजमध्ये ५२ हजार रुपयांचा अफू जप्त, एकाला अटक",
+    "case_area": "Junnar / Ambegaon taluka",
+    "reading": "Katraj"
+   },
+   {
+    "t": "Man Held In Katraj With Opium Worth ₹36,985 During Police Raid",
+    "case_area": "Junnar / Ambegaon taluka",
+    "reading": "Katraj"
+   },
+   {
     "t": "Pune: Man Held For Killing Maternal Uncle Over Ancestral Land Dispute in Bhor; Two Friends Arrested",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
@@ -222,11 +233,6 @@
     "reading": "Pimple Saudagar / Sangvi"
    },
    {
-    "t": "Man Held In Katraj With Opium Worth ₹36,985 During Police Raid",
-    "case_area": "Junnar / Ambegaon taluka",
-    "reading": "Katraj"
-   },
-   {
     "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
     "case_area": "Vishrantwadi",
     "reading": "Dighi / Alandi"
@@ -235,11 +241,6 @@
     "t": "Pune News: दिवाळीच्या दिवशीच शिंदे कुटुंबावर संकट! नवीन गॅस सिलिंडर जोडताच स्फोट, घरातील सर्व साहित्य जळून खाक",
     "case_area": "Shirur",
     "reading": "Talegaon Dabhade"
-   },
-   {
-    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
-    "case_area": "Lonavala / Maval",
-    "reading": "Wanowrie"
    }
   ],
   "silent_days": [
@@ -255,6 +256,18 @@
    }
   ],
   "source_gaps": [
+   {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
+    ]
+   },
    {
     "source": "ptm",
     "days": 17,
@@ -277,18 +290,6 @@
      "2026-11-02",
      "2026-11-06",
      "2026-11-15"
-    ]
-   },
-   {
-    "source": "skl",
-    "days": 8,
-    "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
     ]
    },
    {
