@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T04:19:46.171Z",
+ "updated": "2026-11-19T05:21:51.309Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -80,18 +80,18 @@
  "detectors": {
   "split_cases": 3,
   "date_spread": 3,
-  "waiting_for_judge": 34,
+  "waiting_for_judge": 38,
   "pairs_judged": 814,
   "pairs_judged_same": 719,
-  "judge_checked_by_expert": 58,
+  "judge_checked_by_expert": 68,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
   "area_disagreement": 39,
   "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 22,
+  "unverified": 24,
   "ruled_out_by_ai": 171,
-  "reports": 2728,
+  "reports": 2730,
   "cases": 1747
  },
  "examples": {
@@ -212,18 +212,6 @@
   ],
   "source_gaps": [
    {
-    "source": "toi",
-    "days": 11,
-    "examples": [
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-04",
-     "2026-11-11",
-     "2026-11-12"
-    ]
-   },
-   {
     "source": "skl",
     "days": 8,
     "examples": [
@@ -233,6 +221,18 @@
      "2026-10-01",
      "2026-10-11",
      "2026-11-10"
+    ]
+   },
+   {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
     ]
    },
    {
