@@ -1,6 +1,28 @@
 {
- "updated": "2026-11-19T14:19:56.803Z",
+ "updated": "2026-11-19T14:41:44.285Z",
  "tests": [
+  {
+   "name": "Drunk policeman molesting a woman (Chaturshringi, Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Talegaon woman booked under POCSO (Sep 2026) is one case",
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Talegaon Woman Booked Under POCSO Over Minor Complaint"
+    ]
+   ]
+  },
+  {
+   "name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
    "ok": true,
@@ -77,8 +99,8 @@
  ],
  "detectors": {
   "split_cases": 7,
-  "date_spread": 6,
-  "waiting_for_judge": 0,
+  "date_spread": 7,
+  "waiting_for_judge": 14,
   "pairs_judged": 893,
   "pairs_judged_same": 784,
   "judge_checked_by_expert": 78,
@@ -90,7 +112,7 @@
   "unverified": 8,
   "ruled_out_by_ai": 174,
   "reports": 2746,
-  "cases": 1646
+  "cases": 1639
  },
  "examples": {
   "split_cases": [
@@ -164,6 +186,13 @@
     "days": [
      "2026-07-02",
      "2026-08-15"
+    ]
+   },
+   {
+    "t": "Builder booked for cheating flat buyers of Rs50 crore",
+    "days": [
+     "2026-06-12",
+     "2026-06-16"
     ]
    }
   ],
@@ -276,5 +305,5 @@
    }
   ]
  },
- "passed": 9
+ "passed": 11
 }
