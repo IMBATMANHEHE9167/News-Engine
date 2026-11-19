@@ -28,7 +28,7 @@
 {"id":"9nnc74","t":"Deputy CM Sunetra Pawar Calls for Swift Probe in Pimpalwandi Child Murder Case","u":"https://punemirror.com/city/pune/pimpalwandi-child-murder-case-sunetra-pawar-fast-track-trial/","rule":"murder","model":"women","conf":0.83},
 {"id":"e5itcg","t":"26-year-old dies by suicide in Bhosari after alleged blackmail over gold earring; woman booked","u":"https://www.hindustantimes.com/cities/pune-news/26yearold-dies-by-suicide-in-bhosari-after-alleged-blackmail-over-gold-earring-woman-booked-101786300929321.html","rule":"violence","model":"murder","conf":0.83},
 {"id":"vl6ww2","t":"Pimpri driver booked on charge of wife’s murder","u":"https://timesofindia.indiatimes.com/city/pune/pimpri-driver-booked-on-charge-of-wifes-murder/articleshow/132078404.cms","rule":"murder","model":"accident","conf":0.83},
+{"id":"gh6kgz","t":"अल्पवयीन मुलीवर लैंगिक अत्याचार करून खून","u":"https://www.esakal.com/pune/pune-child-murder-incident","rule":"murder","model":"women","conf":0.82},
 {"id":"usj5a6","t":"Kasba Ganpati Temple Theft: Pune Police Arrest Suspect Within Eight Hours","u":"https://www.punekarnews.in/kasba-ganpati-temple-theft-pune-police-arrest-suspect-within-eight-hours/","rule":"burglary","model":"theft","conf":0.81},
-{"id":"gh6kgz","t":"अल्पवयीन मुलीवर लैंगिक अत्याचार करून खून","u":"https://www.esakal.com/pune/pune-child-murder-incident","rule":"murder","model":"women","conf":0.81},
 {"id":"1qa18w9","t":"Former Pune corporator murder suspect’s brother shot at: Police","u":"https://www.hindustantimes.com/cities/pune-news/expune-corporator-vanraj-andekar-s-brother-shot-at-police-101779271699499.html","rule":"violence","model":"murder","conf":0.8}
 ]

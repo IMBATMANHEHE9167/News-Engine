@@ -6,7 +6,8 @@
   "gemini-3.6-flash": 9,
   "gemini-3-flash-preview": 20,
   "gemini-2.5-flash-lite": 62,
-  "gemini-flash-lite-latest": 27
+  "gemini-flash-lite-latest": 27,
+  "gemini-flash-latest": 1
  },
  "rested": {
   "gemini-3.6-flash": true,
@@ -44,15 +45,15 @@
  "waiting": 344,
  "disputes": 308,
  "settled": 40,
- "updated": "2026-11-19T02:17:59.050Z",
+ "updated": "2026-11-19T03:18:54.984Z",
  "older": 1646,
- "unread": 1,
+ "unread": 7,
  "second": 2,
  "expert": 12,
  "not_incident": 171,
  "judged": 156,
  "lx_reset": 1,
- "audited": 48,
+ "audited": 58,
  "overturned": 1,
  "last_run": {
   "busy": 0,
