@@ -4,7 +4,7 @@
   "gemini-3.5-flash-lite": 232,
   "gemini-3.1-flash-lite": 354,
   "gemini-3.6-flash": 9,
-  "gemini-3-flash-preview": 17,
+  "gemini-3-flash-preview": 18,
   "gemini-2.5-flash-lite": 62,
   "gemini-flash-lite-latest": 27
  },
@@ -17,13 +17,13 @@
  "errors": [
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3.5-flash-lite: no usable answer (PROHIBITED_CONTENT)",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3.1-flash-lite: no usable answer (PROHIBITED_CONTENT)",
+  "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out"
@@ -44,7 +44,7 @@
  "waiting": 344,
  "disputes": 308,
  "settled": 40,
- "updated": "2026-11-18T23:17:59.661Z",
+ "updated": "2026-11-19T00:17:54.158Z",
  "older": 1646,
  "unread": 1,
  "second": 2,
