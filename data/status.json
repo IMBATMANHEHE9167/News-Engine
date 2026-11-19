@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T08:48:00.122Z",
- "total": 2734,
- "added": 2,
+ "updated": "2026-11-19T09:43:54.046Z",
+ "total": 2739,
+ "added": 5,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 25,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -72,16 +72,16 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 2,
    "note": ""
   },
   {
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 4,
+   "added": 1,
    "note": ""
   },
   {
@@ -104,15 +104,15 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -135,16 +135,16 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 1,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 4,
+   "found": 5,
    "added": 1,
    "note": ""
   },
@@ -152,8 +152,8 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 5,
-   "added": 1,
+   "found": 4,
+   "added": 0,
    "note": ""
   },
   {

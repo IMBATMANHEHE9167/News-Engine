@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T08:50:22.229Z",
+ "updated": "2026-11-19T09:45:50.317Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -81,18 +81,18 @@
   "split_cases": 4,
   "date_spread": 3,
   "waiting_for_judge": 0,
-  "pairs_judged": 853,
-  "pairs_judged_same": 752,
+  "pairs_judged": 873,
+  "pairs_judged_same": 765,
   "judge_checked_by_expert": 68,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 44,
-  "silent_days": 5,
+  "area_disagreement": 45,
+  "silent_days": 6,
   "source_gap_days": 63,
-  "unverified": 30,
+  "unverified": 25,
   "ruled_out_by_ai": 169,
-  "reports": 2734,
-  "cases": 1719
+  "reports": 2739,
+  "cases": 1687
  },
  "examples": {
   "split_cases": [
@@ -142,6 +142,16 @@
   ],
   "area_disagreement": [
    {
+    "t": "Pune: Man Held For Killing Maternal Uncle Over Ancestral Land Dispute in Bhor; Two Friends Arrested",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Bhor Police Patil’s Nephew Held In Land Dispute Killing, Two Friends Also Arrested",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
     "t": "Police patil hacked to death over land dispute in Pune district; search on for three accused",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
@@ -150,6 +160,11 @@
     "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Man Held In Katraj With Opium Worth ₹36,985 During Police Raid",
+    "case_area": "Junnar / Ambegaon taluka",
+    "reading": "Katraj"
    },
    {
     "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
@@ -165,21 +180,6 @@
     "t": "Siya Goyal’s father says viral 'middle finger' moment was caused by car door accident",
     "case_area": "Lonavala / Maval",
     "reading": "Market Yard"
-   },
-   {
-    "t": "‘I Didn’t Meet Siya’: Accused’s Father Speaks After Police Search at Pune Home",
-    "case_area": "Lonavala / Maval",
-    "reading": "Market Yard"
-   },
-   {
-    "t": "Pimpri Chinchwad police raid mephedrone manufacturing unit",
-    "case_area": "Pimple Saudagar / Sangvi",
-    "reading": "Junnar / Ambegaon taluka"
-   },
-   {
-    "t": "MACT awards ₹22.26 lakh to mother of man killed in tanker crash",
-    "case_area": "Hadapsar",
-    "reading": "Shikrapur / Ranjangaon"
    }
   ],
   "silent_days": [
@@ -204,12 +204,41 @@
     "usual": 8
    },
    {
+    "day": "2026-07-22",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
     "day": "2026-10-25",
     "incidents": 2,
     "usual": 9
    }
   ],
   "source_gaps": [
+   {
+    "source": "ptm",
+    "days": 17,
+    "examples": [
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
+    ]
+   },
+   {
+    "source": "pkn",
+    "days": 27,
+    "examples": [
+     "2026-10-25",
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15"
+    ]
+   },
    {
     "source": "skl",
     "days": 8,
@@ -232,30 +261,6 @@
      "2026-11-04",
      "2026-11-11",
      "2026-11-12"
-    ]
-   },
-   {
-    "source": "pkn",
-    "days": 27,
-    "examples": [
-     "2026-10-25",
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-15"
-    ]
-   },
-   {
-    "source": "ptm",
-    "days": 17,
-    "examples": [
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10",
-     "2026-10-18",
-     "2026-11-06"
     ]
    }
   ]
