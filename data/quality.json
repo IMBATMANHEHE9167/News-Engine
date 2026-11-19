@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T07:19:23.349Z",
+ "updated": "2026-11-19T08:50:22.229Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -78,27 +78,31 @@
   }
  ],
  "detectors": {
-  "split_cases": 3,
+  "split_cases": 4,
   "date_spread": 3,
-  "waiting_for_judge": 38,
-  "pairs_judged": 814,
-  "pairs_judged_same": 719,
+  "waiting_for_judge": 0,
+  "pairs_judged": 853,
+  "pairs_judged_same": 752,
   "judge_checked_by_expert": 68,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 39,
-  "silent_days": 6,
+  "area_disagreement": 44,
+  "silent_days": 5,
   "source_gap_days": 63,
-  "unverified": 26,
-  "ruled_out_by_ai": 171,
-  "reports": 2732,
-  "cases": 1747
+  "unverified": 30,
+  "ruled_out_by_ai": 169,
+  "reports": 2734,
+  "cases": 1719
  },
  "examples": {
   "split_cases": [
    [
     "Man killed over marital dispute; father-in-law, grandfather-in-law held",
     "Pune: Man, Grandfather-in-Law Held For Killing Son-in-Law, Passing it off as Road Accident"
+   ],
+   [
+    "Chain Snacher Arrested : पुणे जिल्ह्यातील सोनसाखळी चोरीचे सहा गुन्हे उघड; दोघांना अटक",
+    "शेतात पाला तोडणाऱ्या ज्येष्ठ महिलेचे दागिने हिसकावले"
    ],
    [
     "Distant relative held for murdering two elderly women, robbing them of gold chains",
@@ -173,9 +177,9 @@
     "reading": "Junnar / Ambegaon taluka"
    },
    {
-    "t": "Pune Crime: पुण्यात बंद घर चोरट्यांच्या निशाण्यावर; रोकड आणि सोन्या-चांदीचे दागिने असा २.८६ लाखांचा ऐवज चोरीला",
-    "case_area": "Loni Kalbhor",
-    "reading": "Dighi / Alandi"
+    "t": "MACT awards ₹22.26 lakh to mother of man killed in tanker crash",
+    "case_area": "Hadapsar",
+    "reading": "Shikrapur / Ranjangaon"
    }
   ],
   "silent_days": [
@@ -192,15 +196,10 @@
    {
     "day": "2026-06-04",
     "incidents": 2,
-    "usual": 8
+    "usual": 9
    },
    {
     "day": "2026-07-06",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-07-10",
     "incidents": 2,
     "usual": 8
    },
