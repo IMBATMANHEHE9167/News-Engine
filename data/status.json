@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T11:33:07.426Z",
- "total": 2743,
- "added": 0,
+ "updated": "2026-11-19T12:22:02.365Z",
+ "total": 2744,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -72,8 +72,8 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 6,
+   "added": 1,
    "note": ""
   },
   {
@@ -104,7 +104,7 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },

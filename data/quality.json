@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T11:34:57.968Z",
+ "updated": "2026-11-19T12:24:02.857Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -76,21 +76,21 @@
   }
  ],
  "detectors": {
-  "split_cases": 6,
-  "date_spread": 7,
+  "split_cases": 7,
+  "date_spread": 6,
   "waiting_for_judge": 0,
-  "pairs_judged": 889,
-  "pairs_judged_same": 780,
-  "judge_checked_by_expert": 68,
+  "pairs_judged": 893,
+  "pairs_judged_same": 784,
+  "judge_checked_by_expert": 78,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 46,
+  "area_disagreement": 47,
   "silent_days": 2,
   "source_gap_days": 63,
-  "unverified": 17,
-  "ruled_out_by_ai": 173,
-  "reports": 2743,
-  "cases": 1641
+  "unverified": 9,
+  "ruled_out_by_ai": 174,
+  "reports": 2744,
+  "cases": 1644
  },
  "examples": {
   "split_cases": [
@@ -117,6 +117,10 @@
    [
     "Student killed, two friends injured after speeding bike hits speedbreaker",
     "Pune Accident : पुणे शहरात वेगवेगळ्या अपघातात तिघांचा मृत्यू"
+   ],
+   [
+    "Delivery partner held after fatal accident in Pune turns out to be murder",
+    "Pedestrian dies in hit-and-run accident in Baner"
    ]
   ],
   "date_spread": [
@@ -160,13 +164,6 @@
     "days": [
      "2026-07-02",
      "2026-08-15"
-    ]
-   },
-   {
-    "t": "Nasrapur minor rape and murder case: Prosecution records cyber expert’s testimony",
-    "days": [
-     "2026-05-01",
-     "2026-06-01"
     ]
    }
   ],
