@@ -30,20 +30,22 @@ document.documentElement.dataset.theme=t;})();
    and a copper glow for the busiest places and days. Everything that is not copper is neutral. */
 :root{
   color-scheme:light;
-  --paper:#EEECE8; --paper-2:#F9F8F6; --paper-3:#E0DDD8;
-  --ink:#181818; --ink-2:#3D3B38; --ink-3:#5C5853;
-  --rule:rgba(24,24,24,.12); --rule-2:rgba(24,24,24,.24); --hover:rgba(24,24,24,.05);
-  --copper:#9C5A2B; --copper-text:#9C5A2B; --on-copper:#FFF8F0; --glow:rgba(214,126,58,.55); --well:#E6E3DF;
-  --neg:#A3322A; --bar:rgba(24,24,24,.22);
+  --paper:#ECEAE6; --paper-2:#FAF9F7; --paper-3:#DDD9D3;
+  --ink:#121212; --ink-2:#2E2C29; --ink-3:#55514C;
+  --rule:rgba(18,18,18,.14); --rule-2:rgba(18,18,18,.30); --hover:rgba(18,18,18,.06);
+  /* Light copper: a brighter copper for every mark, bar, disc and large figure; small copper text keeps the deeper brand
+     copper so it stays readable (4.5:1). Both are true copper, never a tint. */
+  --copper:#B86A33; --copper-text:#9C5A2B; --on-copper:#170F09; --glow:rgba(232,132,56,.62); --well:#E3DFD9;
+  --neg:#A3322A; --bar:rgba(18,18,18,.26);
   --shell:#181818; --shell-2:#2B2A28; --shell-ink:#F2F0EC; --shell-ink-2:#ABA69E; --shell-rule:rgba(242,240,236,.10); --shell-hover:rgba(242,240,236,.07); --shell-copper:#D08A52; --on-shell-copper:#170F09;
-  --shadow:0 24px 48px -24px rgba(24,24,24,.28),0 1px 3px rgba(24,24,24,.08);
-  --tile-filter:grayscale(1) contrast(.97);
+  --shadow:0 18px 40px -18px rgba(18,18,18,.34),0 0 0 1px rgba(18,18,18,.06);
+  --tile-filter:grayscale(1) contrast(1.08) brightness(1.02);
   --display:"Boska","Tiro Devanagari Marathi",Georgia,serif;
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
   --ease:cubic-bezier(.22,1,.36,1); --dur:160ms;
   --r-ctl:999px; --r-well:14px; --r-card:22px;
-  --bar-h:64px; --scope-h:52px; --stick:calc(var(--bar-h) + var(--scope-h));
+  --bar-h:64px; --scope-h:60px; --stick:calc(var(--bar-h) + var(--scope-h));
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
@@ -98,18 +100,28 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .switch i::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--shell-copper);transition:transform var(--dur) var(--ease)}
 :root[data-theme="dark"] .switch i::after{transform:translateX(14px)}
 
-/* Scope: area and period, for every tab */
-.scope{position:sticky;top:var(--bar-h);z-index:999;display:flex;align-items:center;gap:28px;min-height:var(--scope-h);padding:8px 28px;background:var(--paper);border-bottom:1px solid var(--rule)}
-.grp{display:flex;align-items:center;gap:10px;min-width:0}
-.grp .lab{flex:none;font-size:12px;font-weight:500;color:var(--ink-3)}
+/* Scope: area and time, for every tab. Two dropdowns at the centre of the band; they decide what every tab shows. */
+.scope{position:sticky;top:var(--bar-h);z-index:999;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px;height:var(--scope-h);padding:0 28px;background:var(--paper);border-bottom:1px solid var(--rule)}
+.picks{grid-column:2;display:flex;align-items:center;gap:10px}
+.dd{position:relative;display:flex;align-items:center;height:40px;border-radius:var(--r-ctl);background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--rule-2);transition:box-shadow var(--dur) var(--ease)}
+.dd:hover{box-shadow:inset 0 0 0 1px var(--ink-3)}
+.dd:focus-within{box-shadow:inset 0 0 0 1px var(--ink-3),0 0 0 2px var(--paper),0 0 0 4px var(--copper)}
+.dd svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;fill:none;stroke:var(--ink-2);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.dd .ddl{position:absolute;left:38px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:500;color:var(--ink-3);pointer-events:none}
+.dd select{width:auto;min-width:0;height:40px;background-color:transparent;box-shadow:none;border-radius:var(--r-ctl);padding:0 38px 0 82px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;background-position:calc(100% - 21px) 54%,calc(100% - 16px) 54%}
+.dd select:hover{box-shadow:none}
+.dd select:focus-visible{outline:0}
+.dd.time select{padding-left:80px}
 .seg{display:flex;gap:4px;min-width:0;overflow-x:auto;scrollbar-width:none;padding:2px}
 .seg::-webkit-scrollbar{display:none}
 .seg button{flex:none;appearance:none;background:none;border:0;height:32px;padding:0 14px;border-radius:var(--r-ctl);font-size:13px;color:var(--ink-2);white-space:nowrap;box-shadow:inset 0 0 0 1px transparent;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .seg button:hover{background:var(--hover);color:var(--ink)}
 .seg button.on{background:var(--paper-2);color:var(--ink);font-weight:500;box-shadow:inset 0 0 0 1px var(--rule-2)}
-.stamp{margin:0 0 0 auto;display:flex;gap:20px;font-size:13px;line-height:18px;color:var(--ink-3);white-space:nowrap}
+.stamp{grid-column:3;justify-self:end;margin:0;display:flex;gap:16px;min-width:0;overflow:hidden;font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap}
 .stamp b{font-family:var(--mono);font-weight:500;color:var(--ink)}
 .stamp span:first-child b{color:var(--copper-text)}
+@media (max-width:1700px){.stamp .s-src{display:none}}
+@media (max-width:1400px){.stamp .s-chk{display:none}}
 
 /* Pages */
 .page{max-width:1640px;margin:0 auto;padding:28px}
@@ -128,10 +140,31 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .figs .fig{font-size:52px}
 .figs .fig.hot{color:var(--copper)}
 .figs span{font-size:12px;font-weight:500;color:var(--ink-3)}
-.strip{grid-column:1/-1;display:grid;gap:3px;align-items:end;height:56px}
-.strip i{display:block;border-radius:2px;min-height:3px;background:var(--copper);box-shadow:0 0 calc(var(--g,0) * 18px) calc(var(--g,0) * 2px) var(--glow)}
-.strip i.z{background:var(--paper-3);box-shadow:none}
-.strip-k{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink-3)}
+/* The day strip: one bar per day. Copper bars are the days the time choice covers; a pointer over a bar lights it in ink;
+   a click (or a finger lifted on it) shows that day. On phones a finger run across the bars ticks like a ratchet. */
+.stripwrap{grid-column:1/-1;position:relative;display:grid;gap:10px}
+.strip{display:grid;gap:3px;align-items:end;height:64px;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.sb{appearance:none;border:0;background:none;padding:0;height:100%;display:flex;align-items:flex-end;border-radius:3px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sb i{display:block;width:100%;border-radius:2px;min-height:3px;background:var(--bar);transition:background-color 90ms linear}
+.sb.in i{background:var(--copper);box-shadow:0 0 calc(var(--g,0) * 18px) calc(var(--g,0) * 2px) var(--glow)}
+.sb.z i{background:var(--paper-3);box-shadow:none}
+.sb.hov i,.sb:focus-visible i{background:var(--ink);box-shadow:none}
+.sb:focus-visible{outline:0}
+.sb.sel{position:relative}
+.sb.sel::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:1px;background:var(--ink)}
+.flag{position:absolute;top:-34px;z-index:5;transform:translateX(-50%);padding:4px 10px;border-radius:8px;background:var(--ink);color:var(--paper-2);font-size:12px;line-height:18px;font-weight:500;white-space:nowrap;pointer-events:none}
+.flag b{font-family:var(--mono);font-weight:500}
+.flag[hidden]{display:none}
+.pan{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;font-size:12px;color:var(--ink-3)}
+.pan input{width:100%;height:20px;margin:0;background:none;-webkit-appearance:none;appearance:none;cursor:pointer}
+.pan input::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:var(--paper-3)}
+.pan input::-moz-range-track{height:4px;border-radius:2px;background:var(--paper-3)}
+.pan input::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:16px;margin-top:-6px;border-radius:8px;background:var(--copper);box-shadow:0 0 0 2px var(--paper-2)}
+.pan input::-moz-range-thumb{width:44px;height:16px;border:0;border-radius:8px;background:var(--copper);box-shadow:0 0 0 2px var(--paper-2)}
+.pan input:focus-visible{outline:0}
+.pan input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--paper-2),0 0 0 4px var(--ink)}
+.strip-k{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--ink-3)}
+.strip-k .clear{appearance:none;background:none;border:0;padding:0;font-size:12px;font-weight:600;color:var(--copper-text);text-decoration:underline;text-underline-offset:3px}
 .strip-k .ramp{display:inline-flex;align-items:flex-end;gap:5px}
 .strip-k .ramp i{display:inline-block;width:5px;border-radius:1px;margin-bottom:4px;background:var(--copper);box-shadow:0 0 calc(var(--g,0) * 10px) calc(var(--g,0) * 1px) var(--glow)}
 .strip-k .ramp i:first-of-type{margin-left:4px}.strip-k .ramp i:last-of-type{margin-right:6px}
@@ -259,19 +292,36 @@ option{background:var(--paper-2);color:var(--ink)}
 .tog{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);cursor:pointer}
 .tog input{accent-color:var(--copper);margin:0}
 
-/* Maps: one look for all four maps */
-.mapp{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:28px;align-items:start}
-.mapp > .stmt{grid-column:1/-1}
-.mapcol{position:sticky;top:calc(var(--stick) + 24px)}
-.mapbox{position:relative;border-radius:var(--r-card);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--rule)}
-#map{height:calc(100vh - var(--stick) - 48px);min-height:460px}
-.sitmap,.ocmap{height:min(64vh,620px);min-height:380px}
-.mapkey{position:absolute;left:14px;bottom:14px;z-index:500;display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:var(--r-well);background:color-mix(in srgb,var(--paper-2) 88%,transparent);box-shadow:0 0 0 1px var(--rule);font-size:12px;line-height:16px;color:var(--ink-2);max-width:calc(100% - 28px)}
+/* Full-screen maps: on the three map tabs the map fills everything under the band, the page does not scroll (the wheel
+   zooms the map), and the tab's panels float over the map, each scrolling on its own. On phones the panels become one
+   bottom sheet. */
+body.fullv{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+body.fullv footer{display:none}
+.page.full{max-width:none;width:100%;margin:0;padding:0;flex:1 1 auto;min-height:0;position:relative}
+.fmap{position:absolute;inset:0;z-index:1}
+.panels{display:contents}
+.sheetbar{display:none}
+.panel{position:absolute;top:16px;bottom:16px;z-index:600;width:380px;overflow:hidden auto;overscroll-behavior:contain;scrollbar-width:thin;background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-card);box-shadow:var(--shadow);padding:22px}
+.panel.pl{left:16px}
+.panel.pr{right:16px;width:420px}
+.panel.flush{padding:0}
+.panel.flush > .phead{padding:22px 22px 0}
+.panel .day{top:0}
+.panel .day:first-child{border-radius:0}
+.panel .stmt{grid-template-columns:minmax(0,1fr);gap:16px;margin:0 0 4px}
+.panel .stmt h1{font-size:36px;line-height:1.02}
+.panel .stmt .sub{font-size:13px;line-height:19px;margin-top:8px}
+.panel .figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}
+.panel .figs .fig{font-size:36px}
+#sitIntro .figs{grid-template-columns:repeat(3,minmax(0,1fr))}
+.panel .sec:first-child{margin-top:0;padding-top:0;border-top:0}
+.mapkey{display:flex;flex-direction:column;gap:6px;margin:16px 0 0;padding:12px 14px;border-radius:var(--r-well);background:var(--paper);box-shadow:inset 0 0 0 1px var(--rule);font-size:12px;line-height:16px;color:var(--ink-2)}
 .mapkey div{display:flex;align-items:center;gap:8px}
 .mapkey svg{flex:none}
 .mapkey b{font-family:var(--mono);font-weight:500;color:var(--ink);margin-left:auto;padding-left:12px}
-.mapside{padding:22px}
-.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.refit{position:absolute;left:50%;bottom:18px;z-index:550;transform:translateX(-50%);appearance:none;border:0;height:34px;padding:0 14px;border-radius:var(--r-ctl);background:var(--paper-2);box-shadow:0 0 0 1px var(--rule-2),var(--shadow);font-size:12px;font-weight:600;color:var(--ink)}
+.refit:hover{background:var(--paper-3)}
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
 .legend{margin:22px 0 0}
 .legend .tot{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--ink-2)}
 .legend .tot .fig{font-size:56px;color:var(--copper)}
@@ -302,17 +352,20 @@ option{background:var(--paper-2);color:var(--ink)}
 .lift .fig small{font-size:20px}
 .lift p{margin:8px 0 0;font-size:13px;line-height:18px;color:var(--ink-2)}
 .lift p b{color:var(--ink);font-weight:600}
-.meter{display:grid;grid-template-columns:120px minmax(0,1fr) 46px;gap:10px;align-items:center;padding:5px 0;font-size:13px;color:var(--ink-2)}
+.meter{display:grid;grid-template-columns:minmax(110px,170px) minmax(0,1fr) minmax(46px,auto);gap:10px;align-items:center;padding:5px 0;font-size:13px;color:var(--ink-2)}
 .meter .m{position:relative;height:12px;border-radius:6px;background:var(--paper-3);overflow:hidden}
 .meter .m i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--copper)}
+.meter .m i.ink{background:var(--ink-2)}
+.osrc b{font-weight:600;color:var(--ink-2)}
 .meter .m s{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink-3)}
 .meter b{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--ink);text-align:right}
 
 /* Organised crime */
-.ochead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:16px 40px;align-items:end;margin:4px 0 24px}
-.ochead h1{margin:0;font:500 64px/1 var(--display);letter-spacing:-.02em}
-.ocsearch{position:relative}
-.search{width:100%;height:48px;padding:0 20px;background:var(--paper-2);border:0;box-shadow:inset 0 0 0 1px var(--rule-2);border-radius:var(--r-ctl);color:var(--ink);font:16px var(--sans)}
+.ochead h1{margin:0;font:500 36px/1.02 var(--display);letter-spacing:-.02em}
+.ocfloat{position:absolute;top:16px;left:412px;right:452px;z-index:650;display:flex;justify-content:center;pointer-events:none}
+.ocsearch{position:relative;width:100%;max-width:520px;pointer-events:auto}
+.search{width:100%;height:48px;padding:0 20px 0 46px;background:var(--paper-2);border:0;box-shadow:inset 0 0 0 1px var(--rule-2),var(--shadow);border-radius:var(--r-ctl);color:var(--ink);font:16px var(--sans)}
+.ocsearch svg{position:absolute;left:18px;top:16px;width:16px;height:16px;fill:none;stroke:var(--ink-2);stroke-width:1.8;stroke-linecap:round;pointer-events:none;z-index:1}
 .search:hover{box-shadow:inset 0 0 0 1px var(--ink-3)}
 .search:focus-visible{outline-offset:2px}
 .sug{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:1500;background:var(--paper-2);border:1px solid var(--rule-2);border-radius:var(--r-well);box-shadow:var(--shadow);max-height:380px;overflow-y:auto;padding:6px}
@@ -320,12 +373,10 @@ option{background:var(--paper-2);color:var(--ink)}
 .sug button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;appearance:none;background:none;border:0;border-radius:10px;padding:8px 10px;text-align:left;font-size:14px;color:var(--ink)}
 .sug button span:last-child{font-size:12px;color:var(--ink-3);white-space:nowrap}
 .sug button.on,.sug button:hover{background:var(--hover)}
-.ocgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
-.ocleft{position:sticky;top:calc(var(--stick) + 24px);display:grid;gap:20px}
-.ocgraph{padding:20px 22px}
 .ocgraph .gsvg{max-width:640px;margin:0 auto}
-.ocgraph .gtx{font-size:15px}
+.ocgraph .gtx{font-size:19px}
 .ocprof{padding:22px}
+.ocard .rec-when{white-space:normal}
 .ocname{font:500 44px/1.02 var(--display);margin:14px 0 8px;letter-spacing:-.02em}
 .back{appearance:none;background:none;border:0;padding:0;font-size:13px;font-weight:500;color:var(--copper-text)}
 .back:hover{text-decoration:underline;text-underline-offset:3px}
@@ -333,8 +384,16 @@ option{background:var(--paper-2);color:var(--ink)}
 .spark i{flex:1;border-radius:2px 2px 0 0;min-width:3px;background:var(--copper);box-shadow:0 0 calc(var(--g,0) * 14px) calc(var(--g,0) * 2px) var(--glow)}
 
 /* Analytics */
-.anhead{display:flex;align-items:center;gap:16px;margin:0 0 24px}
-.anhead p{margin:0;font-size:13px;color:var(--ink-3)}
+/* The Findings / Graphs slider: big, at the top centre; a copper thumb slides to the open side */
+.anhead{display:flex;flex-direction:column;align-items:center;gap:12px;margin:4px 0 32px;text-align:center}
+.anhead p{margin:0;font-size:13px;color:var(--ink-3);max-width:70ch}
+.slide{position:relative;display:grid;grid-template-columns:1fr 1fr;width:min(460px,100%);height:58px;padding:5px;border-radius:var(--r-ctl);background:var(--paper-3);box-shadow:inset 0 0 0 1px var(--rule);touch-action:pan-y}
+.slide::before{content:"";position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:var(--r-ctl);background:var(--copper);transition:transform .34s var(--ease)}
+.slide[data-on="graphs"]::before{transform:translateX(100%)}
+.slide button{position:relative;z-index:1;appearance:none;border:0;background:none;border-radius:var(--r-ctl);font-size:17px;font-weight:600;color:var(--ink-2);transition:color .2s var(--ease)}
+.slide button:hover{color:var(--ink)}
+.slide button.on{color:var(--on-copper)}
+.slide button:focus-visible{outline-offset:-3px;outline-color:var(--ink)}
 .anfind{display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;align-items:start}
 .anfind > .stmt{grid-column:1/-1}
 .anidx{display:flex;flex-direction:column;gap:2px}
@@ -403,6 +462,46 @@ option{background:var(--paper-2);color:var(--ink)}
 .gedge.dim{opacity:.08}
 .gnode.sel circle{stroke:var(--ink);stroke-width:2.5}
 .gtip{position:fixed;z-index:3000;display:none;pointer-events:none;background:var(--paper-2);color:var(--ink);border:1px solid var(--rule-2);border-radius:10px;box-shadow:var(--shadow);padding:8px 10px;font:13px/19px var(--sans);max-width:300px}
+.gdot{fill:var(--copper)}
+.gdotr{fill:var(--paper-2);stroke:var(--ink-3);stroke-width:1.5}
+.gjoin{stroke:var(--rule-2);stroke-width:2}
+.gjoin.up{stroke:var(--copper);stroke-width:2.5}
+.gbar{fill:var(--bar)}
+.gbar.last{fill:var(--copper)}
+/* Small multiples: one small chart per type or per official head */
+.mults{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.mult{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:var(--r-well);background:var(--paper);box-shadow:inset 0 0 0 1px var(--rule);min-width:0}
+.mult h4{margin:0;display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14px;line-height:19px;font-weight:600;color:var(--ink)}
+.mult h4 span{font:500 12px var(--mono);color:var(--ink-3);white-space:nowrap}
+.mult .fig{font-size:32px;color:var(--ink)}
+.mult .fig.hot{color:var(--copper)}
+.mult svg{display:block;width:100%;height:auto;overflow:visible}
+.mult p{margin:0;font-size:12px;line-height:17px;color:var(--ink-3)}
+.mult p b{font-weight:600;color:var(--ink-2)}
+/* Official figures and the sources they come from */
+.osrc{margin-top:auto;padding-top:12px;border-top:1px solid var(--rule);font-size:12px;line-height:17px;color:var(--ink-3)}
+.osrc a{color:var(--ink-2)}
+.finding .osrc{margin-top:12px}
+.obody{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.srcs{display:grid;gap:0}
+.srcs > div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:10px 0;border-top:1px solid var(--rule);font-size:13px;line-height:19px;color:var(--ink-2)}
+.srcs b{font-weight:600;color:var(--ink)}
+.srcs span{font-family:var(--mono);font-size:12px;color:var(--ink-3);text-align:right;white-space:nowrap}
+.srcs small{grid-column:1/-1;font-size:12px;line-height:17px;color:var(--ink-3)}
+.warnline{margin:0 0 14px;padding:10px 14px;border-radius:var(--r-well);background:var(--paper-3);font-size:13px;line-height:19px;color:var(--ink-2)}
+/* Live: today and ongoing situations blink on and off (never a faded copper) */
+@keyframes blink{0%,49.9%{opacity:1}50%,100%{opacity:0}}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--copper-text)}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--copper);box-shadow:0 0 8px 1px var(--glow);animation:blink 1.1s infinite}
+.blink{animation:blink 1.1s infinite}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* The news sources, under the type filter */
+.srcbox{margin:22px 4px 0;font-size:12px;line-height:18px;color:var(--ink-3)}
+.srcbox summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:8px;padding:0 0 8px;font-size:12px;font-weight:500;color:var(--ink-3)}
+.srcbox summary::-webkit-details-marker{display:none}
+.srcbox summary::after{content:"Show";font-weight:600;color:var(--copper-text)}
+.srcbox[open] summary::after{content:"Hide"}
+.srcbox .src-row{font-size:13px}
 
 footer{max-width:1640px;margin:0 auto;padding:20px 28px 44px;font-size:12px;line-height:18px;color:var(--ink-3)}
 footer p{margin:0;max-width:820px}
@@ -434,50 +533,78 @@ footer p{margin:0;max-width:820px}
 .disc.on{box-shadow:0 0 0 2px var(--paper-2),0 0 0 4.5px var(--ink),0 0 28px 7px var(--glow)}
 .disc.mute{background:var(--paper-3);color:var(--ink-3);box-shadow:0 0 0 1px var(--rule-2)}
 .disc:hover{box-shadow:0 0 0 2px var(--paper-2),0 0 0 3.5px var(--ink)}
+/* A live situation on the map: a solid glowing copper mark, and a copper ring that blinks on and off */
+.lm{position:relative;border-radius:50%;background:var(--copper);box-shadow:0 0 0 2px var(--paper-2),0 0 22px 6px var(--glow);cursor:pointer}
+.lm i{position:absolute;inset:-9px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--copper);animation:blink 1.1s infinite}
+/* English under a Marathi headline */
+.en{margin:3px 0 0;font-size:13px;line-height:19px;color:var(--ink-2)}
+.mini .en{font-size:12.5px;line-height:18px}
 
 /* Tablet and phone */
 @media (max-width:1023px){
   .bar{display:contents}
   .brandrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px 10px;background:var(--shell)}
-  .tabs{position:sticky;top:0;z-index:1000;padding:8px 12px;background:var(--shell);border-bottom:1px solid var(--shell-rule)}
+  .tabs{order:0;flex:none;position:sticky;top:0;z-index:1000;padding:8px 12px;background:var(--shell);border-bottom:1px solid var(--shell-rule)}
+  .scanline{order:0;flex:none}
+  .brandrow,.scope{flex:none}
   .scanline{display:block;padding:8px 16px 12px;background:var(--shell);text-align:left;white-space:normal}
-  .scope{position:static;flex-wrap:wrap;gap:8px 24px;padding:8px 16px;border-bottom:0}
-  .stamp{margin:0;flex-wrap:wrap;gap:0 14px;white-space:normal;width:100%}
+  .scope{position:static;height:auto;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px 16px;border-bottom:1px solid var(--rule)}
+  .picks{grid-column:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+  .dd select{width:100%}
+  .stamp{grid-column:1;justify-self:start;flex-wrap:wrap;gap:0 14px;white-space:normal}
+  .stamp .s-src,.stamp .s-chk{display:none}
+  body.fullv .stamp{display:none}
   .page{padding:16px}
-  .stmt,.ochead{grid-template-columns:minmax(0,1fr)}
-  .stmt h1,.ochead h1{font-size:44px}
+  .page.full{padding:0}
+  .stmt{grid-template-columns:minmax(0,1fr)}
+  .stmt h1{font-size:44px}
   .figs{gap:24px;flex-wrap:wrap}
   .figs .fig{font-size:40px}
-  .reports,.sitp,.anfind,.mapp,.ocgrid{grid-template-columns:minmax(0,1fr)}
-  .rail,.mapcol,.ocleft{position:static}
+  .reports,.anfind{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static}
   .filter,.anidx{flex-direction:row;overflow-x:auto;scrollbar-width:none;gap:4px}
   .filter::-webkit-scrollbar,.anidx::-webkit-scrollbar{display:none}
   .filter button,.anidx a{flex:none;white-space:nowrap}
   .day{top:54px}
-  #map{height:62vh;min-height:340px}
-  .sitmap,.ocmap{height:56vh;min-height:320px}
+  /* The map tabs' panels become one bottom sheet over the map, with a switch when a tab has two panels */
+  .panels{display:flex;flex-direction:column;position:absolute;left:0;right:0;bottom:0;z-index:600;height:42%;background:var(--paper-2);border-radius:20px 20px 0 0;box-shadow:0 -14px 34px -16px rgba(0,0,0,.5);border-top:1px solid var(--rule-2);transition:height .3s var(--ease)}
+  .panels.open{height:86%}
+  .sheetbar{display:flex;align-items:center;gap:8px;flex:none;padding:8px 8px 8px 12px;border-bottom:1px solid var(--rule)}
+  .sheetbar .seg{flex:1 1 auto}
+  .sheetbar .stitle{flex:1 1 auto;padding-left:4px;font-size:14px;font-weight:600;color:var(--ink)}
+  .grab{flex:none;appearance:none;border:0;height:34px;padding:0 14px;border-radius:var(--r-ctl);background:var(--paper-3);font-size:12px;font-weight:600;color:var(--ink)}
+  .panel,.panel.pr{position:static;width:auto;flex:1 1 auto;min-height:0;border:0;border-radius:0;box-shadow:none;padding:16px}
+  .panel.flush{padding:0}
+  .panel.flush > .phead{padding:16px 16px 0}
+  .panels[data-on="pl"] > .pr,.panels[data-on="pr"] > .pl{display:none}
+  .refit{left:auto;right:12px;bottom:auto;top:12px;transform:none}
+  .ocfloat{left:12px;right:12px;top:12px}
+  #ocv .refit{top:70px}
 }
 @media (max-width:759px){
-  .grp{width:100%}
+  .dd .ddl{display:none}
+  .dd select,.dd.time select{padding-left:38px;padding-right:32px;font-size:13px}
   .stmt h1,.ochead h1{font-size:32px}
   .stmt{gap:10px 20px;margin-bottom:18px}
   .stmt .sub{font-size:13px;line-height:19px;margin-top:8px}
   .figs{gap:20px}
   .figs .fig{font-size:30px}
   .figs div{gap:4px}
-  .strip{height:34px}
+  .strip{height:56px;gap:2px}
   .legend .tot .fig,.lift .fig,.finding .fig{font-size:40px}
   .rec{grid-template-columns:58px minmax(0,1fr);gap:12px;padding:16px}
   .rec-inline{padding:0 12px 12px}
   .day{padding:12px 16px 8px}
   .cards{grid-template-columns:minmax(0,1fr)}
   .lifts{grid-template-columns:minmax(0,1fr)}
-  .angraphs,.mapside,.ocprof,.ocgraph,.casefile,.checks{padding:16px}
+  .angraphs,.ocprof,.casefile,.checks{padding:16px}
+  .slide{height:52px}
+  .slide button{font-size:16px}
   .cf-big .fig{font-size:48px}
   .gbox .gsvg{min-width:680px}
 }
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{transition:none!important;scroll-behavior:auto!important}
+  *,*::before,*::after{transition:none!important;scroll-behavior:auto!important;animation:none!important}
 }
 </style>
 </head>
@@ -489,72 +616,84 @@ footer p{margin:0;max-width:820px}
     <button class="switch" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span id="themeWord">Light</span><i></i></button>
   </div>
   <nav class="tabs" aria-label="Sections">
-    <button id="tabNews" class="on" type="button">Reports</button>
+    <button id="tabNews" class="on" type="button">News</button>
     <button id="tabMap" type="button">Map &amp; patterns</button>
-    <button id="tabSit" type="button">Situations</button>
+    <button id="tabSit" type="button">Live situations</button>
     <button id="tabOc" type="button">Organised crime</button>
     <button id="tabAn" type="button">Analytics</button>
   </nav>
   <p class="scanline" id="scanLine" aria-live="polite"></p>
 </div>
 <div class="scope">
-  <div class="grp"><span class="lab" id="areaLab">Area</span><div class="seg" id="views" role="group" aria-labelledby="areaLab"></div></div>
-  <div class="grp"><span class="lab" id="perLab">Period</span><div class="seg" id="period" role="group" aria-labelledby="perLab"></div></div>
+  <div class="picks">
+    <label class="dd area"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span class="ddl">Area</span><select id="views" aria-label="Area"></select></label>
+    <label class="dd time"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="ddl">Time</span><select id="period" aria-label="Time"></select></label>
+  </div>
   <p class="stamp" id="stamp">Loading</p>
 </div>
 
 <main id="news" class="page reports">
   <section class="stmt" id="newsStmt" aria-label="Today"></section>
-  <aside class="rail" aria-label="Filter by type"><h2 class="rail-h">Type</h2><div class="filter" id="newsFilter"></div></aside>
-  <section class="sheet" aria-label="Reports register"><div id="newsList"><div class="empty">Loading reports</div></div></section>
-  <aside class="detail" id="newsDetail" aria-label="Case file" aria-live="polite"></aside>
+  <aside class="rail" aria-label="Filter by type"><h2 class="rail-h">Type</h2><div class="filter" id="newsFilter"></div><details class="srcbox" id="srcBox"><summary id="srcSum">Sources</summary><div id="sources"></div></details></aside>
+  <section class="sheet" aria-label="News register"><div id="newsList"><div class="empty">Loading news</div></div></section>
+  <aside class="detail" id="newsDetail" aria-label="News file" aria-live="polite"></aside>
 </main>
 
-<main id="mapv" class="page mapp hide">
-  <section class="stmt" id="mapStmt" aria-label="Summary"></section>
-  <div class="mapcol"><div class="mapbox"><div id="map" role="region" aria-label="Map of incidents"></div><div class="mapkey" id="count"></div></div></div>
-  <aside class="sheet mapside">
-    <div class="controls">
-      <label class="field"><span class="label">Type</span><select id="fCat"></select></label>
-      <label class="field"><span class="label">Time</span>
-        <select id="fTime"><option value="">Any time</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
-    </div>
-    <div class="sec" id="areaBox"></div>
-    <div id="patterns"></div>
-    <section class="sec"><h3 class="sec-h">Sources</h3><div id="sources"></div></section>
-  </aside>
+<main id="mapv" class="page full hide">
+  <div id="map" class="fmap" role="region" aria-label="Map of incidents"></div>
+  <button type="button" class="refit" data-fit="map">Fit to area</button>
+  <div class="panels" data-on="pl">
+    <div class="sheetbar"><div class="seg" role="group" aria-label="Panel"><button type="button" class="on" data-sheet="pl">Where</button><button type="button" data-sheet="pr">Patterns</button></div><button type="button" class="grab" aria-expanded="false">Expand</button></div>
+    <aside class="panel pl" aria-label="Where it happened">
+      <section class="stmt" id="mapStmt" aria-label="Summary"></section>
+      <div class="controls">
+        <label class="field"><span class="label">Type</span><select id="fCat"></select></label>
+        <label class="field"><span class="label">Time of day</span>
+          <select id="fTime"><option value="">Any time of day</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
+      </div>
+      <div class="mapkey" id="count"></div>
+      <div class="sec" id="areaBox"></div>
+    </aside>
+    <aside class="panel pr" aria-label="Patterns"><div id="patterns"></div></aside>
+  </div>
 </main>
 
 <main id="anv" class="page hide">
-  <div class="anhead"><div class="seg" id="anMode" role="group" aria-label="Analytics view"><button data-anm="findings" class="on" type="button">Findings</button><button data-anm="graphs" type="button">Graphs</button></div><p id="anSub"></p></div>
+  <div class="anhead"><div class="slide" id="anMode" role="tablist" aria-label="Analytics view" data-on="findings"><button data-anm="findings" class="on" type="button" role="tab" aria-selected="true">Findings</button><button data-anm="graphs" type="button" role="tab" aria-selected="false">Graphs</button></div><p id="anSub"></p></div>
   <div id="anBody"></div>
 </main>
 
-<main id="ocv" class="page hide">
-  <div class="ochead">
-    <h1 id="ocTitle">Organised crime</h1>
-    <div>
-      <div class="ocsearch">
-        <input id="ocQ" class="search" type="search" placeholder="Search a gang, or a word like koyta, MCOCA, extortion" autocomplete="off" aria-label="Search groups and words"
-          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ocSug">
-        <div id="ocSug" class="sug hide" role="listbox"></div>
-      </div>
-      <p class="note" id="ocNote"></p>
+<main id="ocv" class="page full hide">
+  <div id="ocMap" class="fmap" role="region" aria-label="Map of where groups are reported"></div>
+  <button type="button" class="refit" data-fit="ocMap">Fit to area</button>
+  <div class="ocfloat">
+    <div class="ocsearch">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></svg>
+      <input id="ocQ" class="search" type="search" placeholder="Search a gang, or a word like koyta, MCOCA, extortion" autocomplete="off" aria-label="Search groups and words"
+        role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ocSug">
+      <div id="ocSug" class="sug hide" role="listbox"></div>
     </div>
   </div>
-  <div class="ocgrid">
-    <div class="ocleft">
-      <div class="mapbox"><div id="ocMap" class="ocmap" role="region" aria-label="Map of where groups are reported"></div><div class="mapkey" id="ocKey"></div></div>
-      <section class="sheet ocgraph"><h2 class="sec-h">Gang links</h2><div id="ocGraph"></div></section>
-    </div>
-    <div id="ocBody" class="sheet"></div>
+  <div class="panels" data-on="pr">
+    <div class="sheetbar"><div class="seg" role="group" aria-label="Panel"><button type="button" data-sheet="pr" class="on">Groups</button><button type="button" data-sheet="pl">Gang links</button></div><button type="button" class="grab" aria-expanded="false">Expand</button></div>
+    <aside class="panel pl ocgraph" aria-label="Gang links"><h2 class="sec-h">Gang links</h2><div id="ocGraph"></div><div class="mapkey" id="ocKey"></div></aside>
+    <aside class="panel pr flush" aria-label="Groups" id="ocPanel">
+      <div class="phead ochead"><h1 id="ocTitle">Organised crime</h1><p class="note" id="ocNote"></p></div>
+      <div id="ocBody"></div>
+    </aside>
   </div>
 </main>
 
-<main id="sitv" class="page sitp hide">
-  <section class="stmt" id="sitIntro" aria-label="Summary"></section>
-  <div class="mapcol"><div class="mapbox"><div id="sitMap" class="sitmap" role="region" aria-label="Map of situations"></div><div class="mapkey" id="sitKey"></div></div></div>
-  <section class="sheet" aria-label="Situations register"><div id="sitList"></div></section>
+<main id="sitv" class="page full hide">
+  <div id="sitMap" class="fmap" role="region" aria-label="Map of situations"></div>
+  <button type="button" class="refit" data-fit="sitMap">Fit to area</button>
+  <div class="panels" data-on="pr">
+    <div class="sheetbar"><span class="stitle">Live situations</span><button type="button" class="grab" aria-expanded="false">Expand</button></div>
+    <aside class="panel pr flush" aria-label="Situations" id="sitPanel">
+      <div class="phead"><section class="stmt" id="sitIntro" aria-label="Summary"></section><div class="mapkey" id="sitKey"></div></div>
+      <div id="sitList" style="margin-top:18px"></div>
+    </aside>
+  </div>
 </main>
 
 <div id="gTip" class="gtip"></div>
@@ -595,12 +734,21 @@ const plural = (n, w) => `${fmtN(n)} ${w}${n === 1 ? '' : 's'}`;
 // Meta fields sit side by side, separated by space (never joined by dots).
 const meta = (...parts) => `<span class="mt">${parts.filter(Boolean).map(p => `<span>${p}</span>`).join('')}</span>`;
 
-let STATUS = null, EVENTS = [], INCIDENTS = [], QUAL = null;
+let STATUS = null, EVENTS = [], INCIDENTS = [], QUAL = null, OFFICIAL = null, OWATCH = null;
+// English under Marathi: a Marathi headline anywhere on the page carries the machine's English summary of that report,
+// found by the report's link (every report the engine has read has one).
+const DEV = /[ऀ-ॿ]/;
+let EN = {};
+const enOf = r => r && DEV.test(r.t || '') ? ((r.L && r.L.s) || EN[r.u] || '') : '';
+const enP = (r, cls = 'en') => { const s = enOf(r); return s ? `<p class="${cls}" lang="en">${esc(s)}</p>` : ''; };
 
 async function load() {
-  // EVENTS: reports joined into incidents, newest report first (the Reports tab). INCIDENTS: without follow-ups
+  // EVENTS: reports joined into incidents, newest report first (the News tab). INCIDENTS: without follow-ups
   // that could not be tied to an incident; only these are counted and mapped.
   try { EVENTS = await j('data/events.json'); } catch { EVENTS = []; }
+  EN = {}; for (const e of EVENTS) for (const r of e.reports) if (r.L && r.L.s) EN[r.u] = r.L.s;
+  try { OFFICIAL = await j('data/official.json'); } catch { OFFICIAL = null; }
+  try { OWATCH = await j('data/officialwatch.json'); } catch { OWATCH = null; }
   try { STATUS = await j('data/status.json'); } catch { STATUS = null; }
   try { SITS = await j('data/situations.json'); } catch { SITS = []; }
   try { SITSTATUS = await j('data/sitstatus.json'); } catch { SITSTATUS = null; }
@@ -613,7 +761,7 @@ async function load() {
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
   const first = EVENTS.reduce((m, e) => e.reports.reduce((m2, r) => (r.d < m2 ? r.d : m2), m), '9999');
   $('stamp').innerHTML = EVENTS.length
-    ? `<span><b>${fmtN(INCIDENTS.length)}</b> incidents counted</span><span>${plural(nReports, 'report')} since ${fmtDay(first)}</span>` + (checking ? `<span>${fmtN(checking)} being checked</span>` : '') + (STATUS ? `<span>Updated ${ago(STATUS.updated)}</span>` : '')
+    ? `<span><b>${fmtN(INCIDENTS.length)}</b> incidents counted</span><span class="s-src">${plural(nReports, 'report')} since ${fmtDay(first)}</span>` + (checking ? `<span class="s-chk">${fmtN(checking)} being checked</span>` : '') + (STATUS ? `<span>Updated ${ago(STATUS.updated)}</span>` : '')
     : 'Nothing collected yet. The collector runs every hour.';
   drawNews(); drawSources(); drawScan();
 }
@@ -621,46 +769,63 @@ async function load() {
 /* ---------- Views ---------- */
 // Pune City is the main view and opens first. Hinjewadi is part of Pimpri-Chinchwad (its police) and also has its own view.
 // Reports with no area stated appear only under All.
-const VIEWS = [['city', 'Pune City'], ['pcmc', 'Pimpri-Chinchwad'], ['hinj', 'Hinjewadi'], ['rural', 'Pune Rural'], ['all', 'All']];
+const VIEWS = [['city', 'Pune City'], ['pcmc', 'Pimpri-Chinchwad'], ['hinj', 'Hinjewadi'], ['rural', 'Pune Rural'], ['all', 'All areas']];
 const regionOf = id => (id === 'hinjewadi' ? 'hinj' : AREA[id].r);
 const areaInView = id => view === 'all' || (view === 'pcmc' ? AREA[id].r === 'pcmc' : regionOf(id) === view);
 const inView = e => view === 'all' || (!!e.a && areaInView(e.a));
+const viewName = () => VIEWS.find(x => x[0] === view)[1];
 let view = 'city';
 function drawViews() {
-  $('views').innerHTML = VIEWS.map(([v, name]) => `<button class="${v === view ? 'on' : ''}" data-v="${v}" aria-pressed="${v === view}">${name}</button>`).join('');
+  $('views').innerHTML = VIEWS.map(([v, name]) => `<option value="${v}"${v === view ? ' selected' : ''}>${name}</option>`).join('');
 }
-$('views').onclick = e => {
-  const b = e.target.closest('button'); if (!b) return;
-  view = b.dataset.v; picked = null; newsN = 60; drawViews(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits(); if (!$('ocv').classList.contains('hide')) drawOc(); if (!$('anv').classList.contains('hide')) drawAn();
-  Object.values(MAPS).forEach(m => fitView(m.m));   // every map follows the area view
+$('views').onchange = () => { view = $('views').value; picked = null; newsN = 60; newsSel = null; rescope(true); };
+// The band decides every tab: redraw the open tab (the News tab is always kept current; its strip is on top).
+function rescope(refit) {
+  drawViews(); drawPeriod(); drawNews();
+  if (!$('sitv').classList.contains('hide')) drawSits();
+  if (!$('ocv').classList.contains('hide')) drawOc();
+  if (!$('anv').classList.contains('hide')) drawAn();
+  if (refit) Object.values(MAPS).forEach(e => { if (e.m.getContainer().offsetWidth) fitView(e.m); else e.fitted = false; });   // every map follows the area view
   if (!$('mapv').classList.contains('hide')) drawMap();
-};
+}
+// Fit a map to the area view, leaving room for the panels that float over it (or the sheet on phones).
 function fitView(m = MAP) {
   if (!m) return;
-  const pts = AREAS.filter(a => areaInView(a.id)).map(a => [a.lat, a.lon]);
-  if (pts.length === 1) m.setView(pts[0], 13); else m.fitBounds(L.latLngBounds(pts), { padding: [24, 24], maxZoom: 13 });
+  const pts = AREAS.filter(a => areaInView(a.id)).map(a => [a.lat, a.lon]), box = m.getContainer().parentElement;
+  const side = s => { const el = box.querySelector(s); return el && el.offsetWidth && getComputedStyle(el).position === 'absolute' ? el.offsetWidth + 40 : 28; };
+  const top = box.querySelector('.ocfloat') ? 76 : 28, sheet = box.querySelector('.panels');
+  const phone = innerWidth < 1024, tl = phone ? [20, top] : [side('.panel.pl'), top], br = phone ? [20, (sheet ? sheet.offsetHeight : 0) + 20] : [side('.panel.pr'), 28];
+  if (pts.length === 1) m.setView(pts[0], 13); else m.fitBounds(L.latLngBounds(pts), { paddingTopLeft: tl, paddingBottomRight: br, maxZoom: 13 });
 }
 
-/* ---------- Reports ---------- */
-// One period for both tabs: today (since midnight, India time), or the last N days.
-const PERIODS = [['1', 'Today'], ['7', '1 week'], ['30', '1 month'], ['90', '3 months'], ['0', 'All']];
-let period = '0';
-const since = () => period === '0' ? 0 : period === '1' ? new Date(istDay(Date.now()) + 'T00:00:00+05:30').getTime() : Date.now() - (+period) * 864e5;
-// Reports are filtered by when they were published; the map and patterns by when the incident happened.
-const inPeriod = e => new Date(e.last).getTime() >= since();
-const happenedInPeriod = e => new Date(e.d).getTime() + 12 * 3600e3 >= since();
+/* ---------- News ---------- */
+// One time choice for every tab: today (since midnight, India time), the last N days, all time, or one day picked on
+// the News strip ('d:YYYY-MM-DD').
+const PERIODS = [['1', 'Today'], ['7', 'Last 7 days'], ['30', 'Last 30 days'], ['90', 'Last 3 months'], ['0', 'All time']];
+let period = '0', lastRange = '0';
+const DAYMS = 864e5;
+const dayOf = () => period.startsWith('d:') ? period.slice(2) : null;
+const dayStart = d => new Date(d + 'T00:00:00+05:30').getTime();
+const since = () => { const d = dayOf(); return d ? dayStart(d) : period === '0' ? 0 : period === '1' ? dayStart(istDay(Date.now())) : Date.now() - (+period) * DAYMS; };
+const until = () => { const d = dayOf(); return d ? dayStart(d) + DAYMS : Infinity; };
+// News is filtered by when it was published; the map and patterns by when the incident happened.
+const inPeriod = e => { const t = new Date(e.last).getTime(); return t >= since() && t < until(); };
+const happenedInPeriod = e => { const d = dayOf(); return d ? istDay(e.d) === d : new Date(e.d).getTime() + 12 * 3600e3 >= since(); };
+const dayDate = d => d + 'T06:30:00Z';
+const fmtLong = d => new Date(dayDate(d)).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
+const periodName = () => dayOf() ? 'on ' + fmtDay(dayDate(dayOf())) : PERIODS.find(p => p[0] === period)[1].toLowerCase();
 // The report that best stands for an incident: the latest one about the incident itself, not a follow-up.
 const lead = e => e.reports.find(r => r.k !== 'f') || e.reports[0];
 function drawPeriod() {
-  $('period').innerHTML = PERIODS.map(([p, name]) => `<button class="${p === period ? 'on' : ''}" data-p="${p}" aria-pressed="${p === period}">${name}</button>`).join('');
+  const d = dayOf();
+  $('period').innerHTML = (d ? `<option value="${period}" selected>${new Date(dayDate(d)).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' })}</option>` : '') +
+    PERIODS.map(([p, name]) => `<option value="${p}"${p === period ? ' selected' : ''}>${name}</option>`).join('');
 }
-$('period').onclick = e => {
-  const b = e.target.closest('button'); if (!b) return;
-  period = b.dataset.p; newsN = 60; drawPeriod(); drawNews(); if (!$('sitv').classList.contains('hide')) drawSits(); if (!$('ocv').classList.contains('hide')) drawOc(); if (!$('anv').classList.contains('hide')) drawAn();
-  if (!$('mapv').classList.contains('hide')) drawMap();
-};
+$('period').onchange = () => setPeriod($('period').value);
+function setPeriod(p) { if (!p.startsWith('d:')) lastRange = p; period = p; newsN = 60; newsSel = null; rescope(false); }
 
 let newsCat = '', newsN = 60, newsSel = null;
+const news = n => `${fmtN(n)} news`;
 // A case keeps the id of its first report, so a selection survives new reports joining it.
 const keyOf = e => e.reports[e.reports.length - 1].id;
 const wideCase = matchMedia('(min-width:1200px)');
@@ -682,7 +847,7 @@ function caseDetail(e) {
     : [fmtDay(e.d), e.stated ? `incident day, stated in the reports${e.b ? '<br>' + BAND_NAME[e.b].toLowerCase() : ''}` : 'incident day not stated;<br>the day of the first report is used'];
   const prec = e.p ? (e.p[3] === 'x' ? 'Named spot' : 'Neighbourhood or village') : e.a ? 'Area only; no place named' : 'None';
   return `<div class="casefile">
-    <div class="cf-top"><span>Case file, ${esc(label(e).toLowerCase())}</span><span class="tag${e.uv || e.orphan ? '' : ' hot'}">${st}</span></div>
+    <div class="cf-top"><span>News file, ${esc(label(e).toLowerCase())}</span><span class="tag${e.uv || e.orphan ? '' : ' hot'}">${st}</span></div>
     <div class="cf-big"><b class="fig">${big[0]}</b><span>${big[1]}</span></div>
     <h2 class="case-h">${esc(lead(e).t)}</h2>
     <p class="case-st"><b>${st}.</b> ${why} These are press reports, not independently verified facts.</p>
@@ -705,13 +870,13 @@ function newsPanel(rows) {
   const e = newsSel && rows.find(x => keyOf(x) === newsSel);
   if (e) { $('newsDetail').innerHTML = caseDetail(e); return; }
   const n = k => fmtN(rows.filter(x => statusOf(x) === STATUS_TXT[k]).length);
-  $('newsDetail').innerHTML = `<div class="casefile"><div class="cf-top"><span>Case file</span></div>
-    <div class="cf-big"><b class="fig">${fmtN(rows.length)}</b><span>cases listed<br>in this view and period</span></div>
-    <p class="note">Select a case to open its file: incident day and hour, the place and how precisely it is known, every report in time order, and its status.</p>
+  $('newsDetail').innerHTML = `<div class="casefile"><div class="cf-top"><span>News file</span></div>
+    <div class="cf-big"><b class="fig" id="nfCount" data-n="${rows.length}">${fmtN(rows.length)}</b><span>news listed<br>in this view and ${dayOf() ? 'day' : 'period'}</span></div>
+    <p class="note">Select a news item to open its file: incident day and hour, the place and how precisely it is known, every report in time order, and its status.</p>
     <div class="wells"><div><small>Counted</small><span class="mono">${n('counted')}</span></div><div><small>Being checked</small><span class="mono">${n('uv')}</span></div>
       <div><small>Later developments</small><span class="mono">${n('orphan')}</span></div><div><small>Reports</small><span class="mono">${fmtN(rows.reduce((s, x) => s + x.reports.length, 0))}</span></div></div>
     <ul class="key">${Object.values(STATUS_TXT).map(([a, b]) => `<li><b>${a}</b>${b}</li>`).join('')}
-      <li><b>Times</b>The time beside a case is when its latest report was published, in India time. The incident day is shown when it differs.</li>
+      <li><b>Times</b>The time beside each news item is when its latest report was published, in India time. The incident day is shown when it differs.</li>
       <li><b>The mark under the time</b>A copper rule for a fatal case, a copper dot when someone was injured.</li></ul></div>`;
 }
 function newsRow(e) {
@@ -727,21 +892,118 @@ function newsRow(e) {
     <div>
       <div class="rec-type">${tag}<span>${esc(label(e))}</span></div>
       ${link(r, esc(r.t)).replace('<a ', '<a class="rec-head" ')}
-      ${r.L && r.L.s && /[ऀ-ॿ]/.test(r.t) ? `<p class="rec-sum">${esc(r.L.s)}</p>` : ''}
+      ${enP(r, 'rec-sum')}
       <div class="rec-meta"><span class="place">${e.a ? esc(AREA[e.a].name) + (e.p ? ', ' + esc(e.p[0]) : '') : 'Area not stated'}</span>${happened ? `<span>${happened}</span>` : ''}<span>${esc(SRC[r.s] || r.s)}${others.length ? ', also ' + others.map(x => link(x, esc(SRC[x.s] || x.s))).join(', ') : ''}</span>${e.q && CAT[e.q] ? `<span title="The machine reading disagrees with the rules">Type under check: reads as ${esc(CAT[e.q].name.toLowerCase())}</span>` : ''}<button type="button" class="rec-open" data-k="${esc(k)}" aria-expanded="${sel}">${open}</button></div>
     </div>
   </article>${sel && !wideCase.matches ? `<div class="rec-inline">${caseDetail(e)}</div>` : ''}`;
 }
-// The Reports statement: the day, three figures, and the last 60 days of counted incidents as a heat strip.
+// The News statement: the day, three figures, and the day strip. Each bar is the news of one day (by the day of its latest
+// report, the same day the register files it under), in this area and type; copper bars are the days the time choice
+// covers. A slider under the strip moves it back to the first day the engine has news for.
+let stripEnd = null, STRIP = null;                 // stripEnd: index of the last day shown (null = today)
+const STRIP_N = 60;
 function newsStmt(inP) {
-  const today = istDay(Date.now()), v = INCIDENTS.filter(inView), byDay = tally(v, e => istDay(e.d));
-  const days = Array.from({ length: 60 }, (_, i) => istDay(Date.now() - (59 - i) * 864e5)), mx = Math.max(1, ...days.map(d => byDay[d] || 0));
-  const nToday = EVENTS.filter(e => inView(e) && istDay(e.last) === today).length;
-  const wd = new Date().toLocaleDateString('en-IN', { weekday: 'long', timeZone: 'Asia/Kolkata' }), dm = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' });
-  $('newsStmt').innerHTML = `<div><h1>${dm} <span>${wd}</span></h1><p class="sub">${esc(VIEWS.find(x => x[0] === view)[1])}. What the press reported, joined into cases; only settled cases are counted on the map and in analytics.</p></div>
-    <div class="figs"><div><b class="fig hot">${fmtN(nToday)}</b><span>cases reported today</span></div><div><b class="fig">${fmtN(inP.filter(e => !e.uv && !e.orphan).length)}</b><span>counted, ${esc(PERIODS.find(p => p[0] === period)[1].toLowerCase())}</span></div><div><b class="fig">${fmtN(inP.filter(e => e.uv).length)}</b><span>being checked</span></div></div>
-    <div class="strip" style="grid-template-columns:repeat(60,minmax(0,1fr))" role="img" aria-label="Counted incidents per day, last 60 days">${days.map(d => { const n = byDay[d] || 0; return `<i title="${fmtDay(d + 'T06:30:00Z')}: ${n} counted incident${n === 1 ? '' : 's'}" ${n ? ` style="height:${18 + n / mx * 82}%;--g:${glowOf(n, mx)}"` : ' class="z" style="height:6%"'}></i>`; }).join('')}</div>
-    <div class="strip-k"><span>Counted incidents per day, by the day they happened, last 60 days; the busiest days glow</span><span class="ramp">fewer<i style="height:5px"></i><i style="height:9px"></i><i style="height:14px;--g:1"></i>more</span></div>`;
+  const today = istDay(Date.now()), sel = dayOf(), D = sel || today, dt = new Date(dayDate(D));
+  const first = EVENTS.reduce((m, e) => { const d = istDay(e.last); return d < m ? d : m; }, today), all = [];
+  for (let t = dayStart(first); t <= dayStart(today); t += DAYMS) all.push(istDay(t));
+  const per = tally(EVENTS.filter(e => inView(e) && (!newsCat || e.c === newsCat)), e => istDay(e.last));
+  const N = Math.min(STRIP_N, all.length);
+  let end = stripEnd == null ? all.length - 1 : Math.max(N - 1, Math.min(all.length - 1, stripEnd));
+  const si = sel ? all.indexOf(sel) : -1;
+  if (si >= 0 && (si > end || si <= end - N)) end = Math.min(all.length - 1, Math.max(N - 1, si + (N >> 1)));
+  stripEnd = end === all.length - 1 ? null : end;
+  STRIP = { all, per, N };
+  const wd = dt.toLocaleDateString('en-IN', { weekday: 'long', timeZone: 'Asia/Kolkata' });
+  const dm = dt.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' }) + (D.slice(0, 4) !== today.slice(0, 4) ? ' ' + D.slice(0, 4) : '');
+  const nDay = EVENTS.filter(e => inView(e) && istDay(e.last) === D).length;
+  $('newsStmt').innerHTML = `<div><h1>${dm} <span>${wd}</span></h1><p class="sub">${esc(viewName())}. ${sel ? `The news published on this day${D === today ? ' (today)' : ''}: the types, the register and the news file all show this day. Another day on the strip, or the Time menu, changes it.` : 'What the press reported, joined into cases; only settled cases are counted on the map and in analytics.'}</p></div>
+    <div class="figs"><div><b class="fig hot">${fmtN(nDay)}</b><span>${sel ? 'news this day' : 'news today'}</span></div><div><b class="fig">${fmtN(inP.filter(e => !e.uv && !e.orphan).length)}</b><span>counted, ${esc(periodName())}</span></div><div><b class="fig">${fmtN(inP.filter(e => e.uv).length)}</b><span>being checked</span></div></div>
+    <div class="stripwrap" id="stripWrap"><div class="flag" id="flag" hidden></div>
+      <div class="strip" id="strip" role="group" aria-label="News per day. Use the arrow keys to move between days, Enter to show a day." style="grid-template-columns:repeat(${N},minmax(0,1fr))"></div>
+      ${all.length > N ? `<div class="pan"><span>${fmtLong(all[0])}</span><input type="range" id="stripPan" min="${N - 1}" max="${all.length - 1}" value="${end}" aria-label="Move the strip back in time"><span>Today</span></div>` : ''}
+      <div class="strip-k"><span id="stripCap"></span>${sel ? `<button type="button" class="clear" id="dayClear">Back to ${esc(PERIODS.find(p => p[0] === lastRange)[1].toLowerCase())}</button>` : ''}</div></div>`;
+  drawStrip();
+}
+// The bars only (the slider moves them without rebuilding itself).
+function drawStrip() {
+  if (!STRIP || !$('strip')) return;
+  const { all, per, N } = STRIP, end = stripEnd == null ? all.length - 1 : stripEnd, days = all.slice(end - N + 1, end + 1);
+  const sel = dayOf(), lo = since(), hi = until(), mx = Math.max(1, ...days.map(d => per[d] || 0));
+  const inScope = d => sel ? d === sel : dayStart(d) + DAYMS > lo && dayStart(d) < hi;
+  const focusAt = sel && days.includes(sel) ? sel : days[days.length - 1];
+  $('strip').innerHTML = days.map(d => {
+    const n = per[d] || 0, on = inScope(d);
+    return `<button type="button" class="sb${n ? (on ? ' in' : '') : ' z'}${d === sel ? ' sel' : ''}" data-d="${d}" data-n="${n}" tabindex="${d === focusAt ? 0 : -1}" aria-pressed="${d === sel}" aria-label="${esc(fmtWk(dayDate(d)))}: ${news(n)}"><i style="height:${n ? 14 + n / mx * 86 : 6}%${n && on ? `;--g:${glowOf(n, mx)}` : ''}"></i></button>`;
+  }).join('');
+  $('stripCap').textContent = `News per day, ${fmtDay(dayDate(days[0]))} to ${fmtLong(days[days.length - 1])}, by the day of the latest report${newsCat ? ', ' + CAT[newsCat].name.toLowerCase() + ' only' : ''}. Copper days are in the time chosen above; the busiest glow. ${matchMedia('(pointer: coarse)').matches ? 'Run a finger across the bars to read each day; lift it on a day to show its news.' : 'Point at a day to read it; select it to show its news.'}`;
+  const p = $('stripPan'); if (p) p.setAttribute('aria-valuetext', `${fmtDay(dayDate(days[0]))} to ${fmtDay(dayDate(days[days.length - 1]))}`);
+  hovI = -1;
+}
+// Pointing at the strip: the bar under the pointer (or finger) turns ink and a flag reads its day. A finger run across the
+// bars ticks once per bar (Android vibrates; on iPhone, Safari 18 and later give a light tap); lifting it shows that day.
+let hovI = -1, scrub = false, tapAt = 0, SW = null;
+const stripBars = () => [...document.querySelectorAll('#strip .sb')];
+function buzz() {
+  try { if (navigator.vibrate && navigator.vibrate(7)) return; } catch {}
+  try {
+    if (!SW) { SW = document.createElement('label'); SW.className = 'vh'; SW.style.cssText = 'position:fixed;top:0;left:0'; SW.setAttribute('aria-hidden', 'true'); SW.innerHTML = '<input type="checkbox" switch tabindex="-1">'; document.body.append(SW); }
+    SW.click();
+  } catch {}
+}
+function hoverBar(i, tick) {
+  const bars = stripBars(); if (!bars.length) return;
+  i = Math.max(0, Math.min(bars.length - 1, i));
+  if (i === hovI) return;
+  bars.forEach((b, k) => b.classList.toggle('hov', k === i));
+  if (tick) buzz();
+  hovI = i;
+  const b = bars[i], f = $('flag'), w = $('stripWrap');
+  f.innerHTML = `${esc(fmtWk(dayDate(b.dataset.d)))} <b>${fmtN(+b.dataset.n)}</b> news`; f.hidden = false;
+  const x = b.offsetLeft + b.offsetWidth / 2, half = f.offsetWidth / 2;
+  f.style.left = Math.max(half, Math.min(w.clientWidth - half, x)) + 'px';
+}
+function unhover() { hovI = -1; stripBars().forEach(b => b.classList.remove('hov')); if ($('flag')) $('flag').hidden = true; }
+const barAt = x => { const s = $('strip'), r = s.getBoundingClientRect(); return Math.floor((x - r.left) / r.width * s.children.length); };
+function pickDay(d) {
+  const kb = document.activeElement && document.activeElement.classList.contains('sb');
+  setPeriod(period === 'd:' + d ? lastRange : 'd:' + d);
+  if (kb) (document.querySelector('#strip .sb[tabindex="0"]'))?.focus();
+}
+{
+  const ns = $('newsStmt');
+  ns.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' || !e.target.closest('#strip')) return; scrub = true; hovI = -1; hoverBar(barAt(e.clientX), true); });
+  ns.addEventListener('pointermove', e => {
+    if (e.pointerType === 'mouse') { if (e.target.closest('#strip')) hoverBar(barAt(e.clientX), false); }
+    else if (scrub) hoverBar(barAt(e.clientX), true);
+  });
+  ns.addEventListener('pointerout', e => { if (e.pointerType === 'mouse' && e.target.closest('#strip') && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#strip'))) unhover(); });
+  ns.addEventListener('pointerup', e => { if (!scrub) return; scrub = false; const b = stripBars()[hovI]; unhover(); if (b) { tapAt = Date.now(); pickDay(b.dataset.d); } });
+  ns.addEventListener('pointercancel', () => { scrub = false; unhover(); });
+  ns.addEventListener('click', e => {
+    if (e.target.id === 'dayClear') { setPeriod(lastRange); return; }
+    const b = e.target.closest('.sb'); if (!b || Date.now() - tapAt < 700) return;   // a finger has already chosen it
+    pickDay(b.dataset.d);
+  });
+  ns.addEventListener('keydown', e => {
+    const b = e.target.closest && e.target.closest('.sb'); if (!b) return;
+    const bars = stripBars(), i = bars.indexOf(b), j = { ArrowLeft: i - 1, ArrowRight: i + 1, Home: 0, End: bars.length - 1 }[e.key];
+    if (j == null || j < 0 || j >= bars.length) return;
+    e.preventDefault(); b.tabIndex = -1; bars[j].tabIndex = 0; bars[j].focus(); hoverBar(j, false);
+  });
+  ns.addEventListener('focusin', e => { const b = e.target.closest && e.target.closest('.sb'); if (b && b.matches(':focus-visible')) hoverBar(stripBars().indexOf(b), false); });
+  ns.addEventListener('focusout', e => { if (e.target.closest && e.target.closest('.sb') && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#strip'))) unhover(); });
+  ns.addEventListener('input', e => { if (e.target.id === 'stripPan') { stripEnd = +e.target.value; if (stripEnd >= STRIP.all.length - 1) stripEnd = null; drawStrip(); } });
+}
+// The News file's count runs up from zero in a second whenever the News tab is opened.
+function countUp(el) {
+  if (!el) return;
+  const n = +el.dataset.n || 0;
+  cancelAnimationFrame(countUp.raf); clearTimeout(countUp.t);
+  if (!n || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = fmtN(n); return; }
+  const t0 = performance.now(), dur = 1000;
+  const step = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = fmtN(Math.round(n * (1 - Math.pow(1 - p, 3)))); if (p < 1) countUp.raf = requestAnimationFrame(step); };
+  el.textContent = '0'; countUp.raf = requestAnimationFrame(step);
+  countUp.t = setTimeout(() => { el.textContent = fmtN(n); }, dur + 200);   // a hidden page skips frames: land on the number anyway
 }
 function drawNews() {
   const inP = EVENTS.filter(e => inPeriod(e) && inView(e));
@@ -753,12 +1015,12 @@ function drawNews() {
   const rows = inP.filter(e => !newsCat || e.c === newsCat);
   if (newsSel && !rows.some(e => keyOf(e) === newsSel)) newsSel = null;
   newsPanel(rows);
-  if (!rows.length) { $('newsList').innerHTML = `<div class="empty">${EVENTS.length ? 'No incidents reported in this period.' : 'Nothing here yet.'}</div>`; return; }
+  if (!rows.length) { $('newsList').innerHTML = `<div class="empty">${EVENTS.length ? (dayOf() ? 'No news on this day in this view.' : 'No news in this period.') : 'Nothing here yet.'}</div>`; return; }
   const today = istDay(Date.now()), yest = istDay(Date.now() - 864e5), perDay = tally(rows, e => istDay(e.last));
-  let html = '<div class="reghead">Newest first. The time beside each case is when its latest report was published (India time).</div>', day = '';
+  let html = '<div class="reghead">Newest first. The time beside each news item is when its latest report was published (India time).</div>', day = '';
   for (const e of rows.slice(0, newsN)) {
     const d = istDay(e.last);
-    if (d !== day) { day = d; html += `<div class="day"><span><b>${d === today ? 'Today' : d === yest ? 'Yesterday' : fmtWk(e.last)}</b>${d === today || d === yest ? `<span class="mono">${fmtDay(e.last)}</span>` : ''}</span><span class="mono">${plural(perDay[d], 'case')}</span></div>`; }
+    if (d !== day) { day = d; html += `<div class="day"><span><b>${d === today ? 'Today' : d === yest ? 'Yesterday' : fmtWk(e.last)}</b>${d === today || d === yest ? `<span class="mono">${fmtDay(e.last)}</span>` : ''}</span><span class="mono">${news(perDay[d])}</span></div>`; }
     html += newsRow(e);
   }
   if (rows.length > newsN) html += `<button type="button" class="more" id="more">Show earlier (${fmtN(rows.length - newsN)} more)</button>`;
@@ -782,7 +1044,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && newsSel &&
 const MAPS = {};
 let MAP, LAYER, picked = null;
 function makeMap(id) {
-  const m = L.map(id, { zoomControl: true, scrollWheelZoom: false }).setView([18.53, 73.86], 11);
+  // Full-screen maps: the wheel (or a pinch) zooms; there are no plus and minus buttons.
+  const m = L.map(id, { zoomControl: false, scrollWheelZoom: true, wheelPxPerZoomLevel: 90, wheelDebounceTime: 30, zoomSnap: 0.25, zoomDelta: 0.5 }).setView([18.53, 73.86], 11);
   m.attributionControl.setPrefix(false);
   const e = MAPS[id] = { m, base: null, layer: null, fitted: false };
   m.createPane('heat').style.zIndex = 390;                 // copper discs sit under the precise marks
@@ -794,7 +1057,7 @@ function setBaseOn(e) {
   e.stale = false;
   if (e.base) { e.m.removeLayer(e.base); e.base = null; }
   try {
-    if (window.maplibregl && L.maplibreGL) e.base = L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/' + (isDarkTheme() ? 'dark' : 'positron'), attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap' }).addTo(e.m);
+    if (window.maplibregl && L.maplibreGL) e.base = L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/' + (isDarkTheme() ? 'dark' : 'liberty'), attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap' }).addTo(e.m);
   } catch {}
   if (!e.base) e.base = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(e.m);
   if (e.layer) e.layer.bringToFront?.();
@@ -832,31 +1095,47 @@ function drawMap() {
   const per = {}, rough = {};
   for (const e of placed) { (per[e.a] = per[e.a] || []).push(e); if (!e.p) (rough[e.a] = rough[e.a] || []).push(e); }
   if (picked && !per[picked]) picked = null;
-  const pick = id => { picked = id; drawMap(); if (innerWidth < 1024) $('areaBox').scrollIntoView({ behavior: motion(), block: 'start' }); };
+  const pick = id => { picked = id; drawMap(); sheet('mapv', 'pl', innerWidth < 1024 ? true : null); panelTo($('areaBox')); };
   const mx = Math.max(1, ...Object.values(rough).map(l => l.length)), paper = css('--paper-2');
   for (const [id, list] of Object.entries(rough)) {
     const a = AREA[id], on = id === picked, n = list.length;
-    heatDisc(LAYER, [a.lat, a.lon], 9 + Math.sqrt(n) * 3.2, n, mx, { on, label: n }).on('click', () => pick(id));
+    heatDisc(LAYER, [a.lat, a.lon], (9 + Math.sqrt(n) * 3.2) * (innerWidth < 760 ? .72 : 1), n, mx, { on, label: n }).on('click', () => pick(id));
   }
   const spots = placed.filter(e => e.p);
   for (const e of spots) {
     const exact = e.p[3] === 'x', r = lead(e);
     L.circleMarker([e.p[1], e.p[2]], exact ? { radius: 5.5, color: paper, weight: 1.5, fillColor: copper, fillOpacity: 1 } : { radius: 7, color: copper, weight: 2.2, fillColor: paper, fillOpacity: 1 })
-      .bindPopup(`<div class="rec-type">${esc(label(e))}</div><div style="margin:4px 0">${link(r, esc(r.t))}</div><div class="label">${meta(esc(e.p[0]), (exact ? 'Named spot' : 'Neighbourhood') , 'Incident ' + fmtDay(e.d), plural(e.reports.length, 'report'))}</div>`)
+      .bindPopup(`<div class="rec-type">${esc(label(e))}</div><div style="margin:4px 0">${link(r, esc(r.t))}${enP(r)}</div><div class="label">${meta(esc(e.p[0]), (exact ? 'Named spot' : 'Neighbourhood') , 'Incident ' + fmtDay(e.d), plural(e.reports.length, 'report'))}</div>`)
       .on('click', () => { picked = e.a; drawArea(); })
       .addTo(LAYER);
   }
   const none = ev.length - placed.length, nx = spots.filter(e => e.p[3] === 'x').length;
   // The statement carries the counts; the key on the map says what each mark means.
   const mk = s => `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">${s}</svg>`;
-  $('mapStmt').innerHTML = `<div><h1>Where it happened</h1><p class="sub">Counted incidents in ${esc(VIEWS.find(v => v[0] === view)[1])}, ${esc(PERIODS.find(p => p[0] === period)[1].toLowerCase())}, placed as precisely as the reports allow and no more.${none ? ` ${plural(none, 'incident')} name no area and are not on the map.` : ''}</p></div>
+  $('mapStmt').innerHTML = `<div><h1>Where it happened</h1><p class="sub">Counted incidents in ${esc(viewName())}, ${esc(periodName())}, placed as precisely as the reports allow and no more.${none ? ` ${plural(none, 'incident')} name no area and are not on the map.` : ''}</p></div>
     <div class="figs"><div><b class="fig hot">${fmtN(ev.length)}</b><span>counted incidents</span></div><div><b class="fig">${fmtN(nx)}</b><span>at a named spot</span></div><div><b class="fig">${fmtN(spots.length - nx)}</b><span>at a neighbourhood</span></div><div><b class="fig">${fmtN(placed.length - spots.length)}</b><span>area only</span></div></div>`;
   $('count').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="5.5" fill="${copper}" stroke="${paper}" stroke-width="1.5"/>`)}A named spot</div>
     <div>${mk(`<circle cx="11" cy="11" r="7" fill="none" stroke="${copper}" stroke-width="2.2"/>`)}A neighbourhood or village</div>
     <div>${mk(`<circle cx="11" cy="11" r="9" fill="${copper}"/>`)}Area only: a count at its centre, not a location</div>
-    ${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:2px 0 0"')}`;
+    ${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:2px 0 0"')}<div style="color:var(--ink-3)">Scroll or pinch to zoom; select a disc to open its area.</div>`;
   drawArea(); drawPatterns(ev);
 }
+// Bring a block into view inside its own panel (the page itself never scrolls on a map tab).
+function panelTo(el) {
+  const p = el && el.closest('.panel'); if (!p) return;
+  p.scrollTo({ top: p.scrollTop + el.getBoundingClientRect().top - p.getBoundingClientRect().top - 12, behavior: motion() });
+}
+// Phones: the panels are one bottom sheet. side picks the panel shown; open expands or collapses the sheet.
+function sheet(mainId, side, open) {
+  const ps = $(mainId).querySelector('.panels'); if (!ps) return;
+  if (side) { ps.dataset.on = side; ps.querySelectorAll('[data-sheet]').forEach(b => { b.classList.toggle('on', b.dataset.sheet === side); b.setAttribute('aria-pressed', b.dataset.sheet === side); }); }
+  if (open != null) { const g = ps.querySelector('.grab'); ps.classList.toggle('open', open); g.setAttribute('aria-expanded', open); g.textContent = open ? 'Collapse' : 'Expand'; }
+}
+document.addEventListener('click', e => {
+  const s = e.target.closest('[data-sheet]'); if (s) sheet(s.closest('main').id, s.dataset.sheet);
+  const g = e.target.closest('.grab'); if (g) sheet(g.closest('main').id, null, !g.closest('.panels').classList.contains('open'));
+  const f = e.target.closest('[data-fit]'); if (f && MAPS[f.dataset.fit]) fitView(MAPS[f.dataset.fit].m);
+});
 const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ` (${e.o})` : '');
 
 function drawArea() {
@@ -870,7 +1149,7 @@ function drawArea() {
       <div><div class="label">By time of day</div>${timed.length ? rowsOf(BANDS.map(b => [b, timed.filter(e => e.b === b).length]), k => BAND_NAME[k]) : ''}
         <p class="note">${timed.length ? `${list.length - timed.length} of ${list.length} did not state a time.` : 'No report here stated a time of day.'}</p></div>
     </div>
-    <div style="margin-top:16px"><div class="label" style="margin-bottom:4px">Latest here</div>${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${meta(fmtDay(e.d), esc(label(e)), e.p ? esc(e.p[0]) : '', e.reports.length > 1 ? plural(e.reports.length, 'report') : '')}${link(lead(e), esc(lead(e).t))}</div>`).join('')}</div>`;
+    <div style="margin-top:16px"><div class="label" style="margin-bottom:4px">Latest here</div>${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${meta(fmtDay(e.d), esc(label(e)), e.p ? esc(e.p[0]) : '', e.reports.length > 1 ? plural(e.reports.length, 'report') : '')}${link(lead(e), esc(lead(e).t))}${enP(lead(e))}</div>`).join('')}</div>`;
 }
 
 /* ---------- Patterns ---------- */
@@ -923,11 +1202,15 @@ function drawPatterns(ev) {
   $('patterns').innerHTML = out.join('');
 }
 
+// The news sources sit under the type filter on the News tab: each paper, and how many crime items its feed carried.
 function drawSources() {
+  const ok = STATUS ? STATUS.sources.filter(s => s.ok).length : 0;
+  $('srcSum').innerHTML = STATUS ? `<span>Sources, ${ok} of ${STATUS.sources.length} reachable</span>` : '<span>Sources</span>';
   $('sources').innerHTML = STATUS
-    ? STATUS.sources.map(s => `<div class="src-row ${s.ok ? '' : 'off'}"><span>${esc(s.name)}</span><span>${s.ok ? `${s.found} incident items in feed` : 'not reachable'}</span></div>`).join('') + `<p class="note">Last checked ${new Date(STATUS.updated).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}.</p>`
+    ? STATUS.sources.map(s => `<div class="src-row ${s.ok ? '' : 'off'}"><span>${esc(s.name)}</span><span>${s.ok ? plural(s.found, 'item') : 'not reachable'}</span></div>`).join('') + `<p class="note">Items in each feed at the last scan, ${new Date(STATUS.updated).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' })}.</p>`
     : '<p class="note" style="margin-top:0">No collector run recorded yet.</p>';
 }
+$('srcBox').open = innerWidth >= 1024;
 
 /* ---------- Situations (public order) ---------- */
 // Protests, bandhs, road blockades, strikes, unrest, prohibitory orders: from our papers and Google News searches.
@@ -938,12 +1221,12 @@ const SITK = Object.fromEntries((META.sitkinds || []).map(k => [k.id, k.name]));
 const sitInView = g => view === 'all' || (g.a ? areaInView(g.a) : view === 'city');
 function drawSits() {
   const today = istDay(Date.now()), yest = istDay(Date.now() - 864e5);
-  const recentFrom = period === '0' ? '0000' : istDay(since());
+  const recentFrom = period === '0' ? '0000' : istDay(since()), oneDay = dayOf();
   const live = g => g.w === today || (g.st === 'on' && istDay(g.last) >= yest);
   const list = SITS.filter(sitInView);
   const planned = list.filter(g => g.w > today).sort((x, y) => (x.w < y.w ? -1 : 1));
   const now = list.filter(g => g.w <= today && live(g));
-  const recent = list.filter(g => g.w < today && !live(g) && g.w >= recentFrom);
+  const recent = list.filter(g => g.w < today && !live(g) && (oneDay ? g.w === oneDay : g.w >= recentFrom));
   const dayName = g => g.w > today ? (g.w === istDay(Date.now() + 864e5) ? 'Tomorrow' : fmtDay(g.w + 'T06:30:00Z')) : g.w === today ? 'Today' : fmtDay(g.w + 'T06:30:00Z');
   const SITS_SHOWN = [...now.map(g => [g, 'now']), ...planned.map(g => [g, 'plan']), ...recent.map(g => [g, 'past'])];
   const item = (g, i, kind) => {
@@ -951,17 +1234,17 @@ function drawSits() {
     return `<article class="rec pick${kind === 'now' ? ' k1' : kind === 'plan' ? ' k2' : ''}" data-si="${i}">
       <div class="rec-when">${dayName(g)}</div>
       <div>
-        <div class="rec-type"><span>${esc(SITK[g.k] || g.k)}</span>${kind === 'now' ? '<span class="tag hot">Today or ongoing</span>' : kind === 'plan' ? '<span class="tag">Planned</span>' : ''}${g.st === 'on' && kind !== 'now' ? '<span class="tag" title="A report says it continues">Continuing</span>' : ''}</div>
-        ${link(r, esc(r.t)).replace('<a ', '<a class="rec-head" ')}
+        <div class="rec-type">${kind === 'now' ? '<span class="live" title="Today, or a report says it continues">Live</span>' : ''}<span>${esc(SITK[g.k] || g.k)}</span>${kind === 'plan' ? '<span class="tag">Planned</span>' : ''}${g.st === 'on' && kind !== 'now' ? '<span class="tag" title="A report says it continues">Continuing</span>' : ''}</div>
+        ${link(r, esc(r.t)).replace('<a ', '<a class="rec-head" ')}${enP(r, 'rec-sum')}
         <div class="rec-meta"><span class="place">${g.a ? esc(AREA[g.a].name) + (g.p ? ', ' + esc(g.p[0]) : '') : 'Pune, no place named'}</span><span>${papers.slice(0, 3).map(esc).join(', ')}${papers.length > 3 ? ' and ' + (papers.length - 3) + ' more' : ''}</span>${g.reports.length > 1 ? `<span>${plural(g.reports.length, 'report')}</span>` : ''}<span>First reported ${fmtDay(g.reports.reduce((m, x) => (x.d < m ? x.d : m), g.last))}</span></div>
       </div>
     </article>`;
   };
   let k = 0;
   const block = (title, arr, kind, empty) => `<div class="day"><span><b>${title}</b></span><span class="mono">${arr.length}</span></div>` + (arr.length ? arr.map(g => item(g, k++, kind)).join('') : `<p class="note" style="margin:0;padding:14px 22px 18px">${empty}</p>`);
-  $('sitIntro').innerHTML = `<div><h1>Public order</h1><p class="sub">Protests, bandhs, road blockades, strikes, unrest and prohibitory orders, from local papers and Google News. The day beside each is the day it happens or happened.</p></div>
-    <div class="figs"><div><b class="fig${now.length ? ' hot' : ''}">${now.length}</b><span>today or ongoing</span></div><div><b class="fig">${planned.length}</b><span>planned</span></div><div><b class="fig">${recent.length}</b><span>recent</span></div></div>`;
-  $('sitList').innerHTML = block('Today and ongoing', now, 'now', 'Nothing reported for today.') + block('Planned', planned, 'plan', 'Nothing announced for the coming days.') + block('Recent', recent, 'past', 'Nothing in this period.');
+  $('sitIntro').innerHTML = `<div><h1>Live situations</h1><p class="sub">Protests, bandhs, road blockades, strikes, unrest and prohibitory orders in ${esc(viewName())}, from local papers and Google News. The day beside each is the day it happens or happened; what is live today blinks.</p></div>
+    <div class="figs"><div><b class="fig${now.length ? ' hot' : ''}">${now.length}</b><span>live: today or ongoing</span></div><div><b class="fig">${planned.length}</b><span>planned</span></div><div><b class="fig">${recent.length}</b><span>recent, ${esc(periodName())}</span></div></div>`;
+  $('sitList').innerHTML = block('Live: today and ongoing', now, 'now', 'Nothing reported for today.') + block('Planned', planned, 'plan', 'Nothing announced for the coming days.') + block('Recent', recent, 'past', oneDay ? 'Nothing on this day.' : 'Nothing in this period.');
   drawSitMap(SITS_SHOWN, dayName);
 }
 /* The situations map. Today or ongoing: a solid copper mark inside a ring. Planned: an open ring carrying its date.
@@ -977,12 +1260,12 @@ function drawSitMap(items, dayName) {
     const ll = g.p ? [g.p[1], g.p[2]] : g.a && AREA[g.a] ? [AREA[g.a].lat, AREA[g.a].lon] : null;
     if (!ll) { unplaced++; SITMARK.unshift(null); continue; }
     n[kind]++;
-    const r = g.reports[0], pop = `<div class="rec-type">${esc(SITK[g.k] || g.k)}<span class="tag${kind === 'now' ? ' hot' : ''}">${dayName(g)}</span></div><div style="margin:6px 0">${link(r, esc(r.t))}</div><div class="label">${esc(g.a ? AREA[g.a].name : 'Pune')}${g.p ? ', ' + esc(g.p[0]) : ', placed at the area centre'}</div>`;
+    const r = g.reports[0], pop = `<div class="rec-type">${kind === 'now' ? '<span class="live">Live</span>' : ''}${esc(SITK[g.k] || g.k)}<span class="tag">${dayName(g)}</span></div><div style="margin:6px 0">${link(r, esc(r.t))}${enP(r)}</div><div class="label">${esc(g.a ? AREA[g.a].name : 'Pune')}${g.p ? ', ' + esc(g.p[0]) : ', placed at the area centre'}</div>`;
     if (!g.p) L.circleMarker(ll, { radius: 18, color: copper, weight: 1, dashArray: '2 4', fill: false, interactive: false }).addTo(e.layer);
     let m;
     if (kind === 'now') {
-      L.circleMarker(ll, { radius: 15, color: copper, weight: 1, fill: false, interactive: false }).addTo(e.layer);
-      m = L.circleMarker(ll, { radius: 8, color: css('--paper-2'), weight: 2, fillColor: copper, fillOpacity: 1 });
+      // Live: a solid copper mark that glows, inside a copper ring that blinks on and off.
+      m = L.marker(ll, { keyboard: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'lm', html: '<i></i>', iconSize: [18, 18], iconAnchor: [9, 9], popupAnchor: [0, -10] }) });
     } else if (kind === 'plan') {
       m = L.circleMarker(ll, { radius: 9, color: copper, weight: 3, fillColor: css('--paper-2'), fillOpacity: 1 });
       L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'pin', html: esc(dayName(g)), iconSize: [80, 14], iconAnchor: [-14, 7] }) }).addTo(e.layer);
@@ -991,7 +1274,7 @@ function drawSitMap(items, dayName) {
     SITMARK.unshift(m);
   }
   const mk = s => `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">${s}</svg>`;
-  $('sitKey').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="9" fill="none" stroke="${copper}" stroke-width="1"/><circle cx="11" cy="11" r="5" fill="${copper}"/>`)}Today or ongoing<b>${n.now}</b></div>
+  $('sitKey').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="9.5" fill="none" stroke="${copper}" stroke-width="1.5" class="blink"/><circle cx="11" cy="11" r="5.5" fill="${copper}"/>`)}Live: today or ongoing<b>${n.now}</b></div>
     <div>${mk(`<circle cx="11" cy="11" r="6" fill="none" stroke="${copper}" stroke-width="3"/>`)}Planned, with its date<b>${n.plan}</b></div>
     <div>${mk(`<circle cx="11" cy="11" r="4" fill="${ash}"/>`)}Recent<b>${n.past}</b></div>
     ${unplaced ? `<div style="color:var(--ink-3)">${unplaced} name no place in Pune, not on the map</div>` : ''}`;
@@ -1002,7 +1285,7 @@ $('sitList').addEventListener('click', ev => {
   const row = ev.target.closest('[data-si]'); if (!row) return;
   const m = SITMARK[+row.dataset.si], e = MAPS.sitMap;
   document.querySelectorAll('#sitList .rec.sel').forEach(x => x.classList.remove('sel')); row.classList.add('sel');
-  if (m && e) { e.m.setView(m.getLatLng(), Math.max(e.m.getZoom(), 13), { animate: motion() === 'smooth' }); m.openPopup(); if (innerWidth < 1024) $('sitMap').scrollIntoView({ behavior: motion(), block: 'center' }); }
+  if (m && e) { if (innerWidth < 1024) sheet('sitv', null, false); e.m.setView(m.getLatLng(), Math.max(e.m.getZoom(), 13), { animate: motion() === 'smooth' }); m.openPopup(); }
 });
 // How fresh the Reports and Situations tabs are, shown at the top right under the period.
 // The scan clock (clock.yml) starts Situations at :00, :15, :30, :45 (sitstatus "scanned" = when it started) and Reports
@@ -1136,7 +1419,7 @@ function drawOc() {
   const q = $('ocQ').value.trim().toLowerCase();
   drawOcGraph(q); drawOcMap(q);
   const live = OC.groups.filter(g => g.n);
-  $('ocTitle').innerHTML = `${live.length} groups<br><span style="color:var(--ink-3)">${live.filter(g => g.active).length} active</span>`;
+  $('ocTitle').innerHTML = `${live.length} groups <span style="color:var(--ink-3)">${live.filter(g => g.active).length} active</span>`;
   const g = ocOpen && OC.groups.find(x => x.id === ocOpen);
   if (g) { drawOcProfile(g); return; }
   const key = ocKey(q), test = key ? key.test : r => r.t.toLowerCase().includes(q);
@@ -1160,7 +1443,7 @@ function drawOc() {
   $('ocBody').innerHTML = `<div class="reghead">${list.length ? `${plural(list.length, 'group')}${q ? ' matching the search' : ''}, busiest first. The date beside each is its latest report.` : ''}</div>` +
     (list.length ? list.map(card).join('') : `<div class="empty">No group matches “${esc(q)}”.</div>`) +
     (hits.length ? `<div class="day"><span><b>Reports mentioning “${esc(key ? key.name : q)}”</b></span><span>${hits.length}</span></div><div style="padding:0 20px 8px">` +
-      hits.slice(0, 30).map(r => `<div class="mini">${meta(ocDay(r.d), esc(r.g.name))}${link(r, esc(r.t))}</div>`).join('') + '</div>' : '');
+      hits.slice(0, 30).map(r => `<div class="mini">${meta(ocDay(r.d), esc(r.g.name))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') + '</div>' : '');
 }
 function drawOcProfile(g) {
   const reps = (g.reports || []).filter(ocInView);
@@ -1184,15 +1467,15 @@ function drawOcProfile(g) {
     ${sec('Linked groups <span>named together in reports</span>', linked)}
     ${sec('Signals', signals ? `<p class="note" style="margin-top:0">${signals}</p>` : '')}
     ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%;--g:${glowOf(n, max)}"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}; peak ${max} in a month</p>` : '')}
-    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
+    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
 }
 $('ocBody').onclick = e => {
   if (e.target.closest('#ocBack')) { e.preventDefault(); ocOpen = null; drawOc(); return; }
   const a = e.target.closest('[data-g]');
   if (a && !e.target.closest('a[target]')) { e.preventDefault(); ocOpen = a.dataset.g; drawOc(); ocToTop(); }
 };
-// After opening a profile, bring the right-hand column's top into view if it has scrolled away.
-function ocToTop() { const y = $('ocBody').getBoundingClientRect().top; if (y < 120 || y > innerHeight) scrollTo({ top: scrollY + y - 130 }); }
+// After opening a profile, show the groups panel from its top (on phones, the sheet opens on it).
+function ocToTop() { $('ocPanel').scrollTop = 0; if (innerWidth < 1024) sheet('ocv', 'pr', true); }
 // Hovering a group lights up its ground on the map.
 $('ocBody').addEventListener('mouseover', e => { const c = e.target.closest('.ocard'), g = c ? c.dataset.g : null; if (g !== ocHot) { ocHot = g; if (OC) drawOcMap($('ocQ').value.trim().toLowerCase()); } });
 $('ocBody').addEventListener('mouseleave', () => { if (ocHot) { ocHot = null; if (OC) drawOcMap($('ocQ').value.trim().toLowerCase()); } });
@@ -1230,7 +1513,7 @@ function drawOcMap(q) {
   for (const a of Object.keys(per)) {
     const here = per[a].sort((x, y) => y[1] - x[1]), t = tot(a), mine = fg ? ((here.find(x => x[0].id === focus) || [0, 0])[1]) : t;
     const on = !fg || mine > 0, v = on ? mine : t, mx = fg ? fmax : max, ll = [AREA[a].lat, AREA[a].lon];
-    heatDisc(e.layer, ll, 7 + Math.sqrt(v) * (fg ? 4.2 : 2.8), v, mx, { mute: !on, label: on && (fg || v >= 3) ? v : null })
+    heatDisc(e.layer, ll, (7 + Math.sqrt(v) * (fg ? 4.2 : 2.8)) * (innerWidth < 760 ? .75 : 1), v, mx, { mute: !on, label: on && (fg || v >= 3) ? v : null })
       .bindTooltip(`<b>${esc(AREA[a].name)}</b><br>${here.slice(0, 5).map(([g, n]) => `${esc(g.name)}: ${n} report${n > 1 ? 's' : ''}`).join('<br>')}`, { className: 'tip', direction: 'top', offset: [0, -6] })
       .on('click', () => { ocOpen = fg && mine ? focus : here[0][0].id; ocHot = null; drawOc(); ocToTop(); });
   }
@@ -1245,7 +1528,7 @@ function drawOcMap(q) {
 function drawOcGraph(q) {
   const gs = OC.groups.filter(g => g.n);
   if (!gs.length) { $('ocGraph').innerHTML = '<div class="empty">The organised-crime profiles have not been built yet.</div>'; return; }
-  const W = 760, H = 560, cx = W / 2, cy = H / 2, R = 200, maxN = Math.max(...gs.map(g => g.n));
+  const W = 400, H = 410, cx = W / 2, cy = H / 2, R = 122, maxN = Math.max(...gs.map(g => g.n));   // sized for the side panel
   const pos = Object.fromEntries(gs.map((g, i) => [g.id, [cx + R * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / gs.length), cy + R * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / gs.length)]]));
   const edges = []; gs.forEach(g => (g.linked || []).forEach(([o, n]) => { if (pos[o] && g.id < o) edges.push([g.id, o, n]); }));
   const maxE = Math.max(1, ...edges.map(e => e[2]));
@@ -1253,12 +1536,12 @@ function drawOcGraph(q) {
   const near = sel ? new Set([sel, ...edges.filter(e => e[0] === sel || e[1] === sel).flatMap(e => [e[0], e[1]])]) : null;
   const hit = q ? new Set(gs.filter(g => ocMatch(g, q)).map(g => g.id)) : null;
   const lit = id => (!near || near.has(id)) && (!hit || hit.has(id));
-  let s = edges.map(([a, b, n]) => `<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" class="gedge${sel && (a === sel || b === sel) ? ' hot' : ''}${lit(a) && lit(b) ? '' : ' dim'}" data-a="${a}" data-b="${b}" stroke-width="${1 + 7 * n / maxE}"${tip(`${gs.find(g => g.id === a).name} and ${gs.find(g => g.id === b).name}: named together in ${n} report${n > 1 ? 's' : ''}`)}/>`).join('');
+  let s = edges.map(([a, b, n]) => `<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" class="gedge${sel && (a === sel || b === sel) ? ' hot' : ''}${lit(a) && lit(b) ? '' : ' dim'}" data-a="${a}" data-b="${b}" stroke-width="${1 + 5 * n / maxE}"${tip(`${gs.find(g => g.id === a).name} and ${gs.find(g => g.id === b).name}: named together in ${n} report${n > 1 ? 's' : ''}`)}/>`).join('');
   gs.forEach(g => {
-    const [x, y] = pos[g.id], r = 10 + 26 * Math.sqrt(g.n / maxN), out = x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle', dx = out === 'start' ? r + 8 : out === 'end' ? -r - 8 : 0, dy = out === 'middle' ? (y < cy ? -r - 10 : r + 18) : 4;
+    const [x, y] = pos[g.id], r = 7 + 20 * Math.sqrt(g.n / maxN), out = x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle', dx = out === 'start' ? r + 8 : out === 'end' ? -r - 8 : 0, dy = out === 'middle' ? (y < cy ? -r - 10 : r + 18) : 4;
     s += `<g class="gnode${lit(g.id) ? '' : ' dim'}${g.id === sel ? ' sel' : ''}" data-g="${g.id}"${tip(`${g.name}, ${g.n} reports${g.active ? ', active' : ', quiet'}`)}><circle cx="${x}" cy="${y}" r="${r}" class="${g.active ? 'gfill' : 'gring'}"/><text x="${x + dx}" y="${y + dy}" class="gtx" text-anchor="${out}">${esc(g.name.replace(' (Pune links)', ''))}</text></g>`;
   });
-  $('ocGraph').innerHTML = `<div class="gscroll"><svg viewBox="-60 0 ${W + 120} ${H}" class="gsvg">${s}</svg></div><p class="note">Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Circle size: reports about the group; solid is active in the last four months, an open ring is quiet. Hover a group to light up its links; click it to open its profile.</p>`;
+  $('ocGraph').innerHTML = `<div><svg viewBox="-80 0 ${W + 160} ${H}" class="gsvg">${s}</svg></div><p class="note">Groups named together in the same reports: rivals, allies or the same case. Thicker line, more reports. Circle size: reports about the group; solid is active in the last four months, an open ring is quiet. Hover a group to light up its links; click it to open its profile.</p>`;
   $('ocGraph').querySelectorAll('.gnode').forEach(el => {
     el.onmouseenter = () => $('ocGraph').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', l.dataset.a === el.dataset.g || l.dataset.b === el.dataset.g));
     el.onmouseleave = () => $('ocGraph').querySelectorAll('.gedge').forEach(l => l.classList.toggle('hot', !!sel && (l.dataset.a === sel || l.dataset.b === sel)));
@@ -1273,7 +1556,7 @@ let INS = null;
 const TREND = { rising: 'Rising', steady: 'Steady', falling: 'Falling' };
 function anEvidence(list) {
   if (!list || !list.length) return '';
-  const row = r => `<div class="mini">${meta(fmtDay(r.d + 'T06:30:00Z'), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '')}${link(r, esc(r.t))}</div>`;
+  const row = r => `<div class="mini">${meta(fmtDay(r.d + 'T06:30:00Z'), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '')}${link(r, esc(r.t))}${enP(r)}</div>`;
   return `<div class="ev">${list.slice(0, 3).map(row).join('')}${list.length > 3 ? `<details><summary>Show ${list.length - 3} more report${list.length - 3 > 1 ? 's' : ''}</summary>${list.slice(3).map(row).join('')}</details>` : ''}</div>`;
 }
 // A finding's own leading number (from its sentence, never computed anew) is set large; the sentence stays whole below it.
@@ -1290,12 +1573,87 @@ function anCard(x) {
     <p class="say">${esc(x.title)}</p>
     ${(x.facts || []).length ? `<div class="facts">${x.facts.map(f => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
     ${x.test ? `<div class="how">How we know: ${esc(x.test)}</div>` : ''}
-    ${(x.evidence || []).length ? `<div class="ev"><details><summary>${plural(x.evidence.length, 'source report')}</summary>${x.evidence.map(r => `<div class="mini">${meta(fmtDay(r.d + 'T06:30:00Z'), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '')}${link(r, esc(r.t))}</div>`).join('')}</details></div>` : ''}
+    ${(x.evidence || []).length ? `<div class="ev"><details><summary>${plural(x.evidence.length, 'source report')}</summary>${x.evidence.map(r => `<div class="mini">${meta(fmtDay(r.d + 'T06:30:00Z'), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '')}${link(r, esc(r.t))}${enP(r)}</div>`).join('')}</details></div>` : ''}
   </article>`;
 }
+/* ---------- Official figures (data/official.json) ---------- */
+// Registered cases as the police and the NCRB published them, for the bodies that cover the area chosen above. Never
+// computed anew beyond a change between two published years; every card names its release, its date and where it was read.
+const offBodies = () => OFFICIAL ? OFFICIAL.bodies.filter(b => b.views.includes(view)) : [];
+const viaLinks = list => (list || []).map(v => `<a class="lnk" href="${esc(v.u)}" target="_blank" rel="noopener noreferrer">${esc(v.name)}</a>, ${fmtLong(v.d)}`).join('; ');
+const offSrc = (b, r) => `<div class="osrc"><b>${esc(b.name)}</b>, ${esc(r.title)}, released ${fmtLong(r.date)}${r.period ? `; covers ${esc(r.period)}` : ''}. Read from ${viaLinks(r.via)}.</div>`;
+const pctTxt = p => (p > 0 ? '+' : p < 0 ? '−' : '') + Math.abs(p) + '%';
+const chip = (p, on) => `<span class="trend${p > 0 ? ' up' : ''}">${p > 0 ? '↑' : p < 0 ? '↓' : '→'} ${Math.abs(p)}% on ${on}</span>`;
+function offFindings() {
+  const out = [];
+  for (const b of offBodies()) {
+    if (!b.releases.length) { out.push(`<article class="finding"><p class="say" style="margin-top:0">${esc(b.name)}</p><p class="note" style="margin-top:0">${esc((b.notes || []).join(' '))}</p></article>`); continue; }
+    for (const r of b.releases) {
+      if (r.kind === 'annual') {
+        const n = r.years.length, y1 = r.years[n - 1], y0 = r.years[n - 2];
+        const hs = r.heads.filter(h => !h.action && h.v[n - 1] != null && h.v[n - 2] != null).map(h => ({ h, a: h.v[n - 2], z: h.v[n - 1], p: Math.round((h.v[n - 1] - h.v[n - 2]) / h.v[n - 2] * 100) }));
+        const lead1 = hs.filter(x => x.h.id === 'total' || x.h.id === 'murder');
+        const rest = hs.filter(x => !lead1.includes(x) && x.z >= 50).sort((p, q) => Math.abs(q.p) - Math.abs(p.p)).slice(0, 4);
+        for (const x of [...lead1, ...rest]) {
+          const word = x.p > 0 ? 'rose to' : x.p < 0 ? 'fell to' : 'held at';
+          out.push(`<article class="finding"><div class="fhead"><div class="fig">${fmtN(x.z)}<small>${esc(x.h.name.toLowerCase())}, ${y1}</small></div>${chip(x.p, y0)}</div>
+            <p class="say">${esc(x.h.name)} in ${esc(b.area.split(' (')[0].split(',')[0])} ${word} ${fmtN(x.z)} in ${y1}, from ${fmtN(x.a)} in ${y0}${x.h.id === 'total' ? '' : ''}.</p>
+            <div class="facts">${r.years.map((y, i) => x.h.v[i] != null ? `<span>${y}: ${fmtN(x.h.v[i])}</span>` : '').join('')}</div>${offSrc(b, r)}</article>`);
+        }
+        if (r.ranks) out.push(`<article class="finding"><div class="fhead"><div class="fig">${r.ranks.rows[0].rank}<small>of ${r.ranks.of} metropolitan cities: ${esc(r.ranks.rows[0].name.toLowerCase())}, ${y1}</small></div></div>
+          <p class="say">Among India's ${r.ranks.of} largest cities, Pune ranks ${r.ranks.rows.map(x => `${x.rank} for ${x.name.toLowerCase()}`).join(', ')} (1 is the highest).</p>
+          <div class="osrc">${esc(r.ranks.by)}. Read from ${viaLinks([r.ranks.via])}.</div></article>`);
+        if (r.solved) {
+          const all = r.solved.rows[r.solved.rows.length - 1];
+          out.push(`<article class="finding"><div class="fhead"><div class="fig">${all.pct}%<small>of ${esc(all.name.toLowerCase())} solved, ${r.solved.year}</small></div></div>
+            <p class="say">${fmtN(all.n)} property offences were registered in ${r.solved.year}; ${all.pct}% were solved.</p>
+            <div class="facts">${r.solved.rows.slice(0, -1).map(x => `<span>${esc(x.name)} ${x.pct}% of ${fmtN(x.n)}</span>`).join('')}</div>${offSrc(b, r)}</article>`);
+        }
+      } else if (r.kind === 'change') {
+        const top1 = [...r.changes].sort((p, q) => Math.abs(q.pct) - Math.abs(p.pct))[0];
+        out.push(`<article class="finding"><div class="fhead"><div class="fig">${pctTxt(top1.pct)}<small>${esc(top1.name.toLowerCase())}, ${esc(r.period.split(',')[0])}</small></div></div>
+          <p class="say">${esc(r.changes.map(x => x.name).join(', ').replace(/, ([^,]*)$/, ' and $1'))} all ${r.changes.every(x => x.pct < 0) ? 'fell' : 'changed'} from ${esc(r.period)}.</p>
+          <div class="facts">${r.changes.map(x => `<span>${esc(x.name)} ${pctTxt(x.pct)}</span>`).join('')}</div>${(r.notes || []).length ? `<div class="how">${esc(r.notes.join(' '))}</div>` : ''}${offSrc(b, r)}</article>`);
+      } else if (r.kind === 'count') {
+        out.push(`<article class="finding"><div class="fhead"><div class="fig">${fmtN(r.counts[0].v)}<small>${esc(r.counts[0].name.toLowerCase())}, ${esc(r.period)}</small></div></div>
+          <p class="say">${r.counts.map(x => `${esc(x.name)}: ${fmtN(x.v)}`).join('; ')}, from ${esc(r.period)}.</p>${(r.notes || []).length ? `<div class="how">${esc(r.notes.join(' '))}</div>` : ''}${offSrc(b, r)}</article>`);
+      }
+    }
+  }
+  return out;
+}
+// Every source this tab draws on, with its date.
+function anSources() {
+  const row = (name, date, more) => `<div><span style="text-align:left;font-family:var(--sans);font-size:13px;color:var(--ink-2);white-space:normal"><b>${name}</b></span><span>${date}</span>${more ? `<small>${more}</small>` : ''}</div>`;
+  const off = OFFICIAL ? OFFICIAL.bodies.flatMap(b => b.releases.map(r => row(`${esc(b.name)}: ${esc(r.title)}`, fmtLong(r.date), `${r.period ? 'Covers ' + esc(r.period) + '. ' : r.years ? 'Covers ' + r.years[0] + ' to ' + r.years[r.years.length - 1] + '. ' : ''}Read from ${viaLinks(r.via)}.${(r.notes || []).length ? ' ' + esc(r.notes.join(' ')) : ''}`))) : [];
+  const first = EVENTS.reduce((m, e) => e.reports.reduce((m2, r) => (r.d < m2 ? r.d : m2), m), '9999');
+  const sd = d => new Date(d).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' });
+  return `<section class="sec" id="an-sources"><h3 class="sec-h">Sources and dates</h3>
+    <p class="note" style="margin:0 0 6px">Official figures${OFFICIAL ? `, compiled ${fmtLong(OFFICIAL.compiled)}` : ''}</p>
+    <div class="srcs">${off.join('') || '<div><small>The official figures file has not loaded.</small></div>'}</div>
+    <p class="note" style="margin:20px 0 6px">Watching for newer official figures</p>
+    <div class="srcs">${OWATCH ? (() => {
+      const newest = OFFICIAL ? OFFICIAL.bodies.flatMap(b => b.releases.map(r => r.date)).sort().pop() : '0000';
+      const ncrbHere = OFFICIAL ? Math.max(0, ...OFFICIAL.bodies.filter(b => b.id === 'ncrb').flatMap(b => b.releases.map(r => r.years ? r.years[r.years.length - 1] : 0))) : 0;
+      const fresh = (OWATCH.items || []).filter(x => x.d.slice(0, 10) > newest);
+      return row('Daily check', sd(OWATCH.checked), `Google News searches for the police reviews and statements, and the NCRB's list of reports. ${OWATCH.ncrb_latest ? `The NCRB lists Crime in India ${OWATCH.ncrb_latest}${OWATCH.ncrb_latest > ncrbHere ? `, newer than the ${ncrbHere} figures here: they will be read in by hand.` : '; the figures here are from it.'}` : ''}`) +
+        (fresh.length ? fresh.slice(0, 8).map(x => row(`<a class="lnk" href="${esc(x.u)}" target="_blank" rel="noopener noreferrer">${esc(x.t)}</a>`, fmtLong(istDay(x.d)), `${esc(x.n)}. Newer than the figures here; to be checked and read in by hand.`)).join('') : row('Nothing newer found', '', 'No report newer than the releases above.'));
+    })() : row('Daily check', '', 'Starts once this version is live: a separate GitHub scan looks every day for new police reviews and NCRB reports and lists them here. It never changes a figure; new figures are read in by hand, with their source and date.')}</div>
+    <p class="note" style="margin:20px 0 6px">News and the engine</p>
+    <div class="srcs">
+      ${STATUS ? row('News reports', sd(STATUS.updated), `${STATUS.sources.filter(s => s.ok).length} of ${STATUS.sources.length} Pune papers and feeds reachable at the last scan (${STATUS.sources.map(s => esc(s.name)).join(', ')}). Scanned every hour; news collected since ${fmtLong(istDay(first))}.`) : ''}
+      ${INS ? row('Findings', sd(INS.updated), `Worked out by the engine from the counted incidents of the last ${INS.window} days, every hour.`) : ''}
+      ${OC ? row('Organised crime groups', sd(OC.updated), 'Groups and their reports, from the engine and each group’s own news searches.') : ''}
+      ${SITSTATUS ? row('Situations', sd(SITSTATUS.scanned), 'Scanned every 15 minutes.') : ''}
+      ${QUAL ? row('Data checks', sd(QUAL.updated), 'Permanent error tests and detectors over every report.') : ''}
+      ${row('Maps', '', 'OpenFreeMap, OpenMapTiles and OpenStreetMap contributors.')}
+    </div></section>`;
+}
+
 function drawAn() {
-  $('anMode').querySelectorAll('button').forEach(b => { b.classList.toggle('on', b.dataset.anm === anMode); b.setAttribute('aria-pressed', b.dataset.anm === anMode); });
-  if (anMode === 'graphs') { $('anSub').textContent = 'Drawn from the counted incidents in this view and period. Hover for numbers; click to list incidents.'; $('anBody').className = 'sheet angraphs'; drawGraphs(); return; }
+  $('anMode').dataset.on = anMode;
+  $('anMode').querySelectorAll('button').forEach(b => { b.classList.toggle('on', b.dataset.anm === anMode); b.setAttribute('aria-selected', b.dataset.anm === anMode); });
+  if (anMode === 'graphs') { $('anSub').textContent = `Drawn from the counted incidents in ${viewName()}, ${periodName()}, and from the official figures. Hover for numbers; select a bar, cell or day to list what is behind it.`; $('anBody').className = 'sheet angraphs'; drawGraphs(); return; }
   $('anBody').className = 'anfind';
   if (!INS) { $('anSub').textContent = ''; $('anBody').innerHTML = '<div class="sheet empty" style="grid-column:1/-1">The first analysis has not run yet. It runs with every hourly collection.</div>'; return; }
   const v = INS.views[view] || INS.views.all, cov = v.coverage;
@@ -1309,19 +1667,23 @@ function drawAn() {
     ['an-when', 'When', v.timing, 'No kind of incident yet differs from an even spread across the day or week (it needs about 30 incidents with a stated time).'],
     ['an-places', 'Repeat places', v.places, 'No named spot has had more than one incident in 90 days.']];
   const rising = [...v.problems, ...v.watch].filter(x => x.trend === 'rising').length;
-  $('anSub').textContent = `Updated ${ago(INS.updated)}. Each finding names the test behind it and the reports it rests on.`;
+  $('anSub').textContent = `Official figures first, then what the news says: findings updated ${ago(INS.updated)}. Each finding names its source or the test behind it, and the reports it rests on.`;
   const sec = ([id, title, items, empty]) => `<section class="sec" id="${id}"><h3 class="sec-h">${title}<span>${items.length}</span></h3>${items.length ? `<div class="cards">${items.map(anCard).join('')}</div>` : `<p class="note" style="margin-top:0">${empty}</p>`}</section>`;
-  $('anBody').innerHTML = `<section class="stmt"><div><h1>What the reports say</h1><p class="sub">Last ${INS.window} days in this view, from the counted incidents only. ${esc(cov.note || '')}</p></div>
+  const off = offFindings();
+  $('anBody').innerHTML = `<section class="stmt"><div><h1>What the record says</h1><p class="sub">${esc(viewName())}. The official figures as the police and the NCRB published them, then what the news of the last ${INS.window} days shows, from the counted incidents only. ${esc(cov.note || '')}</p></div>
       <div class="figs"><div><b class="fig hot">${fmtN(cov.incidents)}</b><span>counted incidents</span></div><div><b class="fig">${v.problems.length}</b><span>problems</span></div><div><b class="fig${rising ? ' hot' : ''}">${rising}</b><span>rising</span></div>${QUAL ? `<div><b class="fig">${QUAL.passed}/${(QUAL.tests || []).length}</b><span>error tests pass</span></div>` : ''}</div></section>
-    <aside class="rail" aria-label="Sections"><h2 class="rail-h">Sections</h2><nav class="anidx">${S.map(([id, t, it]) => `<a href="#${id}"><span>${t}</span><span>${it.length}</span></a>`).join('')}
-      <a href="#an-cover"><span>What this data can say</span><span></span></a>${QUAL ? `<a href="#an-checks"><span>Data checks</span><span>${QUAL.passed} of ${(QUAL.tests || []).length}</span></a>` : ''}</nav></aside>
-    <div class="anmain">${S.map(sec).join('')}
+    <aside class="rail" aria-label="Sections"><h2 class="rail-h">Sections</h2><nav class="anidx"><a href="#an-official"><span>Official record</span><span>${off.length}</span></a>${S.map(([id, t, it]) => `<a href="#${id}"><span>${t}</span><span>${it.length}</span></a>`).join('')}
+      <a href="#an-cover"><span>What this data can say</span><span></span></a>${QUAL ? `<a href="#an-checks"><span>Data checks</span><span>${QUAL.passed} of ${(QUAL.tests || []).length}</span></a>` : ''}<a href="#an-sources"><span>Sources and dates</span><span></span></a></nav></aside>
+    <div class="anmain"><section class="sec" id="an-official"><h3 class="sec-h">Official record<span>registered cases</span></h3>
+      ${OFFICIAL ? `<p class="warnline">${esc(OFFICIAL.note)}</p>` : ''}
+      ${off.length ? `<div class="cards">${off.join('')}</div>` : `<p class="note" style="margin-top:0">${OFFICIAL ? 'No official figures cover this area yet.' : 'The official figures could not be loaded.'}</p>`}</section>
+      ${S.map(sec).join('')}
       <section class="sec" id="an-cover"><h3 class="sec-h">What this data can say</h3><div class="lifts">
         <div class="lift"><div class="fig">${cov.incidents ? Math.round(cov.spot / cov.incidents * 100) : 0}<small>%</small></div><p><b>${cov.spot} of ${cov.incidents}</b> incidents are placed at a named spot.</p></div>
         <div class="lift"><div class="fig">${cov.incidents ? Math.round(cov.timed / cov.incidents * 100) : 0}<small>%</small></div><p><b>${cov.timed} of ${cov.incidents}</b> have a stated hour.</p></div>
         <div class="lift"><div class="fig">${cov.top_share}<small>%</small></div><p>of reports in this view come from one source, <b>${esc(SRC[cov.top_source] || cov.top_source)}</b>.</p></div>
       </div></section>
-      <div class="sheet checks">${drawQuality()}</div></div>`;
+      <div class="sheet checks">${drawQuality()}</div>${anSources()}</div>`;
 }
 function drawQuality() {
   if (!QUAL) return '';
@@ -1349,16 +1711,21 @@ function drawQuality() {
 /* ---------- Graphs (inside Analytics) ---------- */
 // Drawn from the incidents on the page, so every run and every new report changes them. They follow the area view and the
 // period buttons; most also take a type. Hover for numbers; click a cell, bar or day to list its incidents below.
-let anMode = 'findings', gSel = 'rhythm', gType = '', gSpread = true, gPick = null;
-const GRAPHS = [['rhythm', 'Rhythm'], ['trend', 'Trend'], ['matrix', 'Where × what'], ['calendar', 'Calendar'], ['conc', 'Concentration'], ['harm', 'Harm']];
+let anMode = 'findings', gSel = 'official', gType = '', gSpread = true, gPick = null;
+const GRAPHS = [['official', 'Official record'], ['rhythm', 'Rhythm'], ['trend', 'Trend'], ['change', 'Change by area'], ['types', 'Types over time'], ['matrix', 'Where × what'], ['calendar', 'Calendar'], ['harm', 'Harm'], ['arms', 'Weapons & police action']];
+const G_TYPED = ['rhythm', 'trend', 'change', 'calendar'];
 const G_ABOUT = {
+  official: 'Pune’s official figures, as the police and the National Crime Records Bureau published them: registered cases, not news. Each chart is one head across the years of its release; the latest year is copper. They follow the area chosen above; each release names its date and where it was read.',
   rhythm: 'Which hours of which days. After Clarke & Eck, Step 25 (chart C): days down the side, hours across; a bigger copper square is more, and the busiest hours glow.',
   trend: 'Incidents per week, with the four-week average. Early weeks rest mostly on one paper’s history, so compare recent weeks with care.',
+  change: 'Where incidents are rising or falling: each area’s last 30 days (copper dot) against the 30 days before (open ring); a copper line is a rise. Fixed windows whatever the time chosen above; areas with at least 3 incidents in either window.',
+  types: 'Each type on its own scale, so a small type’s rise is not hidden under a large one. Bars are the days, weeks or months of the time chosen above.',
   matrix: 'Where each kind of incident happens: the busiest areas in this view against the types.',
   calendar: 'Every day’s incidents, with festivals marked. Look for the days around them.',
-  conc: 'How concentrated incidents are across the areas of this view (the 80-20 rule, Step 18). The further the curve bows above the diagonal, the more a few areas carry the load.',
-  harm: 'For each type, how many incidents were fatal, how many injured someone, and how many did not say.'
+  harm: 'For each type, how many incidents were fatal, how many injured someone, and how many did not say.',
+  arms: 'Weapons and police action named in reports about gangs and violence, by month: koyta, firearms and blades; arrests, MCOCA, MPDA and externment. From the headlines and the engine’s tags; each report counted once, by the day it was published.'
 };
+let OCREP = null;
 const BAND_HOURS = { morning: [6, 7, 8, 9, 10, 11], afternoon: [12, 13, 14, 15, 16], evening: [17, 18, 19, 20], night: [21, 22, 23, 0, 1, 2, 3, 4, 5] };
 const DAYS7 = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 // Festivals of 2026 that move crowds, traffic and policing in Pune.
@@ -1393,7 +1760,7 @@ const fmt1 = v => (Math.round(v * 10) / 10).toString();
 const tip = (t) => ` data-tip="${esc(t)}"`;
 
 function drawGraphs() {
-  const typed = !['matrix', 'harm'].includes(gSel);
+  const typed = G_TYPED.includes(gSel);
   const types = CATS.filter(c => INCIDENTS.some(e => e.c === c.id && inView(e)));
   $('anBody').innerHTML = `
     <div class="seg" role="group" aria-label="Graph">${GRAPHS.map(([k, n]) => `<button type="button" class="${k === gSel ? 'on' : ''}" data-gs="${k}" aria-pressed="${k === gSel}">${n}</button>`).join('')}</div>
@@ -1401,20 +1768,22 @@ function drawGraphs() {
       ${gSel === 'rhythm' ? `<label class="tog"><input type="checkbox" id="gSpread"${gSpread ? ' checked' : ''}> Include reports that give only a part of day, spread across its hours</label>` : ''}</div>` : ''}
     <p class="note gabout">${G_ABOUT[gSel]}</p>
     <div class="gbox" id="gBox"></div>
-    <div id="gList"></div>`;
-  ({ rhythm: gRhythm, trend: gTrend, matrix: gMatrix, calendar: gCalendar, conc: gConc, harm: gHarm })[gSel]();
+    <div id="gList"></div>${anSources()}`;
+  ({ official: gOfficial, rhythm: gRhythm, trend: gTrend, change: gChange, types: gTypes, matrix: gMatrix, calendar: gCalendar, harm: gHarm, arms: gArms })[gSel]();
   gListDraw();
 }
 
+// What is behind a selected bar, cell or day: incidents (with their lead report), or reports.
 function gListDraw() {
   if (!gPick) { $('gList').innerHTML = ''; return; }
-  const list = gPick.list.slice().sort((x, y) => (x.d < y.d ? 1 : -1));
+  const list = gPick.list.slice().sort((x, y) => (x.d < y.d ? 1 : -1)), reps = gPick.reps;
   $('gList').innerHTML = `<section class="sec"><h3 class="sec-h">${esc(gPick.title)} <span>${list.length}</span></h3>${list.slice(0, 40).map(e => {
+    if (reps) return `<div class="mini">${meta(fmtDay(e.d), e.a && AREA[e.a] ? esc(AREA[e.a].name) : '', esc(SRC[e.n] || e.n || ''))}${link(e, esc(e.t))}${enP(e)}</div>`;
     const r = lead(e);
-    return `<div class="mini">${meta(fmtDay(e.d), esc(label(e)), e.a ? esc(AREA[e.a].name) : '')}${link(r, esc(r.t))}</div>`;
+    return `<div class="mini">${meta(fmtDay(e.d), esc(label(e)), e.a ? esc(AREA[e.a].name) : '')}${link(r, esc(r.t))}${enP(r)}</div>`;
   }).join('')}${list.length > 40 ? `<p class="note">and ${list.length - 40} more.</p>` : ''}</section>`;
 }
-const gPickSet = (title, list) => { gPick = { title, list }; gListDraw(); $('gList').scrollIntoView({ behavior: motion(), block: 'nearest' }); };
+const gPickSet = (title, list, reps = false) => { gPick = { title, list, reps }; gListDraw(); $('gList').scrollIntoView({ behavior: motion(), block: 'nearest' }); };
 
 /* Rhythm: Chart C, with the hour totals above (chart A) and the day totals beside it (chart B). */
 function gRhythm() {
@@ -1514,22 +1883,125 @@ function gCalendar() {
   $('gBox').querySelectorAll('.gday').forEach(el => el.onclick = () => gPickSet(fmtDay(el.dataset.d + 'T06:30:00Z'), byD[el.dataset.d] || []));
 }
 
-/* Concentration: the 80-20 check across the areas of this view (areas with no incidents count too). */
-function gConc() {
-  const ev = gEv().filter(e => e.a), cnt = {};
-  for (const e of ev) cnt[e.a] = (cnt[e.a] || 0) + 1;
-  const areas = AREAS.filter(a => areaInView(a.id)), n = areas.map(a => cnt[a.id] || 0).sort((p, q) => q - p), tot = n.reduce((p, q) => p + q, 0);
-  if (!tot || areas.length < 3) { $('gBox').innerHTML = '<div class="empty">Too few placed incidents or areas in this view.</div>'; return; }
-  const pts = [[0, 0]]; let acc = 0; n.forEach((v, i) => { acc += v; pts.push([(i + 1) / n.length, acc / tot]); });
-  const k = Math.max(1, Math.round(n.length * 0.2)), topShare = n.slice(0, k).reduce((p, q) => p + q, 0) / tot;
-  const W = 640, H = 420, L = 60, B = 50, T = 20, R = 20, X = f => L + f * (W - L - R), Y = f => H - B - f * (H - B - T);
-  let s = `<line x1="${X(0)}" y1="${Y(0)}" x2="${X(1)}" y2="${Y(1)}" class="grule" stroke-dasharray="4 4"/>`;
-  [0, .2, .4, .6, .8, 1].forEach(f => { s += `<text x="${X(f)}" y="${H - B + 18}" class="gtx gsm" text-anchor="middle">${f * 100}%</text><text x="${L - 8}" y="${Y(f) + 4}" class="gtx gsm" text-anchor="end">${f * 100}%</text>`; });
-  s += `<polygon points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')} ${X(1)},${Y(0)}" class="garea"/><polyline points="${pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')}" class="gline"/>`;
-  s += `<line x1="${X(k / n.length)}" x2="${X(k / n.length)}" y1="${Y(0)}" y2="${Y(topShare)}" class="grule"/><circle cx="${X(k / n.length)}" cy="${Y(topShare)}" r="5" class="gfill"/>`;
-  s += `<text x="${X(0.5)}" y="${H - 8}" class="gtx gsm" text-anchor="middle">Share of areas, busiest first</text><text transform="translate(16,${Y(0.5)}) rotate(-90)" class="gtx gsm" text-anchor="middle">Share of incidents</text>`;
-  const busiest = areas.map(a => [a.name, cnt[a.id] || 0]).sort((p, q) => q[1] - p[1]).slice(0, k);
-  $('gBox').innerHTML = `<p class="say" style="margin:6px 0 10px">The busiest <b>${k}</b> of ${n.length} areas (20%) hold <em>${Math.round(topShare * 100)}%</em> of placed incidents${gType ? ' of this type' : ''}: ${busiest.map(([nm, v]) => `${esc(nm)} ${v}`).join(', ')}.</p><svg viewBox="0 0 ${W} ${H}" class="gsvg" style="max-width:640px">${s}</svg><p class="note">If incidents were spread evenly, the curve would follow the dashed line. Areas differ in size and population, so this measures where incidents are reported, not risk per person.</p>`;
+/* Change by area: each area's last 30 days against the 30 days before, as a dumbbell. A rise is drawn in copper. */
+function gChange() {
+  const a0 = dayStart(istDay(Date.now())) - 29 * DAYMS, b0 = a0 - 30 * DAYMS, rec = {}, pre = {}, who = {};
+  for (const e of INCIDENTS) {
+    if (!inView(e) || !e.a || (gType && e.c !== gType)) continue;
+    const t = dayStart(istDay(e.d));
+    if (t >= a0) { rec[e.a] = (rec[e.a] || 0) + 1; (who[e.a] = who[e.a] || []).push(e); } else if (t >= b0) pre[e.a] = (pre[e.a] || 0) + 1;
+  }
+  const rows = [...new Set([...Object.keys(rec), ...Object.keys(pre)])].map(a => ({ a, r: rec[a] || 0, p: pre[a] || 0 })).filter(x => Math.max(x.r, x.p) >= 3)
+    .sort((x, y) => (y.r - y.p) - (x.r - x.p) || y.r - x.r);
+  if (!rows.length) { $('gBox').innerHTML = '<div class="empty">No area in this view has 3 incidents in either window.</div>'; return; }
+  const split = rows.length > 22, show = split ? [...rows.slice(0, 11), null, ...rows.slice(-11)] : rows;
+  const L = 180, W = 960, R = 130, ch = 28, T = 44, H = T + show.length * ch + 16, max = Math.max(1, ...rows.map(x => Math.max(x.r, x.p))), X = v => L + v / max * (W - L - R);
+  let s = `<circle cx="${L + 6}" cy="14" r="6" class="gdotr"/><text x="${L + 18}" y="18" class="gtx gsm">The 30 days before</text><circle cx="${L + 160}" cy="14" r="6.5" class="gdot"/><text x="${L + 172}" y="18" class="gtx gsm">The last 30 days</text>`;
+  [0, .5, 1].forEach(f => { const v = Math.round(max * f); s += `<line x1="${X(v)}" x2="${X(v)}" y1="${T - 10}" y2="${H - 10}" class="grule"/><text x="${X(v)}" y="${T - 14}" class="gtx gsm" text-anchor="middle">${v}</text>`; });
+  show.forEach((x, i) => {
+    const y = T + i * ch + ch / 2;
+    if (!x) { s += `<text x="${L - 10}" y="${y + 4}" class="gtx gsm" text-anchor="end">${rows.length - 22} areas between</text>`; return; }
+    const d = x.r - x.p, up = d > 0;
+    s += `<rect x="0" y="${y - ch / 2}" width="${W}" height="${ch}" fill="transparent" class="gcell" data-a="${x.a}"${tip(`${AREA[x.a].name}: ${x.p} in the 30 days before, ${x.r} in the last 30 days`)}/>
+      <text x="${L - 10}" y="${y + 4}" class="gtx" text-anchor="end" style="pointer-events:none">${esc(AREA[x.a].name)}</text>
+      <line x1="${X(x.p)}" x2="${X(x.r)}" y1="${y}" y2="${y}" class="gjoin${up ? ' up' : ''}" style="pointer-events:none"/>
+      <circle cx="${X(x.p)}" cy="${y}" r="6" class="gdotr" style="pointer-events:none"/><circle cx="${X(x.r)}" cy="${y}" r="6.5" class="gdot" style="pointer-events:none"/>
+      <text x="${W - R + 16}" y="${y + 4}" class="gtx gsm${up ? ' gnum gtop' : ''}" style="pointer-events:none">${x.p} → ${x.r} (${d > 0 ? '+' : d < 0 ? '−' : '±'}${Math.abs(d)})</text>`;
+  });
+  const tr = rows.reduce((s2, x) => s2 + x.r, 0), tp = rows.reduce((s2, x) => s2 + x.p, 0);
+  $('gBox').innerHTML = `<p class="say" style="margin:6px 0 10px">Across these areas: <b>${fmtN(tr)}</b> incidents in the last 30 days against <b>${fmtN(tp)}</b> in the 30 days before${tp ? ` (<em>${pctTxt(Math.round((tr - tp) / tp * 100))}</em>)` : ''}.${split ? ` The ${11} biggest rises and the ${11} biggest falls are drawn.` : ''}</p><svg viewBox="0 0 ${W} ${H}" class="gsvg">${s}</svg><p class="note">Sorted from the biggest rise to the biggest fall. Small counts move a lot by chance; read a change of one or two as noise. Select an area to see its last 30 days.</p>`;
+  $('gBox').querySelectorAll('.gcell').forEach(el => el.onclick = () => gPickSet(`${AREA[el.dataset.a].name}, last 30 days`, who[el.dataset.a] || []));
+}
+
+/* Types over time: one small chart per type, each on its own scale. */
+function gTypes() {
+  const ev = gEv(false);
+  if (!ev.length) { $('gBox').innerHTML = '<div class="empty">No incidents in this view and time.</div>'; return; }
+  const today = istDay(Date.now()), start = dayOf() || (period === '0' ? ev.reduce((m, e) => (dayKey(e) < m ? dayKey(e) : m), today) : istDay(since())), end = dayOf() || today;
+  const span = Math.round((dayStart(end) - dayStart(start)) / DAYMS) + 1;
+  if (span < 3) { $('gBox').innerHTML = '<div class="empty">One day is too short for a trend. Choose a longer time above.</div>'; return; }
+  const unit = span <= 45 ? 'day' : span <= 400 ? 'week' : 'month';
+  const monday = d => { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() - (t.getUTCDay() + 6) % 7); return t.toISOString().slice(0, 10); };
+  const key = d => unit === 'day' ? d : unit === 'week' ? monday(d) : d.slice(0, 7), bins = [];
+  for (let t = dayStart(start); t <= dayStart(end); t += DAYMS) { const k = key(istDay(t)); if (bins[bins.length - 1] !== k) bins.push(k); }
+  const k = Math.min(unit === 'day' ? 7 : 4, Math.floor(bins.length / 2));
+  const cards = CATS.map(c => {
+    const l = ev.filter(e => e.c === c.id); if (l.length < 3) return '';
+    const n = bins.map(b => l.filter(e => key(dayKey(e)) === b).length), mx = Math.max(1, ...n), W = 240, H = 60, bw = W / bins.length;
+    const last = n.slice(-k).reduce((p, q) => p + q, 0), before = n.slice(-2 * k, -k).reduce((p, q) => p + q, 0);
+    const bars = n.map((v, i) => v ? `<rect x="${i * bw + Math.min(1, bw * .15)}" y="${H - Math.max(2, v / mx * H)}" width="${Math.max(1, bw - Math.min(2, bw * .3))}" height="${Math.max(2, v / mx * H)}" class="gbar last"${tip(`${unit === 'month' ? bins[i] : fmtDay(dayDate(bins[i]))}${unit === 'week' ? ' week' : ''}: ${v}`)}/>` : '').join('');
+    return `<div class="mult" data-c="${c.id}" style="cursor:pointer"><h4>${esc(c.name)}<span>${unit}s</span></h4><b class="fig${last > before && k ? ' hot' : ''}">${fmtN(l.length)}</b>
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:60px">${bars}<line x1="0" x2="${W}" y1="${H}" y2="${H}" class="grule"/></svg>
+      ${k ? `<p>Last ${k} ${unit}s <b>${last}</b>, the ${k} before <b>${before}</b></p>` : ''}</div>`;
+  }).join('');
+  $('gBox').innerHTML = `<div class="mults">${cards}</div><p class="note">${fmtDay(dayDate(start))} to ${fmtDay(dayDate(end))}, by ${unit}. A copper total means the last ${k} ${unit}s had more than the ${k} before. Select a type to list its incidents.</p>`;
+  $('gBox').querySelectorAll('.mult').forEach(el => el.onclick = () => gPickSet(CAT[el.dataset.c].name, ev.filter(e => e.c === el.dataset.c)));
+}
+
+/* Weapons and police action: from reports about gangs and violence (ocreports.json and each group's reports), by month. */
+function gArms() {
+  if (!OCREP) {
+    $('gBox').innerHTML = '<div class="empty">Loading</div>';
+    j('data/ocreports.json').catch(() => []).then(x => { OCREP = x || []; if (gSel === 'arms' && anMode === 'graphs' && !$('anv').classList.contains('hide')) drawGraphs(); });
+    return;
+  }
+  const seen = new Set(), all = [...OCREP, ...(OC ? OC.groups.flatMap(g => g.reports || []) : [])].filter(r => r.u && !seen.has(r.u) && seen.add(r.u));
+  const lo = since(), hi = until(), reps = all.filter(r => { const t = new Date(r.d).getTime(); return t >= lo && t < hi && (view === 'all' || (r.a && AREA[r.a] && areaInView(r.a))); });
+  if (!reps.length) { $('gBox').innerHTML = '<div class="empty">No reports about gangs or weapons in this view and time.</div>'; return; }
+  const months = [], first = reps.reduce((m, r) => (r.d < m ? r.d : m), '9999').slice(0, 7), now = istDay(Date.now()).slice(0, 7);
+  for (let y = +first.slice(0, 4), m = +first.slice(5, 7); `${y}-${String(m).padStart(2, '0')}` <= now; m === 12 ? (y++, m = 1) : m++) months.push(`${y}-${String(m).padStart(2, '0')}`);
+  const shown = months.slice(-24), K = n => OC_KEYS.find(k => k.name === n);
+  const mult = name => {
+    const k = K(name), hit = reps.filter(k.test), n = shown.map(mo => hit.filter(r => istDay(r.d).slice(0, 7) === mo).length), mx = Math.max(1, ...n), W = 240, H = 60, bw = W / shown.length;
+    const bars = n.map((v, i) => v ? `<rect x="${i * bw + .5}" y="${H - Math.max(2, v / mx * H)}" width="${Math.max(1, bw - 1.5)}" height="${Math.max(2, v / mx * H)}" class="gbar last"${tip(`${new Date(shown[i] + '-15T06:30:00Z').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}: ${v}`)}/>` : '').join('');
+    return `<div class="mult" data-k="${esc(name)}" style="cursor:pointer"><h4>${esc(name === 'Arrest' ? 'Arrests' : name)}<span>by month</span></h4><b class="fig">${fmtN(hit.length)}</b><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:60px">${bars}<line x1="0" x2="${W}" y1="${H}" y2="${H}" class="grule"/></svg><p>${n.slice(-3).reduce((p, q) => p + q, 0)} in the last 3 months</p></div>`;
+  };
+  const span = shown.length ? `${new Date(shown[0] + '-15T06:30:00Z').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })} to ${new Date(shown[shown.length - 1] + '-15T06:30:00Z').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}` : '';
+  $('gBox').innerHTML = `<h3 class="sec-h" style="margin-top:6px">Weapons named</h3><div class="mults">${['Koyta', 'Firearm', 'Sword or knife'].map(mult).join('')}</div>
+    <h3 class="sec-h" style="margin-top:24px">Police action</h3><div class="mults">${['Arrest', 'MCOCA', 'MPDA', 'Externment'].map(mult).join('')}</div>
+    <p class="note">${fmtN(reps.length)} reports about gangs and violence in this view and time; the bars run ${span}. The figure is all reports naming it; a report can name more than one. Select a chart to list its reports.</p>`;
+  $('gBox').querySelectorAll('.mult').forEach(el => el.onclick = () => gPickSet(`Reports naming ${el.dataset.k.toLowerCase()}`, reps.filter(K(el.dataset.k).test), true));
+}
+
+/* Official record: every head of every release that covers this area, year by year; the latest year in copper. */
+function gOfficial() {
+  const bs = offBodies();
+  if (!OFFICIAL) { $('gBox').innerHTML = '<div class="empty">The official figures could not be loaded.</div>'; return; }
+  const yearBars = (years, v, name) => {
+    const W = 200, H = 64, T = 4, B = 15, n = years.length, bw = W / n, mx = Math.max(1, ...v.filter(x => x != null));
+    return `<svg viewBox="0 0 ${W} ${H}">${v.map((x, i) => {
+      const h = x == null ? 0 : Math.max(2, x / mx * (H - T - B)), yl = n > 4 ? "'" + String(years[i]).slice(2) : years[i];
+      return (x == null ? `<text x="${i * bw + bw / 2}" y="${H - B - 3}" class="gtx gsm" text-anchor="middle">–</text>` : `<rect x="${i * bw + 3}" y="${H - B - h}" width="${bw - 6}" height="${h}" rx="2" class="gbar${i === n - 1 ? ' last' : ''}"${tip(`${name}, ${years[i]}: ${fmtN(x)}`)}/>`) +
+        `<text x="${i * bw + bw / 2}" y="${H - 2}" class="gtx gsm" text-anchor="middle" style="font-size:11px">${yl}</text>`;
+    }).join('')}</svg>`;
+  };
+  const meters = (rows, val, max, lab, cls = '') => rows.map(x => `<div class="meter"><span>${esc(x.name)}</span><div class="m"><i class="${cls}" style="width:${Math.min(100, Math.abs(val(x)) / max * 100)}%"></i></div><b>${lab(x)}</b></div>`).join('');
+  let html = '';
+  for (const b of bs) {
+    html += `<section class="sec"><h2>${esc(b.name)}</h2><p class="note" style="margin:-6px 0 16px">${esc(b.area)}</p>`;
+    if (!b.releases.length) html += `<p class="note">${esc((b.notes || []).join(' '))}</p>`;
+    for (const r of b.releases) {
+      html += `<h3 class="sec-h" style="margin-top:8px">${esc(r.title)}<span>${r.years ? r.years[0] + ' to ' + r.years[r.years.length - 1] : esc(r.period)}</span></h3>`;
+      if (r.kind === 'annual') {
+        const n = r.years.length;
+        html += `<div class="mults">${r.heads.map(h => {
+          const z = h.v[n - 1], a = h.v[n - 2], p = z != null && a ? Math.round((z - a) / a * 100) : null;
+          return `<div class="mult"><h4>${esc(h.name)}<span>${r.years[n - 1]}</span></h4><b class="fig${p > 0 && !h.action ? ' hot' : ''}">${z == null ? '–' : fmtN(z)}</b>${yearBars(r.years, h.v, h.name)}<p>${p == null ? 'No earlier year given' : `<b>${pctTxt(p)}</b> on ${r.years[n - 2]} (${fmtN(a)})`}${h.action ? '; a police action' : ''}</p></div>`;
+        }).join('')}</div>`;
+        if (r.money) html += `<div class="mults" style="margin-top:14px">${r.money.map(m => `<div class="mult"><h4>${esc(m.name)}<span>rupees</span></h4>${r.years.map((y, i) => m.v[i] != null ? `<p>${y}: <b>₹${(m.v[i] / 1e7).toFixed(1)} crore</b></p>` : '').join('')}</div>`).join('')}</div>`;
+        if (r.ranks) html += `<h3 class="sec-h" style="margin-top:24px">Rank among the ${r.ranks.of} metropolitan cities<span>1 is the highest</span></h3>${meters(r.ranks.rows, x => r.ranks.of + 1 - x.rank, r.ranks.of, x => `${x.rank} of ${r.ranks.of}`, 'ink')}<p class="note">${esc(r.ranks.by)}. Read from ${viaLinks([r.ranks.via])}. A longer bar is a higher rank.</p>`;
+        if (r.solved) html += `<h3 class="sec-h" style="margin-top:24px">Share solved, ${r.solved.year}<span>cases registered</span></h3>${meters(r.solved.rows, x => x.pct, 100, x => `${x.pct}%`, 'ink')}<p class="note">${r.solved.rows.map(x => `${esc(x.name)} ${fmtN(x.n)}`).join(', ')} cases.</p>`;
+        if (r.actions) html += `<h3 class="sec-h" style="margin-top:24px">Preventive action and seizures, ${r.actions.year}</h3>${meters(r.actions.rows, x => x.v, Math.max(...r.actions.rows.map(x => x.v)), x => fmtN(x.v), 'ink')}`;
+      } else if (r.kind === 'change') {
+        html += `${meters(r.changes, x => x.pct, 100, x => pctTxt(x.pct), 'ink')}<p class="note">${esc(r.period)}. A longer bar is a bigger change; every head here fell.</p>`;
+      } else if (r.kind === 'count') {
+        html += `<div class="mults">${r.counts.map(c => `<div class="mult"><h4>${esc(c.name)}</h4><b class="fig">${fmtN(c.v)}</b></div>`).join('')}</div>`;
+      }
+      html += `${(r.notes || []).length ? `<p class="note">${esc(r.notes.join(' '))}</p>` : ''}<div class="osrc" style="margin-top:12px">Released ${fmtLong(r.date)} by ${esc(r.by)}. Read from ${viaLinks(r.via)}.</div>`;
+    }
+    html += '</section>';
+  }
+  $('gBox').innerHTML = html || '<div class="empty">No official figures cover this area yet.</div>';
 }
 
 /* Harm: fatal, injured and not stated for each type. */
@@ -1582,6 +2054,10 @@ function show(tab) {
   $('news').classList.toggle('hide', tab !== 'news'); $('mapv').classList.toggle('hide', tab !== 'map'); $('sitv').classList.toggle('hide', tab !== 'sit');
   $('ocv').classList.toggle('hide', tab !== 'oc');
   $('anv').classList.toggle('hide', tab !== 'an');
+  // The three map tabs fill the screen under the band and do not scroll; the wheel zooms the map.
+  document.body.classList.toggle('fullv', tab === 'map' || tab === 'sit' || tab === 'oc');
+  if (document.body.classList.contains('fullv')) scrollTo(0, 0);
+  if (tab === 'news') countUp($('nfCount'));
   // Maps are drawn once their tab is visible (Leaflet needs the box's size), then fitted to the area view.
   const settle = id => setTimeout(() => { const e = MAPS[id]; if (e) { if (e.stale) setBaseOn(e); e.m.invalidateSize(); glResize(e); if (!e.fitted) { fitView(e.m); e.fitted = true; } } }, 80);
   if (tab === 'sit') { drawSits(); settle('sitMap'); }

@@ -1,0 +1,49 @@
+name: Watch for official figures
+
+# For the Analytics tab: once a day, look for new official crime releases for Pune (police reviews and statements,
+# NCRB's Crime in India) and list them in data/officialwatch.json. It never changes a figure; the figures in
+# data/official.json are read from each release by a person, with its source and date.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 2 * * *'          # 08:11 in India
+  push:
+    branches: [main]
+    paths: ['collector/official.py', '.github/workflows/official.yml']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python collector/official.py
+      - name: Save the watch list
+        run: |
+          git config user.name "vidraksh-collector"
+          git config user.email "actions@users.noreply.github.com"
+          FILES="data/officialwatch.json"
+          git add $FILES
+          git diff --cached --quiet && exit 0
+          git commit -q -m "official watch: $(date -u +%Y-%m-%dT%H:%MZ)"
+          # If another run saved meanwhile, this file replaces its copy whole; nothing else is touched.
+          for i in 1 2 3 4; do
+            git push -q && exit 0
+            mkdir -p /tmp/save && cp $FILES /tmp/save/
+            git fetch -q origin main && git reset -q --hard origin/main
+            cp /tmp/save/* data/ && git add $FILES
+            git diff --cached --quiet && exit 0
+            git commit -q -m "official watch: $(date -u +%Y-%m-%dT%H:%MZ)"
+            sleep $((i * 10))
+          done
+          exit 1
