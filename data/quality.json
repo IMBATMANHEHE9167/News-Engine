@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T16:28:56.475Z",
+ "updated": "2026-11-19T16:54:21.501Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -74,15 +74,22 @@
    "bad": []
   },
   {
-   "name": "Ranjangaon worker shot in place of his employer is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Ranjangaon Murder: रांजणगावात ‘खुन्नस’ वादातून कामगारावर कोयत्याने जीवघेणा हल्ला; उपचारादरम्यान मृत्यू",
-     "Pune Crime: ‘रागाने बघितल्याचा’ वाद चिघळला; रांजणगावात दोघांवर कोयता, फायटर अन् लाठ्याकाठ्यांनी हल्ला"
-    ]
-   ]
+   "name": "Karegaon water-filter plant worker shot in place of his employer (29 Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Ranjangaon koyta attack over a stare (18 Sep 2026) is not the Karegaon shooting",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "Ranjangaon koyta attack whose victim died later is a murder",
+   "ok": true,
+   "detail": "right type",
+   "bad": []
   },
   {
    "name": "PMRDA notice on the POCSO court building is not an incident",
@@ -123,8 +130,8 @@
   "source_gap_days": 63,
   "unverified": 8,
   "ruled_out_by_ai": 174,
-  "reports": 2749,
-  "cases": 1622
+  "reports": 2751,
+  "cases": 1624
  },
  "examples": {
   "split_cases": [
@@ -324,5 +331,5 @@
    }
   ]
  },
- "passed": 16
+ "passed": 19
 }
