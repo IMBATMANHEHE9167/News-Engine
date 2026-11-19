@@ -1,15 +1,11 @@
 {
- "updated": "2026-11-19T09:45:50.317Z",
+ "updated": "2026-11-19T10:45:18.583Z",
  "tests": [
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "पुण्याची 'सोनम'! केतन पाय घसरून पडला नाही, खून झाला; लोहगडावर काय घडलं? तरुणीसह प्रियकराला अटक"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case",
@@ -78,21 +74,21 @@
   }
  ],
  "detectors": {
-  "split_cases": 4,
-  "date_spread": 3,
+  "split_cases": 5,
+  "date_spread": 6,
   "waiting_for_judge": 0,
-  "pairs_judged": 873,
-  "pairs_judged_same": 765,
+  "pairs_judged": 878,
+  "pairs_judged_same": 770,
   "judge_checked_by_expert": 68,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
-  "area_disagreement": 45,
-  "silent_days": 6,
+  "area_disagreement": 48,
+  "silent_days": 5,
   "source_gap_days": 63,
-  "unverified": 25,
-  "ruled_out_by_ai": 169,
-  "reports": 2739,
-  "cases": 1687
+  "unverified": 17,
+  "ruled_out_by_ai": 175,
+  "reports": 2743,
+  "cases": 1671
  },
  "examples": {
   "split_cases": [
@@ -111,9 +107,20 @@
    [
     "Distant relative held for murdering two elderly women, robbing them of gold chains",
     "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Scrap collecting woman robbed, left on road, dies in crash; accused held",
+    "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
    ]
   ],
   "date_spread": [
+   {
+    "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
+    "days": [
+     "2026-06-22",
+     "2026-11-01"
+    ]
+   },
    {
     "t": "Scooterist dies in hit-and-run",
     "days": [
@@ -133,6 +140,20 @@
     "days": [
      "2026-09-17",
      "2026-09-24"
+    ]
+   },
+   {
+    "t": "Man murdered over character suspicion; accused held",
+    "days": [
+     "2026-06-26",
+     "2026-08-27"
+    ]
+   },
+   {
+    "t": "Reel Fight Turns Violent At Deccan Cafe; 7 Arrested After 19-Year-Old Attacked With Scythe",
+    "days": [
+     "2026-07-02",
+     "2026-08-15"
     ]
    }
   ],
@@ -177,9 +198,9 @@
     "reading": "Talegaon Dabhade"
    },
    {
-    "t": "Siya Goyal’s father says viral 'middle finger' moment was caused by car door accident",
+    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
     "case_area": "Lonavala / Maval",
-    "reading": "Market Yard"
+    "reading": "Wanowrie"
    }
   ],
   "silent_days": [
@@ -197,11 +218,6 @@
     "day": "2026-06-04",
     "incidents": 2,
     "usual": 9
-   },
-   {
-    "day": "2026-07-06",
-    "incidents": 2,
-    "usual": 8
    },
    {
     "day": "2026-07-22",
@@ -265,5 +281,5 @@
    }
   ]
  },
- "passed": 9
+ "passed": 10
 }
