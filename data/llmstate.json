@@ -5,7 +5,7 @@
   "gemini-3.1-flash-lite": 125,
   "gemini-3-flash-preview": 8,
   "gemini-flash-lite-latest": 9,
-  "gemini-3.6-flash": 11
+  "gemini-3.6-flash": 12
  },
  "rested": {},
  "errors": [
@@ -45,8 +45,8 @@
  "second": 0,
  "expert": 8,
  "not_incident": 174,
- "updated": "2026-11-20T01:18:01.943Z",
+ "updated": "2026-11-20T02:17:56.474Z",
  "judged": 17,
- "audited": 147,
+ "audited": 157,
  "overturned": 1
 }
