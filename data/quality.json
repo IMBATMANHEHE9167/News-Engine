@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T10:20:20.248Z",
+ "updated": "2026-11-20T11:20:51.425Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -117,26 +117,30 @@
   }
  ],
  "detectors": {
-  "split_cases": 8,
+  "split_cases": 9,
   "date_spread": 8,
   "waiting_for_judge": 0,
   "pairs_judged": 919,
   "pairs_judged_same": 806,
-  "judge_checked_by_expert": 227,
+  "judge_checked_by_expert": 237,
   "judge_overturned_by_expert": 2,
   "non_incident_wording": 2,
   "area_disagreement": 22,
   "silent_days": 2,
   "source_gap_days": 63,
-  "unverified": 9,
+  "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2766,
-  "cases": 1630
+  "reports": 2769,
+  "cases": 1632
  },
  "examples": {
   "split_cases": [
    [
-    "47- Year- Old Teacher Killed on Way to School in Purandar; Police Hunt for Attacker",
+    "Pune Investment Fraud : जादा परताव्याच्या आमिषाने पुण्यात गुंतवणूकदारांची १ कोटी ३८ लाख रुपयांची फसवणूक, वानवडी पोलिस ठाण्यात तिघांविरुद्ध गुन्हा दाखल",
+    "Pune Police Book 3 For Allegedly Duping Investors Of ₹1.38 Crore Through High-Return Investment Schemes"
+   ],
+   [
+    "Pune News : पांगारे खून प्रकरणाचा ७ तासांत छडा; शिरवळच्या डोंगराळ भागातून आरोपीला अटक",
     "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
    ],
    [
@@ -162,10 +166,6 @@
    [
     "Student killed, two friends injured after speeding bike hits speedbreaker",
     "Pune Accident : पुणे शहरात वेगवेगळ्या अपघातात तिघांचा मृत्यू"
-   ],
-   [
-    "Delivery partner held after fatal accident in Pune turns out to be murder",
-    "Pedestrian dies in hit-and-run accident in Baner"
    ]
   ],
   "date_spread": [
@@ -286,6 +286,18 @@
   ],
   "source_gaps": [
    {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
+    ]
+   },
+   {
     "source": "ptm",
     "days": 17,
     "examples": [
@@ -307,18 +319,6 @@
      "2026-11-04",
      "2026-11-11",
      "2026-11-12"
-    ]
-   },
-   {
-    "source": "skl",
-    "days": 8,
-    "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
     ]
    },
    {
