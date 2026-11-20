@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T08:21:22.440Z",
+ "updated": "2026-11-20T09:20:57.457Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -121,22 +121,22 @@
   "date_spread": 8,
   "waiting_for_judge": 0,
   "pairs_judged": 919,
-  "pairs_judged_same": 807,
-  "judge_checked_by_expert": 207,
-  "judge_overturned_by_expert": 1,
+  "pairs_judged_same": 806,
+  "judge_checked_by_expert": 217,
+  "judge_overturned_by_expert": 2,
   "non_incident_wording": 2,
   "area_disagreement": 22,
   "silent_days": 2,
   "source_gap_days": 63,
-  "unverified": 8,
+  "unverified": 9,
   "ruled_out_by_ai": 176,
-  "reports": 2765,
-  "cases": 1631
+  "reports": 2766,
+  "cases": 1630
  },
  "examples": {
   "split_cases": [
    [
-    "Saswad : पुरंदर तालुक्यात भररस्त्यात महिलेची हत्या",
+    "47- Year- Old Teacher Killed on Way to School in Purandar; Police Hunt for Attacker",
     "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
    ],
    [
@@ -286,6 +286,18 @@
   ],
   "source_gaps": [
    {
+    "source": "ptm",
+    "days": 17,
+    "examples": [
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
+    ]
+   },
+   {
     "source": "toi",
     "days": 11,
     "examples": [
@@ -307,18 +319,6 @@
      "2026-10-01",
      "2026-10-11",
      "2026-11-10"
-    ]
-   },
-   {
-    "source": "ptm",
-    "days": 17,
-    "examples": [
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10",
-     "2026-10-18",
-     "2026-11-06"
     ]
    },
    {
