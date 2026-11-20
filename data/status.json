@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-20T11:18:19.734Z",
- "total": 2769,
- "added": 3,
+ "updated": "2026-11-20T12:18:05.379Z",
+ "total": 2771,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 9,
+   "found": 7,
    "added": 0,
    "note": ""
   },
@@ -104,7 +104,7 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -129,7 +129,7 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -160,7 +160,7 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 13,
+   "found": 14,
    "added": 1,
    "note": ""
   }
