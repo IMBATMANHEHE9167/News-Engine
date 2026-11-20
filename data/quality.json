@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T02:19:46.175Z",
+ "updated": "2026-11-20T03:20:20.506Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -117,12 +117,12 @@
   }
  ],
  "detectors": {
-  "split_cases": 7,
+  "split_cases": 8,
   "date_spread": 8,
   "waiting_for_judge": 0,
   "pairs_judged": 914,
   "pairs_judged_same": 802,
-  "judge_checked_by_expert": 157,
+  "judge_checked_by_expert": 167,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
   "area_disagreement": 22,
@@ -130,11 +130,15 @@
   "source_gap_days": 63,
   "unverified": 8,
   "ruled_out_by_ai": 174,
-  "reports": 2757,
-  "cases": 1628
+  "reports": 2760,
+  "cases": 1630
  },
  "examples": {
   "split_cases": [
+   [
+    "Saswad : पुरंदर तालुक्यात भररस्त्यात महिलेची हत्या",
+    "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
+   ],
    [
     "Man killed over marital dispute; father-in-law, grandfather-in-law held",
     "Pune: Man, Grandfather-in-Law Held For Killing Son-in-Law, Passing it off as Road Accident"
