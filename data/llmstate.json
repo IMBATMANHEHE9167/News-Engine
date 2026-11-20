@@ -5,7 +5,7 @@
   "gemini-3.1-flash-lite": 127,
   "gemini-3-flash-preview": 8,
   "gemini-flash-lite-latest": 10,
-  "gemini-3.6-flash": 13
+  "gemini-3.6-flash": 14
  },
  "rested": {},
  "errors": [
@@ -36,7 +36,7 @@
  },
  "lx_reset": 1,
  "last_run": {
-  "busy": 1,
+  "busy": 0,
   "stop": "nothing left to read, or this run's share used"
  },
  "read": 2757,
@@ -45,8 +45,8 @@
  "second": 0,
  "expert": 8,
  "not_incident": 175,
- "updated": "2026-11-20T04:18:27.370Z",
+ "updated": "2026-11-20T05:17:51.508Z",
  "judged": 19,
- "audited": 167,
+ "audited": 177,
  "overturned": 1
 }
