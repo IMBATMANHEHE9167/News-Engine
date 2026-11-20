@@ -121,6 +121,14 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .seg button.on{background:var(--paper-2);color:var(--ink);font-weight:500;box-shadow:inset 0 0 0 1px var(--rule-2)}
 .stamp{grid-column:3;justify-self:end;margin:0;display:flex;gap:16px;min-width:0;overflow:hidden;font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap}
 .stamp b{font-family:var(--mono);font-weight:500;color:var(--ink)}
+/* The quiet notice: newer data, or a newer page, waits under the band until the reader asks for it */
+.notice{position:absolute;top:calc(100% + 10px);left:50%;z-index:1200;display:flex;align-items:center;gap:12px;height:38px;padding:0 5px 0 16px;border-radius:var(--r-ctl);background:var(--ink);color:var(--paper-2);font-size:13px;font-weight:500;white-space:nowrap;box-shadow:var(--shadow);transform:translateX(-50%);animation:noticeIn .28s var(--ease)}
+.notice[hidden]{display:none}
+.notice button{appearance:none;border:0;height:28px;padding:0 14px;border-radius:var(--r-ctl);background:var(--copper);color:var(--on-copper);font-size:13px;font-weight:600}
+.notice button:hover{filter:brightness(1.08)}
+.notice button:focus-visible{outline:2px solid var(--paper-2);outline-offset:2px}
+@keyframes noticeIn{from{opacity:0;transform:translate(-50%,-6px)}to{opacity:1;transform:translate(-50%,0)}}
+body[data-tab="oc"] .notice{top:calc(100% + 76px)}
 .stamp span:first-child b{color:var(--copper-text)}
 @media (max-width:1700px){.stamp .s-src{display:none}}
 @media (max-width:1400px){.stamp .s-chk{display:none}}
@@ -559,7 +567,7 @@ footer p{margin:0;max-width:820px}
   .mark{font-size:23px;padding-bottom:7px}
   .brand .place{font-size:15px}
   .tabs button{height:34px;padding:0 13px;font-size:13px}
-  .scope{position:static;height:auto;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px 16px;border-bottom:1px solid var(--rule)}
+  .scope{position:relative;height:auto;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px 16px;border-bottom:1px solid var(--rule)}
   .picks{grid-column:1;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
   .dd select{max-width:calc(100vw - 32px)}
   .stamp{grid-column:1;justify-self:start;flex-wrap:wrap;gap:0 14px;white-space:normal}
@@ -641,6 +649,7 @@ footer p{margin:0;max-width:820px}
     <label class="dd time"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="ddl">Time</span><select id="period" aria-label="Time"></select></label>
   </div>
   <p class="stamp" id="stamp">Loading</p>
+  <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
 </div>
 
 <main id="news" class="page reports">
@@ -753,28 +762,34 @@ let EN = {};
 const enOf = r => r && DEV.test(r.t || '') ? ((r.L && r.L.s) || EN[r.u] || '') : '';
 const enP = (r, cls = 'en') => { const s = enOf(r); return s ? `<p class="${cls}" lang="en">${esc(s)}</p>` : ''; };
 
-async function load() {
-  // EVENTS: reports joined into incidents, newest report first (the News tab). INCIDENTS: without follow-ups
-  // that could not be tied to an incident; only these are counted and mapped.
-  try { EVENTS = await j('data/events.json'); } catch { EVENTS = []; }
-  EN = {}; for (const e of EVENTS) for (const r of e.reports) if (r.L && r.L.s) EN[r.u] = r.L.s;
-  try { OFFICIAL = await j('data/official.json'); } catch { OFFICIAL = null; }
-  try { OWATCH = await j('data/officialwatch.json'); } catch { OWATCH = null; }
-  try { STATUS = await j('data/status.json'); } catch { STATUS = null; }
-  try { SITS = await j('data/situations.json'); } catch { SITS = []; }
-  try { SITSTATUS = await j('data/sitstatus.json'); } catch { SITSTATUS = null; }
-  try { OC = await j('data/groups.json'); } catch { OC = null; }
-  try { INS = await j('data/insights.json'); } catch { INS = null; }
-  EVENTS = EVENTS.filter(e => CAT[e.c]);
+// Every data file, fetched together, without touching what is on screen.
+async function fetchAll() {
+  const g = (u, fb) => j(u).catch(() => fb);
+  const [events, official, owatch, status, sits, sitstatus, oc, ins, qual] = await Promise.all([
+    g('data/events.json', []), g('data/official.json', null), g('data/officialwatch.json', null), g('data/status.json', null),
+    g('data/situations.json', []), g('data/sitstatus.json', null), g('data/groups.json', null), g('data/insights.json', null),
+    g('data/quality.json', null)]);
+  return { events, official, owatch, status, sits, sitstatus, oc, ins, qual };
+}
+// Put a set of data on screen. EVENTS: reports joined into incidents, newest report first (the News tab).
+// INCIDENTS: without follow-ups that could not be tied to an incident; only these are counted and mapped.
+let CUR = null;
+function applyData(d) {
+  CUR = d;
+  EN = {}; for (const e of d.events) for (const r of e.reports) if (r.L && r.L.s) EN[r.u] = r.L.s;
+  EVENTS = d.events.filter(e => CAT[e.c]);
   INCIDENTS = EVENTS.filter(e => !e.orphan && !e.uv);   // only cases the AI has checked are counted, mapped and graphed
-  try { QUAL = await j('data/quality.json'); } catch { QUAL = null; }
+  OFFICIAL = d.official; OWATCH = d.owatch; STATUS = d.status; SITS = d.sits || []; SITSTATUS = d.sitstatus; OC = d.oc; INS = d.ins; QUAL = d.qual;
+  drawStamp();
+}
+async function load() { applyData(await fetchAll()); drawNews(); drawSources(); drawScan(); }
+function drawStamp() {
   const checking = EVENTS.filter(e => e.uv).length;
   const nReports = EVENTS.reduce((n, e) => n + e.reports.length, 0);
   const first = EVENTS.reduce((m, e) => e.reports.reduce((m2, r) => (r.d < m2 ? r.d : m2), m), '9999');
   $('stamp').innerHTML = EVENTS.length
     ? `<span><b>${fmtN(INCIDENTS.length)}</b> incidents counted</span><span class="s-src">${plural(nReports, 'report')} since ${fmtDay(first)}</span>` + (checking ? `<span class="s-chk">${fmtN(checking)} being checked</span>` : '') + (STATUS ? `<span>Updated ${ago(STATUS.updated)}</span>` : '')
     : 'Nothing collected yet. The collector runs every hour.';
-  drawNews(); drawSources(); drawScan();
 }
 
 /* ---------- Views ---------- */
@@ -802,6 +817,7 @@ function drawViews() {
 $('views').onchange = () => { view = $('views').value; picked = null; newsN = 60; newsSel = null; rescope(true); };
 // The band decides every tab: redraw the open tab (the News tab is always kept current; its strip is on top).
 function rescope(refit) {
+  if (PENDING) applyPending(false);                    // everything is redrawn now anyway: bring in any newer data
   drawViews(); drawPeriod(); drawNews();
   if (!$('sitv').classList.contains('hide')) drawSits();
   if (!$('ocv').classList.contains('hide')) drawOc();
@@ -1335,18 +1351,19 @@ $('sitList').addEventListener('click', ev => {
 // at :17 past each hour (status "updated" = when it finished, ~25 min later). Past the due time the scan is under way.
 let scanTab = 'news';
 function drawScan() {
+  const S = SCAN_S || STATUS, SS = SCAN_SS || SITSTATUS;   // the latest scans, even before their data is shown
   const el = $('scanLine');
   if (scanTab !== 'news' && scanTab !== 'sit') { el.classList.add('hide'); return; }
   el.classList.remove('hide');
   const t = ms => { const d = new Date(ms); return (istDay(ms) === istDay(Date.now()) ? '' : fmtDay(ms) + ', ') + d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' }); };
   let lastIso, next, every;
   if (scanTab === 'sit') {
-    if (!SITSTATUS) { el.innerHTML = 'Last scan: not yet run<span class="sep"></span>Next scan: within 15 min'; return; }
-    every = SITSTATUS.every || 15; lastIso = SITSTATUS.scanned;
+    if (!SS) { el.innerHTML = 'Last scan: not yet run<span class="sep"></span>Next scan: within 15 min'; return; }
+    every = SS.every || 15; lastIso = SS.scanned;
     const step = every * 60e3; next = Math.floor(new Date(lastIso).getTime() / step) * step + step; // the slot after the one that ran
   } else {
-    if (!STATUS) { el.innerHTML = 'Last scan: not yet run<span class="sep"></span>Next scan: within the hour'; return; }
-    every = 60; lastIso = STATUS.updated;
+    if (!S) { el.innerHTML = 'Last scan: not yet run<span class="sep"></span>Next scan: within the hour'; return; }
+    every = 60; lastIso = S.updated;
     const h = 3600e3, off = 17 * 60e3, last = new Date(lastIso).getTime();
     next = Math.floor((last - off) / h) * h + off + h; // the next :17 after the run that produced this
   }
@@ -1354,39 +1371,79 @@ function drawScan() {
     (Date.now() >= next ? `<span class="late">Next scan in progress</span>`
           : `Next scan at <b>${t(next)}</b>, every ${every === 60 ? 'hour' : every + ' min'}`);
 }
-// Every minute: re-read the two small status files; when a new scan has landed, reload that tab's data and redraw.
+/* Staying current without disturbing the reader. Nothing on screen ever changes or reloads by itself: newer data is
+   fetched in the background and waits in PENDING; a small notice under the band says so and offers it. It is shown when
+   the reader asks (the notice), switches tab or changes the area or time, since the screen is redrawn then anyway.
+   Situations that change while their tab is not open, and the scan line and the "Updated" time, are kept current
+   silently, because nobody is looking at them. A new version of the page itself is offered the same way, never forced. */
+let PENDING = null, PAGE_NEW = false, SCAN_S = null, SCAN_SS = null;
+const tabOpen = id => !$(id).classList.contains('hide');
+// How many news items in this view are newer than the newest one on screen.
+function newNews(d) {
+  const newest = EVENTS.reduce((m, e) => (e.last > m ? e.last : m), '');
+  return (d.events || []).filter(e => CAT[e.c] && e.last > newest && inView(e)).length;
+}
+function drawNotice() {
+  const n = $('notice');
+  if (PAGE_NEW) { n.innerHTML = `<span>This page has been improved</span><button type="button" data-notice="reload">Reload</button>`; n.hidden = false; return; }
+  if (PENDING) {
+    const k = PENDING.events ? newNews(PENDING) : 0;
+    n.innerHTML = `<span>${k ? plural(k, 'new news item') : PENDING.events ? 'Newer data is ready' : 'Situations have changed'}</span><button type="button" data-notice="show">Show</button>`;
+    n.hidden = false; return;
+  }
+  n.hidden = true;
+}
+// Put waiting data on screen. redraw: also redraw the open map, situations, groups or analytics tab.
+function applyPending(redraw = true) {
+  if (!PENDING) return;
+  applyData(Object.assign({}, CUR, PENDING)); PENDING = null;
+  drawNews(); drawSources(); drawScan(); drawNotice();
+  if (!redraw) return;
+  if (tabOpen('mapv')) drawMap();
+  if (tabOpen('sitv')) drawSits();
+  if (tabOpen('ocv')) drawOc();
+  if (tabOpen('anv')) drawAn();
+}
+$('notice').onclick = e => {
+  const b = e.target.closest('[data-notice]'); if (!b) return;
+  if (b.dataset.notice === 'reload') location.reload(); else applyPending();
+};
+// Every minute: re-read the two small status files. A new scan's data is fetched and held, not shown.
 async function refresh() {
   try {
     const [s, ss] = await Promise.all([j('data/status.json').catch(() => null), j('data/sitstatus.json').catch(() => null)]);
-    if (ss && (!SITSTATUS || ss.scanned !== SITSTATUS.scanned)) {
-      try { SITS = await j('data/situations.json'); } catch {}
-      SITSTATUS = ss; if (!$('sitv').classList.contains('hide')) drawSits();
+    if (s) SCAN_S = s;
+    if (ss) SCAN_SS = ss;
+    const seenSit = (PENDING && PENDING.sitstatus) || SITSTATUS, seenNews = (PENDING && PENDING.status) || STATUS;
+    if (ss && (!seenSit || ss.scanned !== seenSit.scanned)) {
+      const sits = await j('data/situations.json').catch(() => null);
+      if (sits) {
+        const shown = (PENDING && PENDING.sits) || SITS;
+        if (JSON.stringify(sits) === JSON.stringify(shown)) { if (PENDING && PENDING.sits) PENDING.sitstatus = ss; else { SITSTATUS = ss; if (CUR) CUR.sitstatus = ss; } }
+        else if (tabOpen('sitv')) PENDING = Object.assign(PENDING || {}, { sits, sitstatus: ss });
+        else { SITS = sits; SITSTATUS = ss; if (CUR) Object.assign(CUR, { sits, sitstatus: ss }); }   // nobody is looking at it
+      }
     }
-    if (s && (!STATUS || s.updated !== STATUS.updated)) {
-      await load();   // new reports: re-read everything the other tabs use, then redraw the open one
-      if (!$('mapv').classList.contains('hide')) drawMap();
-      if (!$('ocv').classList.contains('hide')) drawOc();
-      if (!$('anv').classList.contains('hide')) drawAn();
-    }
+    if (s && (!seenNews || s.updated !== seenNews.updated)) PENDING = Object.assign(PENDING || {}, await fetchAll());
   } catch {}
-  drawScan();
-  // A newer version of this page itself has been published: reload once to pick it up (browsers keep pages ~10 min).
+  drawScan(); drawStamp(); drawNotice();
+}
+// The page itself. GitHub's version stamps (ETag, Last-Modified) change whenever any data is published, every quarter
+// of an hour, so they cannot tell a new page from new data; the page's own text can. It is compared every ten minutes.
+let PAGETEXT = null;
+fetch(location.pathname, { cache: 'force-cache' }).then(r => (r.ok ? r.text() : null)).then(t => { PAGETEXT = t; }).catch(() => {});
+async function checkPage() {
+  if (!PAGETEXT || PAGE_NEW) return;
   try {
-    const r = await fetch(location.pathname, { method: 'HEAD', cache: 'no-store' });
-    const ver = r.headers.get('etag') || r.headers.get('last-modified');
-    let tried = null; try { tried = sessionStorage.getItem('vidraksh-reloaded'); } catch {}
-    if (ver && PAGEVER && ver !== PAGEVER && ver !== tried && document.activeElement?.tagName !== 'INPUT') {
-      try { sessionStorage.setItem('vidraksh-reloaded', ver); } catch {}   // at most one reload per new version
-      location.reload();
-    }
+    const r = await fetch(location.pathname, { cache: 'no-cache' });
+    const t = r.ok ? await r.text() : null;
+    if (t && t !== PAGETEXT) { PAGE_NEW = true; drawNotice(); }
   } catch {}
 }
-// The version of the page now open: the browser's own copy of it (no network), so a stale copy is caught on the first check.
-let PAGEVER = null;
-fetch(location.pathname, { cache: 'force-cache' }).then(r => { PAGEVER = r.headers.get('etag') || r.headers.get('last-modified'); }).catch(() => {});
 setTimeout(refresh, 5e3);
 setInterval(refresh, 60e3);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+setInterval(checkPage, 600e3);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { refresh(); checkPage(); } });
 
 /* ---------- Organised crime ---------- */
 // Groups as publicly reported, from the engine's incidents and each group's own searches (groups.json, hourly).
@@ -2092,6 +2149,8 @@ drawPeriod();
 drawViews();
 for (const id of ['fCat', 'fTime']) $(id).onchange = drawMap;
 function show(tab) {
+  if (PENDING) applyPending(false);                    // a new tab is drawn now anyway: bring in any newer data
+  document.body.dataset.tab = tab;
   for (const [b, v] of [['tabNews', 'news'], ['tabMap', 'map'], ['tabSit', 'sit'], ['tabOc', 'oc'], ['tabAn', 'an']]) {
     $(b).classList.toggle('on', tab === v); $(b).setAttribute('aria-current', tab === v ? 'page' : 'false');
     if (tab === v) { const row = $(b).parentElement; row.scrollLeft = $(b).offsetLeft - (row.clientWidth - $(b).offsetWidth) / 2; }
