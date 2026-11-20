@@ -3,7 +3,7 @@
  "used": {
   "gemini-3.5-flash-lite": 13,
   "gemini-3.1-flash-lite": 4,
-  "gemini-3.6-flash": 13
+  "gemini-3.6-flash": 14
  },
  "rested": {},
  "errors": [
@@ -39,7 +39,7 @@
  "second": 0,
  "expert": 8,
  "not_incident": 176,
- "updated": "2026-11-20T21:18:08.625Z",
- "audited": 307,
+ "updated": "2026-11-20T22:18:03.987Z",
+ "audited": 317,
  "overturned": 2
 }
