@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-20T17:18:42.110Z",
+ "updated": "2026-11-20T18:17:55.181Z",
  "total": 2774,
- "added": 2,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -120,7 +120,7 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 5,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -128,7 +128,7 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 17,
-   "added": 2,
+   "added": 0,
    "note": ""
   }
  ]
