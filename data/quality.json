@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T16:22:21.209Z",
+ "updated": "2026-11-20T17:20:32.634Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -117,12 +117,12 @@
   }
  ],
  "detectors": {
-  "split_cases": 9,
+  "split_cases": 10,
   "date_spread": 8,
   "waiting_for_judge": 0,
   "pairs_judged": 919,
   "pairs_judged_same": 806,
-  "judge_checked_by_expert": 257,
+  "judge_checked_by_expert": 267,
   "judge_overturned_by_expert": 2,
   "non_incident_wording": 2,
   "area_disagreement": 22,
@@ -130,11 +130,15 @@
   "source_gap_days": 63,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2772,
-  "cases": 1634
+  "reports": 2774,
+  "cases": 1636
  },
  "examples": {
   "split_cases": [
+   [
+    "Rekha Konde: ठाकरे गटाच्या पदाधिकारी रेखा कोंडे यांना पुण्यात मारहाण; आरती मारणे-पवार यांची बदनामी केल्याचा आरोप",
+    "Pune Rekha Konde Attack News: पुण्यात तुफान राडा! ठाकरे गटाच्या रेखा कोंडेंना मारहाण, नेमकं काय घडलं?"
+   ],
    [
     "Pune Investment Fraud : जादा परताव्याच्या आमिषाने पुण्यात गुंतवणूकदारांची १ कोटी ३८ लाख रुपयांची फसवणूक, वानवडी पोलिस ठाण्यात तिघांविरुद्ध गुन्हा दाखल",
     "Pune Police Book 3 For Allegedly Duping Investors Of ₹1.38 Crore Through High-Return Investment Schemes"
@@ -162,10 +166,6 @@
    [
     "Scrap collecting woman robbed, left on road, dies in crash; accused held",
     "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
-   ],
-   [
-    "Student killed, two friends injured after speeding bike hits speedbreaker",
-    "Pune Accident : पुणे शहरात वेगवेगळ्या अपघातात तिघांचा मृत्यू"
    ]
   ],
   "date_spread": [
