@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-20T09:18:16.923Z",
+ "updated": "2026-11-20T10:18:03.540Z",
  "total": 2766,
- "added": 1,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -73,7 +73,7 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 9,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 3,
+   "found": 1,
    "added": 0,
    "note": ""
   },
