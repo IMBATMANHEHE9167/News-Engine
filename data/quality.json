@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T03:20:20.506Z",
+ "updated": "2026-11-20T04:21:03.405Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -120,8 +120,8 @@
   "split_cases": 8,
   "date_spread": 8,
   "waiting_for_judge": 0,
-  "pairs_judged": 914,
-  "pairs_judged_same": 802,
+  "pairs_judged": 918,
+  "pairs_judged_same": 806,
   "judge_checked_by_expert": 167,
   "judge_overturned_by_expert": 1,
   "non_incident_wording": 2,
@@ -129,8 +129,8 @@
   "silent_days": 2,
   "source_gap_days": 63,
   "unverified": 8,
-  "ruled_out_by_ai": 174,
-  "reports": 2760,
+  "ruled_out_by_ai": 175,
+  "reports": 2762,
   "cases": 1630
  },
  "examples": {
