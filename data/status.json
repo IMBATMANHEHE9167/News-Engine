@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-20T15:18:28.644Z",
- "total": 2771,
- "added": 0,
+ "updated": "2026-11-20T16:18:14.076Z",
+ "total": 2772,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -112,8 +112,8 @@
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 2,
+   "added": 1,
    "note": ""
   },
   {
