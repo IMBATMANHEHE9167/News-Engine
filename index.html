@@ -12,7 +12,7 @@ if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme:dark)').matches?'
 document.documentElement.dataset.theme=t;})();
 </script>
 <title>विद्रक्ष · Live · Pune</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E6E6E6'/%3E%3Crect x='8' y='15' width='16' height='2' fill='%239C5A2B'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E6E6E6'/%3E%3Crect x='8' y='15' width='16' height='2' fill='%23B3641D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=boska@400,500&display=swap">
@@ -33,11 +33,12 @@ document.documentElement.dataset.theme=t;})();
   --paper:#ECEAE6; --paper-2:#FAF9F7; --paper-3:#DDD9D3;
   --ink:#121212; --ink-2:#221F1C; --ink-3:#47433E;   /* light text set darker than a straight inversion: dark on paper reads thinner than light on ink */
   --rule:rgba(18,18,18,.14); --rule-2:rgba(18,18,18,.30); --hover:rgba(18,18,18,.06);
-  /* Light copper: a brighter copper for every mark, bar, disc and large figure; small copper text keeps the deeper brand
-     copper so it stays readable (4.5:1). Both are true copper, never a tint. */
-  --copper:#B86A33; --copper-text:#9C5A2B; --on-copper:#170F09; --glow:rgba(232,132,56,.62); --well:#E3DFD9;
+  /* Copper is #B3641D (chosen 2026-11-21): one value for every mark, bar, disc, large figure, the logo and the open tab, in
+     both themes. Small copper text is the same hue made readable (4.6:1): #9F550E on paper, #C1732B on the dark ground.
+     Labels on copper are white. */
+  --copper:#B3641D; --copper-text:#9F550E; --on-copper:#FFFFFF; --glow:rgba(179,100,29,.5); --well:#E3DFD9;
   --neg:#A3322A; --bar:rgba(18,18,18,.26);
-  --shell:#181818; --shell-2:#2B2A28; --shell-ink:#F2F0EC; --shell-ink-2:#ABA69E; --shell-rule:rgba(242,240,236,.10); --shell-hover:rgba(242,240,236,.07); --shell-copper:#D08A52; --on-shell-copper:#170F09;
+  --shell:#181818; --shell-2:#2B2A28; --shell-ink:#F2F0EC; --shell-ink-2:#ABA69E; --shell-rule:rgba(242,240,236,.10); --shell-hover:rgba(242,240,236,.07); --shell-copper:#B3641D; --shell-copper-text:#C1732B; --on-shell-copper:#FFFFFF;
   --shadow:0 18px 40px -18px rgba(18,18,18,.34),0 0 0 1px rgba(18,18,18,.06);
   --tile-filter:grayscale(1) contrast(1.08) brightness(1.02);
   /* Map & patterns only: six kinds of crime, each its own colour; the hotspot ramp (more is darker); the glass panels. */
@@ -58,9 +59,9 @@ document.documentElement.dataset.theme=t;})();
   --paper:#151413; --paper-2:#1E1D1B; --paper-3:#2A2826;
   --ink:#EEEBE6; --ink-2:#C5C0B9; --ink-3:#969089;
   --rule:rgba(238,235,230,.10); --rule-2:rgba(238,235,230,.20); --hover:rgba(238,235,230,.05);
-  --copper:#D08A52; --copper-text:#D08A52; --on-copper:#170F09; --glow:rgba(244,154,86,.62); --well:#272624;
+  --copper:#B3641D; --copper-text:#C1732B; --on-copper:#FFFFFF; --glow:rgba(193,115,43,.55); --well:#272624;
   --neg:#EE8573; --bar:rgba(238,235,230,.22);
-  --shell:#090908; --shell-2:#242321; --shell-ink:#EEEBE6; --shell-ink-2:#A49E96; --shell-rule:rgba(238,235,230,.09); --shell-hover:rgba(238,235,230,.06); --shell-copper:#D08A52; --on-shell-copper:#170F09;
+  --shell:#090908; --shell-2:#242321; --shell-ink:#EEEBE6; --shell-ink-2:#A49E96; --shell-rule:rgba(238,235,230,.09); --shell-hover:rgba(238,235,230,.06); --shell-copper:#B3641D; --shell-copper-text:#C1732B; --on-shell-copper:#FFFFFF;
   --shadow:0 28px 56px -24px rgba(0,0,0,.75),0 0 0 1px rgba(238,235,230,.04);
   --tile-filter:grayscale(1) brightness(.95);
   --area-line:rgba(238,235,230,.22);
@@ -103,11 +104,11 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:none;appearance:none;background:none;border:0;height:38px;padding:0 16px;border-radius:var(--r-ctl);font-size:14px;font-weight:500;color:var(--shell-ink-2);white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .tabs button:hover{background:var(--shell-hover);color:var(--shell-ink)}
-.tabs button.on{background:var(--shell-copper);color:var(--on-shell-copper)}
+.tabs button.on{background:var(--shell-copper);color:var(--on-shell-copper);font-weight:600}
 .scanline{order:2;flex:none;margin:0;width:206px;overflow:hidden;text-overflow:ellipsis;font-size:12px;line-height:16px;color:var(--shell-ink-2);text-align:right;white-space:nowrap}
 .scanline .sep{display:block}
 .scanline b{font-family:var(--mono);font-weight:500;color:var(--shell-ink)}
-.scanline .late{display:inline-flex;align-items:center;gap:6px;color:var(--shell-copper);font-weight:500}
+.scanline .late{display:inline-flex;align-items:center;gap:6px;color:var(--shell-copper-text);font-weight:500}
 .scanline .late::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--shell-copper);box-shadow:0 0 0 3px var(--shell-hover)}
 .switch{order:3;flex:none;appearance:none;background:none;border:0;padding:4px;border-radius:var(--r-ctl);display:flex;align-items:center;gap:6px;font-size:11px;color:var(--shell-ink-2)}
 .switch:hover{color:var(--shell-ink)}
@@ -227,11 +228,11 @@ body[data-tab="oc"] .notice{top:calc(100% + 76px)}
 .rec.pick{cursor:pointer}
 .rec.pick:hover{background:var(--hover)}
 .rec.sel,.rec.sel:hover{background:var(--paper-3)}
-.rec.sel .rec-when{color:var(--copper-text)}
+.rec.sel .rec-when{color:var(--ink)}   /* on the selected row's darker ground copper text would fall under 4.5:1 */
 .rec-when{font-family:var(--mono);font-size:12px;line-height:18px;color:var(--ink-3);white-space:nowrap;padding-top:2px}
 .rec-type{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:12px;line-height:18px;font-weight:500;color:var(--ink-2)}
 .tag{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:var(--r-ctl);font-size:12px;font-weight:500;color:var(--ink-2);background:var(--paper-3);white-space:nowrap}
-.tag.hot{background:var(--copper);color:var(--on-copper)}
+.tag.hot{background:var(--copper);color:var(--on-copper);font-weight:600}
 .rec-head{display:block;margin:4px 0 0;font:500 16px/23px var(--sans);color:var(--ink);text-decoration:none;text-wrap:pretty}
 .rec-head:hover{text-decoration:underline;text-decoration-color:var(--copper);text-decoration-thickness:2px;text-underline-offset:4px}
 .rec-sum{margin:4px 0 0;font-size:14px;line-height:20px;color:var(--ink-2)}
@@ -242,7 +243,7 @@ body[data-tab="oc"] .notice{top:calc(100% + 76px)}
 .acc{font-size:12px;color:var(--ink-3)}
 .rec-open{appearance:none;background:none;border:0;padding:0;border-radius:var(--r-ctl);font-size:13px;font-weight:500;line-height:20px;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:3px}
 .rec-open:hover{color:var(--copper-text);text-decoration-color:var(--copper)}
-.rec.sel .rec-open{color:var(--copper-text)}
+.rec.sel .rec-open{color:var(--ink)}
 .rec-inline{padding:0 22px 22px;border-bottom:1px solid var(--rule);background:var(--paper-3)}
 .rec-inline .casefile{margin:0}
 .more{display:block;margin:0;width:100%;appearance:none;background:none;border:0;border-top:1px solid var(--rule);padding:14px 22px;font-size:13px;font-weight:500;color:var(--copper-text);text-align:center;border-radius:0 0 var(--r-card) var(--r-card)}
@@ -498,7 +499,7 @@ body.fullv footer{display:none}
 .finding .fig small{display:block;margin-top:6px;font:500 12px/16px var(--sans);letter-spacing:0;color:var(--ink-3)}
 .finding .say{margin:14px 0 8px;font:500 17px/24px var(--sans)}
 .trend{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--r-ctl);font-size:12px;font-weight:500;background:var(--paper-3);color:var(--ink-2);white-space:nowrap}
-.trend.up{background:var(--copper);color:var(--on-copper)}
+.trend.up{background:var(--copper);color:var(--on-copper);font-weight:600}
 .facts{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 0}
 .facts span{padding:4px 10px;border-radius:var(--r-ctl);background:var(--paper-3);font-size:12px;line-height:16px;color:var(--ink-2)}
 .how{font-size:12px;line-height:18px;color:var(--ink-3);margin-top:10px}

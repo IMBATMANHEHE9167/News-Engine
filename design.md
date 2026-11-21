@@ -24,9 +24,11 @@ VIDRAKSH logo and are not negotiable.
 Copper appears only as true copper, never a paler, darker, browner, greyed or see-through shade of it: no ramps, no
 opacity, no gradients, no copper tints behind rows.
 
-- On paper (light): `--copper` #B86A33 for every mark, bar, disc, square and large figure; `--copper-text` #9C5A2B
-  (the brand's own copper) for small copper text, so it stays readable (4.5:1).
-- On ink (the band, and dark mode): one lit copper, #D08A52, for marks and text alike.
+- One copper, #B3641D (chosen by the user 2026-11-21 over the earlier #B86A33 / #D08A52, which read as orange and close to
+  Claude's coral), for every mark, bar, disc, square, large figure, the wordmark क्ष, its rule and the open tab, in both themes.
+- Small copper text is the same hue made readable (4.6:1): `--copper-text` #9F550E on paper, #C1732B on the dark ground
+  (and `--shell-copper-text` #C1732B for small text on the band). Labels on copper are white, semibold.
+- Glow: the copper itself as light (`--glow`), around the busiest marks only.
 
 How much happened is shown by:
 
@@ -52,18 +54,18 @@ each composed, not inverted.
 | --- | --- | --- | --- |
 | `--shell` | #181818 | #090908 | the ink band across the top (wordmark, tabs, scan line), both colourways |
 | `--shell-ink` / `-2` | #F2F0EC / #ABA69E | #EEEBE6 / #A49E96 | text on the band |
-| `--shell-copper` | #D08A52 | #D08A52 | wordmark क्ष, its rule, the open tab, the switch, "Next scan in progress" |
+| `--shell-copper` | #B3641D | #B3641D | wordmark क्ष, its rule, the open tab, the switch; `--shell-copper-text` #C1732B for "Next scan in progress" |
 | `--paper` | #ECEAE6 | #151413 | the ground under the work |
 | `--paper-2` | #FAF9F7 | #1E1D1B | sheets, panels, the news file, inputs |
 | `--paper-3` | #DDD9D3 | #2A2826 | chips, selected row, empty strip days, muted discs |
 | `--well` | #E3DFD9 | #272624 | heat-grid cells |
 | `--ink` | #121212 | #EEEBE6 | primary text; the hovered day on the strip |
-| `--ink-2` | #2E2C29 | #C5C0B9 | secondary text, values, English under Marathi |
-| `--ink-3` | #55514C | #969089 | meta, labels (5.4:1 or more on every surface) |
+| `--ink-2` | #221F1C | #C5C0B9 | secondary text, values, English under Marathi |
+| `--ink-3` | #47433E | #969089 | meta, labels (5.4:1 or more on every surface) |
 | `--rule` / `--rule-2` | ink 14% / 30% | ink 10% / 20% | hairlines / control outlines |
-| `--copper` | #B86A33 | #D08A52 | marks, discs, bars, squares, large figures, focus ring |
-| `--copper-text` | #9C5A2B | #D08A52 | small copper text |
-| `--on-copper` | #170F09 | #170F09 | text on copper (the open tab, tags, the slider thumb) |
+| `--copper` | #B3641D | #B3641D | marks, discs, bars, squares, large figures, focus ring |
+| `--copper-text` | #9F550E | #C1732B | small copper text |
+| `--on-copper` | #FFFFFF | #FFFFFF | text on copper (the open tab, tags, disc counts), semibold |
 | `--glow` | copper light | copper light | only as a glow around the busiest copper marks, and live marks |
 | `--neg` | #A3322A | #EE8573 | a failed data check, nothing else |
 
