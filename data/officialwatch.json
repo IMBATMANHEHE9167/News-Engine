@@ -1,8 +1,10 @@
 {
- "checked": "2026-11-20T03:33:18.860Z",
+ "checked": "2026-11-21T03:31:25.773Z",
  "ncrb_latest": null,
- "searches_ok": 7,
- "failed": [],
+ "searches_ok": 6,
+ "failed": [
+  "Pune police annual crime review: HTTPError"
+ ],
  "items": [
   {
    "t": "Juvenile Crime In India: What Do Recent School Attacks And NCRB Data Reveal?",
