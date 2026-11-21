@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T05:18:08.915Z",
- "total": 2784,
- "added": 5,
+ "updated": "2026-11-21T06:17:59.121Z",
+ "total": 2785,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -65,14 +65,14 @@
    "name": "Times of India",
    "ok": true,
    "found": 4,
-   "added": 3,
+   "added": 0,
    "note": ""
   },
   {
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 4,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -81,7 +81,7 @@
    "name": "Punekar News",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -120,8 +120,8 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 4,
-   "added": 0,
+   "found": 5,
+   "added": 1,
    "note": ""
   },
   {
@@ -145,7 +145,7 @@
    "name": "Pudhari",
    "ok": true,
    "found": 7,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
