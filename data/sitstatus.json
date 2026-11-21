@@ -1,11 +1,8 @@
 {
- "scanned": "2026-11-21T22:00:28.569Z",
+ "scanned": "2026-11-21T22:15:35.626Z",
  "every": 15,
- "sources_ok": 13,
+ "sources_ok": 16,
  "sources_failed": [
-  "gn",
-  "ie",
-  "lks",
   "tv9"
  ],
  "reports": 85,
