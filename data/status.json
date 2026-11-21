@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T16:17:59.431Z",
+ "updated": "2026-11-21T17:17:55.522Z",
  "total": 2794,
- "added": 1,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 22,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -135,17 +135,17 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 1,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
    "found": 6,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
