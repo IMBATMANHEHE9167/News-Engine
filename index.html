@@ -40,6 +40,11 @@ document.documentElement.dataset.theme=t;})();
   --shell:#181818; --shell-2:#2B2A28; --shell-ink:#F2F0EC; --shell-ink-2:#ABA69E; --shell-rule:rgba(242,240,236,.10); --shell-hover:rgba(242,240,236,.07); --shell-copper:#D08A52; --on-shell-copper:#170F09;
   --shadow:0 18px 40px -18px rgba(18,18,18,.34),0 0 0 1px rgba(18,18,18,.06);
   --tile-filter:grayscale(1) contrast(1.08) brightness(1.02);
+  /* Map & patterns only: six kinds of crime, each its own colour; the hotspot ramp (more is darker); the glass panels. */
+  --area-line:rgba(18,18,18,.42);
+  --f-violent:#C0392B; --f-women:#B83280; --f-property:#D98324; --f-fraud:#2C6FB7; --f-drugs:#2E8B57; --f-road:#6B7280;
+  --h1:#FFF7BC; --h2:#FEC44F; --h3:#FE9929; --h4:#D95F0E; --h5:#7F0000;
+  --glass:rgba(249,248,246,.46); --glass-2:rgba(249,248,246,.32); --glass-edge:rgba(255,255,255,.62);
   --display:"Boska","Tiro Devanagari Marathi",Georgia,serif;
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -57,6 +62,10 @@ document.documentElement.dataset.theme=t;})();
   --shell:#090908; --shell-2:#242321; --shell-ink:#EEEBE6; --shell-ink-2:#A49E96; --shell-rule:rgba(238,235,230,.09); --shell-hover:rgba(238,235,230,.06); --shell-copper:#D08A52; --on-shell-copper:#170F09;
   --shadow:0 28px 56px -24px rgba(0,0,0,.75),0 0 0 1px rgba(238,235,230,.04);
   --tile-filter:grayscale(1) brightness(.95);
+  --area-line:rgba(238,235,230,.5);
+  --f-violent:#E5594F; --f-women:#E26BA8; --f-property:#EDA44B; --f-fraud:#5FA0E6; --f-drugs:#4CBF80; --f-road:#9AA3AF;
+  --h1:#5A0F0F; --h2:#A51C1C; --h3:#E34A33; --h4:#FDBB84; --h5:#FFF7EC;
+  --glass:rgba(22,21,20,.42); --glass-2:rgba(22,21,20,.3); --glass-edge:rgba(238,235,230,.13);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
@@ -334,6 +343,38 @@ body.fullv footer{display:none}
 .mapkey b{font-family:var(--mono);font-weight:500;color:var(--ink);margin-left:auto;padding-left:12px}
 .refit{position:absolute;left:50%;bottom:18px;z-index:550;transform:translateX(-50%);appearance:none;border:0;height:34px;padding:0 14px;border-radius:var(--r-ctl);background:var(--paper-2);box-shadow:0 0 0 1px var(--rule-2),var(--shadow);font-size:12px;font-weight:600;color:var(--ink)}
 .refit:hover{background:var(--paper-3)}
+/* Map & patterns: glass panels over the map, so the map stays the centre and shows through */
+.cvl{pointer-events:none}
+.glassmap .panel{background:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border:1px solid var(--glass-edge)}
+.glassmap .mapkey{background:var(--glass-2);box-shadow:inset 0 0 0 1px var(--glass-edge)}
+.glassmap select{background-color:var(--glass-2)}
+.glassmap .sec{border-top-color:var(--rule-2)}
+.glassmap .refit{background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glassmap .panel,.glassmap .refit{background:var(--paper-2)}}
+.mtip{position:absolute;z-index:700;max-width:300px;display:grid;gap:2px;padding:8px 11px;border-radius:10px;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--glass-edge);box-shadow:var(--shadow);font-size:13px;line-height:18px;color:var(--ink-2);pointer-events:none}
+.mtip b{font-weight:600;color:var(--ink)}
+.mtip.hide{display:none}
+.mfam{display:flex;flex-wrap:wrap;gap:6px}
+.mfam button{display:inline-flex;align-items:center;gap:7px;appearance:none;border:0;height:32px;padding:0 12px;border-radius:var(--r-ctl);background:none;box-shadow:inset 0 0 0 1px var(--rule-2);font:400 13px var(--sans);color:var(--ink-3);transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.mfam button:hover{color:var(--ink)}
+.mfam button.on{background:var(--glass-2);color:var(--ink);font-weight:500;box-shadow:inset 0 0 0 1px var(--ink-3)}
+.mfam i{width:9px;height:9px;border-radius:50%;opacity:.35}
+.mfam button.on i{opacity:1}
+.mseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;margin:18px 0 0;padding:3px;border-radius:var(--r-ctl);box-shadow:inset 0 0 0 1px var(--rule-2)}
+.mseg button{appearance:none;border:0;height:38px;border-radius:var(--r-ctl);background:none;font:500 14px var(--sans);color:var(--ink-2)}
+.mseg button:hover{color:var(--ink);background:var(--hover)}
+.mseg button.on{background:var(--ink);color:var(--paper-2);font-weight:600}
+.mabout{margin:14px 0 0;font-size:15px;line-height:22px;color:var(--ink-2)}
+.mfilters{display:grid;gap:8px;margin-top:18px}
+.mfilters .field{margin-top:6px}
+.mheat{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-3)}
+.mheat i{flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--h1),var(--h2),var(--h3),var(--h4),var(--h5))}
+.mh4{margin:14px 0 6px;font-size:14px;font-weight:600;color:var(--ink)}
+.otab{border-spacing:0;font-size:13px}
+.otab th,.otab td{padding:5px 4px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px}
+.otab td:not(:first-child){font-family:var(--mono);font-size:12px}
+.mcard .rec-head{font-size:17px;line-height:24px}
+.mcard .back{margin-top:10px}
 .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
 .legend{margin:22px 0 0}
 .legend .tot{display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--ink-2)}
@@ -596,6 +637,8 @@ footer p{margin:0;max-width:820px}
   .panel.flush{padding:0}
   .panel.flush > .phead{padding:16px 16px 0}
   .panels[data-on="pl"] > .pr,.panels[data-on="pr"] > .pl{display:none}
+  .glassmap .panels{background:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border-top:1px solid var(--glass-edge)}
+  .glassmap .panel,.glassmap .panel.pr{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;border:0}
   .refit{left:auto;right:12px;bottom:auto;top:12px;transform:none}
   .ocfloat{left:12px;right:12px;top:12px}
   #ocv .refit{top:70px}
@@ -660,21 +703,23 @@ footer p{margin:0;max-width:820px}
 </main>
 
 <main id="mapv" class="page full hide">
-  <div id="map" class="fmap" role="region" aria-label="Map of incidents"></div>
+  <div id="map" class="fmap" role="region" aria-label="Counted incidents as points or hotspots; point at an area to see its name and outline"></div>
+  <div class="mtip hide" id="mapTip" role="tooltip"></div>
   <button type="button" class="refit" data-fit="map">Fit to area</button>
   <div class="panels" data-on="pl">
     <div class="sheetbar"><div class="seg" role="group" aria-label="Panel"><button type="button" class="on" data-sheet="pl">Where</button><button type="button" data-sheet="pr">Patterns</button></div><button type="button" class="grab" aria-expanded="false">Expand</button></div>
     <aside class="panel pl" aria-label="Where it happened">
       <section class="stmt" id="mapStmt" aria-label="Summary"></section>
-      <div class="controls">
-        <label class="field"><span class="label">Type</span><select id="fCat"></select></label>
+      <div class="mseg" id="mapMode" role="tablist" aria-label="Way of mapping"></div>
+      <p class="mabout" id="mapAbout"></p>
+      <div class="mfilters"><span class="label">Type</span><div class="mfam" id="fFam" role="group" aria-label="Kinds of crime"></div>
         <label class="field"><span class="label">Time of day</span>
           <select id="fTime"><option value="">Any time of day</option><option value="dark">After dark</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option><option value="night">Night</option></select></label>
       </div>
       <div class="mapkey" id="count"></div>
-      <div class="sec" id="areaBox"></div>
+      <div id="areaBox"></div>
     </aside>
-    <aside class="panel pr" aria-label="Patterns"><div id="patterns"></div></aside>
+    <aside class="panel pr" aria-label="Patterns and the official record"><div id="patterns"></div><div id="mapOff"></div></aside>
   </div>
 </main>
 
@@ -1104,7 +1149,6 @@ function setBaseOn(e) {
 }
 // The vector basemap draws on its own canvas: tell it the box size whenever its map is shown again.
 const glResize = e => { try { const g = e.base && (e.base.getMaplibreMap || e.base.getMapboxMap); if (g) g.call(e.base).resize(); } catch {} };
-function initMap() { const e = makeMap('map'); MAP = e.m; LAYER = e.layer; }
 // A count drawn on a map: a solid copper disc of radius r; the busiest glow. Smaller discs sit on top of larger ones.
 function heatDisc(layer, ll, r, v, max, o = {}) {
   const f = v / Math.max(max, 1e-9), cls = 'disc' + (o.mute ? ' mute' : f >= .6 ? ' hot' : f >= .3 ? ' warm' : '') + (o.on ? ' on' : '');
@@ -1114,70 +1158,299 @@ function heatDisc(layer, ll, r, v, max, o = {}) {
 // The key for disc sizes: three discs, the largest glowing.
 const sizeKey = () => `<div class="heatkey"><span>fewer</span><i style="width:8px;height:8px"></i><i style="width:13px;height:13px"></i><i class="hot" style="width:18px;height:18px"></i><span>more, and the busiest glow</span></div>`;
 
+/* ---------- Map & patterns ----------
+   The counted incidents (INCIDENTS) of the area and time chosen, under glass panels. They are drawn as points (one dot each,
+   a fixed size on the screen at every zoom, coloured by kind of crime), as hotspots (where they concentrate), or both. An
+   incident whose report names a spot or a neighbourhood sits there; one that names only its area sits at the area's centre;
+   several at one point are laid out in a tight spiral at a fixed spacing, so the cluster's size is the count and its shape is
+   not a location. Areas are not drawn: pointing at one shows its name and a faint outline. */
+// Six kinds of crime, each with its own colour (tokens --f-*, set per theme). A type the engine adds later, not yet in a
+// kind, is shown as "Other" rather than put in the wrong kind.
+const FAMILIES = [
+  ['violent', 'Murder, assault, kidnapping', ['murder', 'violence', 'kidnap']],
+  ['women', 'Against women & children', ['women']],
+  ['property', 'Robbery, burglary, theft', ['robbery', 'burglary', 'theft']],
+  ['fraud', 'Fraud, cyber, extortion', ['cyber', 'extortion']],
+  ['drugs', 'Drugs', ['drugs']],
+  ['road', 'Road accidents & fire', ['accident', 'fire']]
+];
+const FAM_OF = {}; FAMILIES.forEach(([id, , cs]) => cs.forEach(c => { FAM_OF[c] = id; }));
+if (CATS.some(c => !FAM_OF[c.id])) FAMILIES.push(['other', 'Other', []]);
+const famOf = c => FAM_OF[c] || 'other';
+const MF = { fam: new Set(FAMILIES.map(f => f[0])) };
+let mapMode = 'all', mSel = null, mHover = null, MP = null;   // mSel: the selected incident's key; picked: the area open
+
 function current() {
-  const cat = $('fCat').value, t = $('fTime').value;
+  const t = $('fTime').value;
   return INCIDENTS.filter(e =>
-    happenedInPeriod(e) && (!cat || e.c === cat) &&
+    happenedInPeriod(e) && MF.fam.has(famOf(e.c)) &&
     (!t || (t === 'dark' ? isDark(e) : e.b === t)) && inView(e));
 }
 const tally = (list, key) => { const m = {}; for (const x of list) { const k = key(x); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
 const top = (m, n) => Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, n);
 const rowsOf = (pairs, label) => { const mx = Math.max(1, ...pairs.map(p => p[1])); return pairs.map(([k, v]) => `<div class="row"><span>${esc(label(k))}</span><span class="n">${v}</span><div class="track"><i style="width:${v / mx * 100}%"></i></div></div>`).join(''); };
 
-// Drawn as precisely as the reports allow, and no more:
-//   a solid dot   the spot the report names (a hill, chowk, bridge, society, station)
-//   a ring        the neighbourhood or village the report names
-//   a disc        only the area is known: a count at the area centre, never read as a location
+const locOf = e => e.p ? [e.p[1], e.p[2]] : e.a && AREA[e.a] ? [AREA[e.a].lat, AREA[e.a].lon] : null;
+// Incidents grouped by the point they are drawn at, newest first inside each group.
+function groupsOf(list) {
+  const g = {};
+  for (const e of list) { const ll = locOf(e); if (!ll) continue; const k = ll[0].toFixed(5) + ',' + ll[1].toFixed(5); (g[k] = g[k] || { ll, es: [] }).es.push(e); }
+  const out = Object.values(g);
+  out.forEach(x => x.es.sort((p, q) => (p.d < q.d ? 1 : -1)));
+  return out;
+}
+// The k-th point of a cluster: a sunflower spiral (golden angle), so points stay evenly spaced however many there are.
+const spiral = (k, gap) => { if (!k) return [0, 0]; const r = gap * Math.sqrt(k), t = k * 2.39996323; return [r * Math.cos(t), r * Math.sin(t)]; };
+
+// A canvas over the map, redrawn on every move and zoom so its marks keep their size on the screen.
+const CanvasLayer = L.Layer.extend({
+  initialize(draw) { this._draw = draw; },
+  onAdd(map) {
+    this._map = map; this._c = L.DomUtil.create('canvas', 'cvl');
+    map.getPanes().overlayPane.appendChild(this._c);
+    map.on('move resize viewreset zoomend', this._queue, this);
+    map.on('zoomstart', this._hide, this);
+    this._reset();
+  },
+  onRemove(map) { this._c.remove(); map.off('move resize viewreset zoomend', this._queue, this); map.off('zoomstart', this._hide, this); },
+  _hide() { this._c.style.opacity = 0; },
+  _queue() { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = 0; this._reset(); }); },
+  _reset() {
+    const m = this._map, s = m.getSize(), r = Math.min(2, window.devicePixelRatio || 1), c = this._c;
+    L.DomUtil.setPosition(c, m.containerPointToLayerPoint([0, 0]));
+    if (c.width !== Math.round(s.x * r) || c.height !== Math.round(s.y * r)) { c.width = Math.round(s.x * r); c.height = Math.round(s.y * r); c.style.width = s.x + 'px'; c.style.height = s.y + 'px'; }
+    const g = c.getContext('2d'); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, s.x, s.y);
+    c.style.opacity = 1;
+    this._draw(g, m, s, r);
+  },
+  redraw() { if (this._map) this._reset(); }
+});
+// A small round sprite drawn once per theme and stamped for every point (fast, and crisp at any zoom).
+function sprite(rad, paint, r) {
+  const pad = 3, size = Math.ceil((rad + pad) * 2 * r), c = document.createElement('canvas');
+  c.width = c.height = size; const g = c.getContext('2d'); g.scale(r, r);
+  paint(g, rad + pad, rad + pad, rad); return { c, half: (rad + pad), size: size / r };
+}
+const famColor = id => css(id === 'other' ? '--ink-3' : '--f-' + id);
+const famVar = id => id === 'other' ? 'var(--ink-3)' : `var(--f-${id})`;
+// A solid dot in its kind's colour, with a hairline ring in the ground colour so overlapping points part.
+function famSprites(r, rad) {
+  const ring = css('--paper-2'), out = {};
+  for (const [id] of FAMILIES) { const col = famColor(id); out[id] = sprite(rad, (g, x, y, rr) => { g.fillStyle = col; g.beginPath(); g.arc(x, y, rr, 0, 6.2832); g.fill(); g.strokeStyle = ring; g.lineWidth = 1; g.stroke(); }, r); }
+  return out;
+}
+// Lay out every incident on the screen: returns [x, y, incident] for each point.
+function layoutPoints(groups, m, gap) {
+  const pts = [];
+  for (const gr of groups) {
+    const p = m.latLngToContainerPoint(gr.ll);
+    gr.es.forEach((e, k) => { const [dx, dy] = spiral(k, gap); pts.push([p.x + dx, p.y + dy, e]); });
+  }
+  return pts;
+}
+const nearest = (pts, x, y, max) => { let best = null, bd = max * max; for (const p of pts) { const d = (p[0] - x) ** 2 + (p[1] - y) ** 2; if (d < bd) { bd = d; best = p; } } return best; };
+function mtip(el, x, y, html) {
+  if (!html) { el.classList.add('hide'); return; }
+  el.innerHTML = html; el.classList.remove('hide');
+  const w = el.offsetWidth, h = el.offsetHeight, box = el.parentElement.getBoundingClientRect();
+  el.style.left = Math.max(8, Math.min(box.width - w - 8, x + 14)) + 'px'; el.style.top = Math.max(8, Math.min(box.height - h - 8, y + 14)) + 'px';
+}
+const incTip = e => `<b>${esc(label(e))}</b><span>${esc(fmtDay(e.d))}, ${e.a && AREA[e.a] ? esc(AREA[e.a].name) : 'area not stated'}${e.p ? ', ' + esc(e.p[0]) : ''}</span><span>${esc(enOf(lead(e)) || lead(e).t)}</span>`;
+// One selected incident, above its area in the left panel.
+function incCard(e) {
+  const r = lead(e);
+  return `<div class="mcard"><h3 class="sec-h">Selected incident</h3>
+    <div class="rec-type"><span>${esc(label(e))}</span><span class="tag">${e.p ? (e.p[3] === 'x' ? 'Named spot' : 'Neighbourhood') : 'Area only'}</span></div>
+    <a class="rec-head" href="${esc(r.u)}" target="_blank" rel="noopener noreferrer">${esc(r.t)}</a>${enP(r, 'rec-sum')}
+    <div class="rec-meta"><span class="place">${e.a && AREA[e.a] ? esc(AREA[e.a].name) + (e.p ? ', ' + esc(e.p[0]) : '') : 'Area not stated'}</span><span>Incident ${fmtDay(e.d)}${e.h != null ? ', ' + hourName(e.h) : ''}</span><span>${plural(e.reports.length, 'report')}</span>${e.o ? `<span>${e.o === 'fatal' ? 'Fatal' : 'Someone injured'}</span>` : ''}</div>
+    <button type="button" class="back" data-newsfile="${esc(keyOf(e))}">Open its news file</button></div>`;
+}
+// The official record for the area chosen: registered cases by year as published. They carry no places below the city, so
+// they sit beside the map as its frame, never on it.
+function offContext() {
+  const bs = offBodies(); if (!bs.length) return `<section class="sec"><h3 class="sec-h">Official record</h3><p class="note" style="margin-top:0">${OFFICIAL ? 'No official figures cover this area yet.' : 'The official figures could not be loaded.'}</p></section>`;
+  let h = `<section class="sec"><h3 class="sec-h">Official record<span>registered cases</span></h3><p class="note" style="margin:0 0 10px">As the police and the NCRB published them. They give no places below the city, so they frame the map rather than sit on it, and they cover earlier years than the news.</p>`;
+  for (const b of bs) for (const r of b.releases) {
+    if (r.kind === 'annual') {
+      const n = r.years.length;
+      h += `<h4 class="mh4">${esc(b.name)}, ${esc(r.title)}</h4><table class="otab"><tr><th></th><th>${r.years[n - 2]}</th><th>${r.years[n - 1]}</th><th>Change</th></tr>${r.heads.filter(x => x.v[n - 1] != null).map(x => { const a = x.v[n - 2], z = x.v[n - 1], p = a ? Math.round((z - a) / a * 100) : null; return `<tr><td>${esc(x.name)}</td><td>${a == null ? '–' : fmtN(a)}</td><td>${fmtN(z)}</td><td>${p == null ? '–' : pctTxt(p)}</td></tr>`; }).join('')}</table>${offSrc(b, r)}`;
+    } else if (r.kind === 'change') {
+      h += `<h4 class="mh4">${esc(b.name)}, ${esc(r.title)}</h4><table class="otab"><tr><th>${esc(r.period)}</th><th>Change</th></tr>${r.changes.map(x => `<tr><td>${esc(x.name)}</td><td>${pctTxt(x.pct)}</td></tr>`).join('')}</table>${offSrc(b, r)}`;
+    } else if (r.kind === 'count') {
+      h += `<h4 class="mh4">${esc(b.name)}, ${esc(r.title)}</h4><table class="otab"><tr><th>${esc(r.period)}</th><th></th></tr>${r.counts.map(x => `<tr><td>${esc(x.name)}</td><td>${fmtN(x.v)}</td></tr>`).join('')}</table>${offSrc(b, r)}`;
+    }
+  }
+  return h + '</section>';
+}
+// Each area's ground, used only for pointing: the ground nearer its centre than any other area's centre, within 5 km. An
+// approximation from the engine's area centres, not a police boundary, so it is never drawn except as a faint outline while
+// the pointer is on it. Worked out once, in Web Mercator pixels at zoom 12.
+let CELLS = null;
+function cellsOf(m) {
+  if (CELLS) return CELLS;
+  const P = AREAS.map(a => m.project([a.lat, a.lon], 12)), R = 138, out = {};
+  AREAS.forEach((a, i) => {
+    let poly = Array.from({ length: 48 }, (_, k) => [P[i].x + R * Math.cos(k / 48 * 6.2832), P[i].y + R * Math.sin(k / 48 * 6.2832)]);
+    P.forEach((q, j) => {
+      if (j === i || poly.length < 3) return;
+      const nx = q.x - P[i].x, ny = q.y - P[i].y, mx = (q.x + P[i].x) / 2, my = (q.y + P[i].y) / 2, side = pt => (pt[0] - mx) * nx + (pt[1] - my) * ny;
+      const res = [];
+      for (let k = 0; k < poly.length; k++) {
+        const A = poly[k], B = poly[(k + 1) % poly.length], sa = side(A), sb = side(B);
+        if (sa <= 0) res.push(A);
+        if ((sa <= 0) !== (sb <= 0)) { const t = sa / (sa - sb); res.push([A[0] + t * (B[0] - A[0]), A[1] + t * (B[1] - A[1])]); }
+      }
+      poly = res;
+    });
+    out[a.id] = poly.map(pt => m.unproject(L.point(pt[0], pt[1]), 12));
+  });
+  return (CELLS = out);
+}
+const inPoly = (x, y, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const a = poly[i], b = poly[j]; if ((a[1] > y) !== (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) c = !c; } return c; };
+const screenPoly = (m, id) => (cellsOf(m)[id] || []).map(ll => { const p = m.latLngToContainerPoint(ll); return [p.x, p.y]; });
+function areaAt(m, x, y) {
+  for (const a of AREAS) { if (!areaInView(a.id)) continue; const poly = screenPoly(m, a.id); if (poly.length > 2 && inPoly(x, y, poly)) return a.id; }
+  return null;
+}
+// The hotspot surface: every incident adds a smooth bump (a Gaussian about 700 m wide); the sum is coloured on a ramp.
+function hotspot(g, m, s, pts, alpha) {
+  const z = m.getZoom(), lat = m.getCenter().lat, mpp = 156543.03 * Math.cos(lat * Math.PI / 180) / Math.pow(2, z), bw = 700 / mpp;
+  const cell = Math.max(2, bw / 5), W = Math.ceil(s.x / cell) + 1, H = Math.ceil(s.y / cell) + 1, grid = new Float32Array(W * H), rc = Math.ceil(bw * 2.5 / cell);
+  const ker = []; for (let dy = -rc; dy <= rc; dy++) for (let dx = -rc; dx <= rc; dx++) { const d2 = (dx * dx + dy * dy) * cell * cell; ker.push([dx, dy, Math.exp(-d2 / (2 * bw * bw))]); }
+  for (const [x, y] of pts) {
+    const cx = Math.round(x / cell), cy = Math.round(y / cell);
+    if (cx < -rc || cy < -rc || cx > W + rc || cy > H + rc) continue;
+    for (const [dx, dy, w] of ker) { const gx = cx + dx, gy = cy + dy; if (gx >= 0 && gy >= 0 && gx < W && gy < H) grid[gy * W + gx] += w; }
+  }
+  let mx = peakOf(pts, bw); for (const v of grid) if (v > mx) mx = v;
+  if (!mx) return 0;
+  const lut = MP.lut, img = new ImageData(W, H);
+  for (let i = 0; i < grid.length; i++) {
+    const t = grid[i] / mx; if (t < .035) continue;
+    const L4 = lut[Math.min(255, Math.round(t * 255))], o = i * 4;
+    img.data[o] = L4[0]; img.data[o + 1] = L4[1]; img.data[o + 2] = L4[2]; img.data[o + 3] = L4[3] * alpha;
+  }
+  const off = document.createElement('canvas'); off.width = W; off.height = H; off.getContext('2d').putImageData(img, 0, 0);
+  g.save(); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high'; g.drawImage(off, 0, 0, W * cell, H * cell); g.restore();
+  return mx;
+}
+// The surface is coloured against the busiest place in the whole area chosen, not only the part on the screen, so zooming
+// in to a street does not turn a quiet place red. The peak is the largest sum at any incident (points bucketed by reach).
+function peakOf(pts, bw) {
+  const R = bw * 2.5, R2 = R * R, k2 = 1 / (2 * bw * bw), b = new Map(), key = (x, y) => x + ',' + y;
+  for (const p of pts) { const k = key(Math.floor(p[0] / R), Math.floor(p[1] / R)); if (!b.has(k)) b.set(k, []); b.get(k).push(p); }
+  let mx = 0;
+  for (const p of pts) {
+    const cx = Math.floor(p[0] / R), cy = Math.floor(p[1] / R); let s = 0;
+    for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) { const l = b.get(key(cx + i, cy + j)); if (l) for (const q of l) { const d2 = (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2; if (d2 < R2) s += Math.exp(-d2 * k2); } }
+    if (s > mx) mx = s;
+  }
+  return mx;
+}
+// The ramp: five stops from the theme (--h1 faint ... --h5 most), each with its own opacity, eased into 256 steps.
+function rampLUT() {
+  const parse = c => { const n = parseInt(/#([0-9a-f]{6})/i.exec(c)[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+  const stops = [1, 2, 3, 4, 5].map(i => parse(css('--h' + i))), al = [.22, .5, .72, .86, .95], lut = [];
+  for (let i = 0; i < 256; i++) {
+    const t = i / 255 * 4, k = Math.min(3, Math.floor(t)), f = t - k;
+    lut.push([0, 1, 2].map(j => Math.round(stops[k][j] + (stops[k + 1][j] - stops[k][j]) * f)).concat([Math.round(255 * (al[k] + (al[k + 1] - al[k]) * f))]));
+  }
+  return lut;
+}
+const MAP_ABOUT = {
+  points: ['Points', 'Every incident where the reports place it, coloured by its kind of crime: what happened, and exactly where it is known.'],
+  hotspots: ['Hotspots', 'Where incidents concentrate, smoothed over about 700 metres. For choosing where to patrol or act first.'],
+  all: ['Both', 'Hotspots underneath, every incident on top.']
+};
+function initMap() {
+  const e0 = makeMap('map'); MAP = e0.m; LAYER = e0.layer;
+  e0.cv = new CanvasLayer((g, m, s, r) => {
+    if (!MP) return;
+    const theme = isDarkTheme(), all = mapMode === 'all';
+    if (MP.theme !== theme || MP.r !== r) { MP.theme = theme; MP.r = r; MP.spr = famSprites(r, 3.1); MP.sprSmall = famSprites(r, 2.6); MP.lut = rampLUT(); }
+    const pts = MP.pts = layoutPoints(MP.groups, m, all ? 5.4 : 6.2);
+    if (mapMode !== 'points') hotspot(g, m, s, pts, all ? .85 : 1);
+    if (mapMode !== 'hotspots') {
+      const set = all ? MP.sprSmall : MP.spr;
+      for (const [x, y, e] of pts) { if (x < -8 || y < -8 || x > s.x + 8 || y > s.y + 8) continue; const b = set[famOf(e.c)]; g.drawImage(b.c, x - b.half, y - b.half, b.size, b.size); }
+    }
+    const sel = mSel && pts.find(p => keyOf(p[2]) === mSel);
+    if (sel) { g.strokeStyle = css('--ink'); g.lineWidth = 1.6; g.beginPath(); g.arc(sel[0], sel[1], 7, 0, 6.2832); g.stroke(); }
+  }).addTo(MAP);
+  // The area under the pointer (or the one open): a faint outline and its name, on a layer of its own.
+  e0.hv = new CanvasLayer((g, m) => {
+    for (const id of [...new Set([picked, mHover])]) {
+      if (!id || !AREA[id] || !MP) continue;
+      const poly = screenPoly(m, id); if (poly.length < 3) continue;
+      g.beginPath(); poly.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath();
+      g.strokeStyle = css('--area-line'); g.lineWidth = 1.5; g.stroke();
+      const p = m.latLngToContainerPoint([AREA[id].lat, AREA[id].lon]), top = Math.min(...poly.map(q => q[1]));
+      const n = MP.list.filter(e => e.a === id).length, y = Math.max(top + 18, p.y - 26);
+      g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
+      g.font = '600 17px Mukta, system-ui, sans-serif'; g.lineWidth = 4; g.strokeStyle = css('--paper'); g.strokeText(AREA[id].name, p.x, y); g.fillStyle = css('--ink'); g.fillText(AREA[id].name, p.x, y);
+      g.font = '500 12px Mukta, system-ui, sans-serif'; const sub = plural(n, 'counted incident'); g.lineWidth = 3; g.strokeText(sub, p.x, y + 17); g.fillStyle = css('--ink-2'); g.fillText(sub, p.x, y + 17);
+    }
+  }).addTo(MAP);
+  const tipEl = $('mapTip');
+  MAP.on('mousemove', ev => {
+    const { x, y } = ev.containerPoint, p = mapMode !== 'hotspots' && MP && MP.pts && nearest(MP.pts, x, y, 7), a = areaAt(MAP, x, y);
+    mtip(tipEl, x, y, p ? incTip(p[2]) : '');
+    if (a !== mHover) { mHover = a; e0.hv.redraw(); }
+    MAP.getContainer().style.cursor = p || a ? 'pointer' : '';
+  });
+  MAP.on('mouseout', () => { mtip(tipEl, 0, 0, ''); if (mHover) { mHover = null; e0.hv.redraw(); } });
+  // Selecting an incident keeps it above its area in the left panel; selecting elsewhere opens the area under the pointer.
+  MAP.on('click', ev => {
+    const { x, y } = ev.containerPoint, p = mapMode !== 'hotspots' && MP && MP.pts && nearest(MP.pts, x, y, 10);
+    mSel = p ? keyOf(p[2]) : null; picked = p ? (p[2].a || null) : areaAt(MAP, x, y);
+    drawArea(); e0.cv.redraw(); e0.hv.redraw();
+    if (innerWidth < 1024) sheet('mapv', 'pl', true); else panelTo($('areaBox'));
+  });
+}
 function drawMap() {
   if (!MAP) initMap();
-  const ev = current(), placed = ev.filter(e => e.a), copper = css('--copper');
-  LAYER.clearLayers(); SPOTS = {};
-  const per = {}, rough = {};
-  for (const e of placed) { (per[e.a] = per[e.a] || []).push(e); if (!e.p) (rough[e.a] = rough[e.a] || []).push(e); }
-  if (picked && !per[picked]) picked = null;
-  const pick = id => { picked = id; drawMap(); sheet('mapv', 'pl', innerWidth < 1024 ? true : null); panelTo($('areaBox')); };
-  const mx = Math.max(1, ...Object.values(rough).map(l => l.length)), paper = css('--paper-2');
-  for (const [id, list] of Object.entries(rough)) {
-    const a = AREA[id], on = id === picked, n = list.length;
-    heatDisc(LAYER, [a.lat, a.lon], (9 + Math.sqrt(n) * 3.2) * (innerWidth < 760 ? .72 : 1), n, mx, { on, label: n }).on('click', () => pick(id));
-  }
-  const spots = placed.filter(e => e.p);
-  for (const e of spots) {
-    const exact = e.p[3] === 'x', r = lead(e);
-    SPOTS[keyOf(e)] = L.circleMarker([e.p[1], e.p[2]], exact ? { radius: 5.5, color: paper, weight: 1.5, fillColor: copper, fillOpacity: 1 } : { radius: 7, color: copper, weight: 2.2, fillColor: paper, fillOpacity: 1 })
-      .bindPopup(`<div class="rec-type">${esc(label(e))}</div><div style="margin:4px 0">${link(r, esc(r.t))}${enP(r)}</div><div class="label">${meta(esc(e.p[0]), (exact ? 'Named spot' : 'Neighbourhood') , 'Incident ' + fmtDay(e.d), plural(e.reports.length, 'report'))}</div>`)
-      .on('click', () => { picked = e.a; drawArea(); })
-      .addTo(LAYER);
-  }
-  const none = ev.length - placed.length, nx = spots.filter(e => e.p[3] === 'x').length;
-  // The statement carries the counts; the key on the map says what each mark means.
-  const mk = s => `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">${s}</svg>`;
+  const e0 = MAPS.map, list = current(), groups = groupsOf(list), placed = list.filter(e => locOf(e)), spots = placed.filter(e => e.p), nx = spots.filter(e => e.p[3] === 'x').length;
+  MP = Object.assign(MP || {}, { list, groups });
+  if (mSel && !list.some(e => keyOf(e) === mSel)) mSel = null;
+  if (picked && !list.some(e => e.a === picked)) picked = null;
+  const fam = tally(list, e => famOf(e.c)), none = list.length - placed.length;
   $('mapStmt').innerHTML = `<div><h1>Where it happened</h1><p class="sub">Counted incidents in ${esc(viewName())}, ${esc(periodName())}, placed as precisely as the reports allow and no more.${none ? ` ${plural(none, 'incident')} name no area and are not on the map.` : ''}</p></div>
-    <div class="figs"><div><b class="fig hot">${fmtN(ev.length)}</b><span>counted incidents</span></div><div><b class="fig">${fmtN(nx)}</b><span>at a named spot</span></div><div><b class="fig">${fmtN(spots.length - nx)}</b><span>at a neighbourhood</span></div><div><b class="fig">${fmtN(placed.length - spots.length)}</b><span>area only</span></div></div>`;
-  $('count').innerHTML = `<div>${mk(`<circle cx="11" cy="11" r="5.5" fill="${copper}" stroke="${paper}" stroke-width="1.5"/>`)}A named spot</div>
-    <div>${mk(`<circle cx="11" cy="11" r="7" fill="none" stroke="${copper}" stroke-width="2.2"/>`)}A neighbourhood or village</div>
-    <div>${mk(`<circle cx="11" cy="11" r="9" fill="${copper}"/>`)}Area only: a count at its centre, not a location</div>
-    ${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:2px 0 0"')}<div style="color:var(--ink-3)">Scroll or pinch to zoom; select a disc to open its area.</div>`;
-  drawArea(); drawPatterns(ev);
+    <div class="figs"><div><b class="fig hot">${fmtN(list.length)}</b><span>counted incidents</span></div><div><b class="fig">${fmtN(nx)}</b><span>at a named spot</span></div><div><b class="fig">${fmtN(spots.length - nx)}</b><span>at a neighbourhood</span></div><div><b class="fig">${fmtN(placed.length - spots.length)}</b><span>area only</span></div></div>`;
+  $('mapMode').innerHTML = ['points', 'hotspots', 'all'].map(k => `<button type="button" role="tab" data-mmode="${k}" class="${k === mapMode ? 'on' : ''}" aria-selected="${k === mapMode}">${MAP_ABOUT[k][0]}</button>`).join('');
+  $('mapAbout').textContent = MAP_ABOUT[mapMode][1];
+  $('fFam').innerHTML = FAMILIES.map(([id, name]) => `<button type="button" data-fam="${id}" class="${MF.fam.has(id) ? 'on' : ''}" aria-pressed="${MF.fam.has(id)}"><i style="background:${famVar(id)}"></i>${esc(name)}</button>`).join('');
+  const legPoints = FAMILIES.filter(f => MF.fam.has(f[0])).map(([id, name]) => `<div><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="4" style="fill:${famVar(id)}"/></svg>${esc(name)}<b>${fam[id] || 0}</b></div>`).join('');
+  $('count').innerHTML = `${mapMode !== 'hotspots' ? legPoints : ''}${mapMode !== 'points' ? '<div class="mheat"><span>fewer</span><i></i><span>more</span></div>' : ''}
+    <div style="color:var(--ink-3)">${mapMode !== 'hotspots' ? 'Each dot is one incident and keeps its size at every zoom. Most reports name only their area: those incidents gather at its centre in a small spiral, whose size is the count and whose shape is not a location. ' : ''}${mapMode !== 'points' ? 'Hotspots are smoothed over about 700 metres; incidents that name only their area count at its centre, so a hot spot shows where reports concentrate, not a measured crime rate. ' : ''}Point at the map to see an area's name and outline; select it to open the area.</div>`;
+  drawArea(); drawPatterns(list);
+  $('mapOff').innerHTML = offContext();
+  e0.cv.redraw(); e0.hv.redraw();
 }
+document.addEventListener('click', ev => {
+  const f = ev.target.closest('[data-fam]');
+  if (f) { const id = f.dataset.fam; if (MF.fam.has(id) && MF.fam.size > 1) MF.fam.delete(id); else MF.fam.add(id); drawMap(); return; }
+  const md = ev.target.closest('[data-mmode]'); if (md) { mapMode = md.dataset.mmode; drawMap(); return; }
+  const nf = ev.target.closest('[data-newsfile]'); if (nf) { newsSel = nf.dataset.newsfile; period = '0'; lastRange = '0'; newsCat = ''; newsN = 1e4; drawPeriod(); show('news'); drawNews(); const row = document.querySelector(`#newsList .rec[data-k="${CSS.escape(newsSel)}"]`); if (row) row.scrollIntoView({ block: 'center' }); }
+});
 // "See on map" in a news file: open Map & patterns on that news item. If the area or time chosen above (or a map filter)
-// would hide it, they are widened just enough to show it; then the map zooms to its spot (popup open) or to its area.
+// would hide it, they are widened just enough to show it; then the map zooms to its point (selected, with its card in the
+// left panel) or to its area.
 function seeOnMap(k) {
   const e = INCIDENTS.find(x => keyOf(x) === k); if (!e || !e.a) return;
   if (!areaInView(e.a)) view = regionOf(e.a);
   if (!happenedInPeriod(e)) { period = '0'; lastRange = '0'; }
-  if (!current().includes(e)) { $('fCat').value = ''; $('fTime').value = ''; }
-  picked = e.a; drawViews(); drawPeriod(); drawNews();
+  if (!current().includes(e)) { MF.fam = new Set(FAMILIES.map(f => f[0])); $('fTime').value = ''; }
+  picked = e.a; mSel = k; if (mapMode === 'hotspots') mapMode = 'all';
+  drawViews(); drawPeriod(); drawNews();
   show('map');
   if (MAPS.map) MAPS.map.fitted = true;                 // keep the zoom below, not the fit to the whole area view
   setTimeout(() => {
     if (innerWidth < 1024) sheet('mapv', 'pl', false);
-    const m = SPOTS[k];
-    if (m) { MAP.setView(m.getLatLng(), 16, { animate: motion() === 'smooth' }); m.openPopup(); }
-    else MAP.setView([AREA[e.a].lat, AREA[e.a].lon], 14, { animate: motion() === 'smooth' });
+    MAP.setView(locOf(e), e.p ? 16 : 14, { animate: motion() === 'smooth' });
     drawArea(); panelTo($('areaBox'));
   }, 260);
 }
+
 document.addEventListener('click', ev => { const b = ev.target.closest('[data-map]'); if (b) seeOnMap(b.dataset.map); });
 // Bring a block into view inside its own panel (the page itself never scrolls on a map tab).
 function panelTo(el) {
@@ -1197,18 +1470,25 @@ document.addEventListener('click', e => {
 });
 const label = e => CAT[e.c].name + (e.o && !(e.c === 'murder' && e.o === 'fatal') ? ` (${e.o})` : '');
 
+// The left panel's lower part: the incident selected (if any), then its area: types, times of day and latest cases.
 function drawArea() {
-  $('areaBox').className = picked ? 'sec' : '';
-  if (!picked) { $('areaBox').innerHTML = `<p class="note" style="margin:14px 0 0">Select a circle on the map to open that area: its types, times of day and latest cases.</p>`; return; }
-  const list = current().filter(e => e.a === picked), timed = list.filter(e => e.b);
-  $('areaBox').innerHTML = `<h3 class="sec-h">Area</h3>
-    <h2>${esc(AREA[picked].name)}</h2>
+  const box = $('areaBox'), base = MP ? MP.list : current(), e = mSel && base.find(x => keyOf(x) === mSel), id = picked && AREA[picked] ? picked : null;
+  box.className = e || id ? 'sec' : '';
+  if (!e && !id) { box.innerHTML = `<p class="note" style="margin:14px 0 0">Select a point or an area on the map to open it here: its types, times of day and latest cases.</p>`; return; }
+  let h = e ? incCard(e) : '';
+  if (id) {
+    const list = base.filter(x => x.a === id), timed = list.filter(x => x.b);
+    h += `<div${e ? ' class="sec"' : ''}><h3 class="sec-h">Area</h3>
+    <h2>${esc(AREA[id].name)}</h2>
     <div class="two">
-      <div><div class="label">By type, ${plural(list.length, 'incident')}</div>${rowsOf(top(tally(list, e => e.c), 12), k => CAT[k].name)}</div>
-      <div><div class="label">By time of day</div>${timed.length ? rowsOf(BANDS.map(b => [b, timed.filter(e => e.b === b).length]), k => BAND_NAME[k]) : ''}
+      <div><div class="label">By type, ${plural(list.length, 'incident')}</div>${rowsOf(top(tally(list, x => x.c), 12), k => CAT[k].name)}</div>
+      <div><div class="label">By time of day</div>${timed.length ? rowsOf(BANDS.map(b => [b, timed.filter(x => x.b === b).length]), k => BAND_NAME[k]) : ''}
         <p class="note">${timed.length ? `${list.length - timed.length} of ${list.length} did not state a time.` : 'No report here stated a time of day.'}</p></div>
     </div>
-    <div style="margin-top:16px"><div class="label" style="margin-bottom:4px">Latest here</div>${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(e => `<div class="mini">${meta(fmtDay(e.d), esc(label(e)), e.p ? esc(e.p[0]) : '', e.reports.length > 1 ? plural(e.reports.length, 'report') : '')}${link(lead(e), esc(lead(e).t))}${enP(lead(e))}</div>`).join('')}</div>`;
+    <div style="margin-top:16px"><div class="label" style="margin-bottom:4px">Latest here</div>${[...list].sort((x, y) => (x.d < y.d ? 1 : -1)).slice(0, 8).map(x => `<div class="mini">${meta(fmtDay(x.d), esc(label(x)), x.p ? esc(x.p[0]) : '', x.reports.length > 1 ? plural(x.reports.length, 'report') : '')}${link(lead(x), esc(lead(x).t))}${enP(lead(x))}</div>`).join('')}</div></div>`;
+  }
+  box.innerHTML = h;
+  if (MAPS.map && MAPS.map.cv) { MAPS.map.cv.redraw(); MAPS.map.hv.redraw(); }
 }
 
 /* ---------- Patterns ---------- */
@@ -2144,10 +2424,10 @@ document.addEventListener('mousemove', e => {
 });
 
 /* ---------- Wiring ---------- */
-$('fCat').innerHTML = '<option value="">All types</option>' + CATS.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+
 drawPeriod();
 drawViews();
-for (const id of ['fCat', 'fTime']) $(id).onchange = drawMap;
+$('fTime').onchange = drawMap;
 function show(tab) {
   if (PENDING) applyPending(false);                    // a new tab is drawn now anyway: bring in any newer data
   document.body.dataset.tab = tab;

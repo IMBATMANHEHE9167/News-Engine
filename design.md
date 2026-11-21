@@ -100,8 +100,15 @@ Copper text never sits on a heat well; the busiest cell's number is bold ink.
   news file.
 - **Map & patterns, Live situations, Organised crime** fill the screen under the band; the page does not scroll and the
   wheel (or a pinch) zooms the map; there are no plus and minus buttons, only "Fit to area". Panels float over the map
-  and scroll on their own: Map (left: where, filters, key, area; right: patterns), Live situations (right: the list),
-  Organised crime (left: gang links; top centre: search; right: groups).
+  and scroll on their own: Map (left: where, way of mapping, filters, key, area; right: patterns, then the official
+  record), Live situations (right: the list), Organised crime (left: gang links; top centre: search; right: groups).
+- **Map & patterns** (from the Map 2 experiment, 2026-11-21): its panels are glass (`--glass`, `backdrop-filter`) so the
+  map shows through. Counted incidents are drawn on a canvas as Points (one dot per incident, a fixed size on screen,
+  coloured by six kinds of crime, `--f-*`), Hotspots (a 700 m smoothing on the `--h1`..`--h5` ramp, coloured against
+  the busiest place in the whole area chosen, not just the screen) or Both. Area-only incidents sit in a small spiral at
+  the area centre. Areas are not drawn: pointing shows a faint outline, name and count; selecting a point or an area
+  opens it in the left panel. This is the one deliberate exception to "copper is the one colour": the kinds and the
+  ramp are the map's data colours and appear nowhere else. Type is the page's own (Mukta, Boska), sentence case.
 - Under 1024px the band stacks (brand row, tab row, scan line, scope), and a map tab's panels become one bottom sheet
   with a switch between them and Expand / Collapse.
 - **Analytics** opens with a big Findings / Graphs slider at the top centre. Findings: the official record first, then
