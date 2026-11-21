@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T18:18:03.084Z",
+ "updated": "2026-11-21T19:17:59.747Z",
  "total": 2796,
- "added": 2,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -121,7 +121,7 @@
    "name": "ABP Majha",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -153,16 +153,16 @@
    "name": "Lokmat",
    "ok": true,
    "found": 2,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 10,
+   "found": 4,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   }
  ]
 }

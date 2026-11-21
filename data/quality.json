@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T18:20:09.225Z",
+ "updated": "2026-11-21T19:20:53.975Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -117,24 +117,28 @@
   }
  ],
  "detectors": {
-  "split_cases": 10,
+  "split_cases": 11,
   "date_spread": 9,
   "waiting_for_judge": 0,
   "pairs_judged": 922,
   "pairs_judged_same": 806,
-  "judge_checked_by_expert": 477,
+  "judge_checked_by_expert": 487,
   "judge_overturned_by_expert": 4,
   "non_incident_wording": 2,
   "area_disagreement": 23,
   "silent_days": 2,
-  "source_gap_days": 64,
-  "unverified": 9,
+  "source_gap_days": 65,
+  "unverified": 8,
   "ruled_out_by_ai": 176,
   "reports": 2796,
-  "cases": 1644
+  "cases": 1645
  },
  "examples": {
   "split_cases": [
+   [
+    "बारामतीत उद्योजकाच्या गाडीवर दोन राऊंड गोळीबार; खंडणीच्या धमकीनंतर शहरात खळबळ",
+    "Baramati Firing : बारामतीत गोळीबाराचा थरार! खंडणीसाठी बांधकाम व्यावसायिकाच्या कारवर झाडल्या गोळ्या; 3 हल्लेखोर CCTV मध्ये कैद"
+   ],
    [
     "४ वर्षांच्या मुलीच्या वाढदिवशीच आईचा खून; पुरंदर तालुक्यात शिक्षिकेच्या हत्येने हळहळ, आरोपी दीर ७ तासांत जेरबंद",
     "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
@@ -162,10 +166,6 @@
    [
     "Distant relative held for murdering two elderly women, robbing them of gold chains",
     "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
-   ],
-   [
-    "Scrap collecting woman robbed, left on road, dies in crash; accused held",
-    "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
    ]
   ],
   "date_spread": [
@@ -288,6 +288,13 @@
   ],
   "source_gaps": [
    {
+    "source": "lkm",
+    "days": 1,
+    "examples": [
+     "2026-11-20"
+    ]
+   },
+   {
     "source": "skl",
     "days": 8,
     "examples": [
@@ -313,14 +320,14 @@
    },
    {
     "source": "pkn",
-    "days": 27,
+    "days": 28,
     "examples": [
-     "2026-10-25",
      "2026-10-28",
      "2026-11-01",
      "2026-11-02",
      "2026-11-06",
-     "2026-11-15"
+     "2026-11-15",
+     "2026-11-20"
     ]
    },
    {
@@ -333,13 +340,6 @@
      "2026-11-04",
      "2026-11-11",
      "2026-11-12"
-    ]
-   },
-   {
-    "source": "ppl",
-    "days": 1,
-    "examples": [
-     "2026-11-19"
     ]
    }
   ]
