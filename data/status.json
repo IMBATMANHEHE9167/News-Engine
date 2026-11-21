@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T10:18:06.608Z",
+ "updated": "2026-11-21T11:18:14.709Z",
  "total": 2791,
- "added": 1,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 24,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
@@ -73,7 +73,7 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 2,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -95,10 +95,10 @@
   {
    "id": "pcl",
    "name": "Pune City Live",
-   "ok": true,
-   "found": 4,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 520"
   },
   {
    "id": "fpj",
@@ -135,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 2,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 4,
+   "found": 3,
    "added": 0,
    "note": ""
   },
