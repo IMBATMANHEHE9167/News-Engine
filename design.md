@@ -120,6 +120,12 @@ Copper text never sits on a heat well; the busiest cell's number is bold ink.
   `t<id>Top`). Moving between them, the panels push out the way of travel and the new tab's push in (460 ms, transform
   only so the glass stays sharp; going right along the tabs, right to left), while the old tab's marks fade out and the
   new tab's fade in. Reduced motion swaps them at once.
+- **Every tab on the map** (2026-11-21, after the three map tabs). News and Analytics are each one glass sheet over the same map
+  (`--glass-page`, about half as see-through as the map panels, so reading stays clear and the map is only just there),
+  scrolling inside themselves, with their day headings pinned solid. All five tabs slide in tab order (News, Map & Patterns,
+  Live Situations, Organised Crime, Analytics). The map runs on under the Area/Time bar, which is glass too but almost solid
+  (`--scope-bg`, about 13% see-through); its height is measured (`--scope-real`) so the sheets sit just under it at every
+  width. The reading note moved to the foot of the News sheet.
 - **Live situations in red** (`--live`): a live situation (today or ongoing) is a small red dot that blinks on and off
   and keeps its size; a planned one is an open red ring with its date; recent ones stay small ash dots. "Live" and its
   blinking dot in the list are red too. Red here means "happening now or coming", nowhere else.

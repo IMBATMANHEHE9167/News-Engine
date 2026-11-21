@@ -47,6 +47,7 @@ document.documentElement.dataset.theme=t;})();
   --f-violent:#C0392B; --f-women:#B83280; --f-property:#D98324; --f-fraud:#2C6FB7; --f-drugs:#2E8B57; --f-road:#6B7280;
   --h1:#FFF7BC; --h2:#FEC44F; --h3:#FE9929; --h4:#D95F0E; --h5:#7F0000;
   --glass:rgba(249,248,246,.4); --glass-2:rgba(249,248,246,.28); --glass-edge:rgba(255,255,255,.7); --glass-blur:blur(7px) saturate(1.6);
+  --glass-page:rgba(249,248,246,.73); --scope-bg:rgba(236,234,230,.87);   /* News and Analytics sheets; the Area/Time bar over the map */
   --display:"Boska","Tiro Devanagari Marathi",Georgia,serif;
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -69,6 +70,7 @@ document.documentElement.dataset.theme=t;})();
   --f-violent:#E5594F; --f-women:#E26BA8; --f-property:#EDA44B; --f-fraud:#5FA0E6; --f-drugs:#4CBF80; --f-road:#9AA3AF;
   --h1:#5A0F0F; --h2:#A51C1C; --h3:#E34A33; --h4:#FDBB84; --h5:#FFF7EC;
   --glass:rgba(22,21,20,.3); --glass-2:rgba(22,21,20,.22); --glass-edge:rgba(238,235,230,.16); --glass-blur:blur(7px) saturate(1.6);
+  --glass-page:rgba(22,21,20,.69); --scope-bg:rgba(21,20,19,.85);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip;scrollbar-gutter:stable}   /* the page keeps its width whether or not it scrolls, so the bar never shifts */
@@ -329,6 +331,7 @@ option{background:var(--paper-2);color:var(--ink)}
    bottom sheet. */
 body.fullv{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
 body.fullv footer{display:none}
+body.fullv .glasspage footer{display:block;grid-column:1/-1;max-width:none;margin:0;padding:4px 0 0}   /* the reading note, at the foot of the News sheet */
 .page.full{max-width:none;width:100%;margin:0;padding:0;flex:1 1 auto;min-height:0;position:relative}
 .fmap{position:absolute;inset:0;z-index:1}
 /* The three map tabs share one map (#gmap) on one stage; each tab is a layer of panels over it. Moving between them
@@ -339,6 +342,19 @@ body.fullv footer{display:none}
 .leaflet-pane.tp{opacity:0;visibility:hidden;transition:opacity .16s ease,visibility 0s linear .16s}
 .leaflet-pane.tp.on{opacity:1;visibility:visible;transition:opacity .26s ease .16s,visibility 0s}
 @media (prefers-reduced-motion:reduce){.leaflet-pane.tp,.leaflet-pane.tp.on{transition:none}}
+/* News and Analytics: each one glass sheet over the shared map, scrolling inside itself, sliding with the map tabs in the
+   order of the tabs. Its glass is denser than the map panels' (about half as see-through), so the reading is clear and the
+   map is only just there. The Area/Time bar is glass too, almost solid, with the map running on under it. */
+.scope{background:var(--scope-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur)}
+.stage{margin-top:calc(-1 * var(--scope-real, var(--scope-h)))}
+.stage > .page.full{top:var(--scope-real, var(--scope-h))}
+.stage > .glasspage{position:absolute;inset:calc(var(--scope-real, var(--scope-h)) + 16px) 16px 16px;z-index:2;max-width:none;margin:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;border-radius:var(--r-card);background:var(--glass-page);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-edge);box-shadow:var(--shadow);--stick:0px}
+.glasspage .sheet,.glasspage .casefile,.glasspage .finding,.glasspage .wells div,.glasspage .mult{background:var(--glass-2)}
+.glasspage .filter button.on,.glasspage .seg button.on{background:var(--glass)}
+.glasspage .day{background:var(--paper-2)}   /* a pinned day heading stays solid, so rows never show through it */
+.glasspage .detail{max-height:calc(100dvh - var(--bar-h) - var(--scope-real, var(--scope-h)) - 88px)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.stage > .glasspage{background:var(--paper-2)}.scope{background:var(--paper)}}
+@media (max-width:1023px){.stage > .glasspage{inset:calc(var(--scope-real, var(--scope-h)) + 8px) 8px 8px;border-radius:18px}.glasspage .day{top:0}}
 .panels{display:contents}
 .sheetbar{display:none}
 .panel{position:absolute;top:16px;bottom:16px;z-index:600;width:380px;overflow:hidden auto;overscroll-behavior:contain;scrollbar-width:thin;background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-card);box-shadow:var(--shadow);padding:22px}
@@ -722,16 +738,21 @@ footer p{margin:0;max-width:820px}
   <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
 </div>
 
-<main id="news" class="page reports">
+
+<!-- Every tab sits on one map of Pune, which stays put: News and Analytics as glass sheets, the three map tabs as glass panels. Moving between tabs slides them the way of the tabs; each tab's marks fade in and out. -->
+<div id="stage" class="stage hide">
+<div id="gmap" class="fmap" role="region" aria-label="Map: counted incidents, situations or organised-crime ground, by the tab open"></div>
+
+<main id="news" class="page reports glasspage">
   <section class="stmt" id="newsStmt" aria-label="Today"></section>
   <aside class="rail" aria-label="Filter by type"><h2 class="rail-h">Type</h2><div class="filter" id="newsFilter"></div><details class="srcbox" id="srcBox"><summary id="srcSum">Sources</summary><div id="sources"></div></details></aside>
   <section class="sheet" aria-label="News register"><div id="newsList"><div class="empty">Loading news</div></div></section>
   <aside class="detail" id="newsDetail" aria-label="News file" aria-live="polite"></aside>
+<footer><p>
+  Compiled from public news reports; every headline links to its publisher. Each report is read by machine (an AI reading, checked against rules), so a few areas and types will be wrong.
+  This reflects what the press reported, not all crime, and a report is not an independently verified fact.
+</p></footer>
 </main>
-
-<!-- The three map tabs share one map, which stays put; only their panels slide over it and their marks fade in and out. -->
-<div id="stage" class="stage hide">
-<div id="gmap" class="fmap" role="region" aria-label="Map: counted incidents, situations or organised-crime ground, by the tab open"></div>
 
 <main id="mapv" class="page full glassmap hide" aria-label="Map & Patterns">
   <div class="mtip hide" id="mapTip" role="tooltip"></div>
@@ -783,18 +804,15 @@ footer p{margin:0;max-width:820px}
     </aside>
   </div>
 </main>
-</div>
 
-<main id="anv" class="page hide">
+<main id="anv" class="page glasspage hide">
   <div class="anhead"><div class="slide" id="anMode" role="tablist" aria-label="Analytics view" data-on="findings"><button data-anm="findings" class="on" type="button" role="tab" aria-selected="true">Findings</button><button data-anm="graphs" type="button" role="tab" aria-selected="false">Graphs</button></div><p id="anSub"></p></div>
   <div id="anBody"></div>
 </main>
+</div>
+
 
 <div id="gTip" class="gtip"></div>
-<footer><p>
-  Compiled from public news reports; every headline links to its publisher. Each report is read by machine (an AI reading, checked against rules), so a few areas and types will be wrong.
-  This reflects what the press reported, not all crime, and a report is not an independently verified fact.
-</p></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
@@ -904,7 +922,7 @@ function fitView(m = MAP) {
   if (!m) return;
   const pts = AREAS.filter(a => areaInView(a.id)).map(a => [a.lat, a.lon]), box = $(MAIN[document.body.dataset.tab]) || m.getContainer().parentElement;   // the open tab's panels
   const side = s => { const el = box.querySelector(s); return el && el.offsetWidth && getComputedStyle(el).position === 'absolute' ? el.offsetWidth + 40 : 28; };
-  const top = box.querySelector('.ocfloat') ? 76 : 28, sheet = box.querySelector('.panels');
+  const top = (box.querySelector('.ocfloat') ? 76 : 28) + document.querySelector('.scope').offsetHeight, sheet = box.querySelector('.panels');   // the map runs on under the Area/Time bar
   const phone = innerWidth < 1024, tl = phone ? [20, top] : [side('.panel.pl'), top], br = phone ? [20, (sheet ? sheet.offsetHeight : 0) + 20] : [side('.panel.pr'), 28];
   if (pts.length === 1) m.setView(pts[0], 13); else m.fitBounds(L.latLngBounds(pts), { paddingTopLeft: tl, paddingBottomRight: br, maxZoom: 13 });
 }
@@ -1161,7 +1179,8 @@ let MAP, LAYER, picked = null, SPOTS = {};   // SPOTS: news key -> its mark on t
 // 'ocMap') draws into panes of its own, which fade in and out with the tab: id+'Heat' for count discs, id for drawn marks,
 // id+'Top' for marks and labels above them.
 let GMAP = null;
-const MAPTABS = ['map', 'sit', 'oc'], MAIN = { map: 'mapv', sit: 'sitv', oc: 'ocv' }, MAPID = { map: 'map', sit: 'sitMap', oc: 'ocMap' };
+// Every tab sits on the map stage, in the order of the tabs; News and Analytics have no marks of their own.
+const MAPTABS = ['news', 'map', 'sit', 'oc', 'an'], MAIN = { news: 'news', map: 'mapv', sit: 'sitv', oc: 'ocv', an: 'anv' }, MAPID = { news: 'newsMap', map: 'map', sit: 'sitMap', oc: 'ocMap', an: 'anMap' };
 function makeMap(id) {
   if (!GMAP) {
     // Full-screen map: the wheel (or a pinch) zooms; there are no plus and minus buttons.
@@ -2590,7 +2609,7 @@ function show(tab) {
     if (tab === v) { const row = $(b).parentElement, br = $(b).getBoundingClientRect(), rr = row.getBoundingClientRect(); if (br.right <= rr.left) row.scrollLeft -= rr.left - br.left + 12; else if (br.left >= rr.right) row.scrollLeft += br.right - rr.right + 12; }
   }
   const onStage = MAPTABS.includes(tab), slide = onStage && MAPTABS.includes(prev) && prev !== tab && motion() === 'smooth';
-  $('news').classList.toggle('hide', tab !== 'news'); $('anv').classList.toggle('hide', tab !== 'an');
+  // (News and Analytics are on the stage too, shown and hidden with the others below.)
   $('stage').classList.toggle('hide', !onStage);
   for (const t of MAPTABS) if (!(slide && t === prev)) $(MAIN[t]).classList.toggle('hide', t !== tab);
   // The three map tabs fill the screen under the band and do not scroll; the wheel zooms the map.
@@ -2603,6 +2622,7 @@ function show(tab) {
   if (tab === 'oc') drawOc();
   if (tab === 'an') drawAn();
   if (tab === 'map') drawMap();
+  if ((tab === 'news' || tab === 'an') && !MAPS[MAPID[tab]]) makeMap(MAPID[tab]);   // the map behind the glass, with no marks
   if (onStage) {
     paneShow();
     if (slide) slidePanels(prev, tab);
@@ -2634,7 +2654,10 @@ $('tabMap').onclick = () => show('map');
 $('tabSit').onclick = () => show('sit');
 $('tabOc').onclick = () => show('oc');
 $('tabAn').onclick = () => show('an');
-$('brandLink').onclick = e => { e.preventDefault(); show('news'); scrollTo({ top: 0 }); };
+$('brandLink').onclick = e => { e.preventDefault(); show('news'); $('news').scrollTop = 0; };
+// The map runs on under the Area/Time bar: the stage and its sheets are placed by the bar's height, measured here because
+// it changes with the screen (one row on a computer, more on a phone).
+new ResizeObserver(([en]) => document.documentElement.style.setProperty('--scope-real', Math.round(en.target.getBoundingClientRect().height) + 'px')).observe(document.querySelector('.scope'));
 await load();
 show({ '#map': 'map', '#sit': 'sit', '#oc': 'oc', '#an': 'an' }[location.hash] || 'news');
 </script>
