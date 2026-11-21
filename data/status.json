@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T22:18:19.003Z",
+ "updated": "2026-11-21T23:17:53.021Z",
  "total": 2796,
  "added": 0,
  "removed": 0,
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 22,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -111,10 +111,10 @@
   {
    "id": "tv9",
    "name": "TV9 Marathi",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 3,
    "added": 0,
-   "note": "The read operation timed out"
+   "note": ""
   },
   {
    "id": "abp",
@@ -135,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 1,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
