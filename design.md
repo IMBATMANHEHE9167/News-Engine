@@ -112,6 +112,18 @@ Copper text never sits on a heat well; the busiest cell's number is bold ink.
   Phones: holding a finger still on the map (230 ms, one tick) starts a scrub: running it across ticks once per incident
   passed (so a busy place buzzes), harder on entering an area (whose faint outline shows), with a tip above the finger;
   lifting opens what is under it. A quick swipe still pans; a pinch ticks every half zoom step; every control ticks.
+- **One map for the three map tabs** (2026-11-21). Map & patterns, Live situations and Organised crime share one map
+  (`#gmap` on `#stage`), which keeps its view as the tabs change (fitted to the area view only the first time and when the
+  area changes). Each tab is a layer of glass panels over it and draws into panes of its own (`t<id>Heat`, `t<id>`,
+  `t<id>Top`). Moving between them, the panels push out the way of travel and the new tab's push in (460 ms, transform
+  only so the glass stays sharp; going right along the tabs, right to left), while the old tab's marks fade out and the
+  new tab's fade in. Reduced motion swaps them at once.
+- **Live situations in red** (`--live`): a live situation (today or ongoing) is a small red dot that blinks on and off
+  and keeps its size; a planned one is an open red ring with its date; recent ones stay small ash dots. "Live" and its
+  blinking dot in the list are red too. Red here means "happening now or coming", nowhere else.
+- **Gang links** is an arc diagram: the groups in a column, busiest first, with their reports; hairline arcs to the left
+  join groups named together, thicker for more reports; a solid copper dot is active, an open ring quiet. Pointing at a
+  group lights its arcs in copper and shows beside each partner how many reports name them together.
 - Under 1024px the band stacks (brand row, tab row, scan line, scope), and a map tab's panels become one bottom sheet
   with a switch between them and Expand / Collapse.
 - **Analytics** opens with a big Findings / Graphs slider at the top centre. Findings: the official record first, then
