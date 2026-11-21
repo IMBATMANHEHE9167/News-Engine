@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T04:20:03.359Z",
+ "updated": "2026-11-21T05:20:07.469Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -120,9 +120,9 @@
   "split_cases": 10,
   "date_spread": 8,
   "waiting_for_judge": 0,
-  "pairs_judged": 920,
-  "pairs_judged_same": 806,
-  "judge_checked_by_expert": 377,
+  "pairs_judged": 921,
+  "pairs_judged_same": 807,
+  "judge_checked_by_expert": 387,
   "judge_overturned_by_expert": 2,
   "non_incident_wording": 2,
   "area_disagreement": 23,
@@ -130,22 +130,22 @@
   "source_gap_days": 64,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2779,
-  "cases": 1640
+  "reports": 2784,
+  "cases": 1641
  },
  "examples": {
   "split_cases": [
    [
-    "मनोज जरांगे यांच्या सांगण्यावरूनच माझ्यावर हल्ला, रेखा कोंडे यांचा गंभीर आरोप, थेट मोठा राडा..",
+    "Rekha Konde Assault Case: पुण्यात ठाकरे गटाच्या महिला पदाधिकाऱ्याला मारहाण; आरती मारणे यांच्यासह चार महिलांविरोधात गुन्हा, VIDEO समोर",
     "Rekha Konde: ठाकरे गटाच्या पदाधिकारी रेखा कोंडे यांना पुण्यात मारहाण; आरती मारणे-पवार यांची बदनामी केल्याचा आरोप"
    ],
    [
-    "Pune Investment Fraud : जादा परताव्याच्या आमिषाने पुण्यात गुंतवणूकदारांची १ कोटी ३८ लाख रुपयांची फसवणूक, वानवडी पोलिस ठाण्यात तिघांविरुद्ध गुन्हा दाखल",
-    "Pune Police Book 3 For Allegedly Duping Investors Of ₹1.38 Crore Through High-Return Investment Schemes"
+    "Woman bludgeoned to death by brother-in-law after being hit by mini-truck near Saswad",
+    "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
    ],
    [
-    "Pune News : पांगारे खून प्रकरणाचा ७ तासांत छडा; शिरवळच्या डोंगराळ भागातून आरोपीला अटक",
-    "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
+    "Trio dupe 8 investors of ₹1.4cr with 6% per month returns promise",
+    "Pune Investment Fraud : जादा परताव्याच्या आमिषाने पुण्यात गुंतवणूकदारांची १ कोटी ३८ लाख रुपयांची फसवणूक, वानवडी पोलिस ठाण्यात तिघांविरुद्ध गुन्हा दाखल"
    ],
    [
     "Man killed over marital dispute; father-in-law, grandfather-in-law held",
@@ -286,6 +286,18 @@
   ],
   "source_gaps": [
    {
+    "source": "pkn",
+    "days": 27,
+    "examples": [
+     "2026-10-25",
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15"
+    ]
+   },
+   {
     "source": "toi",
     "days": 11,
     "examples": [
@@ -319,18 +331,6 @@
      "2026-10-10",
      "2026-10-18",
      "2026-11-06"
-    ]
-   },
-   {
-    "source": "pkn",
-    "days": 27,
-    "examples": [
-     "2026-10-25",
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-15"
     ]
    },
    {
