@@ -70,7 +70,7 @@ document.documentElement.dataset.theme=t;})();
   --glass:rgba(22,21,20,.3); --glass-2:rgba(22,21,20,.22); --glass-edge:rgba(238,235,230,.16); --glass-blur:blur(7px) saturate(1.6);
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;overflow-x:clip}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;scrollbar-gutter:stable}   /* the page keeps its width whether or not it scrolls, so the bar never shifts */
 body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/22px var(--sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;overflow-x:clip}
 /* Light mode: body text one weight up (Mukta 500), so it reads as easily as light text on the dark ground */
 :root:not([data-theme="dark"]) body,:root:not([data-theme="dark"]) .say{font-weight:500}
@@ -104,13 +104,14 @@ html{scrollbar-color:var(--rule-2) transparent;accent-color:var(--copper);caret-
 .tabs button{flex:none;appearance:none;background:none;border:0;height:38px;padding:0 16px;border-radius:var(--r-ctl);font-size:14px;font-weight:500;color:var(--shell-ink-2);white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .tabs button:hover{background:var(--shell-hover);color:var(--shell-ink)}
 .tabs button.on{background:var(--shell-copper);color:var(--on-shell-copper)}
-.scanline{order:2;flex:none;margin:0;font-size:12px;line-height:16px;color:var(--shell-ink-2);text-align:right;white-space:nowrap}
+.scanline{order:2;flex:none;margin:0;width:206px;overflow:hidden;text-overflow:ellipsis;font-size:12px;line-height:16px;color:var(--shell-ink-2);text-align:right;white-space:nowrap}
 .scanline .sep{display:block}
 .scanline b{font-family:var(--mono);font-weight:500;color:var(--shell-ink)}
 .scanline .late{display:inline-flex;align-items:center;gap:6px;color:var(--shell-copper);font-weight:500}
 .scanline .late::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--shell-copper);box-shadow:0 0 0 3px var(--shell-hover)}
 .switch{order:3;flex:none;appearance:none;background:none;border:0;padding:4px;border-radius:var(--r-ctl);display:flex;align-items:center;gap:6px;font-size:11px;color:var(--shell-ink-2)}
 .switch:hover{color:var(--shell-ink)}
+#themeWord{display:inline-block;min-width:2.4em;text-align:right}   /* Light and Dark take the same room */
 .switch i{display:block;position:relative;width:26px;height:15px;border-radius:8px;background:var(--shell-2);box-shadow:inset 0 0 0 1px var(--shell-rule)}
 .switch i::after{content:"";position:absolute;top:2.5px;left:2.5px;width:10px;height:10px;border-radius:50%;background:var(--shell-copper);transition:transform var(--dur) var(--ease)}
 :root[data-theme="dark"] .switch i::after{transform:translateX(11px)}
@@ -628,7 +629,7 @@ footer p{margin:0;max-width:820px}
   .tabs{order:0;flex:none;position:sticky;top:0;z-index:1000;padding:2px 10px 6px;background:var(--shell);border-bottom:1px solid var(--shell-rule)}
   .scanline{order:0;flex:none}
   .brandrow,.scope{flex:none}
-  .scanline{display:block;padding:4px 16px 5px;background:var(--shell);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;line-height:15px}
+  .scanline{display:block;width:auto;padding:4px 16px 5px;background:var(--shell);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;line-height:15px}
   .scanline .sep{display:inline-block;width:12px}
   .mark{font-size:23px;padding-bottom:7px}
   .brand .place{font-size:15px}
@@ -1735,7 +1736,8 @@ let scanTab = 'news';
 function drawScan() {
   const S = SCAN_S || STATUS, SS = SCAN_SS || SITSTATUS;   // the latest scans, even before their data is shown
   const el = $('scanLine');
-  if (scanTab !== 'news' && scanTab !== 'sit') { el.classList.add('hide'); return; }
+  // Every tab shows a scan line, so the bar never changes shape: Live Situations its own 15-minute scan; News, the maps,
+  // Organised Crime and Analytics the hourly news scan their data come from.
   el.classList.remove('hide');
   const t = ms => { const d = new Date(ms); return (istDay(ms) === istDay(Date.now()) ? '' : fmtDay(ms) + ', ') + d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' }); };
   let lastIso, next, every;
@@ -2582,8 +2584,9 @@ function show(tab) {
   document.body.dataset.tab = tab;
   for (const [b, v] of [['tabNews', 'news'], ['tabMap', 'map'], ['tabSit', 'sit'], ['tabOc', 'oc'], ['tabAn', 'an']]) {
     $(b).classList.toggle('on', tab === v); $(b).setAttribute('aria-current', tab === v ? 'page' : 'false');
-    // The row of tabs stays put: it scrolls only when the open tab is out of sight (on a narrow screen), and only far enough to show it.
-    if (tab === v) { const row = $(b).parentElement, br = $(b).getBoundingClientRect(), rr = row.getBoundingClientRect(); if (br.left < rr.left) row.scrollLeft -= rr.left - br.left + 12; else if (br.right > rr.right) row.scrollLeft += br.right - rr.right + 12; }
+    // The row of tabs stays put when a tab is tapped, even one half off the edge; it scrolls only when the open tab is wholly
+    // out of sight (opened from a link), and then just far enough to show it.
+    if (tab === v) { const row = $(b).parentElement, br = $(b).getBoundingClientRect(), rr = row.getBoundingClientRect(); if (br.right <= rr.left) row.scrollLeft -= rr.left - br.left + 12; else if (br.left >= rr.right) row.scrollLeft += br.right - rr.right + 12; }
   }
   const onStage = MAPTABS.includes(tab), slide = onStage && MAPTABS.includes(prev) && prev !== tab && motion() === 'smooth';
   $('news').classList.toggle('hide', tab !== 'news'); $('anv').classList.toggle('hide', tab !== 'an');
