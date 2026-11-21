@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T14:17:55.348Z",
- "total": 2792,
- "added": 0,
+ "updated": "2026-11-21T15:18:23.154Z",
+ "total": 2793,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -96,7 +96,7 @@
    "id": "pcl",
    "name": "Pune City Live",
    "ok": true,
-   "found": 4,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -160,8 +160,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 8,
-   "added": 0,
+   "found": 9,
+   "added": 1,
    "note": ""
   }
  ]
