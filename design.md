@@ -109,6 +109,9 @@ Copper text never sits on a heat well; the busiest cell's number is bold ink.
   the area centre. Areas are not drawn: pointing shows a faint outline, name and count; selecting a point or an area
   opens it in the left panel. This is the one deliberate exception to "copper is the one colour": the kinds and the
   ramp are the map's data colours and appear nowhere else. Type is the page's own (Mukta, Boska), sentence case.
+  Phones: holding a finger still on the map (230 ms, one tick) starts a scrub: running it across ticks once per incident
+  passed (so a busy place buzzes), harder on entering an area (whose faint outline shows), with a tip above the finger;
+  lifting opens what is under it. A quick swipe still pans; a pinch ticks every half zoom step; every control ticks.
 - Under 1024px the band stacks (brand row, tab row, scan line, scope), and a map tab's panels become one bottom sheet
   with a switch between them and Expand / Collapse.
 - **Analytics** opens with a big Findings / Graphs slider at the top centre. Findings: the official record first, then
