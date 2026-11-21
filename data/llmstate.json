@@ -2,7 +2,7 @@
  "day": "2026-11-21",
  "used": {
   "gemini-3.1-flash-lite": 2,
-  "gemini-3.6-flash": 10,
+  "gemini-3.6-flash": 11,
   "gemini-3.5-flash-lite": 6
  },
  "rested": {},
@@ -32,8 +32,8 @@
  "second": 0,
  "expert": 8,
  "not_incident": 176,
- "updated": "2026-11-21T20:17:43.710Z",
- "audited": 497,
- "overturned": 4,
+ "updated": "2026-11-21T21:17:53.926Z",
+ "audited": 507,
+ "overturned": 6,
  "judged": 2
 }
