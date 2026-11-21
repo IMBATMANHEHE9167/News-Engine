@@ -47,7 +47,7 @@ document.documentElement.dataset.theme=t;})();
   --f-violent:#C0392B; --f-women:#B83280; --f-property:#D98324; --f-fraud:#2C6FB7; --f-drugs:#2E8B57; --f-road:#6B7280;
   --h1:#FFF7BC; --h2:#FEC44F; --h3:#FE9929; --h4:#D95F0E; --h5:#7F0000;
   --glass:rgba(249,248,246,.4); --glass-2:rgba(249,248,246,.28); --glass-edge:rgba(255,255,255,.7); --glass-blur:blur(7px) saturate(1.6);
-  --glass-page:rgba(249,248,246,.73); --scope-bg:rgba(236,234,230,.87);   /* News and Analytics sheets; the Area/Time bar over the map */
+  --glass-page:rgba(249,248,246,.82); --scope-bg:rgba(236,234,230,.87);   /* News and Analytics sheets; the Area/Time bar over the map */
   --display:"Boska","Tiro Devanagari Marathi",Georgia,serif;
   --sans:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -70,7 +70,7 @@ document.documentElement.dataset.theme=t;})();
   --f-violent:#E5594F; --f-women:#E26BA8; --f-property:#EDA44B; --f-fraud:#5FA0E6; --f-drugs:#4CBF80; --f-road:#9AA3AF;
   --h1:#5A0F0F; --h2:#A51C1C; --h3:#E34A33; --h4:#FDBB84; --h5:#FFF7EC;
   --glass:rgba(22,21,20,.3); --glass-2:rgba(22,21,20,.22); --glass-edge:rgba(238,235,230,.16); --glass-blur:blur(7px) saturate(1.6);
-  --glass-page:rgba(22,21,20,.69); --scope-bg:rgba(21,20,19,.85);
+  --glass-page:rgba(22,21,20,.79); --scope-bg:rgba(21,20,19,.85);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip;scrollbar-gutter:stable}   /* the page keeps its width whether or not it scrolls, so the bar never shifts */
@@ -343,7 +343,7 @@ body.fullv .glasspage footer{display:block;grid-column:1/-1;max-width:none;margi
 .leaflet-pane.tp.on{opacity:1;visibility:visible;transition:opacity .26s ease .16s,visibility 0s}
 @media (prefers-reduced-motion:reduce){.leaflet-pane.tp,.leaflet-pane.tp.on{transition:none}}
 /* News and Analytics: each one glass sheet over the shared map, scrolling inside itself, sliding with the map tabs in the
-   order of the tabs. Its glass is denser than the map panels' (about half as see-through), so the reading is clear and the
+   order of the tabs. Its glass is denser than the map panels' (70% less see-through), so the reading is clear and the
    map is only just there. The Area/Time bar is glass too, almost solid, with the map running on under it. */
 .scope{background:var(--scope-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur)}
 .stage{margin-top:calc(-1 * var(--scope-real, var(--scope-h)))}
