@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T03:20:00.068Z",
+ "updated": "2026-11-21T04:20:03.359Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -122,7 +122,7 @@
   "waiting_for_judge": 0,
   "pairs_judged": 920,
   "pairs_judged_same": 806,
-  "judge_checked_by_expert": 367,
+  "judge_checked_by_expert": 377,
   "judge_overturned_by_expert": 2,
   "non_incident_wording": 2,
   "area_disagreement": 23,
@@ -130,14 +130,14 @@
   "source_gap_days": 64,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2776,
-  "cases": 1638
+  "reports": 2779,
+  "cases": 1640
  },
  "examples": {
   "split_cases": [
    [
-    "Rekha Konde: ठाकरे गटाच्या पदाधिकारी रेखा कोंडे यांना पुण्यात मारहाण; आरती मारणे-पवार यांची बदनामी केल्याचा आरोप",
-    "Pune Rekha Konde Attack News: पुण्यात तुफान राडा! ठाकरे गटाच्या रेखा कोंडेंना मारहाण, नेमकं काय घडलं?"
+    "मनोज जरांगे यांच्या सांगण्यावरूनच माझ्यावर हल्ला, रेखा कोंडे यांचा गंभीर आरोप, थेट मोठा राडा..",
+    "Rekha Konde: ठाकरे गटाच्या पदाधिकारी रेखा कोंडे यांना पुण्यात मारहाण; आरती मारणे-पवार यांची बदनामी केल्याचा आरोप"
    ],
    [
     "Pune Investment Fraud : जादा परताव्याच्या आमिषाने पुण्यात गुंतवणूकदारांची १ कोटी ३८ लाख रुपयांची फसवणूक, वानवडी पोलिस ठाण्यात तिघांविरुद्ध गुन्हा दाखल",
@@ -286,6 +286,18 @@
   ],
   "source_gaps": [
    {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   },
+   {
     "source": "skl",
     "days": 8,
     "examples": [
@@ -307,18 +319,6 @@
      "2026-10-10",
      "2026-10-18",
      "2026-11-06"
-    ]
-   },
-   {
-    "source": "toi",
-    "days": 11,
-    "examples": [
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-04",
-     "2026-11-11",
-     "2026-11-12"
     ]
    },
    {

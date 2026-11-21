@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T03:18:01.027Z",
- "total": 2776,
- "added": 1,
+ "updated": "2026-11-21T04:18:16.077Z",
+ "total": 2779,
+ "added": 3,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,17 +47,17 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 24,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -65,7 +65,7 @@
    "name": "Times of India",
    "ok": true,
    "found": 3,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -112,8 +112,8 @@
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -135,17 +135,17 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 2,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 7,
-   "added": 0,
+   "found": 6,
+   "added": 1,
    "note": ""
   },
   {
