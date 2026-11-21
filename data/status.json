@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-21T15:18:23.154Z",
- "total": 2793,
+ "updated": "2026-11-21T16:17:59.431Z",
+ "total": 2794,
  "added": 1,
  "removed": 0,
  "rules": 11,
@@ -96,7 +96,7 @@
    "id": "pcl",
    "name": "Pune City Live",
    "ok": true,
-   "found": 2,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -104,7 +104,7 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -144,8 +144,8 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 6,
+   "added": 1,
    "note": ""
   },
   {
@@ -160,8 +160,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 9,
-   "added": 1,
+   "found": 10,
+   "added": 0,
    "note": ""
   }
  ]
