@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T09:19:39.972Z",
+ "updated": "2026-11-21T10:19:41.132Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -117,9 +117,9 @@
   }
  ],
  "detectors": {
-  "split_cases": 9,
+  "split_cases": 10,
   "date_spread": 9,
-  "waiting_for_judge": 0,
+  "waiting_for_judge": 1,
   "pairs_judged": 921,
   "pairs_judged_same": 807,
   "judge_checked_by_expert": 417,
@@ -130,14 +130,18 @@
   "source_gap_days": 64,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2790,
-  "cases": 1641
+  "reports": 2791,
+  "cases": 1642
  },
  "examples": {
   "split_cases": [
    [
     "४ वर्षांच्या मुलीच्या वाढदिवशीच आईचा खून; पुरंदर तालुक्यात शिक्षिकेच्या हत्येने हळहळ, आरोपी दीर ७ तासांत जेरबंद",
     "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
+   ],
+   [
+    "Prajakt Tanpure’s Viman Nagar Residence Targeted In Theft, Valuables Worth ₹90,916 Missing",
+    "आमदार प्राजक्त तनपुरे यांच्या सदनिकेत चोरी; महागड्या वस्तू चोरीला"
    ],
    [
     "Trio dupe 8 investors of ₹1.4cr with 6% per month returns promise",
@@ -162,10 +166,6 @@
    [
     "Scrap collecting woman robbed, left on road, dies in crash; accused held",
     "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
-   ],
-   [
-    "Student killed, two friends injured after speeding bike hits speedbreaker",
-    "Pune Accident : पुणे शहरात वेगवेगळ्या अपघातात तिघांचा मृत्यू"
    ]
   ],
   "date_spread": [
@@ -288,6 +288,18 @@
   ],
   "source_gaps": [
    {
+    "source": "ptm",
+    "days": 17,
+    "examples": [
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
+    ]
+   },
+   {
     "source": "pkn",
     "days": 27,
     "examples": [
@@ -321,18 +333,6 @@
      "2026-10-01",
      "2026-10-11",
      "2026-11-10"
-    ]
-   },
-   {
-    "source": "ptm",
-    "days": 17,
-    "examples": [
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10",
-     "2026-10-18",
-     "2026-11-06"
     ]
    },
    {
