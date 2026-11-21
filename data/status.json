@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T06:17:59.121Z",
- "total": 2785,
- "added": 1,
+ "updated": "2026-11-21T07:18:07.260Z",
+ "total": 2787,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -64,7 +64,7 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 4,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -121,7 +121,7 @@
    "name": "ABP Majha",
    "ok": true,
    "found": 5,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -152,15 +152,15 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 2,
+   "added": 2,
    "note": ""
   },
   {
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 6,
+   "found": 7,
    "added": 0,
    "note": ""
   }

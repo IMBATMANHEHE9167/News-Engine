@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T06:19:23.792Z",
+ "updated": "2026-11-21T07:20:18.421Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -117,12 +117,12 @@
   }
  ],
  "detectors": {
-  "split_cases": 10,
-  "date_spread": 8,
+  "split_cases": 9,
+  "date_spread": 9,
   "waiting_for_judge": 0,
   "pairs_judged": 921,
   "pairs_judged_same": 807,
-  "judge_checked_by_expert": 397,
+  "judge_checked_by_expert": 407,
   "judge_overturned_by_expert": 2,
   "non_incident_wording": 2,
   "area_disagreement": 23,
@@ -130,18 +130,14 @@
   "source_gap_days": 64,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2785,
-  "cases": 1641
+  "reports": 2787,
+  "cases": 1640
  },
  "examples": {
   "split_cases": [
    [
     "Pune Crime News: पतीच्या मृत्यूनंतर पैशांवरून कौटुंबिक वादानं टोक गाठलं, दिर अन् सासूनं शिक्षिकेला संपवलं; वाढदिवसादिवशीच लेक झाली पोरकी; घटनेनं पुरंदर हादरलं!",
     "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
-   ],
-   [
-    "Rekha Konde Assault Case: पुण्यात ठाकरे गटाच्या महिला पदाधिकाऱ्याला मारहाण; आरती मारणे यांच्यासह चार महिलांविरोधात गुन्हा, VIDEO समोर",
-    "Rekha Konde: ठाकरे गटाच्या पदाधिकारी रेखा कोंडे यांना पुण्यात मारहाण; आरती मारणे-पवार यांची बदनामी केल्याचा आरोप"
    ],
    [
     "Trio dupe 8 investors of ₹1.4cr with 6% per month returns promise",
@@ -166,9 +162,22 @@
    [
     "Scrap collecting woman robbed, left on road, dies in crash; accused held",
     "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
+   ],
+   [
+    "Student killed, two friends injured after speeding bike hits speedbreaker",
+    "Pune Accident : पुणे शहरात वेगवेगळ्या अपघातात तिघांचा मृत्यू"
    ]
   ],
   "date_spread": [
+   {
+    "t": "Video: मनोज जरांगेंनीच महिलांना पुढे करून भ्याड हल्ला घडवला; पुण्यात मारहाणीनंतर रेखा कोंडे यांचा थेट आरोप",
+    "days": [
+     "2026-11-13",
+     "2026-11-18",
+     "2026-11-20",
+     "2026-11-21"
+    ]
+   },
    {
     "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
     "days": [
@@ -216,13 +225,6 @@
     "days": [
      "2026-07-02",
      "2026-08-15"
-    ]
-   },
-   {
-    "t": "Builder booked for cheating flat buyers of Rs50 crore",
-    "days": [
-     "2026-06-12",
-     "2026-06-16"
     ]
    }
   ],
