@@ -14,6 +14,7 @@ The form is enforced by a response schema. Daily use is counted per model (reset
 "limit reached" answer the model is rested until then. Progress and errors go to llmstate.json."""
 import json
 import os
+import re
 import time
 import urllib.error
 import urllib.request
@@ -420,8 +421,10 @@ def run_judges(pairs, cache):
 
 
 def audit_judges(cache, by_id):
-    """A stronger model re-judges the riskiest "same incident" verdicts of the fast judge (different days or areas
-    first, then the newest). Its answer is final: stored as 'same' or 'diff', never asked again."""
+    """A stronger model re-judges the fast judge's riskiest verdicts, both ways: a "same" across different days, areas
+    or types, and a "different" between reports that look alike (same area, same type, published within two days), since
+    a "different" keeps two reports apart for good. Riskiest first, then the newest. Its answer is final ('same' or
+    'diff'), never asked again."""
     S = Session()
     if not S.key:
         return 0
@@ -431,8 +434,12 @@ def audit_judges(cache, by_id):
             return None
         da = E.day_of(a['d']) if not a.get('i') else (E.date.fromisoformat(a['i']) - E.date(1970, 1, 1)).days
         db = E.day_of(b['d']) if not b.get('i') else (E.date.fromisoformat(b['i']) - E.date(1970, 1, 1)).days
-        return (abs(da - db) > 1) + (a.get('a') != b.get('a')) + (a.get('c') != b.get('c')), max(a['d'], b['d'])
-    todo = sorted((k for k, v in cache.items() if v is True and risk(k)), key=risk, reverse=True)
+        if cache[k] is True:
+            score = (abs(da - db) > 1) + (a.get('a') != b.get('a')) + (a.get('c') != b.get('c'))
+        else:
+            score = (a.get('a') == b.get('a')) + (a.get('c') == b.get('c')) + (abs(E.day_of(a['d']) - E.day_of(b['d'])) <= 2)
+        return score, max(a['d'], b['d'])
+    todo = sorted((k for k, v in cache.items() if v in (True, False) and risk(k)), key=risk, reverse=True)
     asked, n = 0, CFG['pair_batch']
     for k in range(0, len(todo), n):
         if asked >= CFG['per_run'].get('audit', 1):

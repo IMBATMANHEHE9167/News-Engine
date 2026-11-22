@@ -7,7 +7,7 @@
   "experts": ["gemini-3.6-flash", "gemini-3-flash", "gemini-flash-latest"],
   "rpd": {"readers": 500, "experts": 20},
   "rpm": {"readers": 15, "experts": 5},
-  "per_run": {"readers": 80, "experts": 3, "judges": 40, "audit": 1},
+  "per_run": {"readers": 80, "experts": 3, "judges": 40, "audit": 2},
   "batch": 6,
   "pair_batch": 15,
   "chars": 2500,

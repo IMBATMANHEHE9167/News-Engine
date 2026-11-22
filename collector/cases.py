@@ -33,6 +33,7 @@ DEV_SPAN = 90           # days: a later development is compared with reports thi
 CASE_SPAN = 365         # days: a named victim links a case's reports this far apart
 CANDIDATE = 0.55        # similarity from which a pair goes to the judge
 DEV_CANDIDATE = 0.70    # similarity from which a development and an older report go to the judge
+NEIGHBOUR = 0.30        # same kind of crime, same area, published within two days: from this similarity to the judge
 TOP = 6                 # at most this many closest candidates per report (plus every name or figure match)
 PROVISIONAL = 0.92      # until judged, pairs this alike (same family, published within 3 days) are joined
 RARE_TOKEN = 25         # a lone name word in at most this many reports can identify a person
@@ -129,8 +130,11 @@ def build(items, vec=None, verdicts=None):
             if gap > PUB_WINDOW and not y['dev']:
                 continue                          # only a later development is compared with older reports
             s = sim(i, j)
-            if figure_link(x, y) or (s >= (CANDIDATE if gap <= PUB_WINDOW else DEV_CANDIDATE)):
-                close.append((s, j, figure_link(x, y)))
+            # Same kind of crime in the same area, published within two days: always a candidate, however differently
+            # worded ("sepoy injured in shooting" one day, "security man dies of gunshot" the next).
+            neighbour = gap <= 2 and x['f'] == y['f'] and x['a'] and x['a'] == y['a'] and s >= NEIGHBOUR
+            if figure_link(x, y) or neighbour or (s >= (CANDIDATE if gap <= PUB_WINDOW else DEV_CANDIDATE)):
+                close.append((s, j, figure_link(x, y) or neighbour))
         close.sort(reverse=True)
         for k, (s, j, fig) in enumerate(close):
             if k < TOP or fig:
