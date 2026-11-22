@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T17:10:16.254Z",
+ "updated": "2026-11-22T17:23:03.033Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -184,34 +184,44 @@
    "ok": true,
    "detail": "listed",
    "bad": []
+  },
+  {
+   "name": "Pune auto-rickshaw strike from 23 Nov (sit-in outside Pune RTO) is placed on the map",
+   "ok": true,
+   "detail": "placed",
+   "bad": []
   }
  ],
  "detectors": {
-  "split_cases": 4,
-  "date_spread": 26,
-  "waiting_for_judge": 1306,
-  "pairs_judged": 1786,
-  "pairs_judged_same": 1122,
-  "judge_checked_by_expert": 721,
-  "judge_overturned_by_expert": 31,
+  "split_cases": 5,
+  "date_spread": 27,
+  "waiting_for_judge": 759,
+  "pairs_judged": 2341,
+  "pairs_judged_same": 1277,
+  "judge_checked_by_expert": 751,
+  "judge_overturned_by_expert": 56,
   "non_incident_wording": 2,
-  "area_disagreement": 29,
-  "silent_days": 2,
+  "area_disagreement": 28,
+  "silent_days": 3,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
   "reports": 2815,
-  "cases": 1619
+  "cases": 1582
  },
  "examples": {
   "split_cases": [
    [
-    "School bus collides with scooter, 16-year-old boy riding pillion succumbs to injuries",
-    "Pune School Bus Hits Scooter In Ghorpadi, 16-Year-Old Dies"
+    "Pedestrian killed after being hit by car",
+    "Software Engineer Killed After Car Hits Him During Morning Jog in Pune"
    ],
    [
     "Drug addicts assault GRP constable",
     "Pune: Police Constable Attacked With Sickle at Pune Railway Station After Confronting Group Allegedly Smoking Ganja"
+   ],
+   [
+    "Main Suspect Arrested with Country-Made Pistol Following Narayangaon Art Center Firing Incident",
+    "Firing at tamasha centre in Junnar injures man"
    ],
    [
     "Scrap collecting woman robbed, left on road, dies in crash; accused held",
@@ -336,6 +346,11 @@
     "usual": 8
    },
    {
+    "day": "2026-08-26",
+    "incidents": 2,
+    "usual": 8
+   },
+   {
     "day": "2026-09-27",
     "incidents": 1,
     "usual": 7
@@ -399,5 +414,5 @@
    }
   ]
  },
- "passed": 29
+ "passed": 30
 }
