@@ -109,10 +109,13 @@ ITEM = {
 SCHEMA = {'type': 'ARRAY', 'items': ITEM}
 
 JUDGE = """You compare pairs of news reports from Pune district. For each pair, decide whether both reports are about the
-SAME single incident: the same crime event with the same victims (one may be a later development of the other, or the
-same story from another newspaper). Two similar crimes of the same kind in the same area are NOT the same incident.
-Different victims, different sums, different places or different days mean different incidents. Answer only from what is
-given; if unsure, answer false."""
+SAME single incident or case: the same crime event with the same victims. One may be another newspaper's version (often in
+Marathi while the other is in English), or a later development of the other (arrest, custody, chargesheet, new details).
+Decide on the specific facts: who the victims and accused are (their roles, ages, jobs), what exactly happened, where,
+and the sums or numbers involved. The "happened" dates were read automatically and are sometimes wrong, and a report can
+appear days after the crime: do not decide on dates alone. Two similar crimes of the same kind in the same area are NOT
+the same incident: different victims, different sums or a different sequence of events mean different incidents.
+If the facts do not clearly show it is the same incident, answer false."""
 PAIR = {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {'pair': {'type': 'STRING'}, 'same': {'type': 'BOOLEAN'}},
                                    'required': ['pair', 'same']}}
 

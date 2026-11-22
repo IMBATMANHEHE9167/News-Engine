@@ -1,5 +1,5 @@
 {
- "note": "Permanent error tests. Every error found by hand becomes a test here, so the same kind of mistake is caught every hour, for ever. one_case: every counted report matching the pattern is in exactly one case. apart: no case holds reports matching both patterns. not_incident: no counted case holds a report matching the pattern. type: every counted case holding a matching report has this type. region: such cases lie in this part of the district (city, pcmc, rural). Patterns are case-insensitive regular expressions on headlines.",
+ "note": "Permanent error tests. Every error found by hand becomes a test here, so the same kind of mistake is caught every hour, for ever. one_case: every counted report matching the pattern is in exactly one case. apart: no case holds reports matching both patterns. not_incident: no counted case holds a report matching the pattern. type: every counted case holding a matching report has this type. not_fatal: no such case is marked as a death. organised: a matching report is listed under Organised crime. region: such cases lie in this part of the district (city, pcmc, rural). Patterns are case-insensitive regular expressions on headlines.",
  "tests": [
   {"name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka", "region": ["opium.*katraj|katraj.*opium|कात्रजमध्ये .*अफू", "city"]},
   {"name": "Jambhulwadi multi-vehicle crash (near Katraj) is placed in the city, not Ambegaon taluka", "region": ["Jambhulwadi: Two Dead|accident in Jambhulwadi|involved in accident", "city"]},
@@ -19,7 +19,18 @@
   {"name": "PMRDA notice on the POCSO court building is not an incident", "not_incident": "Pocso Court building"},
   {"name": "Kho-kho player's suicide is not a crime against women", "not_incident": "Kho-?Kho Player"},
   {"name": "ITI student stabbed at Gonwadi (Ambegaon taluka, Ghodegaon police; corrected 19 Nov 2026) is in Pune Rural", "region": ["ITI Student Stabbed|ITI student killed", "rural"]},
-  {"name": "Special NDPS court set up is not an incident", "not_incident": "Special Court Set Up"}
+  {"name": "Special NDPS court set up is not an incident", "not_incident": "Special Court Set Up"},
+  {"name": "Digital-arrest victim made to show his bedridden wife is one case (Indian Express, TOI)", "one_case": "bedridden wife|fake terror activities case"},
+  {"name": "Digital-arrest victim threatened with murder: no one died", "not_fatal": "bedridden wife|fake terror activities case"},
+  {"name": "Shiv Sena (UBT) leader Rekha Konde assault is one case", "one_case": "Rekha Konde|रेखा कोंडे|Four women booked for assaulting Shiv Sena"},
+  {"name": "Rekha Konde assault is kept apart from other Tilak Road and pistol stories", "apart": ["Rekha Konde|Four women booked for assaulting", "assault each other on Tilak Road|illegal pistols|खुनाच्या गुन्ह्यातील"]},
+  {"name": "Rekha Konde assault: no one died", "not_fatal": "Rekha Konde|Four women booked for assaulting Shiv Sena"},
+  {"name": "Shots fired at a businessman's SUV in Baramati is one case", "one_case": "SUV in Baramati|बारामतीत उद्योजकाच्या|गोळीबाराचा थरार! खंडणी|बारामतीत थरार, सुप्रिया"},
+  {"name": "21-year-old posing as an IAS officer (Rs 35 lakh society fraud) is one case", "one_case": "Posing As IAS|Posed as IAS|Fake IAS|IAS अधिकारी असल्याचे|आयएएस अधिकारी असल्याचे"},
+  {"name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case", "one_case": "Tanpure|तनपुरे|MLC.s Vimannagar flat"},
+  {"name": "Rs 10 lakh extortion bid on a coaching institute official is one case", "one_case": "institute official with fake case|Extortion Bid Against Delhi-Based Coaching Institute"},
+  {"name": "Wanowrie Rs 1.38 crore investment fraud by three people is one case", "one_case": "Trio dupe 8 investors|१ कोटी ३८ लाख"},
+  {"name": "MCOCA on the gang that fired at a dahi handi is under Organised crime", "organised": "दहीहंडी उत्सवात गोळीबार करणाऱ्या टोळीवर"}
  ],
  "calendar_from": "2026-05-25"
 }

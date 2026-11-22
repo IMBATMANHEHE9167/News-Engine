@@ -22,6 +22,10 @@ ACTIONS = [(k, name, re.compile(p, I)) for k, name, p in O['actions']]
 WEAPONS = [(k, name, re.compile(p, I)) for k, name, p in O['weapons']]
 JUVENILE, RIVAL, GENERIC = re.compile(O['juvenile'], I), re.compile(O['rival'], I), re.compile(O['generic'], I)
 ACTIVE_DAYS = 120
+HEAVY = {'mcoca', 'mpda', 'extern'}
+OTHER = dict(id='other', name='Other gangs under MCOCA, MPDA or externment', type='pattern', leader='',
+             about='Police action against gangs that are in no profile here yet, and gangs the reports name that have no profile. '
+                   'Each is listed so none is left out; a gang that recurs gets its own profile.')
 
 
 def tag(title):
@@ -69,9 +73,15 @@ def build(events, get):
                     name = L['g'].strip()
                     if len(name) > 3:
                         candidates[name] = candidates.get(name, 0) + 1
+            # Police action against a gang (MCOCA, MPDA, externment) or a gang the reading names is organised crime even
+            # when the gang is in no register entry: it is kept under "other" so it is never silently left out.
+            if not t['g'] and (set(t['act']) & HEAVY or len((L.get('g') or '').strip()) > 3):
+                t['g'] = ['other']
             if t['g']:
                 rows[r['id']] = dict(id=r['id'], t=r['t'], u=r['u'], n=r['s'], d=r['d'], a=r.get('a') or e['a'], c=e['c'],
                                      o=e.get('o'), ev=k, src='engine', **t)
+                if L.get('g'):
+                    rows[r['id']]['gn'] = L['g'].strip()[:60]
 
     # 2. Each group's own searches: its history and police actions, from any paper.
     seen = {r['t'].lower() for r in rows.values()}
@@ -110,7 +120,7 @@ def build(events, get):
     # 3. Profiles.
     now = datetime.now(timezone.utc)
     profiles = []
-    for gr in GROUPS:
+    for gr in GROUPS + [OTHER]:
         mine = [r for r in reports if gr['id'] in r['g']]
         if not mine:
             profiles.append(dict(id=gr['id'], name=gr['name'], type=gr['type'], leader=gr.get('leader', ''), about=gr.get('about', ''),
@@ -144,7 +154,7 @@ def build(events, get):
             actions=count('act'), weapons=count('wpn'), juvenile=sum(1 for r in mine if r.get('j')),
             rivalry=sum(1 for r in mine if r.get('rv')), linked=sorted(rivals.items(), key=lambda kv: -kv[1]),
             months=sorted(months.items()),
-            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'src')} for r in mine[:60]]))
+            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'src', 'gn')} for r in mine[:60]]))
     profiles.sort(key=lambda p: (p['type'] == 'pattern', -p['n']))
     (DATA / 'groups.json').write_text(json.dumps(dict(updated=E.iso(now), note=O['note'], groups=profiles,
                                                 candidates=sorted(candidates.items(), key=lambda kv: -kv[1])[:30]), ensure_ascii=False, separators=(',', ':')), 'utf-8')

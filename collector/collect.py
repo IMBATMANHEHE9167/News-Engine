@@ -338,7 +338,7 @@ if added or changed:
 
 # ---- 6. Cases. Meaning-fingerprints of each report (the AI's neutral case label and summary when read, else the
 # headline) find close pairs; names, days and hard details join reports of one case; an AI judge settles close pairs.
-from ml import embed, second_opinion
+from ml import embed
 import cases as C
 cats = {c['id'] for c in E.CATS}
 judged = [r for r in items if r.get('c') in cats and not r.get('nx')]     # nx: the readings say not an incident
@@ -350,11 +350,13 @@ def meaning(r):
 
 
 vec = embed([dict(id=r['id'], t=meaning(r)) for r in judged])
-review = second_opinion([r for r in judged if not r.get('uv')], vec) if vec else {}
-(DATA / 'review.json').write_text(dump_lines(sorted(review.values(), key=lambda x: -x['conf'])), 'utf-8')
-print('machine reading: %s, second opinion flags %d' % ('on' if vec else 'off', len(review)))
+print('meaning fingerprints: %s' % ('on' if vec else 'off'))
 
-verdicts = read_json('pairs3.json', {})    # pairs3: verdicts given since readings use the full article again
+# pairs4 (22 Nov 2026): the judge now decides on facts, not on dates read automatically, and its "different" is final;
+# verdicts from the earlier instructions are dropped except the expert's.
+verdicts = read_json('pairs4.json', None)
+if verdicts is None:
+    verdicts = {k: v for k, v in read_json('pairs3.json', {}).items() if v in ('same', 'diff')}
 events, ask = C.build(judged, vec, verdicts)
 old_verdicts = dict(verdicts)
 if ask or any(v is True for v in verdicts.values()):
@@ -370,14 +372,11 @@ if ask or any(v is True for v in verdicts.values()):
         events, ask = C.build(judged, vec, verdicts)
 alive = {r['id'] for r in judged}
 verdicts = {k: v for k, v in verdicts.items() if all(x in alive for x in k.split('|'))}
-(DATA / 'pairs3.json').write_text(json.dumps(verdicts, separators=(',', ':'), sort_keys=True), 'utf-8')
+(DATA / 'pairs4.json').write_text(json.dumps(verdicts, separators=(',', ':'), sort_keys=True), 'utf-8')
 print('cases: %d from %d reports; %d pairs judged, %d waiting for the judge' % (len(events), len(judged), len(verdicts), len(ask)))
 
 events.sort(key=lambda e: e['last'], reverse=True)
-for e in events:                     # the second opinion on the report that stands for the incident, when it differs
-    lead = next((r for r in e['reports'] if r.get('k') != 'f'), e['reports'][0])
-    e['q'] = review[lead['id']]['model'] if lead['id'] in review else None
-keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'q', 'uv', 'reports')
+keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'uv', 'reports')
 DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x')    # working fields the page never needs
 def slim(r):
     out = {k: v for k, v in r.items() if k not in DROP}

@@ -40,7 +40,7 @@ jobs:
         run: |
           git config user.name "vidraksh-collector"
           git config user.email "actions@users.noreply.github.com"
-          FILES="data/incidents.json data/rejected.json data/backfill.json data/status.json data/events.json data/meta.json data/review.json data/ocreports.json data/groups.json data/insights.json data/llmstate.json data/pairs3.json data/quality.json"
+          FILES="data/incidents.json data/rejected.json data/backfill.json data/status.json data/events.json data/meta.json data/ocreports.json data/groups.json data/insights.json data/llmstate.json data/pairs4.json data/quality.json"
           FILES=$(ls $FILES 2>/dev/null | xargs)   # only the files this run actually wrote
           BASE=$(git rev-parse HEAD)   # the main this run started from
           git add $FILES

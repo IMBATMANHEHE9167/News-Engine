@@ -1265,19 +1265,24 @@ def apply_llm(rec):
     rec.pop('k', None)
     if v.get('k') == 'd' or (v.get('k') is None and v.get('fu')):
         rec['k'] = 'f'                                                # a later development of a case
-    # Day it happened: the reading's, when it is a real day not after publication and within a year before it.
-    dt = valid_day(v.get('dt'))
-    if dt:
-        n = (date.fromisoformat(dt) - date(1970, 1, 1)).days
-        if day_of(rec['d']) - 365 <= n <= day_of(rec['d']) + 1:
+    # Day it happened: only a day the reading is sure of (stated or clearly implied), not after publication, and for a
+    # new incident at most 60 days before it (a year for a development). The rules' guess of a day ("the idea came on
+    # 31 May") never stands against a reading of the whole article: without a sure day, the report counts from its
+    # publication. When the rules alone decided (the AI refused the article), their day stays.
+    if not v.get('ro'):
+        dt, pub = valid_day(v.get('dt')), day_of(rec['d'])
+        n = (date.fromisoformat(dt) - date(1970, 1, 1)).days if dt else None
+        span = 365 if rec.get('k') == 'f' else 60
+        if dt and v.get('dc') is not False and pub - span <= n <= pub + 1:
             rec['i'], rec['ip'] = dt, 1
-    elif rec.get('k') == 'f':
-        rec.pop('ip', None)                                           # a development without a day: not the publication day
-    # Outcome: the reader saw the whole article.
+        else:
+            rec['i'] = day_str(pub)
+            rec.pop('ip', None)
+    # Outcome: the reading decides, both ways: "threatened with murder" is not a death, whatever a word rule found.
     o = v.get('o')
     if o in ('fatal', 'injured'):
         rec['o'] = o
-    elif o == 'none' and rec.get('o') == 'injured':
+    elif o == 'none':
         rec.pop('o', None)
     if rec['c'] == 'murder':
         rec['o'] = 'fatal'

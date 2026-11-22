@@ -31,6 +31,10 @@ def _day(e):
 
 
 def build(items, events, verdicts, ask):
+    try:
+        OCG = json.loads((DATA / 'groups.json').read_text('utf-8'))
+    except (OSError, ValueError):
+        OCG = {}
     counted = [e for e in events if not e.get('uv')]
     out = dict(updated=E.iso(datetime.now(timezone.utc)), tests=[], detectors={}, examples={})
 
@@ -55,6 +59,13 @@ def build(items, events, verdicts, ask):
             pat, want = t['region']
             hs = [e for e in holders(pat) if not e['a'] or E.AREA[e['a']]['r'] != want]
             ok, detail, bad = not hs, ', '.join(sorted({E.AREA[e['a']]['name'] if e['a'] else 'no area' for e in hs})) or 'right part of the district', [e['reports'][0]['t'] for e in hs[:5]]
+        elif 'not_fatal' in t:
+            hs = [e for e in holders(t['not_fatal']) if e.get('o') == 'fatal']
+            ok, detail, bad = not hs, '%d marked as a death' % len(hs) if hs else 'no death marked', [e['reports'][0]['t'] for e in hs[:5]]
+        elif 'organised' in t:
+            rx = re.compile(t['organised'], re.I)
+            got = [r for g in (OCG.get('groups') or []) for r in (g.get('reports') or []) if rx.search(r.get('t', ''))]
+            ok, detail, bad = bool(got), 'listed' if got else 'not listed', []
         elif 'type' in t:
             pat, want = t['type']
             hs = [e for e in holders(pat) if e['c'] != want]
