@@ -31,7 +31,10 @@ def meaning(r):
 
 vec = embed([dict(id=r['id'], t=meaning(r)) for r in judged])
 t1 = time.time()
-verdicts = json.loads((DATA / 'pairs4.json').read_text('utf-8')) if (DATA / 'pairs4.json').exists() else \n    {k: v for k, v in json.loads((DATA / 'pairs3.json').read_text('utf-8')).items() if v in ('same', 'diff')}
+if (DATA / 'pairs4.json').exists():
+    verdicts = json.loads((DATA / 'pairs4.json').read_text('utf-8'))
+else:
+    verdicts = {k: v for k, v in json.loads((DATA / 'pairs3.json').read_text('utf-8')).items() if v in ('same', 'diff')}
 ev, ask = C.build(judged, vec, verdicts)
 print('cases %d (counted %d, unverified %d, developments only %d); pairs for the judge %d; build %.1fs' % (
     len(ev), sum(1 for e in ev if not e.get('uv') and not e.get('orphan')), sum(1 for e in ev if e.get('uv')),
