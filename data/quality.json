@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T02:19:59.412Z",
+ "updated": "2026-11-22T03:19:53.600Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -120,9 +120,9 @@
   "split_cases": 11,
   "date_spread": 9,
   "waiting_for_judge": 0,
-  "pairs_judged": 925,
-  "pairs_judged_same": 807,
-  "judge_checked_by_expert": 557,
+  "pairs_judged": 926,
+  "pairs_judged_same": 808,
+  "judge_checked_by_expert": 567,
   "judge_overturned_by_expert": 6,
   "non_incident_wording": 2,
   "area_disagreement": 23,
@@ -130,17 +130,17 @@
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2798,
-  "cases": 1648
+  "reports": 2803,
+  "cases": 1649
  },
  "examples": {
   "split_cases": [
    [
-    "बारामतीत उद्योजकाच्या गाडीवर दोन राऊंड गोळीबार; खंडणीच्या धमकीनंतर शहरात खळबळ",
+    "बारामतीत थरार, सुप्रिया सुळे यांचा संताप, त्या घटनेचा व्हिडीओ केला शेअर, पोलिसांवर..",
     "Baramati Firing : बारामतीत गोळीबाराचा थरार! खंडणीसाठी बांधकाम व्यावसायिकाच्या कारवर झाडल्या गोळ्या; 3 हल्लेखोर CCTV मध्ये कैद"
    ],
    [
-    "४ वर्षांच्या मुलीच्या वाढदिवशीच आईचा खून; पुरंदर तालुक्यात शिक्षिकेच्या हत्येने हळहळ, आरोपी दीर ७ तासांत जेरबंद",
+    "Teacher murdered in Purandar over money dispute; brother-in-law arrested",
     "Purandar Crime: पुरंदरच्या पांगरेत भररस्त्यात महिलेची धारदार शस्त्राने हत्या; परिसरात खळबळ"
    ],
    [
@@ -170,7 +170,7 @@
   ],
   "date_spread": [
    {
-    "t": "Two women assault each other on Tilak Road",
+    "t": "Four women booked for assaulting Shiv Sena (UBT) leader",
     "days": [
      "2026-11-13",
      "2026-11-18",
