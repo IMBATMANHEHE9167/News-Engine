@@ -519,11 +519,12 @@ def english(rows, limit=4, size=25):
 # incidents: whether it is a public-order situation in Pune district, its kind, planned or under way, the day it happens,
 # the venue and the area of ours that contains it (the reader knows Pune's landmarks: "Pune RTO" is in Sangamwadi),
 # and one English sentence.
-SIT_VERSION = 1
+SIT_VERSION = 2
 SIT_AREAS = {a['name']: a['id'] for a in E.AREAS}
 SITUATION = """You read Indian news reports (Marathi or English) about public-order situations in Pune district, Maharashtra:
 protests, morchas, dharnas, sit-ins, bandhs, road blockades (rasta roko), strikes, hunger strikes, prohibitory orders,
-unrest and clashes. For each article, fill the form from the headline and the text:
+unrest and clashes. For each article, fill the form from the headline and the text (when the text is empty, decide
+from the headline alone: an empty text is never a reason to say false):
 - is_situation: true only for such a situation in Pune district (Pune city, Pimpri-Chinchwad, Pune rural talukas). False
   for crimes, politics without a public action, court cases, events elsewhere, and features.
 - kind: unrest (clashes, stone pelting, lathi charge), order (prohibitory orders), bandh, block (road blockade), fast
