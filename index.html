@@ -938,7 +938,11 @@ const dayStart = d => new Date(d + 'T00:00:00+05:30').getTime();
 const since = () => { const d = dayOf(); return d ? dayStart(d) : period === '0' ? 0 : period === '1' ? dayStart(istDay(Date.now())) : Date.now() - (+period) * DAYMS; };
 const until = () => { const d = dayOf(); return d ? dayStart(d) + DAYMS : Infinity; };
 // News is filtered by when it was published; the map and patterns by when the incident happened.
-const inPeriod = e => { const t = new Date(e.last).getTime(); return t >= since() && t < until(); };
+// A case is in the News for a period when any of its reports came out in it (not only its latest: a case first reported
+// on 20 Oct stays on 20 Oct after a follow-up). For a single day, a case that happened that day is there too, even when
+// the papers reported it only later (after a holiday such as 15 Aug or Dussehra, when few papers come out).
+const inPeriod = e => e.reports.some(r => { const t = new Date(r.d).getTime(); return t >= since() && t < until(); }) ||
+  (!!dayOf() && !e.orphan && istDay(e.d) === dayOf());
 const happenedInPeriod = e => { const d = dayOf(); return d ? istDay(e.d) === d : new Date(e.d).getTime() + 12 * 3600e3 >= since(); };
 const dayDate = d => d + 'T06:30:00Z';
 const fmtLong = d => new Date(dayDate(d)).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
@@ -1037,7 +1041,14 @@ function newsStmt(inP) {
   const today = istDay(Date.now()), sel = dayOf(), D = sel || today, dt = new Date(dayDate(D));
   const first = EVENTS.reduce((m, e) => { const d = istDay(e.last); return d < m ? d : m; }, today), all = [];
   for (let t = dayStart(first); t <= dayStart(today); t += DAYMS) all.push(istDay(t));
-  const per = tally(EVENTS.filter(e => inView(e) && (!newsCat || e.c === newsCat)), e => istDay(e.last));
+  // Each day counts the cases the News shows for it (inPeriod): any report out that day, or the case happened that day.
+  const per = {};
+  for (const e of EVENTS) {
+    if (!inView(e) || (newsCat && e.c !== newsCat)) continue;
+    const ds = new Set(e.reports.map(r => istDay(r.d)));
+    if (!e.orphan) ds.add(istDay(e.d));
+    for (const d of ds) per[d] = (per[d] || 0) + 1;
+  }
   const N = Math.min(STRIP_N, all.length);
   let end = stripEnd == null ? all.length - 1 : Math.max(N - 1, Math.min(all.length - 1, stripEnd));
   const si = sel ? all.indexOf(sel) : -1;
