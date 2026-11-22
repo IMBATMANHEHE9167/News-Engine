@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-22T13:18:05.735Z",
- "total": 2814,
- "added": 1,
- "removed": 0,
+ "updated": "2026-11-22T14:18:43.293Z",
+ "total": 2815,
+ "added": 2,
+ "removed": 1,
  "rules": 11,
  "history": {
   "reachedBack": "2026-05-18",
@@ -49,7 +49,7 @@
    "name": "Indian Express",
    "ok": true,
    "found": 22,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -105,7 +105,7 @@
    "name": "Free Press Journal",
    "ok": true,
    "found": 1,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -128,7 +128,7 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 10,
-   "added": 1,
+   "added": 0,
    "note": ""
   }
  ]
