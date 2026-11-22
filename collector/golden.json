@@ -23,7 +23,7 @@
   {"name": "Digital-arrest victim made to show his bedridden wife is one case (Indian Express, TOI)", "one_case": "bedridden wife|fake terror activities case"},
   {"name": "Digital-arrest victim threatened with murder: no one died", "not_fatal": "bedridden wife|fake terror activities case"},
   {"name": "Shiv Sena (UBT) leader Rekha Konde assault is one case", "one_case": "Rekha Konde|रेखा कोंडे|Four women booked for assaulting Shiv Sena"},
-  {"name": "Rekha Konde assault is kept apart from other Tilak Road and pistol stories", "apart": ["Rekha Konde|Four women booked for assaulting", "assault each other on Tilak Road|illegal pistols|खुनाच्या गुन्ह्यातील"]},
+  {"name": "Rekha Konde assault is kept apart from the Bharati Vidyapeeth pistol arrest and a murder accused (TOI's \"two women assault each other on Tilak Road\" is the same scuffle, judged twice by the expert)", "apart": ["Rekha Konde|Four women booked for assaulting", "illegal pistols|खुनाच्या गुन्ह्यातील"]},
   {"name": "Rekha Konde assault: no one died", "not_fatal": "Rekha Konde|Four women booked for assaulting Shiv Sena"},
   {"name": "Shots fired at a businessman's SUV in Baramati is one case", "one_case": "SUV in Baramati|बारामतीत उद्योजकाच्या|गोळीबाराचा थरार! खंडणी|बारामतीत थरार, सुप्रिया"},
   {"name": "21-year-old posing as an IAS officer (Rs 35 lakh society fraud) is one case", "one_case": "Posing As IAS|Posed as IAS|Fake IAS|IAS अधिकारी असल्याचे|आयएएस अधिकारी असल्याचे"},
