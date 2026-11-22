@@ -851,7 +851,7 @@ let STATUS = null, EVENTS = [], INCIDENTS = [], QUAL = null, OFFICIAL = null, OW
 // found by the report's link (every report the engine has read has one).
 const DEV = /[ऀ-ॿ]/;
 let EN = {};
-const enOf = r => r && DEV.test(r.t || '') ? ((r.L && r.L.s) || EN[r.u] || '') : '';
+const enOf = r => r && DEV.test(r.t || '') ? ((r.L && r.L.s) || EN[r.u] || r.en || '') : '';   // r.en: situations, searches
 const enP = (r, cls = 'en') => { const s = enOf(r); return s ? `<p class="${cls}" lang="en">${esc(s)}</p>` : ''; };
 
 // Every data file, fetched together, without touching what is on screen.
@@ -1706,28 +1706,29 @@ function drawSits() {
   $('sitList').innerHTML = block('Live: today and ongoing', now, 'now', 'Nothing reported for today.') + block('Planned', planned, 'plan', 'Nothing announced for the coming days.') + block('Recent', recent, 'past', oneDay ? 'Nothing on this day.' : 'Nothing in this period.');
   drawSitMap(SITS_SHOWN, dayName);
 }
-/* The situations map. Today or ongoing: a small red dot that blinks on and off. Planned: an open red ring carrying its
-   date. Recent: a small ash dot. All keep their size at every zoom. A situation that names only its area sits at the area's
-   centre, inside a dashed ring that says so; one that names no place is not drawn (the key counts them). */
+/* The situations map shows what is live: today or ongoing, a small red dot that blinks on and off; planned, an open red
+   ring carrying its date. Both keep their size at every zoom. Recent situations stay in the list for the record but are
+   not on the map. A situation that names only its area sits at the area's centre (its popup says so); one that names no
+   place is not drawn (the key counts them). */
 let SITMARK = [];
 function drawSitMap(items, dayName) {
   const e = MAPS.sitMap || makeMap('sitMap');
   e.layer.clearLayers(); SITMARK = [];
-  const red = css('--live'), ash = css('--ink-3'), n = { now: 0, plan: 0, past: 0 }, all = { now: 0, plan: 0, past: 0 };
-  let unplaced = 0, rough = 0;
-  for (const [g, kind] of [...items].reverse()) {          // recent first, so live and planned marks sit on top
+  const red = css('--live'), n = { now: 0, plan: 0 }, all = { now: 0, plan: 0 };
+  let unplaced = 0;
+  for (const [g, kind] of [...items].reverse()) {          // planned first, so live marks sit on top
+    if (kind === 'past') { SITMARK.unshift(null); continue; }   // recent: in the list only
     const ll = g.p ? [g.p[1], g.p[2]] : g.a && AREA[g.a] ? [AREA[g.a].lat, AREA[g.a].lon] : null;
     all[kind]++;
     if (!ll) { unplaced++; SITMARK.unshift(null); continue; }
     n[kind]++;
     const r = g.reports[0], pop = `<div class="rec-type">${kind === 'now' ? '<span class="live">Live</span>' : ''}${esc(SITK[g.k] || g.k)}<span class="tag">${dayName(g)}</span></div><div style="margin:6px 0">${link(r, esc(r.t))}${enP(r)}</div><div class="label">${esc(g.a ? AREA[g.a].name : 'Pune')}${g.p ? ', ' + esc(g.p[0]) : ', placed at the area centre'}</div>`;
-    if (!g.p) { rough++; L.circleMarker(ll, { pane: e.pane, radius: 18, color: ash, weight: 1, dashArray: '2 4', fill: false, interactive: false }).addTo(e.layer); }
     let m;
     if (kind === 'now') m = L.marker(ll, { pane: e.top, keyboard: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'ld', iconSize: [10, 10], iconAnchor: [5, 5], popupAnchor: [0, -6] }) });
     else if (kind === 'plan') {
       m = L.circleMarker(ll, { pane: e.pane, radius: 9, color: red, weight: 3, fillColor: css('--paper-2'), fillOpacity: 1 });
       L.marker(ll, { pane: e.top, interactive: false, icon: L.divIcon({ className: 'pin', html: esc(dayName(g)), iconSize: [80, 14], iconAnchor: [-14, 7] }) }).addTo(e.layer);
-    } else m = L.circleMarker(ll, { pane: e.pane, radius: 5, color: css('--paper-2'), weight: 1, fillColor: ash, fillOpacity: 1 });
+    }
     m.bindPopup(pop).addTo(e.layer);
     SITMARK.unshift(m);
   }
@@ -1736,8 +1737,6 @@ function drawSitMap(items, dayName) {
   $('sitKey').innerHTML = `<div style="color:var(--ink-3)">On the map</div>
     <div>${mk(`<circle cx="11" cy="11" r="5" fill="${red}" class="blink"/>`)}Live: today or ongoing<b>${cnt('now')}</b></div>
     <div>${mk(`<circle cx="11" cy="11" r="6" fill="none" stroke="${red}" stroke-width="3"/>`)}Planned, with its date<b>${cnt('plan')}</b></div>
-    <div>${mk(`<circle cx="11" cy="11" r="4" fill="${ash}"/>`)}Recent<b>${cnt('past')}</b></div>
-    ${rough ? `<div>${mk(`<circle cx="11" cy="11" r="9" fill="none" stroke="${ash}" stroke-width="1" stroke-dasharray="2 3"/>`)}Dashed ring: names only its area, placed at the area's centre<b>${fmtN(rough)}</b></div>` : ''}
     ${unplaced ? `<div style="color:var(--ink-3)">${plural(unplaced, 'situation')} name no place in Pune, so they are in the list but not on the map</div>` : ''}`;
 }
 // Selecting a situation in the list shows it on the map.

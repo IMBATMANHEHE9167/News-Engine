@@ -468,3 +468,41 @@ def finish(S, items):
     _save(st)
     print('llm: %s' % json.dumps({k: st.get(k) for k in ('used', 'read', 'older', 'unread', 'second', 'expert', 'not_incident', 'note')}, ensure_ascii=False))
     return st
+
+
+# English for Marathi headlines that no reader reads in full (situations, organised-crime searches): one plain sentence
+# each, from the headline alone, kept with the report ('en') so it is asked once.
+ENGLISH = """Each line is a news headline from Pune district, most in Marathi: an id, a tab, then the headline. For each, write
+one plain, neutral English sentence (at most 20 words) saying what the headline reports. Keep place names; leave out the
+names of victims and of minors. Do not add anything the headline does not say."""
+EN_SCHEMA = {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {'id': {'type': 'STRING'}, 'en': {'type': 'STRING'}},
+                                        'required': ['id', 'en']}}
+
+
+def english(rows, limit=4, size=25):
+    """Give rows with a Marathi headline and no English ('en') one sentence of English. Changes rows in place."""
+    todo = [r for r in rows if re.search('[ऀ-ॿ]', r.get('t', '')) and not r.get('en')]
+    if not todo:
+        return 0
+    S = Session()
+    if not S.key:
+        return 0
+    asked = 0
+    for k in range(0, len(todo), size):
+        if asked >= limit:
+            break
+        model = S.take('readers')
+        if not model:
+            break
+        chunk = todo[k:k + size]
+        text = '\n'.join('%s\t%s' % (r['id'], r['t']) for r in chunk)
+        payload = {'systemInstruction': {'parts': [{'text': ENGLISH}]}, 'contents': [{'role': 'user', 'parts': [{'text': text}]}],
+                   'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': EN_SCHEMA, 'temperature': 0}}
+        res = S.ask('readers', model, lambda: answer(call(S.key, model, payload)))
+        asked += 1
+        got = {x.get('id'): (x.get('en') or '').strip() for x in (res or []) if isinstance(x, dict)}
+        for r in chunk:
+            if got.get(r['id']):
+                r['en'] = got[r['id']][:200]
+    _save(S.state)
+    return asked

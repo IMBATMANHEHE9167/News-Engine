@@ -88,6 +88,11 @@ def main():
         if s:
             judged.append({k: v for k, v in r.items() if k not in ('k', 'a', 'p', 'w', 'st')} | s)
     judged.sort(key=lambda r: r['d'], reverse=True)
+    try:                                           # English under Marathi headlines (kept with each report, asked once)
+        import llm
+        llm.english(judged)
+    except Exception as ex:
+        print('english step failed: %s' % str(ex)[:160])
     vec = ml.embed(judged) if judged else None
     groups = E.group_situations(judged, vec)
     groups.sort(key=lambda g: (g['w'], g['last']), reverse=True)

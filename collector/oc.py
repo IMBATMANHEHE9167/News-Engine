@@ -115,6 +115,11 @@ def build(events, get):
         if r.get('src') == 'search':                           # engine rows were tagged above, with the LLM reading
             r.update(tag(r['t']))
     reports = [r for r in reports if r['g']]
+    try:                                                       # English under the Marathi headlines the searches found
+        import llm
+        llm.english([r for r in reports if r.get('src') == 'search'])
+    except Exception as ex:
+        print('english step failed: %s' % str(ex)[:160])
     (DATA / 'ocreports.json').write_text(dump_lines(reports), 'utf-8')
 
     # 3. Profiles.
@@ -154,7 +159,7 @@ def build(events, get):
             actions=count('act'), weapons=count('wpn'), juvenile=sum(1 for r in mine if r.get('j')),
             rivalry=sum(1 for r in mine if r.get('rv')), linked=sorted(rivals.items(), key=lambda kv: -kv[1]),
             months=sorted(months.items()),
-            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'src', 'gn')} for r in mine[:60]]))
+            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'src', 'gn', 'en')} for r in mine[:60]]))
     profiles.sort(key=lambda p: (p['type'] == 'pattern', -p['n']))
     (DATA / 'groups.json').write_text(json.dumps(dict(updated=E.iso(now), note=O['note'], groups=profiles,
                                                 candidates=sorted(candidates.items(), key=lambda kv: -kv[1])[:30]), ensure_ascii=False, separators=(',', ':')), 'utf-8')

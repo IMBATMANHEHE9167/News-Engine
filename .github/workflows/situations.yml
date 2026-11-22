@@ -34,6 +34,8 @@ jobs:
           key: fastembed-paraphrase-multilingual-minilm-l12-v2
       - run: pip install -q -r collector/requirements.txt || echo "machine reading libraries unavailable; continuing without them"
       - run: python collector/situations.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - name: Save situations
         run: |
           git config user.name "vidraksh-collector"
