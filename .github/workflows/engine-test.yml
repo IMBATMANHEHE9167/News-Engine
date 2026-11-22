@@ -25,7 +25,7 @@ jobs:
           path: ~/.cache/fastembed
           key: fastembed-paraphrase-multilingual-minilm-l12-v2
       - run: pip install -q -r collector/requirements.txt
-      - run: mkdir -p _test && (python -m py_compile collector/*.py && echo "compile ok" || echo "COMPILE FAILED") > _test/result.txt 2>&1 && DIAG="NDA (security|post)|at NDA post|NDA Security Personnel" python collector/selftest.py >> _test/result.txt 2>&1 || true
+      - run: mkdir -p _test && (python -m py_compile collector/*.py && echo "compile ok" || echo "COMPILE FAILED") > _test/result.txt 2>&1 && DIAG="assault GRP constable|Attacked With Sickle at Pune Railway;;Narayangaon Art Center Firing|tamasha centre in Junnar;;NDA (security|post)|at NDA post|NDA Security Personnel" python collector/selftest.py >> _test/result.txt 2>&1 || true
       - run: (timeout 300 python collector/situations.py > _test/situations.txt 2>&1; echo "exit $?" >> _test/situations.txt; python -c "import json; [print(r['t'][:70], '|', r.get('S'), r.get('a'), r.get('w'), r.get('st'), r.get('en','')[:80]) for r in json.load(open('data/sitreports.json'))[:30]]" >> _test/situations.txt 2>&1) || true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
