@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-22T11:17:53.825Z",
+ "updated": "2026-11-22T12:17:58.120Z",
  "total": 2813,
- "added": 1,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -129,7 +129,7 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -160,7 +160,7 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 8,
+   "found": 9,
    "added": 0,
    "note": ""
   }
