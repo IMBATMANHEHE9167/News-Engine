@@ -1,10 +1,10 @@
 {
  "day": "2026-11-22",
  "used": {
-  "gemini-3.6-flash": 7,
-  "gemini-3.5-flash-lite": 6,
-  "gemini-flash-lite-latest": 1,
-  "gemini-3.1-flash-lite": 1
+  "gemini-3.6-flash": 8,
+  "gemini-3.5-flash-lite": 14,
+  "gemini-flash-lite-latest": 3,
+  "gemini-3.1-flash-lite": 26
  },
  "rested": {},
  "errors": [],
@@ -31,8 +31,8 @@
  "second": 0,
  "expert": 8,
  "not_incident": 176,
- "updated": "2026-11-22T16:17:43.994Z",
- "audited": 676,
- "overturned": 8,
- "judged": 2
+ "updated": "2026-11-22T16:43:37.174Z",
+ "audited": 691,
+ "overturned": 12,
+ "judged": 42
 }

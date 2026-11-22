@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T16:19:51.825Z",
+ "updated": "2026-11-22T16:53:01.596Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -51,9 +51,13 @@
   },
   {
    "name": "NDA security post shooting (sepoy who died) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Army sepoy injured in shooting at NDA post, second incident involving personnel in 10 days"
+    ]
+   ]
   },
   {
    "name": "Trainee PSI dowry harassment is one case",
@@ -114,58 +118,112 @@
    "ok": true,
    "detail": "not counted",
    "bad": []
+  },
+  {
+   "name": "Digital-arrest victim made to show his bedridden wife is one case (Indian Express, TOI)",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Digital-arrest victim threatened with murder: no one died",
+   "ok": true,
+   "detail": "no death marked",
+   "bad": []
+  },
+  {
+   "name": "Shiv Sena (UBT) leader Rekha Konde assault is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Rekha Konde assault is kept apart from the Bharati Vidyapeeth pistol arrest and a murder accused (TOI's \"two women assault each other on Tilak Road\" is the same scuffle, judged twice by the expert)",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "Rekha Konde assault: no one died",
+   "ok": true,
+   "detail": "no death marked",
+   "bad": []
+  },
+  {
+   "name": "Shots fired at a businessman's SUV in Baramati is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "21-year-old posing as an IAS officer (Rs 35 lakh society fraud) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Rs 10 lakh extortion bid on a coaching institute official is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Wanowrie Rs 1.38 crore investment fraud by three people is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "MCOCA on the gang that fired at a dahi handi is under Organised crime",
+   "ok": true,
+   "detail": "listed",
+   "bad": []
   }
  ],
  "detectors": {
-  "split_cases": 10,
-  "date_spread": 10,
-  "waiting_for_judge": 0,
-  "pairs_judged": 931,
-  "pairs_judged_same": 811,
-  "judge_checked_by_expert": 676,
-  "judge_overturned_by_expert": 8,
+  "split_cases": 5,
+  "date_spread": 27,
+  "waiting_for_judge": 1539,
+  "pairs_judged": 1201,
+  "pairs_judged_same": 884,
+  "judge_checked_by_expert": 691,
+  "judge_overturned_by_expert": 12,
   "non_incident_wording": 2,
-  "area_disagreement": 23,
-  "silent_days": 2,
+  "area_disagreement": 30,
+  "silent_days": 1,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
   "reports": 2815,
-  "cases": 1657
+  "cases": 1652
  },
  "examples": {
   "split_cases": [
    [
-    "Two men fire at businessman’s SUV in Baramati after Rs2 lakh extortion call",
-    "Baramati Firing : बारामतीत गोळीबाराचा थरार! खंडणीसाठी बांधकाम व्यावसायिकाच्या कारवर झाडल्या गोळ्या; 3 हल्लेखोर CCTV मध्ये कैद"
-   ],
-   [
-    "Prajakt Tanpure’s Viman Nagar Residence Targeted In Theft, Valuables Worth ₹90,916 Missing",
-    "आमदार प्राजक्त तनपुरे यांच्या सदनिकेत चोरी; महागड्या वस्तू चोरीला"
-   ],
-   [
-    "Trio dupe 8 investors of ₹1.4cr with 6% per month returns promise",
-    "Pune Investment Fraud : जादा परताव्याच्या आमिषाने पुण्यात गुंतवणूकदारांची १ कोटी ३८ लाख रुपयांची फसवणूक, वानवडी पोलिस ठाण्यात तिघांविरुद्ध गुन्हा दाखल"
-   ],
-   [
-    "Man killed over marital dispute; father-in-law, grandfather-in-law held",
-    "Pune: Man, Grandfather-in-Law Held For Killing Son-in-Law, Passing it off as Road Accident"
-   ],
-   [
-    "Chain Snacher Arrested : पुणे जिल्ह्यातील सोनसाखळी चोरीचे सहा गुन्हे उघड; दोघांना अटक",
-    "शेतात पाला तोडणाऱ्या ज्येष्ठ महिलेचे दागिने हिसकावले"
-   ],
-   [
     "Distant relative held for murdering two elderly women, robbing them of gold chains",
     "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
    ],
    [
     "Distant relative held for murdering two elderly women, robbing them of gold chains",
     "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Drug addicts assault GRP constable",
+    "Pune: Police Constable Attacked With Sickle at Pune Railway Station After Confronting Group Allegedly Smoking Ganja"
    ],
    [
     "Scrap collecting woman robbed, left on road, dies in crash; accused held",
     "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
+   ],
+   [
+    "Delivery partner held after fatal accident in Pune turns out to be murder",
+    "Pedestrian dies in hit-and-run accident in Baner"
    ]
   ],
   "date_spread": [
@@ -178,19 +236,49 @@
     ]
    },
    {
-    "t": "Four women booked for assaulting Shiv Sena (UBT) leader",
+    "t": "Man killed over alleged molestation dispute; two held",
     "days": [
-     "2026-11-13",
-     "2026-11-18",
-     "2026-11-20",
-     "2026-11-21"
+     "2026-07-02",
+     "2026-11-16",
+     "2026-11-17"
     ]
    },
    {
-    "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
+    "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
     "days": [
-     "2026-06-22",
-     "2026-11-01"
+     "2026-11-11",
+     "2026-11-15"
+    ]
+   },
+   {
+    "t": "Nhavare News : शिरुर तालुक्यात किरकोळ कारणांवरुन मारहाणीच्या दोन वेगवेगळ्या घटना; १६ जणांविरुद्ध गुन्हे दाखल",
+    "days": [
+     "2026-05-22",
+     "2026-10-30",
+     "2026-11-10"
+    ]
+   },
+   {
+    "t": "Senior citizen loses ₹32 lakh in digital arrest fraud",
+    "days": [
+     "2026-10-06",
+     "2026-11-06"
+    ]
+   },
+   {
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "days": [
+     "2026-10-20",
+     "2026-10-31",
+     "2026-11-01",
+     "2026-11-09"
+    ]
+   },
+   {
+    "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
+    "days": [
+     "2026-10-29",
+     "2026-11-07"
     ]
    },
    {
@@ -198,34 +286,6 @@
     "days": [
      "2026-06-10",
      "2026-11-03"
-    ]
-   },
-   {
-    "t": "Husband among four arrested for Moshi woman’s murder",
-    "days": [
-     "2026-08-12",
-     "2026-10-12"
-    ]
-   },
-   {
-    "t": "Gang uses mule bank accounts to defraud 19 people of ₹1.80 cr; five arrested",
-    "days": [
-     "2026-08-28",
-     "2026-10-04"
-    ]
-   },
-   {
-    "t": "Pune: ‘Bigg Boss’ Fame Divya Shinde’s Police Custody Extended Till October 2 in Extortion, Attack Case",
-    "days": [
-     "2026-09-17",
-     "2026-09-24"
-    ]
-   },
-   {
-    "t": "Man murdered over character suspicion; accused held",
-    "days": [
-     "2026-06-26",
-     "2026-08-27"
     ]
    }
   ],
@@ -260,30 +320,25 @@
     "reading": "Pimple Saudagar / Sangvi"
    },
    {
+    "t": "Pune Crime: वाहनाला कट मारल्याच्या किरकोळ वाद, कोयत्याने तरुणावर जीवघेणा हल्ला, एक हात आणि तीन बोटं तुटली, राजगुरूनगर हादरले",
+    "case_area": "Chikhali / Moshi",
+    "reading": "Rajgurunagar / Khed"
+   },
+   {
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Bavdhan"
+   },
+   {
     "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
     "case_area": "Vishrantwadi",
     "reading": "Dighi / Alandi"
-   },
-   {
-    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
-    "case_area": "Lonavala / Maval",
-    "reading": "Wanowrie"
-   },
-   {
-    "t": "Pune Rural Police Take Sia Goyal to Site Near Lullanagar Where Lohagad Murder Plot Was Allegedly Rehearsed",
-    "case_area": "Lonavala / Maval",
-    "reading": "Wanowrie"
    }
   ],
   "silent_days": [
    {
     "day": "2026-07-22",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-10-25",
-    "incidents": 2,
+    "incidents": 1,
     "usual": 8
    }
   ],
@@ -345,5 +400,5 @@
    }
   ]
  },
- "passed": 19
+ "passed": 29
 }
