@@ -48,6 +48,36 @@ def found(entries, source_id, source_name, out):
                             d=E.iso(it['date']), **s))
 
 
+def apply_reading(r):
+    """The AI reading of a situation report decides what, when and where (the rules' guess stays only where it is silent)."""
+    S = r.get('S') or {}
+    r.pop('nx', None)
+    if not S:
+        return
+    if not S.get('ok'):
+        r['nx'] = 1                                   # not a public-order situation in Pune district: kept, not shown
+        return
+    if S.get('k') in E.SITU_NAMES:
+        r['k'] = S['k']
+    pub = E.day_of(r['d'])
+    if S.get('w'):
+        n = (E.date.fromisoformat(S['w']) - E.date(1970, 1, 1)).days
+        if pub - 30 <= n <= pub + 90:
+            r['w'] = S['w']
+    r.pop('st', None)
+    if S.get('st') == 'planned' and r['w'] > E.day_str(pub):
+        r['st'] = 'plan'
+    elif S.get('st') == 'ongoing':
+        r['st'] = 'on'
+    if S.get('a') in E.AREA:
+        if S['a'] != r.get('a'):
+            r.pop('p', None)
+        r['a'] = S['a']
+        p = E.spot(r['a'], S.get('vn', ''), '')
+        if p:
+            r['p'] = p
+
+
 def main():
     started = datetime.now(timezone.utc)
     new, ok, failed = [], [], []
@@ -88,13 +118,19 @@ def main():
         if s:
             judged.append({k: v for k, v in r.items() if k not in ('k', 'a', 'p', 'w', 'st')} | s)
     judged.sort(key=lambda r: r['d'], reverse=True)
-    try:                                           # English under Marathi headlines (kept with each report, asked once)
+    # The AI reads each report (llm.read_situations) and its reading decides; the word rules above only find candidates.
+    # English under Marathi headlines comes with the reading (or, for a report not yet read, from the headline alone).
+    try:
         import llm
+        llm.read_situations(judged, get)
         llm.english(judged)
     except Exception as ex:
-        print('english step failed: %s' % str(ex)[:160])
-    vec = ml.embed(judged) if judged else None
-    groups = E.group_situations(judged, vec)
+        print('situation reading failed: %s' % str(ex)[:160])
+    for r in judged:
+        apply_reading(r)
+    shown = [r for r in judged if not r.get('nx')]
+    vec = ml.embed(shown) if shown else None
+    groups = E.group_situations(shown, vec)
     groups.sort(key=lambda g: (g['w'], g['last']), reverse=True)
 
     (DATA / 'sitreports.json').write_text(dump_lines(judged), 'utf-8')

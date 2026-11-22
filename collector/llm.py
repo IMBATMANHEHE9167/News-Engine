@@ -513,3 +513,81 @@ def english(rows, limit=4, size=25):
                 r['en'] = got[r['id']][:200]
     _save(S.state)
     return asked
+
+
+# Situations (public order): the reader reads each report and says what, when and where. Its reading decides, as for
+# incidents: whether it is a public-order situation in Pune district, its kind, planned or under way, the day it happens,
+# the venue and the area of ours that contains it (the reader knows Pune's landmarks: "Pune RTO" is in Sangamwadi),
+# and one English sentence.
+SIT_VERSION = 1
+SIT_AREAS = {a['name']: a['id'] for a in E.AREAS}
+SITUATION = """You read Indian news reports (Marathi or English) about public-order situations in Pune district, Maharashtra:
+protests, morchas, dharnas, sit-ins, bandhs, road blockades (rasta roko), strikes, hunger strikes, prohibitory orders,
+unrest and clashes. For each article, fill the form from the headline and the text:
+- is_situation: true only for such a situation in Pune district (Pune city, Pimpri-Chinchwad, Pune rural talukas). False
+  for crimes, politics without a public action, court cases, events elsewhere, and features.
+- kind: unrest (clashes, stone pelting, lathi charge), order (prohibitory orders), bandh, block (road blockade), fast
+  (hunger strike), strike (work stoppage), protest (any other protest, morcha, dharna, sit-in, march).
+- status: planned if it is announced for a later day; ongoing if it is happening or continues; over if it took place.
+- starts: the day it happens or starts (YYYY-MM-DD); resolve "tomorrow", "from Monday", "November 23" against the
+  publication date given. Empty if not stated.
+- venue: where it happens, in English letters, as specific as the article says (e.g. "outside Pune RTO").
+- area: the one area from the list that contains the venue, using your knowledge of Pune's landmarks and roads (e.g.
+  Pune RTO and Sangamwadi: Pune Station / Bund Garden; Collector office: Pune Station / Bund Garden; PMC headquarters:
+  Shivajinagar; Alka Talkies chowk: Old city peths). "none" if no place in Pune district is named or implied.
+- summary: one neutral English sentence, at most 25 words: who, what, why, when, where."""
+SIT_SCHEMA = {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {
+    'id': {'type': 'STRING'}, 'is_situation': {'type': 'BOOLEAN'},
+    'kind': {'type': 'STRING', 'enum': ['unrest', 'order', 'bandh', 'block', 'fast', 'strike', 'protest']},
+    'status': {'type': 'STRING', 'enum': ['planned', 'ongoing', 'over']}, 'starts': {'type': 'STRING'},
+    'venue': {'type': 'STRING'}, 'area': {'type': 'STRING', 'enum': sorted(SIT_AREAS) + ['none']},
+    'summary': {'type': 'STRING'}},
+    'required': ['id', 'is_situation', 'kind', 'status', 'starts', 'venue', 'area', 'summary']}}
+
+
+def read_situations(rows, get, limit=4, size=6):
+    """Give the newest unread situation reports a reading ('S'); changes rows in place. Returns requests made."""
+    todo = sorted((r for r in rows if (r.get('S') or {}).get('v') != SIT_VERSION and r.get('Sx', 0) < 3),
+                  key=lambda r: r['d'], reverse=True)
+    if not todo:
+        return 0
+    S = Session()
+    if not S.key:
+        return 0
+    asked = 0
+    for k in range(0, len(todo), size):
+        if asked >= limit:
+            break
+        model = S.take('readers')
+        if not model:
+            break
+        chunk, parts = todo[k:k + size], []
+        for r in chunk:
+            text = ''
+            if 'news.google.com' not in r['u']:            # Google News links lead to a redirect page, not the article
+                try:
+                    text = E.page_text(get(r['u']))[:1800]
+                except Exception:
+                    text = ''
+            parts.append('ARTICLE id=%s\nPublished: %s\nHeadline: %s\nText: %s' % (r['id'], E.day_str(E.day_of(r['d'])), r['t'], text))
+        payload = {'systemInstruction': {'parts': [{'text': SITUATION}]},
+                   'contents': [{'role': 'user', 'parts': [{'text': '\n\n-----\n\n'.join(parts)}]}],
+                   'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': SIT_SCHEMA, 'temperature': 0}}
+        res = S.ask('readers', model, lambda: answer(call(S.key, model, payload)))
+        asked += 1
+        got = {x.get('id'): x for x in (res or []) if isinstance(x, dict)}
+        for r in chunk:
+            f = got.get(r['id'])
+            if not f:
+                if not S.retry:
+                    r['Sx'] = r.get('Sx', 0) + 1
+                continue
+            r.pop('Sx', None)
+            r['S'] = {k: v for k, v in dict(v=SIT_VERSION, m=model, ok=bool(f.get('is_situation')), k=f.get('kind'),
+                                            st=f.get('status'), w=E.valid_day(f.get('starts')), vn=(f.get('venue') or '')[:120],
+                                            a=SIT_AREAS.get(f.get('area')), s=(f.get('summary') or '')[:220]).items()
+                      if v not in ('', None) or k in ('ok', 'v')}
+            if r['S'].get('s') and re.search('[ऀ-ॿ]', r['t']) and not r.get('en'):
+                r['en'] = r['S']['s']
+    _save(S.state)
+    return asked

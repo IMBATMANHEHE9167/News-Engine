@@ -1,5 +1,5 @@
 {
- "note": "Permanent error tests. Every error found by hand becomes a test here, so the same kind of mistake is caught every hour, for ever. one_case: every counted report matching the pattern is in exactly one case. apart: no case holds reports matching both patterns. not_incident: no counted case holds a report matching the pattern. type: every counted case holding a matching report has this type. not_fatal: no such case is marked as a death. organised: a matching report is listed under Organised crime. region: such cases lie in this part of the district (city, pcmc, rural). Patterns are case-insensitive regular expressions on headlines.",
+ "note": "Permanent error tests. Every error found by hand becomes a test here, so the same kind of mistake is caught every hour, for ever. one_case: every counted report matching the pattern is in exactly one case. apart: no case holds reports matching both patterns. not_incident: no counted case holds a report matching the pattern. type: every counted case holding a matching report has this type. not_fatal: no such case is marked as a death. organised: a matching report is listed under Organised crime. situation_placed: the live situation holding a matching report has an area. region: such cases lie in this part of the district (city, pcmc, rural). Patterns are case-insensitive regular expressions on headlines.",
  "tests": [
   {"name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka", "region": ["opium.*katraj|katraj.*opium|कात्रजमध्ये .*अफू", "city"]},
   {"name": "Jambhulwadi multi-vehicle crash (near Katraj) is placed in the city, not Ambegaon taluka", "region": ["Jambhulwadi: Two Dead|accident in Jambhulwadi|involved in accident", "city"]},
@@ -30,7 +30,8 @@
   {"name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case", "one_case": "Tanpure|तनपुरे|MLC.s Vimannagar flat"},
   {"name": "Rs 10 lakh extortion bid on a coaching institute official is one case", "one_case": "institute official with fake case|Extortion Bid Against Delhi-Based Coaching Institute"},
   {"name": "Wanowrie Rs 1.38 crore investment fraud by three people is one case", "one_case": "Trio dupe 8 investors|१ कोटी ३८ लाख"},
-  {"name": "MCOCA on the gang that fired at a dahi handi is under Organised crime", "organised": "दहीहंडी उत्सवात गोळीबार करणाऱ्या टोळीवर"}
+  {"name": "MCOCA on the gang that fired at a dahi handi is under Organised crime", "organised": "दहीहंडी उत्सवात गोळीबार करणाऱ्या टोळीवर"},
+  {"name": "Pune auto-rickshaw strike from 23 Nov (sit-in outside Pune RTO) is placed on the map", "situation_placed": "Auto-Rickshaw Drivers Announce Indefinite Strike"}
  ],
  "calendar_from": "2026-05-25"
 }

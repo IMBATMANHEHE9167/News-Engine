@@ -62,6 +62,15 @@ def build(items, events, verdicts, ask):
         elif 'not_fatal' in t:
             hs = [e for e in holders(t['not_fatal']) if e.get('o') == 'fatal']
             ok, detail, bad = not hs, '%d marked as a death' % len(hs) if hs else 'no death marked', [e['reports'][0]['t'] for e in hs[:5]]
+        elif 'situation_placed' in t:
+            rx = re.compile(t['situation_placed'], re.I)
+            try:
+                sits = json.loads((DATA / 'situations.json').read_text('utf-8'))
+            except (OSError, ValueError):
+                sits = []
+            hs = [g for g in sits if any(rx.search(r.get('t', '')) for r in g.get('reports', []))]
+            bad_ = [g for g in hs if not g.get('a')]
+            ok, detail, bad = bool(hs) and not bad_, 'placed' if hs and not bad_ else 'not placed' if hs else 'not found', [g['reports'][0]['t'] for g in bad_[:3]]
         elif 'organised' in t:
             rx = re.compile(t['organised'], re.I)
             got = [r for g in (OCG.get('groups') or []) for r in (g.get('reports') or []) if rx.search(r.get('t', ''))]
