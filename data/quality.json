@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T17:23:03.033Z",
+ "updated": "2026-11-22T17:33:38.892Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -193,28 +193,24 @@
   }
  ],
  "detectors": {
-  "split_cases": 5,
-  "date_spread": 27,
-  "waiting_for_judge": 759,
-  "pairs_judged": 2341,
-  "pairs_judged_same": 1277,
-  "judge_checked_by_expert": 751,
-  "judge_overturned_by_expert": 56,
+  "split_cases": 4,
+  "date_spread": 25,
+  "waiting_for_judge": 262,
+  "pairs_judged": 2851,
+  "pairs_judged_same": 1463,
+  "judge_checked_by_expert": 781,
+  "judge_overturned_by_expert": 80,
   "non_incident_wording": 2,
-  "area_disagreement": 28,
+  "area_disagreement": 26,
   "silent_days": 3,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
   "reports": 2815,
-  "cases": 1582
+  "cases": 1535
  },
  "examples": {
   "split_cases": [
-   [
-    "Pedestrian killed after being hit by car",
-    "Software Engineer Killed After Car Hits Him During Morning Jog in Pune"
-   ],
    [
     "Drug addicts assault GRP constable",
     "Pune: Police Constable Attacked With Sickle at Pune Railway Station After Confronting Group Allegedly Smoking Ganja"
@@ -224,8 +220,8 @@
     "Firing at tamasha centre in Junnar injures man"
    ],
    [
-    "Scrap collecting woman robbed, left on road, dies in crash; accused held",
-    "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
+    "Two Arrested, Two Juveniles Detained in Pune Murder Case; Hunt On for Remaining Suspects",
+    "Youth beaten to death near Parvati; five detained"
    ],
    [
     "Delivery partner held after fatal accident in Pune turns out to be murder",
@@ -343,7 +339,7 @@
    {
     "day": "2026-07-22",
     "incidents": 1,
-    "usual": 8
+    "usual": 7
    },
    {
     "day": "2026-08-26",
