@@ -63,6 +63,10 @@ for pat in [p for p in os.environ.get('DIAG', '').split(';;') if p]:
         print('  %s case=%s pub=%s i=%s ip=%s c=%s a=%s k=%s o=%s vn=%d an=%d Lo=%s | %s' % (
             r['id'], where.get(r['id']), r['d'][:10], r.get('i'), r.get('ip'), r['c'], r.get('a'), r.get('k'), r.get('o'),
             len(L.get('vn') or []), len(L.get('an') or []), L.get('o'), r['t'][:70]))
+        e_ = ev[where[r['id']]] if r['id'] in where else None
+        for o in (e_['reports'] if e_ else []):
+            if o['id'] != r['id']:
+                print('      with %s %s %s | %s' % (o['id'], o['d'][:10], o.get('c'), o['t'][:80]))
     for a, b in combinations(rs, 2):
         La, Lb = E.best_reading(a) or {}, E.best_reading(b) or {}
         s = sum(p * q for p, q in zip(vec[a['id']], vec[b['id']])) if vec and a['id'] in vec and b['id'] in vec else 0
