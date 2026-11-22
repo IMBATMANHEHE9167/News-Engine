@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T17:38:55.000Z",
+ "updated": "2026-11-22T18:17:42.780Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -50,14 +50,10 @@
    "bad": []
   },
   {
-   "name": "NDA security post shooting (sepoy who died) is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Army sepoy injured in shooting at NDA post, second incident involving personnel in 10 days"
-    ]
-   ]
+   "name": "NDA: each shooting is one case (the expert judged the 11 Sep injury and the death reported on 17 Sep to be two incidents: \"second incident involving personnel in 10 days\")",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Trainee PSI dowry harassment is one case",
@@ -190,39 +186,39 @@
    "ok": true,
    "detail": "placed",
    "bad": []
+  },
+  {
+   "name": "GRP constable attacked at Pune railway station (knife or sickle, per paper) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Narayangaon tamasha centre firing and the arrest of its main suspect are one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   }
  ],
  "detectors": {
-  "split_cases": 4,
-  "date_spread": 25,
-  "waiting_for_judge": 47,
-  "pairs_judged": 3068,
-  "pairs_judged_same": 1562,
-  "judge_checked_by_expert": 811,
-  "judge_overturned_by_expert": 101,
+  "split_cases": 1,
+  "date_spread": 29,
+  "waiting_for_judge": 214,
+  "pairs_judged": 3308,
+  "pairs_judged_same": 1617,
+  "judge_checked_by_expert": 841,
+  "judge_overturned_by_expert": 124,
   "non_incident_wording": 2,
-  "area_disagreement": 27,
-  "silent_days": 3,
+  "area_disagreement": 38,
+  "silent_days": 4,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
   "reports": 2815,
-  "cases": 1507
+  "cases": 1487
  },
  "examples": {
   "split_cases": [
-   [
-    "Drug addicts assault GRP constable",
-    "Pune: Police Constable Attacked With Sickle at Pune Railway Station After Confronting Group Allegedly Smoking Ganja"
-   ],
-   [
-    "Main Suspect Arrested with Country-Made Pistol Following Narayangaon Art Center Firing Incident",
-    "Firing at tamasha centre in Junnar injures man"
-   ],
-   [
-    "Two Arrested, Two Juveniles Detained in Pune Murder Case; Hunt On for Remaining Suspects",
-    "Youth beaten to death near Parvati; five detained"
-   ],
    [
     "Delivery partner held after fatal accident in Pune turns out to be murder",
     "Pedestrian dies in hit-and-run accident in Baner"
@@ -248,6 +244,9 @@
    {
     "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
     "days": [
+     "2026-08-09",
+     "2026-08-10",
+     "2026-08-11",
      "2026-11-11",
      "2026-11-15"
     ]
@@ -271,6 +270,8 @@
     "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
     "days": [
      "2026-10-20",
+     "2026-10-31",
+     "2026-11-01",
      "2026-11-09"
     ]
    },
@@ -320,22 +321,27 @@
     "reading": "Pimple Saudagar / Sangvi"
    },
    {
+    "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
+    "case_area": "Old city peths",
+    "reading": "Chikhali / Moshi"
+   },
+   {
     "t": "Pune Crime: वाहनाला कट मारल्याच्या किरकोळ वाद, कोयत्याने तरुणावर जीवघेणा हल्ला, एक हात आणि तीन बोटं तुटली, राजगुरूनगर हादरले",
-    "case_area": "Chikhali / Moshi",
+    "case_area": "Old city peths",
     "reading": "Rajgurunagar / Khed"
    },
    {
-    "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
-    "case_area": "Vishrantwadi",
-    "reading": "Dighi / Alandi"
-   },
-   {
-    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
-    "case_area": "Lonavala / Maval",
-    "reading": "Wanowrie"
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Bavdhan"
    }
   ],
   "silent_days": [
+   {
+    "day": "2026-07-10",
+    "incidents": 1,
+    "usual": 6
+   },
    {
     "day": "2026-07-22",
     "incidents": 1,
@@ -410,5 +416,5 @@
    }
   ]
  },
- "passed": 30
+ "passed": 33
 }
