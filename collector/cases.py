@@ -169,8 +169,15 @@ def build(items, vec=None, verdicts=None):
         if len(members[ri]) < len(members[rj]):
             ri, rj = rj, ri
         inside = {ids[m] for m in members[ri]}
-        if any(hard.get(ids[m], set()) & inside for m in members[rj]):
-            return False                          # the expert said "different" for a pair across them
+        diffs = sum(len(hard.get(ids[m], set()) & inside) for m in members[rj])
+        if diffs:                                 # the expert said "different" for pairs across them
+            if not firm:
+                return False
+            # The expert also joined them, or they share a victim: the stronger side, counted pair by pair, decides.
+            pos = sum(1 for m in members[rj] for o in members[ri]
+                      if verdicts.get(pair_key(ids[m], ids[o])) == 'same' or victim_link(recs[m], recs[o]))
+            if pos <= diffs:
+                return False
         if not firm and any(soft.get(ids[m], set()) & inside for m in members[rj]):
             return False                          # the fast judge said "different", and nothing firmer joins them
         if names[ri] and names[rj] and not E.names_meet(names[ri], names[rj], rare):
