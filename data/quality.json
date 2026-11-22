@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T01:19:53.084Z",
+ "updated": "2026-11-22T02:19:59.412Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -120,9 +120,9 @@
   "split_cases": 11,
   "date_spread": 9,
   "waiting_for_judge": 0,
-  "pairs_judged": 922,
-  "pairs_judged_same": 804,
-  "judge_checked_by_expert": 547,
+  "pairs_judged": 925,
+  "pairs_judged_same": 807,
+  "judge_checked_by_expert": 557,
   "judge_overturned_by_expert": 6,
   "non_incident_wording": 2,
   "area_disagreement": 23,
@@ -130,8 +130,8 @@
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2796,
-  "cases": 1647
+  "reports": 2798,
+  "cases": 1648
  },
  "examples": {
   "split_cases": [
@@ -170,7 +170,7 @@
   ],
   "date_spread": [
    {
-    "t": "Video: मनोज जरांगेंनीच महिलांना पुढे करून भ्याड हल्ला घडवला; पुण्यात मारहाणीनंतर रेखा कोंडे यांचा थेट आरोप",
+    "t": "Two women assault each other on Tilak Road",
     "days": [
      "2026-11-13",
      "2026-11-18",
@@ -288,6 +288,18 @@
   ],
   "source_gaps": [
    {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   },
+   {
     "source": "lkm",
     "days": 1,
     "examples": [
@@ -328,18 +340,6 @@
      "2026-11-06",
      "2026-11-15",
      "2026-11-20"
-    ]
-   },
-   {
-    "source": "toi",
-    "days": 11,
-    "examples": [
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-04",
-     "2026-11-11",
-     "2026-11-12"
     ]
    }
   ]
