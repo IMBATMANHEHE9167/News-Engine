@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T03:19:53.600Z",
+ "updated": "2026-11-22T04:20:02.063Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -120,9 +120,9 @@
   "split_cases": 11,
   "date_spread": 9,
   "waiting_for_judge": 0,
-  "pairs_judged": 926,
-  "pairs_judged_same": 808,
-  "judge_checked_by_expert": 567,
+  "pairs_judged": 928,
+  "pairs_judged_same": 810,
+  "judge_checked_by_expert": 577,
   "judge_overturned_by_expert": 6,
   "non_incident_wording": 2,
   "area_disagreement": 23,
@@ -130,13 +130,13 @@
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
-  "reports": 2803,
+  "reports": 2804,
   "cases": 1649
  },
  "examples": {
   "split_cases": [
    [
-    "बारामतीत थरार, सुप्रिया सुळे यांचा संताप, त्या घटनेचा व्हिडीओ केला शेअर, पोलिसांवर..",
+    "Two men fire at businessman’s SUV in Baramati after Rs2 lakh extortion call",
     "Baramati Firing : बारामतीत गोळीबाराचा थरार! खंडणीसाठी बांधकाम व्यावसायिकाच्या कारवर झाडल्या गोळ्या; 3 हल्लेखोर CCTV मध्ये कैद"
    ],
    [

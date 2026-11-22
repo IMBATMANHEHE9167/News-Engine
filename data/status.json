@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-22T03:18:01.617Z",
- "total": 2803,
- "added": 5,
+ "updated": "2026-11-22T04:17:54.160Z",
+ "total": 2804,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -57,15 +57,15 @@
    "name": "Hindustan Times",
    "ok": true,
    "found": 4,
-   "added": 3,
+   "added": 0,
    "note": ""
   },
   {
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -113,7 +113,7 @@
    "name": "TV9 Marathi",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -129,7 +129,7 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -144,7 +144,7 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 6,
+   "found": 4,
    "added": 0,
    "note": ""
   },
