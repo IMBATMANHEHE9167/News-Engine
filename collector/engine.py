@@ -1279,10 +1279,11 @@ def apply_llm(rec):
             rec['i'] = day_str(pub)
             rec.pop('ip', None)
     # Outcome: the reading decides, both ways: "threatened with murder" is not a death, whatever a word rule found.
+    # (A stored reading leaves out "none" and "unknown" to save space: no death or injury in the reading means none.)
     o = v.get('o')
     if o in ('fatal', 'injured'):
         rec['o'] = o
-    elif o == 'none':
+    elif not v.get('ro'):
         rec.pop('o', None)
     if rec['c'] == 'murder':
         rec['o'] = 'fatal'

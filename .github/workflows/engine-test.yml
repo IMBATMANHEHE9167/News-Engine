@@ -25,7 +25,7 @@ jobs:
           path: ~/.cache/fastembed
           key: fastembed-paraphrase-multilingual-minilm-l12-v2
       - run: pip install -q -r collector/requirements.txt
-      - run: mkdir -p _test && (python -m py_compile collector/*.py && echo "compile ok" || echo "COMPILE FAILED") > _test/result.txt 2>&1 && python collector/selftest.py >> _test/result.txt 2>&1 || true
+      - run: mkdir -p _test && (python -m py_compile collector/*.py && echo "compile ok" || echo "COMPILE FAILED") > _test/result.txt 2>&1 && DIAG="bedridden|fake terror activities;;Rekha Konde|Four women booked for assaulting|assault each other on Tilak Road|illegal pistols, ammunition in Bharati" python collector/selftest.py >> _test/result.txt 2>&1 || true
       - run: (GEMINI_API_KEY= timeout 900 python collector/collect.py > _test/collect.txt 2>&1; echo "exit $?" >> _test/collect.txt) || true
       - run: |
           git config user.name "vidraksh-collector"
