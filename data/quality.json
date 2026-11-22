@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T16:53:01.596Z",
+ "updated": "2026-11-22T17:10:16.254Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -187,31 +187,27 @@
   }
  ],
  "detectors": {
-  "split_cases": 5,
-  "date_spread": 27,
-  "waiting_for_judge": 1539,
-  "pairs_judged": 1201,
-  "pairs_judged_same": 884,
-  "judge_checked_by_expert": 691,
-  "judge_overturned_by_expert": 12,
+  "split_cases": 4,
+  "date_spread": 26,
+  "waiting_for_judge": 1306,
+  "pairs_judged": 1786,
+  "pairs_judged_same": 1122,
+  "judge_checked_by_expert": 721,
+  "judge_overturned_by_expert": 31,
   "non_incident_wording": 2,
-  "area_disagreement": 30,
-  "silent_days": 1,
+  "area_disagreement": 29,
+  "silent_days": 2,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 176,
   "reports": 2815,
-  "cases": 1652
+  "cases": 1619
  },
  "examples": {
   "split_cases": [
    [
-    "Distant relative held for murdering two elderly women, robbing them of gold chains",
-    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
-   ],
-   [
-    "Distant relative held for murdering two elderly women, robbing them of gold chains",
-    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+    "School bus collides with scooter, 16-year-old boy riding pillion succumbs to injuries",
+    "Pune School Bus Hits Scooter In Ghorpadi, 16-Year-Old Dies"
    ],
    [
     "Drug addicts assault GRP constable",
@@ -269,8 +265,6 @@
     "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
     "days": [
      "2026-10-20",
-     "2026-10-31",
-     "2026-11-01",
      "2026-11-09"
     ]
    },
@@ -325,14 +319,14 @@
     "reading": "Rajgurunagar / Khed"
    },
    {
-    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Bavdhan"
-   },
-   {
     "t": "Digital Arrest Scam : बालतस्करीच्या गुन्ह्यात अडकवण्याची धमकी अन् डिजिटल अरेस्टचा धाक! पुण्यात ७१ वर्षीय ज्येष्ठाची २२ लाखांची फसवणूक; नेमका प्रकार काय?",
     "case_area": "Vishrantwadi",
     "reading": "Dighi / Alandi"
+   },
+   {
+    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
+    "case_area": "Lonavala / Maval",
+    "reading": "Wanowrie"
    }
   ],
   "silent_days": [
@@ -340,6 +334,11 @@
     "day": "2026-07-22",
     "incidents": 1,
     "usual": 8
+   },
+   {
+    "day": "2026-09-27",
+    "incidents": 1,
+    "usual": 7
    }
   ],
   "source_gaps": [
