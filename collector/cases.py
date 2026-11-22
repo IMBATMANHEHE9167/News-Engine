@@ -132,7 +132,8 @@ def build(items, vec=None, verdicts=None):
             s = sim(i, j)
             # Same kind of crime in the same area, published within two days: always a candidate, however differently
             # worded ("sepoy injured in shooting" one day, "security man dies of gunshot" the next).
-            neighbour = gap <= 2 and x['f'] == y['f'] and x['a'] and x['a'] == y['a'] and s >= NEIGHBOUR
+            # A later development (arrest, custody) of the same kind in the same area within 30 days: likewise.
+            neighbour = (gap <= 2 or (y['dev'] and gap <= 30)) and x['f'] == y['f'] and x['a'] and x['a'] == y['a'] and s >= NEIGHBOUR
             if figure_link(x, y) or neighbour or (s >= (CANDIDATE if gap <= PUB_WINDOW else DEV_CANDIDATE)):
                 close.append((s, j, figure_link(x, y) or neighbour))
         close.sort(reverse=True)
@@ -141,16 +142,16 @@ def build(items, vec=None, verdicts=None):
                 add(i, j)
 
     # 2-3. Links and never-together pairs.
-    # Never together: the expert's "different"; the fast judge's "different" too, except against a victim named in
-    # both reports (the judge sees no names: there the shared victim stands until the expert, who re-checks these
-    # first, says otherwise).
-    at = {x['id']: x for x in recs}
-    cannot = {}
+    # Never together. The expert's "different" is final (hard). The fast judge's "different" is soft: it keeps reports
+    # apart unless firmer evidence joins them, namely the expert's "same" or a victim named in both (papers differ on
+    # details such as "knife" and "sickle"; the expert re-checks these "different"s first).
+    hard, soft = {}, {}
     for k, v in verdicts.items():
-        a, b = k.split('|')
-        if v == 'diff' or (v is False and not (a in at and b in at and victim_link(at[a], at[b]))):
-            cannot.setdefault(a, set()).add(b)
-            cannot.setdefault(b, set()).add(a)
+        if v == 'diff' or v is False:
+            a, b = k.split('|')
+            d = hard if v == 'diff' else soft
+            d.setdefault(a, set()).add(b)
+            d.setdefault(b, set()).add(a)
     up = list(range(n))
     members = [[i] for i in range(n)]
     names = [list(x['vn']) for x in recs]
@@ -161,15 +162,17 @@ def build(items, vec=None, verdicts=None):
             i = up[i]
         return i
 
-    def join(i, j):
+    def join(i, j, firm=False):
         ri, rj = find(i), find(j)
         if ri == rj:
             return True
         if len(members[ri]) < len(members[rj]):
             ri, rj = rj, ri
         inside = {ids[m] for m in members[ri]}
-        if any(cannot.get(ids[m], set()) & inside for m in members[rj]):
-            return False                          # the judge said "different" for a pair across them
+        if any(hard.get(ids[m], set()) & inside for m in members[rj]):
+            return False                          # the expert said "different" for a pair across them
+        if not firm and any(soft.get(ids[m], set()) & inside for m in members[rj]):
+            return False                          # the fast judge said "different", and nothing firmer joins them
         if names[ri] and names[rj] and not E.names_meet(names[ri], names[rj], rare):
             return False                          # both name their victims, and the names differ
         up[rj] = ri
@@ -180,13 +183,16 @@ def build(items, vec=None, verdicts=None):
     strong, weak = [], []
     for k, (i, j, s) in cand.items():
         x, y = recs[i], recs[j]
-        if E.same(verdicts.get(k)) or victim_link(x, y) or accused_link(x, y) or figure_link(x, y):
-            strong.append((s, i, j))
+        v = verdicts.get(k)
+        if v is False and not victim_link(x, y):
+            continue                              # the fast judge said "different" for this very pair
+        if E.same(v) or victim_link(x, y) or accused_link(x, y) or figure_link(x, y):
+            strong.append((2 if (v == 'same' or victim_link(x, y)) else 1, s, i, j))
         elif k not in verdicts and s >= PROVISIONAL and x['f'] == y['f'] and abs(x['pub'] - y['pub']) <= 3 \
                 and not E.ages_differ(x['fp'], y['fp']) and not E.sums_differ(x['fp'], y['fp']):
-            weak.append((s, i, j))
-    for _, i, j in sorted(strong, reverse=True) + sorted(weak, reverse=True):
-        join(i, j)
+            weak.append((0, s, i, j))
+    for f, _, i, j in sorted(strong, reverse=True) + sorted(weak, reverse=True):
+        join(i, j, firm=f == 2)               # firm: the expert's "same" or a shared victim; joined first
 
     # 4. Each case checked against its centre: the report with the most firm links inside the case.
     groups = {}

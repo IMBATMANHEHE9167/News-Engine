@@ -9,7 +9,7 @@
   {"name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case", "one_case": "DRDO dream"},
   {"name": "Ketan Agarwal murder (Lohagad Fort) is one case", "one_case": "ketan ag(a)?r(a)?wal|lohagad (fort )?(murder|trek)|lohgad case|केतन"},
   {"name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case", "apart": ["Kusgaon Budruk", "ketan|lohagad|केतन"]},
-  {"name": "NDA security post shooting (sepoy who died) is one case", "one_case": "NDA (security|post)|at NDA post|NDA Security Personnel"},
+  {"name": "NDA: each shooting is one case (the expert judged the 11 Sep injury and the death reported on 17 Sep to be two incidents: \"second incident involving personnel in 10 days\")", "one_case": "NDA Security Personnel Dies|sepoy posted at NDA security post succumbs"},
   {"name": "Trainee PSI dowry harassment is one case", "one_case": "(trainee|probationary) PSI"},
   {"name": "Trainee PSI dowry harassment is a crime against women", "type": ["(trainee|probationary) PSI", "women"]},
   {"name": "Kasba Ganpati temple donation-box theft is one case", "one_case": "Kasba (Ganpati )?(temple|मंदिर)|कसबा मंदिर"},
@@ -31,7 +31,9 @@
   {"name": "Rs 10 lakh extortion bid on a coaching institute official is one case", "one_case": "institute official with fake case|Extortion Bid Against Delhi-Based Coaching Institute"},
   {"name": "Wanowrie Rs 1.38 crore investment fraud by three people is one case", "one_case": "Trio dupe 8 investors|१ कोटी ३८ लाख"},
   {"name": "MCOCA on the gang that fired at a dahi handi is under Organised crime", "organised": "दहीहंडी उत्सवात गोळीबार करणाऱ्या टोळीवर"},
-  {"name": "Pune auto-rickshaw strike from 23 Nov (sit-in outside Pune RTO) is placed on the map", "situation_placed": "Auto-Rickshaw Drivers Announce Indefinite Strike"}
+  {"name": "Pune auto-rickshaw strike from 23 Nov (sit-in outside Pune RTO) is placed on the map", "situation_placed": "Auto-Rickshaw Drivers Announce Indefinite Strike"},
+  {"name": "GRP constable attacked at Pune railway station (knife or sickle, per paper) is one case", "one_case": "assault GRP constable|Attacked With (Sickle|Knife) at Pune Railway|Railway Police Constable Attacked|रेल्वे पोलिसाचा चाकूने|रेल्वे पोलिसावर चाकूने"},
+  {"name": "Narayangaon tamasha centre firing and the arrest of its main suspect are one case", "one_case": "Narayangaon Art Center Firing|tamasha centre in Junnar"}
  ],
  "calendar_from": "2026-05-25"
 }
