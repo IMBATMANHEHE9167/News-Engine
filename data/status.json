@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-22T22:18:06.403Z",
- "total": 2816,
- "added": 0,
+ "updated": "2026-11-22T23:17:53.365Z",
+ "total": 2817,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -65,7 +65,7 @@
    "name": "Times of India",
    "ok": true,
    "found": 2,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -111,10 +111,10 @@
   {
    "id": "tv9",
    "name": "TV9 Marathi",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 4,
    "added": 0,
-   "note": "The read operation timed out"
+   "note": ""
   },
   {
    "id": "abp",
