@@ -23,8 +23,8 @@ WEAPONS = [(k, name, re.compile(p, I)) for k, name, p in O['weapons']]
 JUVENILE, RIVAL, GENERIC = re.compile(O['juvenile'], I), re.compile(O['rival'], I), re.compile(O['generic'], I)
 ACTIVE_DAYS = 120
 HEAVY = {'mcoca', 'mpda', 'extern'}
-OTHER = dict(id='other', name='Other gangs under MCOCA, MPDA or externment', type='pattern', leader='',
-             about='Police action against gangs that are in no profile here yet, and gangs the reports name that have no profile. '
+OTHER = dict(id='other', name='Other gangs', type='other', leader='',
+             about='Gangs under MCOCA, MPDA or externment, and gangs the reports name, that have no profile here yet. '
                    'Each is listed so none is left out; a gang that recurs gets its own profile.')
 
 
@@ -159,7 +159,10 @@ def build(events, get):
             actions=count('act'), weapons=count('wpn'), juvenile=sum(1 for r in mine if r.get('j')),
             rivalry=sum(1 for r in mine if r.get('rv')), linked=sorted(rivals.items(), key=lambda kv: -kv[1]),
             months=sorted(months.items()),
-            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'src', 'gn', 'en')} for r in mine[:60]]))
+            # Every report (not only the latest), so the page can recount any area view and period: the groups each names
+            # (for links), its incident (ev) and its signals.
+            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'rv', 'src', 'gn', 'en', 'g', 'ev')
+                      if r.get(k) not in (None, [], '')} for r in mine]))
     profiles.sort(key=lambda p: (p['type'] == 'pattern', -p['n']))
     (DATA / 'groups.json').write_text(json.dumps(dict(updated=E.iso(now), note=O['note'], groups=profiles,
                                                 candidates=sorted(candidates.items(), key=lambda kv: -kv[1])[:30]), ensure_ascii=False, separators=(',', ':')), 'utf-8')

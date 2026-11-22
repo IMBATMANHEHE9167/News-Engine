@@ -1851,11 +1851,32 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden) { re
 // Groups as publicly reported, from the engine's incidents and each group's own searches (groups.json, hourly).
 // Leaders are named as the press names them: accused, not convicted unless a report says so.
 let OC = null, ocOpen = null;
-const OC_TYPE = { syndicate: 'Organised gang', crew: 'Crew', external: 'Outside gang with Pune links', pattern: 'Pattern, not one gang' };
+const OC_TYPE = { syndicate: 'Organised gang', crew: 'Crew', external: 'Outside gang with Pune links', pattern: 'Pattern, not one gang', other: 'Under MCOCA, MPDA or externment, no profile yet' };
 const OC_ACT = { mcoca: 'MCOCA', mpda: 'MPDA detention', extern: 'Externment', arrest: 'Arrests', property: 'Property action' };
 const OC_WPN = { koyta: 'Koyta (sickle)', firearm: 'Firearm', blade: 'Sword or knife' };
 const ocDay = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
 const ocInView = r => view === 'all' || !r.a || areaInView(r.a);
+const ocInPeriod = r => { const t = new Date(r.d).getTime(); return t >= since() && t < until(); };
+const ocWhen = () => period === '0' ? '' : dayOf() ? ' ' + periodName() : period === '1' ? ' today' : ' in the ' + periodName();
+// The groups as the chosen area and period see them: every figure (reports, incidents, areas, police action, weapons,
+// links, months, signals) is recounted from the group's own reports, so the list, profile, map and arcs all agree.
+let OCV = null, OCV_KEY = '';
+function ocList() {
+  const k = `${view}|${period}|${OC.updated}`;
+  if (OCV && OCV_KEY === k) return OCV;
+  const tally = xs => { const m = {}; for (const x of xs) if (x != null && x !== '') m[x] = (m[x] || 0) + 1; return Object.entries(m).sort((a, b) => b[1] - a[1]); };
+  OCV = OC.groups.map(g => {
+    const rs = (g.reports || []).filter(r => ocInView(r) && ocInPeriod(r)), ds = rs.map(r => r.d).sort();
+    return { ...g, reports: rs, n: rs.length, first: ds[0] || g.first, last: ds[ds.length - 1] || g.last,
+      incidents: new Set(rs.filter(r => r.ev != null).map(r => r.ev)).size,
+      areas: tally(rs.map(r => r.a)), actions: tally(rs.flatMap(r => r.act || [])), weapons: tally(rs.flatMap(r => r.wpn || [])),
+      linked: tally(rs.flatMap(r => (r.g || []).filter(x => x !== g.id))),
+      months: tally(rs.map(r => r.d.slice(0, 7))).sort((a, b) => (a[0] < b[0] ? -1 : 1)),
+      juvenile: rs.filter(r => r.j).length, rivalry: rs.filter(r => r.rv).length };
+  }).sort((a, b) => ((a.type === 'pattern' || a.type === 'other') - (b.type === 'pattern' || b.type === 'other')) || b.n - a.n);
+  OCV_KEY = k;
+  return OCV;
+}
 // Words to search the groups' reports by. A report counts if the engine tagged it (weapon, police action, minor) or its
 // headline uses the word (English, Marathi or the usual misspellings). Only words found in at least one report are offered.
 const OC_KEYS = [
@@ -1920,36 +1941,38 @@ function drawOc() {
   $('ocNote').textContent = 'Groups as publicly reported. Leaders are named as the press names them: accused, not convicted unless a report says so. Minors and victims of sexual offences are never named.';
   const q = $('ocQ').value.trim().toLowerCase();
   drawOcGraph(q); drawOcMap(q);
-  const live = OC.groups.filter(g => g.n);
+  const G = ocList(), live = G.filter(g => g.n);
   $('ocTitle').innerHTML = `${live.length} groups <span style="color:var(--ink-3)">${live.filter(g => g.active).length} active</span>`;
-  const g = ocOpen && OC.groups.find(x => x.id === ocOpen);
+  const g = ocOpen && G.find(x => x.id === ocOpen);
   if (g) { drawOcProfile(g); return; }
   const key = ocKey(q), test = key ? key.test : r => r.t.toLowerCase().includes(q);
-  const list = OC.groups.filter(x => x.n && ocMatch(x, q));
+  const list = G.filter(x => x.n && ocMatch(x, q));
   if (key) list.sort((a, b) => (b.reports || []).filter(test).length - (a.reports || []).filter(test).length);
   const seen = new Set();
-  const hits = q ? OC.groups.flatMap(x => (x.reports || []).filter(r => test(r) && ocInView(r)).map(r => ({ ...r, g: x })))
+  const hits = q ? G.flatMap(x => (x.reports || []).filter(test).map(r => ({ ...r, gr: x })))
     .filter(r => !seen.has(r.u) && seen.add(r.u)).sort((a, b) => (a.d < b.d ? 1 : -1)) : [];
   const card = x => {
-    const acts = Object.fromEntries(x.actions || []), mine = (x.reports || []).filter(ocInView);
+    const acts = Object.fromEntries(x.actions || []);
     const where = (x.areas || []).slice(0, 3).map(([a]) => AREA[a] ? esc(AREA[a].name) : esc(a)).join(', ');
     return `<article class="rec pick ocard" data-g="${x.id}">
       <div class="rec-when" title="Latest report about the group">${ocDay(x.last)}</div>
       <div>
         <div class="rec-type"><span>${esc(OC_TYPE[x.type] || x.type)}</span><span class="tag" title="${x.active ? 'Reported in the last four months' : 'No report for over four months'}">${x.active ? 'Active' : 'Quiet'}</span></div>
         <a class="rec-head" href="#oc" data-g="${x.id}">${esc(x.name)}</a>
-        <div class="rec-meta">${x.leader ? `<span><span class="place">${esc(x.leader)}</span> <span class="acc">accused</span></span>` : ''}<span>${plural(x.n, 'report')}</span>${x.incidents ? `<span>${plural(x.incidents, 'incident')} in the engine</span>` : ''}${acts.mcoca ? `<span>MCOCA in ${acts.mcoca}</span>` : ''}${where ? `<span>${where}</span>` : ''}${view !== 'all' ? `<span>${mine.length} in this view</span>` : ''}${key ? `<span><b>${(x.reports || []).filter(test).length}</b> mention ${esc(key.name.toLowerCase())}</span>` : ''}</div>
+        <div class="rec-meta">${x.leader ? `<span><span class="place">${esc(x.leader)}</span> <span class="acc">accused</span></span>` : ''}<span>${plural(x.n, 'report')}</span>${x.incidents ? `<span>${plural(x.incidents, 'incident')} in the engine</span>` : ''}${acts.mcoca ? `<span>MCOCA in ${acts.mcoca}</span>` : ''}${where ? `<span>${where}</span>` : ''}${key ? `<span><b>${(x.reports || []).filter(test).length}</b> mention ${esc(key.name.toLowerCase())}</span>` : ''}</div>
       </div>
     </article>`;
   };
-  $('ocBody').innerHTML = `<div class="reghead">${list.length ? `${plural(list.length, 'group')}${q ? ' matching the search' : ''}, busiest first. The date beside each is its latest report.` : ''}</div>` +
-    (list.length ? list.map(card).join('') : `<div class="empty">No group matches “${esc(q)}”.</div>`) +
+  $('ocBody').innerHTML = `<div class="reghead">${list.length ? `${plural(list.length, 'group')}${q ? ' matching the search' : ''}${ocWhen() ? ' with reports' + ocWhen() : ''}, busiest first. The date beside each is its latest report.` : ''}</div>` +
+    (list.length ? list.map(card).join('') : `<div class="empty">${q ? `No group matches “${esc(q)}”${ocWhen()}.` : `No group has a report${ocWhen()}.`}</div>`) +
     (hits.length ? `<div class="day"><span><b>Reports mentioning “${esc(key ? key.name : q)}”</b></span><span>${hits.length}</span></div><div style="padding:0 20px 8px">` +
-      hits.slice(0, 30).map(r => `<div class="mini">${meta(ocDay(r.d), esc(r.g.name))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') + '</div>' : '');
+      hits.slice(0, 30).map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), esc(r.gr.name))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') + '</div>' : '');
 }
 function drawOcProfile(g) {
-  const reps = (g.reports || []).filter(ocInView);
+  const reps = g.reports || [];
   const months = g.months || [], max = Math.max(1, ...months.map(m => m[1]));
+  const monthName = m => new Date(m + '-15T00:00:00Z').toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+  const monthTip = (m, n) => `${monthName(m)}: ${plural(n, 'report')} naming ${g.name}${n === max && months.length > 1 ? ' (the busiest month shown)' : ''}`;
   const sec = (title, body) => body ? `<section class="sec"><h3 class="sec-h">${title}</h3>${body}</section>` : '';
   const tags = r => [...(r.act || []).map(k => OC_ACT[k]), ...(r.wpn || []).map(k => OC_WPN[k]), r.j ? 'minor involved' : ''].filter(Boolean);
   const linked = (g.linked || []).map(([id, n]) => {
@@ -1962,14 +1985,14 @@ function drawOcProfile(g) {
     <h2 class="ocname">${esc(g.name)}</h2>
     <div class="rec-meta" style="margin-top:0"><span>${esc(OC_TYPE[g.type] || g.type)}</span>${g.leader ? `<span>Led by <span class="place">${esc(g.leader)}</span> <span class="acc">accused, not convicted unless a report says so</span></span>` : ''}</div>
     ${g.about ? `<p class="say" style="margin-top:12px">${esc(g.about)}</p>` : ''}
-    <p class="say" style="margin-top:12px"><b>${g.n}</b> reports from ${ocDay(g.first)} to ${ocDay(g.last)}${g.incidents ? `, <b>${g.incidents}</b> of them incidents in the engine` : ''}. ${g.active ? '<em>Active</em> in the last four months.' : 'Quiet for over four months.'}</p>
+    <p class="say" style="margin-top:12px">${g.n ? `<b>${g.n}</b> ${g.n === 1 ? 'report' : 'reports'}${ocWhen()}${g.n > 1 ? `, from ${ocDay(g.first)} to ${ocDay(g.last)}` : `, on ${ocDay(g.first)}`}${g.incidents ? `, <b>${g.incidents}</b> of them ${g.incidents === 1 ? 'an incident' : 'incidents'} in the engine` : ''}.` : `No report${ocWhen()}.`} ${g.active ? '<em>Active</em> in the last four months.' : 'Quiet for over four months.'}</p>
     ${sec('Police action', ocRows(g.actions || [], k => OC_ACT[k] || k, g.n))}
     ${sec('Where', ocRows((g.areas || []).slice(0, 8), a => AREA[a] ? AREA[a].name : a, (g.areas || [[0, 1]])[0][1]))}
     ${sec('Weapons named', ocRows(g.weapons || [], k => OC_WPN[k] || k, g.n))}
     ${sec('Linked groups <span>named together in reports</span>', linked)}
     ${sec('Signals', signals ? `<p class="note" style="margin-top:0">${signals}</p>` : '')}
-    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i title="${m}: ${n}" style="height:${Math.max(6, n / max * 100)}%;--g:${glowOf(n, max)}"></i>`).join('')}</div><p class="note">${months[0][0]} to ${months[months.length - 1][0]}; peak ${max} in a month</p>` : '')}
-    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
+    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i data-tip="${esc(monthTip(m, n))}" aria-label="${esc(monthTip(m, n))}" style="height:${Math.max(6, n / max * 100)}%;--g:${glowOf(n, max)}"></i>`).join('')}</div><p class="note">Each bar is one month: how many reports named this group. ${months.length > 1 ? `${monthName(months[0][0])} to ${monthName(months[months.length - 1][0])}; the busiest month had ${plural(max, 'report')}.` : ''} Point at (or tap) a bar for its month.</p>` : '')}
+    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
 }
 $('ocBody').onclick = e => {
   if (e.target.closest('#ocBack')) { e.preventDefault(); ocOpen = null; drawOc(); return; }
@@ -1980,7 +2003,25 @@ $('ocBody').onclick = e => {
 function ocToTop() { $('ocPanel').scrollTop = 0; if (innerWidth < 1024) sheet('ocv', 'pr', true); }
 // Hovering a group lights up its ground on the map.
 $('ocBody').addEventListener('mouseover', e => { const c = e.target.closest('.ocard'), g = c ? c.dataset.g : null; if (g !== ocHot) { ocHot = g; if (OC) drawOcMap($('ocQ').value.trim().toLowerCase()); } });
-$('ocBody').addEventListener('mouseleave', () => { if (ocHot) { ocHot = null; if (OC) drawOcMap($('ocQ').value.trim().toLowerCase()); } });
+$('ocBody').addEventListener('mouseleave', () => { ocPin(null); if (ocHot) { ocHot = null; if (OC) drawOcMap($('ocQ').value.trim().toLowerCase()); } });
+// Pointing at a report marks its area on the map: a copper ring with the area's name. On a phone, tapping the report
+// (anywhere but its link) does the same, lowers the panel and brings the area into view.
+function ocPin(a) {
+  const e = MAPS.ocMap; if (!e) return null;
+  if (!e.hl) e.hl = L.layerGroup().addTo(e.m);
+  e.hl.clearLayers();
+  if (!a || !AREA[a]) return null;
+  const ll = [AREA[a].lat, AREA[a].lon], name = AREA[a].name, w = Math.ceil(name.length * 6.4) + 8;
+  L.circleMarker(ll, { pane: e.top, radius: 16, color: css('--copper'), weight: 3, fill: false, interactive: false }).addTo(e.hl);
+  L.marker(ll, { pane: e.top, interactive: false, icon: L.divIcon({ className: 'pin', html: esc(name), iconSize: [w, 16], iconAnchor: [-20, 8] }) }).addTo(e.hl);
+  return ll;
+}
+$('ocBody').addEventListener('mouseover', e => { const r = e.target.closest('.ocrep'); if (r || !e.target.closest('.ocard')) ocPin(r ? r.dataset.a : null); });
+$('ocBody').addEventListener('click', e => {
+  const r = e.target.closest('.ocrep'); if (!r || e.target.closest('a')) return;
+  const ll = ocPin(r.dataset.a), m = MAPS.ocMap;
+  if (ll && m) { if (innerWidth < 1024) sheet('ocv', null, false); m.m.setView(ll, Math.max(m.m.getZoom(), 12), { animate: motion() === 'smooth' }); }
+});
 $('ocQ').oninput = () => { ocOpen = null; sugOn = -1; drawSug(); drawOc(); };
 
 /* Where groups are reported: each area sized and heated by the reports naming a group there. Hover a group in the list
@@ -2003,8 +2044,8 @@ function placeLabels(e, labels) {
 function drawOcMap(q) {
   const e = MAPS.ocMap || makeMap('ocMap');
   e.layer.clearLayers();
-  const gs = OC.groups.filter(g => g.n && ocMatch(g, q));
-  const focus = ocHot || (ocOpen && OC.groups.some(x => x.id === ocOpen) ? ocOpen : null), fg = focus && OC.groups.find(x => x.id === focus);
+  const G = ocList(), gs = G.filter(g => g.n && ocMatch(g, q));
+  const focus = ocHot || (ocOpen && G.some(x => x.id === ocOpen) ? ocOpen : null), fg = focus && G.find(x => x.id === focus);
   const per = {}, names = [], seen = a => AREA[a] && (view === 'all' || areaInView(a));   // only the areas of this view
   for (const g of [...gs].sort((x, y) => y.n - x.n)) {
     for (const [a, n] of (g.areas || [])) if (seen(a)) (per[a] = per[a] || []).push([g, n]);
@@ -2031,7 +2072,7 @@ function drawOcMap(q) {
    lights its arcs in copper and puts, beside each linked group, how many reports name the two together. A search fades
    the groups it does not match. */
 function drawOcGraph(q) {
-  const gs = OC.groups.filter(g => g.n).sort((a, b) => b.n - a.n);
+  const gs = ocList().filter(g => g.n).sort((a, b) => b.n - a.n);
   if (!gs.length) { $('ocGraph').innerHTML = '<div class="empty">The organised-crime profiles have not been built yet.</div>'; return; }
   const W = 336, RH = 40, AX = 112, H = gs.length * RH, yOf = {}, nameOf = {};
   gs.forEach((g, i) => { yOf[g.id] = i * RH + RH / 2; nameOf[g.id] = g.name.replace(' (Pune links)', ''); });
@@ -2565,9 +2606,18 @@ document.addEventListener('change', e => {
 });
 document.addEventListener('mousemove', e => {
   const t = $('gTip'), el = e.target.closest && e.target.closest('[data-tip]');
-  if (!el || !$('anBody').contains(el)) { t.style.display = 'none'; return; }
+  if (!el || !($('anBody').contains(el) || $('ocBody').contains(el))) { t.style.display = 'none'; return; }
   t.textContent = el.dataset.tip; t.style.display = 'block';
   t.style.left = Math.min(innerWidth - t.offsetWidth - 8, e.clientX + 14) + 'px'; t.style.top = (e.clientY + 16) + 'px';
+});
+// On a phone there is no pointer: tapping something that explains itself shows its explanation for a few seconds.
+let tipTimer = 0;
+document.addEventListener('click', e => {
+  const el = e.target.closest && e.target.closest('#ocBody [data-tip], #anBody [data-tip]'), t = $('gTip');
+  if (!el || matchMedia('(hover: hover)').matches) return;
+  t.textContent = el.dataset.tip; t.style.display = 'block';
+  t.style.left = Math.max(8, Math.min(innerWidth - t.offsetWidth - 8, e.clientX - t.offsetWidth / 2)) + 'px'; t.style.top = (e.clientY - t.offsetHeight - 14) + 'px';
+  clearTimeout(tipTimer); tipTimer = setTimeout(() => { t.style.display = 'none'; }, 3500);
 });
 
 /* ---------- Wiring ---------- */
