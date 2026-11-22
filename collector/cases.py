@@ -141,10 +141,14 @@ def build(items, vec=None, verdicts=None):
                 add(i, j)
 
     # 2-3. Links and never-together pairs.
+    # Never together: the expert's "different"; the fast judge's "different" too, except against a victim named in
+    # both reports (the judge sees no names: there the shared victim stands until the expert, who re-checks these
+    # first, says otherwise).
+    at = {x['id']: x for x in recs}
     cannot = {}
     for k, v in verdicts.items():
-        if v is False or v == 'diff':
-            a, b = k.split('|')
+        a, b = k.split('|')
+        if v == 'diff' or (v is False and not (a in at and b in at and victim_link(at[a], at[b]))):
             cannot.setdefault(a, set()).add(b)
             cannot.setdefault(b, set()).add(a)
     up = list(range(n))

@@ -438,6 +438,9 @@ def audit_judges(cache, by_id):
             score = (abs(da - db) > 1) + (a.get('a') != b.get('a')) + (a.get('c') != b.get('c'))
         else:
             score = (a.get('a') == b.get('a')) + (a.get('c') == b.get('c')) + (abs(E.day_of(a['d']) - E.day_of(b['d'])) <= 2)
+            va, vb = (E.best_reading(a) or {}).get('vn') or [], (E.best_reading(b) or {}).get('vn') or []
+            if va and vb and E.names_meet(va, vb, set()):
+                score += 10                      # a "different" against a victim named in both: re-checked first
         return score, max(a['d'], b['d'])
     todo = sorted((k for k, v in cache.items() if v in (True, False) and risk(k)), key=risk, reverse=True)
     asked, n = 0, CFG['pair_batch']
