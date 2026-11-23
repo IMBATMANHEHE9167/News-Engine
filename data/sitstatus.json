@@ -1,12 +1,9 @@
 {
- "scanned": "2026-11-23T07:45:19.350Z",
+ "scanned": "2026-11-23T08:00:32.660Z",
  "every": 15,
- "sources_ok": 15,
- "sources_failed": [
-  "ie",
-  "lks"
- ],
+ "sources_ok": 17,
+ "sources_failed": [],
  "reports": 101,
  "situations": 61,
- "new": 1
+ "new": 0
 }
