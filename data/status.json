@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T04:17:45.088Z",
- "total": 2820,
- "added": 0,
+ "updated": "2026-11-23T05:17:51.848Z",
+ "total": 2823,
+ "added": 3,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -144,8 +144,8 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 2,
    "note": ""
   },
   {
@@ -160,8 +160,8 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 7,
-   "added": 0,
+   "found": 8,
+   "added": 1,
    "note": ""
   }
  ]

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T04:24:33.249Z",
+ "updated": "2026-11-23T05:22:54.139Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -202,19 +202,19 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "date_spread": 29,
+  "date_spread": 28,
   "waiting_for_judge": 0,
-  "pairs_judged": 3534,
-  "pairs_judged_same": 1699,
-  "judge_checked_by_expert": 901,
-  "judge_overturned_by_expert": 176,
+  "pairs_judged": 3543,
+  "pairs_judged_same": 1702,
+  "judge_checked_by_expert": 916,
+  "judge_overturned_by_expert": 191,
   "non_incident_wording": 2,
-  "area_disagreement": 38,
+  "area_disagreement": 39,
   "silent_days": 4,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 177,
-  "reports": 2820,
+  "reports": 2823,
   "cases": 1483
  },
  "examples": {
@@ -225,6 +225,17 @@
    ]
   ],
   "date_spread": [
+   {
+    "t": "Pune Wagholi Accident : पुण्यातील वाघोलीत कार अन् ट्रकचा भीषण अपघात; तीन तरूणांचा मृत्यू, दोघे गंभीर जखमी",
+    "days": [
+     "2026-06-13",
+     "2026-08-28",
+     "2026-09-05",
+     "2026-10-11",
+     "2026-10-21",
+     "2026-11-23"
+    ]
+   },
    {
     "t": "Teacher’s Killing in Purandar: Brother-in-Law Arrested, Police Cite Dispute Over Money and Gold",
     "days": [
@@ -281,13 +292,6 @@
      "2026-10-29",
      "2026-11-07"
     ]
-   },
-   {
-    "t": "Scooterist dies in hit-and-run",
-    "days": [
-     "2026-06-10",
-     "2026-11-03"
-    ]
    }
   ],
   "non_incident_wording": [
@@ -295,6 +299,26 @@
    "Elderly man assaulted in upscale building in Gahunje"
   ],
   "area_disagreement": [
+   {
+    "t": "Pune Wagholi Accident : पुण्यातील वाघोलीत कार अन् ट्रकचा भीषण अपघात; तीन तरूणांचा मृत्यू, दोघे गंभीर जखमी",
+    "case_area": "Chakan",
+    "reading": "Wagholi"
+   },
+   {
+    "t": "Pune Road Accident Claims Life Of 26-Year-Old Near Balajinagar",
+    "case_area": "Chakan",
+    "reading": "Dhankawadi"
+   },
+   {
+    "t": "MACT Pune awards ₹59.45 lakh to parents of junior college teacher killed in 2017 road accident",
+    "case_area": "Chakan",
+    "reading": "Wagholi"
+   },
+   {
+    "t": "MCA student dies after bike crashes into median on Katraj-Dehu Road bypass",
+    "case_area": "Chakan",
+    "reading": "Bavdhan"
+   },
    {
     "t": "Man cheats job aspirants of ₹1.37 cr with fake PMC appointment letters",
     "case_area": "Pimpri",
@@ -314,26 +338,6 @@
     "t": "Police patil hacked to death over land dispute in Pune district; search on for three accused",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
-   },
-   {
-    "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Pimple Saudagar / Sangvi"
-   },
-   {
-    "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
-    "case_area": "Old city peths",
-    "reading": "Chikhali / Moshi"
-   },
-   {
-    "t": "Pune Crime: वाहनाला कट मारल्याच्या किरकोळ वाद, कोयत्याने तरुणावर जीवघेणा हल्ला, एक हात आणि तीन बोटं तुटली, राजगुरूनगर हादरले",
-    "case_area": "Old city peths",
-    "reading": "Rajgurunagar / Khed"
-   },
-   {
-    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Bavdhan"
    }
   ],
   "silent_days": [
@@ -360,18 +364,6 @@
   ],
   "source_gaps": [
    {
-    "source": "toi",
-    "days": 11,
-    "examples": [
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-04",
-     "2026-11-11",
-     "2026-11-12"
-    ]
-   },
-   {
     "source": "skl",
     "days": 8,
     "examples": [
@@ -381,6 +373,18 @@
      "2026-10-01",
      "2026-10-11",
      "2026-11-10"
+    ]
+   },
+   {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
     ]
    },
    {
