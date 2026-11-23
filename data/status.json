@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T10:17:57.003Z",
- "total": 2837,
- "added": 3,
+ "updated": "2026-11-23T11:17:50.630Z",
+ "total": 2839,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -72,8 +72,8 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 5,
-   "added": 2,
+   "found": 6,
+   "added": 1,
    "note": ""
   },
   {
@@ -128,8 +128,8 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 2,
-   "added": 1,
+   "found": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -152,8 +152,8 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {

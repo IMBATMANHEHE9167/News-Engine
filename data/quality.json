@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T10:23:17.314Z",
+ "updated": "2026-11-23T11:20:08.548Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -204,17 +204,17 @@
   "split_cases": 1,
   "date_spread": 27,
   "waiting_for_judge": 0,
-  "pairs_judged": 3563,
+  "pairs_judged": 3567,
   "pairs_judged_same": 1705,
-  "judge_checked_by_expert": 991,
-  "judge_overturned_by_expert": 263,
+  "judge_checked_by_expert": 1021,
+  "judge_overturned_by_expert": 293,
   "non_incident_wording": 2,
   "area_disagreement": 37,
   "silent_days": 4,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 180,
-  "reports": 2837,
+  "reports": 2839,
   "cases": 1487
  },
  "examples": {
@@ -226,7 +226,7 @@
   ],
   "date_spread": [
    {
-    "t": "Three Wagholi Youths Killed As Volkswagen Polo Crashes Into Parked Truck",
+    "t": "पुणे-अहिल्यानगर महामार्गावर कार डिव्हायडर ओलांडून पलटी, ट्रकला धडकली, ३ तरुणांचा मृत्यू,दोघे गंभीर",
     "days": [
      "2026-06-13",
      "2026-09-05",
@@ -362,6 +362,13 @@
   ],
   "source_gaps": [
    {
+    "source": "lkm",
+    "days": 1,
+    "examples": [
+     "2026-11-20"
+    ]
+   },
+   {
     "source": "ptm",
     "days": 17,
     "examples": [
@@ -407,13 +414,6 @@
      "2026-10-01",
      "2026-10-11",
      "2026-11-10"
-    ]
-   },
-   {
-    "source": "lkm",
-    "days": 1,
-    "examples": [
-     "2026-11-20"
     ]
    }
   ]
