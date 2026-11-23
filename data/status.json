@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T05:17:51.848Z",
- "total": 2823,
- "added": 3,
+ "updated": "2026-11-23T06:18:43.283Z",
+ "total": 2824,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -56,8 +56,8 @@
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
-   "found": 4,
-   "added": 0,
+   "found": 5,
+   "added": 1,
    "note": ""
   },
   {
@@ -80,7 +80,7 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -96,7 +96,7 @@
    "id": "pcl",
    "name": "Pune City Live",
    "ok": true,
-   "found": 3,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -145,7 +145,7 @@
    "name": "Pudhari",
    "ok": true,
    "found": 3,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 8,
-   "added": 1,
+   "added": 0,
    "note": ""
   }
  ]
