@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T08:20:48.069Z",
+ "updated": "2026-11-23T09:20:13.324Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -21,21 +21,33 @@
   },
   {
    "name": "Drunk policeman molesting a woman (Chaturshringi, Sep 2026) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune Crime : मद्याच्या नशेत तरुणीचा विनयभंग करणाऱ्या पोलिस हवालदाराला अटक; हवालदाराला निलंबित करण्याचे दिले आदेश"
+    ]
+   ]
   },
   {
    "name": "Talegaon woman booked under POCSO (Sep 2026) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Talegaon Woman Booked Under POCSO Over Minor Complaint"
+    ]
+   ]
   },
   {
    "name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "DIAT Student Who Turned Down ₹32 Lakh Job for DRDO Dream Dies in PMPML Bus Accident"
+    ]
+   ]
   },
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
@@ -57,9 +69,13 @@
   },
   {
    "name": "Trainee PSI dowry harassment is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune Woman Accuses Trainee PSI Husband Of Dowry Harassment, Threat With Service Pistol"
+    ]
+   ]
   },
   {
    "name": "Trainee PSI dowry harassment is a crime against women",
@@ -69,9 +85,24 @@
   },
   {
    "name": "Kasba Ganpati temple donation-box theft is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "5 cases",
+   "bad": [
+    [
+     "Man held for stealing ₹50,000 from Kasba Ganpati temple donation boxes",
+     "Pune Crime : कसबा मंदिरातील दानपेटी फोडली! मध्यरात्री मंदिराचे कुलूप तोडून ६० हजारांची रोकड लंपास; आरोपीला अटक",
+     "Kasba Ganpati Temple Theft: Pune Police Arrest Suspect Within Eight Hours"
+    ],
+    [
+     "Thief breaks into Pune's Kasba Ganpati temple, escapes with Rs 60,000 from donation box"
+    ],
+    [
+     "Pune: Thieves Break Donation Boxes at Kasba Ganpati Temple, Steal Cash"
+    ],
+    [
+     "Cash Stolen From Donation Boxes At Pune’s Kasba Ganpati Temple"
+    ]
+   ]
   },
   {
    "name": "Karegaon water-filter plant worker shot in place of his employer (29 Sep 2026) is one case",
@@ -117,9 +148,13 @@
   },
   {
    "name": "Digital-arrest victim made to show his bedridden wife is one case (Indian Express, TOI)",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Retired state govt officer cheated of Rs 5 lakh in fake terror activities case"
+    ]
+   ]
   },
   {
    "name": "Digital-arrest victim threatened with murder: no one died",
@@ -147,27 +182,55 @@
   },
   {
    "name": "Shots fired at a businessman's SUV in Baramati is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Two men fire at businessman’s SUV in Baramati after Rs2 lakh extortion call"
+    ]
+   ]
   },
   {
    "name": "21-year-old posing as an IAS officer (Rs 35 lakh society fraud) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "6 cases",
+   "bad": [
+    [
+     "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक"
+    ],
+    [
+     "Pune: 21-Year-Old Posing As IAS Officer Arrested In ₹35 Lakh Fraud Case"
+    ],
+    [
+     "Pune Fake IAS Officer Scam: फोटो, बातम्या अन् IAS पदाचा बनाव! पुण्यात 21 वर्षीय तरुणाने लुटले 35 लाख"
+    ],
+    [
+     "Fake IAS officer dupes housing society of ₹35L"
+    ],
+    [
+     "A 21 -Year- Old Pune Man Posed as IAS Officer and Duped Housing Society of Rs 35 Lakh, Held"
+    ]
+   ]
   },
   {
    "name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "MLC’s Vimannagar flat burgled, valuables worth ₹91,000 stolen"
+    ]
+   ]
   },
   {
    "name": "Rs 10 lakh extortion bid on a coaching institute official is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Man threatens institute official with fake case, tries to extort Rs10 lakh in Pune"
+    ]
+   ]
   },
   {
    "name": "Wanowrie Rs 1.38 crore investment fraud by three people is one case",
@@ -189,9 +252,13 @@
   },
   {
    "name": "GRP constable attacked at Pune railway station (knife or sickle, per paper) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune Railway Police Constable Attacked With Knife, Four Booked"
+    ]
+   ]
   },
   {
    "name": "Narayangaon tamasha centre firing and the arrest of its main suspect are one case",
@@ -201,24 +268,36 @@
   }
  ],
  "detectors": {
-  "split_cases": 1,
-  "date_spread": 27,
-  "waiting_for_judge": 0,
-  "pairs_judged": 3554,
-  "pairs_judged_same": 1704,
-  "judge_checked_by_expert": 961,
-  "judge_overturned_by_expert": 234,
+  "split_cases": 4,
+  "date_spread": 23,
+  "waiting_for_judge": 2,
+  "pairs_judged": 3560,
+  "pairs_judged_same": 1705,
+  "judge_checked_by_expert": 991,
+  "judge_overturned_by_expert": 263,
   "non_incident_wording": 2,
-  "area_disagreement": 37,
-  "silent_days": 4,
+  "area_disagreement": 39,
+  "silent_days": 3,
   "source_gap_days": 65,
   "unverified": 8,
   "ruled_out_by_ai": 180,
-  "reports": 2832,
-  "cases": 1485
+  "reports": 2834,
+  "cases": 1948
  },
  "examples": {
   "split_cases": [
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Scrap collecting woman robbed, left on road, dies in crash; accused held",
+    "Pune Robbery-Linked Death: चाकूचा धाक दाखवून लुटलेल्या महिलेचा अपघाती मृत्यू; सीसीटीव्ही फूटेजच्या आधारे सराईत गुन्हेगार जाळ्यात"
+   ],
    [
     "Delivery partner held after fatal accident in Pune turns out to be murder",
     "Pedestrian dies in hit-and-run accident in Baner"
@@ -226,12 +305,9 @@
   ],
   "date_spread": [
    {
-    "t": "Pune: Three Killed, Two Critically Injured In Late-Night Car-Truck Collision In Wagholi",
+    "t": "Pune: Three Youths Killed, Two Seriously Injured As Car Rams Into Truck Near Wagholi",
     "days": [
-     "2026-06-13",
      "2026-08-28",
-     "2026-09-05",
-     "2026-10-11",
      "2026-10-21",
      "2026-11-23"
     ]
@@ -271,26 +347,25 @@
     ]
    },
    {
-    "t": "Senior citizen loses ₹32 lakh in digital arrest fraud",
-    "days": [
-     "2026-10-06",
-     "2026-11-06"
-    ]
-   },
-   {
     "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
     "days": [
      "2026-10-20",
      "2026-10-31",
-     "2026-11-01",
      "2026-11-09"
     ]
    },
    {
-    "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
+    "t": "Scooterist dies in hit-and-run",
     "days": [
-     "2026-10-29",
-     "2026-11-07"
+     "2026-06-10",
+     "2026-11-03"
+    ]
+   },
+   {
+    "t": "2 killed, 4 injured as car plunges 200 ft into gorge at Pokhari ghat",
+    "days": [
+     "2026-08-24",
+     "2026-10-28"
     ]
    }
   ],
@@ -299,11 +374,6 @@
    "Elderly man assaulted in upscale building in Gahunje"
   ],
   "area_disagreement": [
-   {
-    "t": "6-year-old girl dies after motorcycle hits tractor trolley in Pimpri",
-    "case_area": "Wagholi",
-    "reading": "Pimpri"
-   },
    {
     "t": "Man cheats job aspirants of ₹1.37 cr with fake PMC appointment letters",
     "case_area": "Pimpri",
@@ -338,31 +408,43 @@
     "t": "Pune Crime: वाहनाला कट मारल्याच्या किरकोळ वाद, कोयत्याने तरुणावर जीवघेणा हल्ला, एक हात आणि तीन बोटं तुटली, राजगुरूनगर हादरले",
     "case_area": "Old city peths",
     "reading": "Rajgurunagar / Khed"
+   },
+   {
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Bavdhan"
    }
   ],
   "silent_days": [
    {
     "day": "2026-07-10",
     "incidents": 1,
-    "usual": 6
+    "usual": 8
    },
    {
     "day": "2026-07-22",
     "incidents": 1,
-    "usual": 7
+    "usual": 9
    },
    {
-    "day": "2026-08-26",
+    "day": "2026-10-25",
     "incidents": 2,
-    "usual": 8
-   },
-   {
-    "day": "2026-09-27",
-    "incidents": 1,
-    "usual": 7
+    "usual": 9
    }
   ],
   "source_gaps": [
+   {
+    "source": "pkn",
+    "days": 28,
+    "examples": [
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15",
+     "2026-11-20"
+    ]
+   },
    {
     "source": "ptm",
     "days": 17,
@@ -405,20 +487,8 @@
     "examples": [
      "2026-11-20"
     ]
-   },
-   {
-    "source": "pkn",
-    "days": 28,
-    "examples": [
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-15",
-     "2026-11-20"
-    ]
    }
   ]
  },
- "passed": 33
+ "passed": 22
 }

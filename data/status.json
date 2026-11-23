@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T08:18:15.997Z",
- "total": 2832,
- "added": 5,
+ "updated": "2026-11-23T09:17:47.686Z",
+ "total": 2834,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -65,7 +65,7 @@
    "name": "Times of India",
    "ok": true,
    "found": 3,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -73,15 +73,15 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -89,7 +89,7 @@
    "name": "Pune Pulse",
    "ok": true,
    "found": 3,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -105,7 +105,7 @@
    "name": "Free Press Journal",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -120,8 +120,8 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 1,
-   "added": 0,
+   "found": 2,
+   "added": 1,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 0,
+   "found": 1,
    "added": 0,
    "note": ""
   },
