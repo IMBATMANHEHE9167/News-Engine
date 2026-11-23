@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T17:43:54.331Z",
- "total": 2847,
- "added": 2,
+ "updated": "2026-11-23T18:22:00.069Z",
+ "total": 2848,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -80,8 +80,8 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 2,
+   "added": 1,
    "note": ""
   },
   {
@@ -104,7 +104,7 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 3,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 14,
-   "added": 2,
+   "added": 0,
    "note": ""
   }
  ]
