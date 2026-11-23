@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T06:18:43.283Z",
- "total": 2824,
- "added": 1,
+ "updated": "2026-11-23T07:18:07.549Z",
+ "total": 2827,
+ "added": 3,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -57,7 +57,7 @@
    "name": "Hindustan Times",
    "ok": true,
    "found": 5,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -88,15 +88,15 @@
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
    "id": "pcl",
    "name": "Pune City Live",
    "ok": true,
-   "found": 2,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -128,8 +128,8 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -144,15 +144,15 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 3,
-   "added": 0,
+   "found": 4,
+   "added": 1,
    "note": ""
   },
   {
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T06:20:14.864Z",
+ "updated": "2026-11-23T07:23:07.120Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -204,17 +204,17 @@
   "split_cases": 1,
   "date_spread": 28,
   "waiting_for_judge": 0,
-  "pairs_judged": 3543,
-  "pairs_judged_same": 1702,
-  "judge_checked_by_expert": 916,
-  "judge_overturned_by_expert": 191,
+  "pairs_judged": 3547,
+  "pairs_judged_same": 1704,
+  "judge_checked_by_expert": 931,
+  "judge_overturned_by_expert": 206,
   "non_incident_wording": 2,
-  "area_disagreement": 39,
+  "area_disagreement": 37,
   "silent_days": 4,
   "source_gap_days": 65,
   "unverified": 8,
-  "ruled_out_by_ai": 178,
-  "reports": 2824,
+  "ruled_out_by_ai": 179,
+  "reports": 2827,
   "cases": 1483
  },
  "examples": {
@@ -226,7 +226,7 @@
   ],
   "date_spread": [
    {
-    "t": "Pune Wagholi Accident : पुण्यातील वाघोलीत कार अन् ट्रकचा भीषण अपघात; तीन तरूणांचा मृत्यू, दोघे गंभीर जखमी",
+    "t": "Pune-Ahilyanagar highway: पुणे-अहिल्यानगर महामार्गावर कार डिव्हायडर ओलांडून पलटी, ट्रकला धडकून 3 तरुणांचा मृत्यू",
     "days": [
      "2026-06-13",
      "2026-08-28",
@@ -300,24 +300,14 @@
   ],
   "area_disagreement": [
    {
-    "t": "Pune Wagholi Accident : पुण्यातील वाघोलीत कार अन् ट्रकचा भीषण अपघात; तीन तरूणांचा मृत्यू, दोघे गंभीर जखमी",
-    "case_area": "Chakan",
-    "reading": "Wagholi"
+    "t": "6-year-old girl dies after motorcycle hits tractor trolley in Pimpri",
+    "case_area": "Wagholi",
+    "reading": "Pimpri"
    },
    {
-    "t": "Pune Road Accident Claims Life Of 26-Year-Old Near Balajinagar",
-    "case_area": "Chakan",
-    "reading": "Dhankawadi"
-   },
-   {
-    "t": "MACT Pune awards ₹59.45 lakh to parents of junior college teacher killed in 2017 road accident",
-    "case_area": "Chakan",
-    "reading": "Wagholi"
-   },
-   {
-    "t": "MCA student dies after bike crashes into median on Katraj-Dehu Road bypass",
-    "case_area": "Chakan",
-    "reading": "Bavdhan"
+    "t": "MACT awards Rs59.45 lakh to family of Pune teacher killed in 2017 accident",
+    "case_area": "Wagholi",
+    "reading": "Ravet / Dehu Road"
    },
    {
     "t": "Man cheats job aspirants of ₹1.37 cr with fake PMC appointment letters",
@@ -338,6 +328,16 @@
     "t": "Police patil hacked to death over land dispute in Pune district; search on for three accused",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
+    "case_area": "Old city peths",
+    "reading": "Chikhali / Moshi"
    }
   ],
   "silent_days": [
