@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-22T23:17:53.365Z",
+ "updated": "2026-11-23T00:17:35.995Z",
  "total": 2817,
- "added": 1,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -64,8 +64,8 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 2,
-   "added": 1,
+   "found": 3,
+   "added": 0,
    "note": ""
   },
   {
