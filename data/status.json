@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T07:18:07.549Z",
- "total": 2827,
- "added": 3,
+ "updated": "2026-11-23T08:18:15.997Z",
+ "total": 2832,
+ "added": 5,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -64,16 +64,16 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 3,
-   "added": 0,
+   "found": 4,
+   "added": 1,
    "note": ""
   },
   {
@@ -88,8 +88,8 @@
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 1,
-   "added": 1,
+   "found": 3,
+   "added": 2,
    "note": ""
   },
   {
@@ -104,8 +104,8 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -129,7 +129,7 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -145,7 +145,7 @@
    "name": "Pudhari",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
