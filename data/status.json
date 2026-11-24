@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-24T08:17:52.289Z",
- "total": 2869,
+ "updated": "2026-11-24T09:18:03.675Z",
+ "total": 2870,
  "added": 1,
  "removed": 0,
  "rules": 11,
@@ -65,14 +65,14 @@
    "name": "Times of India",
    "ok": true,
    "found": 3,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 6,
+   "found": 8,
    "added": 0,
    "note": ""
   },
@@ -81,7 +81,7 @@
    "name": "Punekar News",
    "ok": true,
    "found": 5,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
