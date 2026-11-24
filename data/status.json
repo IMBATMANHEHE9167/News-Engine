@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-24T03:17:59.887Z",
- "total": 2860,
- "added": 1,
+ "updated": "2026-11-24T04:17:54.412Z",
+ "total": 2862,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -64,8 +64,8 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 4,
-   "added": 0,
+   "found": 5,
+   "added": 1,
    "note": ""
   },
   {
@@ -105,7 +105,7 @@
    "name": "Free Press Journal",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -120,8 +120,8 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
