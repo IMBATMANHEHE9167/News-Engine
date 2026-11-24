@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T05:22:27.296Z",
+ "updated": "2026-11-24T06:22:54.220Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -204,18 +204,18 @@
   "split_cases": 1,
   "date_spread": 27,
   "waiting_for_judge": 0,
-  "pairs_judged": 3617,
-  "pairs_judged_same": 1730,
-  "judge_checked_by_expert": 1200,
-  "judge_overturned_by_expert": 461,
+  "pairs_judged": 3625,
+  "pairs_judged_same": 1736,
+  "judge_checked_by_expert": 1215,
+  "judge_overturned_by_expert": 474,
   "non_incident_wording": 2,
   "area_disagreement": 37,
   "silent_days": 4,
   "source_gap_days": 67,
   "unverified": 8,
   "ruled_out_by_ai": 182,
-  "reports": 2863,
-  "cases": 1494
+  "reports": 2867,
+  "cases": 1495
  },
  "examples": {
   "split_cases": [
@@ -362,29 +362,10 @@
   ],
   "source_gaps": [
    {
-    "source": "toi",
-    "days": 11,
-    "examples": [
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-04",
-     "2026-11-11",
-     "2026-11-12"
-    ]
-   },
-   {
     "source": "lkm",
     "days": 1,
     "examples": [
      "2026-11-20"
-    ]
-   },
-   {
-    "source": "pud",
-    "days": 1,
-    "examples": [
-     "2026-11-22"
     ]
    },
    {
@@ -400,18 +381,6 @@
     ]
    },
    {
-    "source": "skl",
-    "days": 8,
-    "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
-    ]
-   },
-   {
     "source": "ptm",
     "days": 17,
     "examples": [
@@ -421,6 +390,37 @@
      "2026-10-10",
      "2026-10-18",
      "2026-11-06"
+    ]
+   },
+   {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   },
+   {
+    "source": "pud",
+    "days": 1,
+    "examples": [
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
     ]
    }
   ]
