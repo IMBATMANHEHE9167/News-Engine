@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-24T02:18:18.196Z",
- "total": 2859,
- "added": 5,
+ "updated": "2026-11-24T03:17:59.887Z",
+ "total": 2860,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,24 +47,24 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": true,
-   "found": 22,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
    "found": 6,
-   "added": 4,
+   "added": 0,
    "note": ""
   },
   {
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 5,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -104,8 +104,8 @@
    "id": "fpj",
    "name": "Free Press Journal",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -128,17 +128,17 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 1,
-   "added": 1,
+   "found": 0,
+   "added": 0,
    "note": ""
   },
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": true,
-   "found": 2,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 403"
   },
   {
    "id": "pud",
