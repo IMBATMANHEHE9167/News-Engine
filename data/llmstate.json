@@ -1,30 +1,11 @@
 {
- "day": "2026-11-23",
+ "day": "2026-11-24",
  "used": {
-  "gemini-3.5-flash-lite": 34,
-  "gemini-3.1-flash-lite": 6,
-  "gemini-3.6-flash": 14,
-  "gemini-3-flash-preview": 15,
-  "gemini-flash-lite-latest": 2,
-  "gemini-flash-latest": 1
+  "gemini-3.5-flash-lite": 3,
+  "gemini-3.6-flash": 2
  },
- "rested": {
-  "gemini-3.6-flash": true,
-  "gemini-3-flash-preview": true
- },
- "errors": [
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.6-flash: The read operation timed out",
-  "gemini-3.6-flash: The read operation timed out",
-  "gemini-3.6-flash: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.1-flash-lite: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out"
- ],
+ "rested": {},
+ "errors": [],
  "models": {
   "readers": [
    "gemini-3.5-flash-lite",
@@ -42,14 +23,14 @@
   "busy": 0,
   "stop": "nothing left to read, or this run's share used"
  },
- "read": 2868,
+ "read": 2869,
  "older": 0,
  "unread": 0,
  "second": 0,
  "expert": 8,
  "not_incident": 182,
- "updated": "2026-11-24T07:17:58.779Z",
- "judged": 17,
- "audited": 1215,
- "overturned": 474
+ "updated": "2026-11-24T08:17:50.000Z",
+ "judged": 1,
+ "audited": 1245,
+ "overturned": 503
 }
