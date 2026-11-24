@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T16:17:52.963Z",
+ "updated": "2026-11-24T17:17:40.674Z",
  "total": 2874,
  "added": 0,
  "removed": 0,
@@ -128,7 +128,7 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -160,7 +160,7 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 15,
+   "found": 16,
    "added": 0,
    "note": ""
   }
