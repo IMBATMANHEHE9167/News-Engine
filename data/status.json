@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-24T12:18:14.376Z",
- "total": 2872,
- "added": 1,
+ "updated": "2026-11-24T13:26:26.489Z",
+ "total": 2874,
+ "added": 2,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -128,7 +128,7 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 1,
+   "found": 2,
    "added": 1,
    "note": ""
   },
@@ -153,7 +153,7 @@
    "name": "Lokmat",
    "ok": true,
    "found": 3,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
