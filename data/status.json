@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-24T09:18:03.675Z",
- "total": 2870,
+ "updated": "2026-11-24T10:18:15.086Z",
+ "total": 2871,
  "added": 1,
  "removed": 0,
  "rules": 11,
@@ -65,14 +65,14 @@
    "name": "Times of India",
    "ok": true,
    "found": 3,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 8,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -153,7 +153,7 @@
    "name": "Lokmat",
    "ok": true,
    "found": 2,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
