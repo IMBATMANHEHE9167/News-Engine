@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T01:20:16.149Z",
+ "updated": "2026-11-24T02:21:25.631Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -204,18 +204,18 @@
   "split_cases": 1,
   "date_spread": 27,
   "waiting_for_judge": 0,
-  "pairs_judged": 3599,
-  "pairs_judged_same": 1713,
-  "judge_checked_by_expert": 1155,
-  "judge_overturned_by_expert": 420,
+  "pairs_judged": 3603,
+  "pairs_judged_same": 1714,
+  "judge_checked_by_expert": 1170,
+  "judge_overturned_by_expert": 433,
   "non_incident_wording": 2,
   "area_disagreement": 37,
   "silent_days": 4,
   "source_gap_days": 67,
   "unverified": 8,
-  "ruled_out_by_ai": 181,
-  "reports": 2854,
-  "cases": 1493
+  "ruled_out_by_ai": 182,
+  "reports": 2859,
+  "cases": 1494
  },
  "examples": {
   "split_cases": [
@@ -226,7 +226,7 @@
   ],
   "date_spread": [
    {
-    "t": "पुणे-अहिल्यानगर महामार्गावर कार डिव्हायडर ओलांडून पलटी, ट्रकला धडकली, ३ तरुणांचा मृत्यू,दोघे गंभीर",
+    "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
     "days": [
      "2026-06-13",
      "2026-09-05",
