@@ -40,13 +40,16 @@ jobs:
             --bounds=73.30,17.85,75.25,19.40 --maxzoom=14 > /tmp/pt.log 2>&1 || { tail -30 /tmp/pt.log; exit 1; }
           ls -la /tmp/out
       - name: Buildings with heights (city, PCMC, Hinjewadi)
+        continue-on-error: true
         run: |
-          overturemaps download --bbox=73.70,18.42,74.05,18.72 -f geoparquet --type=building -o /tmp/ov.parquet
-          python maps/build_buildings.py /tmp/ov.parquet /tmp/b.geojsonseq
+          set -o pipefail
+          overturemaps download --bbox=73.70,18.42,74.05,18.72 -f geoparquet --type=building -o /tmp/ov.parquet 2>&1 | tail -3 | tee -a /tmp/out/build.log
+          python maps/build_buildings.py /tmp/ov.parquet /tmp/b.geojsonseq 2>&1 | tee -a /tmp/out/build.log
           tippecanoe -o /tmp/out/buildings.pmtiles -l buildings -Z13 -z15 --drop-densest-as-needed --extend-zooms-if-still-dropping \
-            --no-tile-size-limit -P --force /tmp/b.geojsonseq > /tmp/tip.log 2>&1 || { tail -20 /tmp/tip.log; exit 1; }
+            --no-tile-size-limit -P --force /tmp/b.geojsonseq > /tmp/tip.log 2>&1 || { tail -20 /tmp/tip.log | tee -a /tmp/out/build.log; exit 1; }
           ls -la /tmp/out
       - name: Save to the maps branch (replaced, no history)
+        if: always()
         run: |
           cd /tmp/out
           git init -q -b maps

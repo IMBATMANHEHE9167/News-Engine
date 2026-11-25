@@ -16,6 +16,7 @@ import numpy as np
 import pyarrow.parquet as pq
 import rasterio
 import s2sphere
+from rasterio.enums import Resampling
 from rasterio.warp import transform_bounds
 from rasterio.windows import from_bounds
 from shapely import wkb
@@ -64,8 +65,8 @@ for n, (url, b) in enumerate(tiles):
     subprocess.run(['curl', '-sSL', '--retry', '3', '-o', '/tmp/h.tif', url], check=True)
     with rasterio.open('/tmp/h.tif') as ras:
         H, W = ras.height // DEC, ras.width // DEC
-        hgt = ras.read(2, out_shape=(H, W), resampling=rasterio.enums.Resampling.max)
-        pres = ras.read(3, out_shape=(H, W), resampling=rasterio.enums.Resampling.max)
+        hgt = ras.read(2, out_shape=(H, W), resampling=Resampling.max)
+        pres = ras.read(3, out_shape=(H, W), resampling=Resampling.max)
         tr = ras.transform * ras.transform.scale(ras.width / W, ras.height / H)
     hgt[pres < 0.3] = 0                      # heights only where a building is present (Google's advice)
     for i in inside:
