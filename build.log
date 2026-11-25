@@ -1,0 +1,59 @@
+-rw-r--r-- 1 runner runner 222805804 Nov 25 20:06 /tmp/west.osm.pbf
+total 32052
+drwxr-xr-x  2 runner runner     4096 Nov 25 20:08 .
+drwxrwxrwt 14 root   root       4096 Nov 25 20:09 ..
+-rw-r--r--  1 runner runner       68 Nov 25 20:06 build.log
+-rw-r--r--  1 runner runner 32804914 Nov 25 20:09 pune.pmtiles
+Downloading: 0 rows [00:00, ? rows/s]Downloading: 2272 rows [00:00, 7214.35 rows/s]Downloading: 15877 rows [00:00, 33430.04 rows/s]Downloading: 87223 rows [00:00, 188816.50 rows/s]Downloading: 203076 rows [00:00, 388607.89 rows/s]Downloading: 285711 rows [00:00, 436215.41 rows/s]Downloading: 378294 rows [00:01, 549626.71 rows/s]Downloading: 493371 rows [00:01, 661987.85 rows/s]Downloading: 591010 rows [00:01, 730508.70 rows/s]Downloading: 717785 rows [00:01, 795675.68 rows/s]Downloading: 744086 rows [00:01, 506568.82 rows/s]
+State saved to /tmp/ov.parquet.state
+footprints: 744086
+height tiles over the box: 16
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 1/16: 7013 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 2/16: 92640 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 3/16: 30634 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 4/16: 19839 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 5/16: 77484 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 6/16: 3606 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 7/16: 8226 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 8/16: 2 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 9/16: 43854 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 10/16: 192028 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 11/16: 1031 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 12/16: 553 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 13/16: 128170 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 14/16: 719 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 15/16: 63805 footprints
+/home/runner/work/News-Engine/News-Engine/maps/build_buildings.py:81: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+  u = stransform(to_utm, geoms[i])
+tile 16/16: 82361 footprints
+written 744086 buildings, 645500 with a measured 2.5D height
