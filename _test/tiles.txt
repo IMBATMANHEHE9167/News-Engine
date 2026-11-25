@@ -1,0 +1,9 @@
+Downloading: 0 rows [00:00, ? rows/s]Downloading: 1990 rows [00:01, 1541.41 rows/s]Downloading: 4542 rows [00:01, 3497.24 rows/s]
+State saved to /tmp/pb.parquet.state
+S2 level-2 token 3b: 32 manifests, e.g. ['v1/manifests/3b_EPSG_32642_2016_06_30.json', 'v1/manifests/3b_EPSG_32642_2017_06_30.json', 'v1/manifests/3b_EPSG_32642_2018_06_30.json']
+2023 manifests ['v1/manifests/3b_EPSG_32643_2023_06_30.json']
+uriPrefix gs://open-buildings-temporal-data/v1/geotiffs/3b first uri 0cc_2023_06_30/tile_8wShwfJZ4bk.tif affine {'scaleX': 0.5, 'translateX': 391204.0, 'scaleY': -0.5, 'translateY': 947024.0} dims {'width': 25000, 'height': 25000}
+manifest keys ['name', 'properties', 'uriPrefix', 'tilesets', 'bands', 'startTime', 'endTime', 'skipMetadataRead'] crs EPSG:32643 sources 9529 bands ['building_fractional_count', 'building_height', 'building_presence']
+tile https://storage.googleapis.com/open-buildings-temporal-data/v1/geotiffs/3bc2c_2023_06_30/tile_L2SatnJj5Ko.tif
+raster 3 bands ('float32', 'float32', 'float32') res (0.5, 0.5) crs EPSG:32643 descriptions ('building_fractional_count', 'building_height', 'building_presence') scales (1.0, 1.0, 1.0)
+Prabhat Road: 4542 footprints, 4397 with a 2.5D height; median 8.5 m, 90th 15.0 m, max 68.5 m; over 20 m: 183, over 30 m: 49, over 45 m: 9
