@@ -1,0 +1,57 @@
+name: Map files for the map lab
+
+# Builds our own Pune map files for the MAP LAB ONLY (the live site does not read them): the base map (Planetiler,
+# OpenMapTiles schema) and buildings with real heights (Overture footprints + Google Open Buildings 2.5D). Saved to the
+# 'maps' branch (replaced each time, so the repository does not grow), served from raw.githubusercontent.com.
+on:
+  workflow_dispatch:
+  push:
+    branches: [maps-build]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Tools
+        run: |
+          sudo apt-get install -y -qq osmium-tool > /dev/null
+          (sudo apt-get install -y -qq tippecanoe > /dev/null 2>&1 && echo apt) || (git clone -q --depth 1 https://github.com/felt/tippecanoe /tmp/tip && make -s -C /tmp/tip -j4 > /dev/null && sudo make -s -C /tmp/tip install > /dev/null && echo built)
+          tippecanoe --version 2>&1 | head -1
+          curl -sSL -o /tmp/planetiler.jar https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar
+          pip install -q overturemaps pyarrow shapely rasterio s2sphere numpy pyproj
+          mkdir -p /tmp/out
+      - name: Base map (Pune district, zoom 0-14)
+        run: |
+          curl -sSL -o /tmp/west.osm.pbf https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf
+          osmium extract -b 73.30,17.85,75.25,19.40 /tmp/west.osm.pbf -o /tmp/district.osm.pbf
+          java -Xmx5g -jar /tmp/planetiler.jar --osm-path=/tmp/district.osm.pbf --output=/tmp/out/pune.pmtiles --download --force \
+            --bounds=73.30,17.85,75.25,19.40 --maxzoom=14 > /tmp/pt.log 2>&1 || { tail -30 /tmp/pt.log; exit 1; }
+          ls -la /tmp/out
+      - name: Buildings with heights (city, PCMC, Hinjewadi)
+        run: |
+          overturemaps download --bbox=73.70,18.42,74.05,18.72 -f geoparquet --type=building -o /tmp/ov.parquet
+          python maps/build_buildings.py /tmp/ov.parquet /tmp/b.geojsonseq
+          tippecanoe -o /tmp/out/buildings.pmtiles -l buildings -Z13 -z15 --drop-densest-as-needed --extend-zooms-if-still-dropping \
+            --no-tile-size-limit -P --force /tmp/b.geojsonseq > /tmp/tip.log 2>&1 || { tail -20 /tmp/tip.log; exit 1; }
+          ls -la /tmp/out
+      - name: Save to the maps branch (replaced, no history)
+        run: |
+          cd /tmp/out
+          git init -q -b maps
+          git config user.name "vidraksh-collector"
+          git config user.email "actions@users.noreply.github.com"
+          printf 'Map files for the map lab only (not used by the live site). Built by .github/workflows/maps.yml.\n' > README.md
+          git add -A && git commit -q -m "map files $(date -u +%Y-%m-%d)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" maps
