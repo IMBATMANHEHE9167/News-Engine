@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T18:12:41.534Z",
+ "updated": "2026-11-25T19:01:25.090Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -208,7 +208,7 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
@@ -218,7 +218,7 @@
    "bad": []
   },
   {
-   "name": "Gang clash on Keshavnagar-Manjari road, Mundhwa (25 Nov 2026), found only by the gang search, is in the engine as a counted incident",
+   "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": false,
    "detail": "no matching reports yet",
    "bad": []
@@ -255,22 +255,22 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 86,
-  "date_spread": 26,
-  "waiting_for_judge": 701,
-  "pairs_judged": 4248,
-  "pairs_judged_same": 2220,
-  "judge_checked_by_expert": 1723,
-  "judge_overturned_by_expert": 889,
+  "judged_same_kept_apart": 115,
+  "date_spread": 27,
+  "waiting_for_judge": 1042,
+  "pairs_judged": 4413,
+  "pairs_judged_same": 2374,
+  "judge_checked_by_expert": 1753,
+  "judge_overturned_by_expert": 900,
   "non_incident_wording": 2,
-  "area_disagreement": 36,
+  "area_disagreement": 37,
   "silent_days": 4,
   "source_gap_days": 67,
-  "unverified": 114,
-  "ruled_out_by_ai": 190,
+  "unverified": 126,
+  "ruled_out_by_ai": 192,
   "future_times": 0,
-  "reports": 3091,
-  "cases": 1492
+  "reports": 3115,
+  "cases": 1489
  },
  "examples": {
   "split_cases": [
@@ -281,39 +281,48 @@
   ],
   "judged_same_kept_apart": [
    [
-    "Pune City police await Rural police inquiry before acting against cop in robbery bid case",
-    "Pune Crime: उरुळी कांचनमध्ये बंद घराचे कुलूप तोडून चोरी; २ लाख २२ हजारांचे सोन्या-चांदीचे दागिने लंपास"
+    "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh",
+    "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
    ],
    [
-    "Pune City police await Rural police inquiry before acting against cop in robbery bid case",
-    "Pune Crime: उरुळी कांचनमध्ये बंद घराचे कुलूप तोडून चोरी; २ लाख २२ हजारांचे सोन्या-चांदीचे दागिने लंपास"
+    "Elderly siblings killed in accident in Pargaon",
+    "Sibling Pair Dies Together in Road Accident Days Before Raksha Bandhan"
    ],
    [
-    "Pune City police await Rural police inquiry before acting against cop in robbery bid case",
-    "Pune Crime: उरुळी कांचनमध्ये बंद घराचे कुलूप तोडून चोरी; २ लाख २२ हजारांचे सोन्या-चांदीचे दागिने लंपास"
+    "Pune Man Allegedly Kills Mother After She Refuses Money For Alcohol",
+    "Ex-serviceman strangles wife for strained relations with his sister, attempts to kill son in Maharashtra"
    ],
    [
-    "Pune City police await Rural police inquiry before acting against cop in robbery bid case",
-    "Pune Crime: उरुळी कांचनमध्ये बंद घराचे कुलूप तोडून चोरी; २ लाख २२ हजारांचे सोन्या-चांदीचे दागिने लंपास"
+    "Pune Man Allegedly Kills Mother After She Refuses Money For Alcohol",
+    "32-year-old man stabs his mother to death over alcohol"
    ],
    [
-    "Pune City police await Rural police inquiry before acting against cop in robbery bid case",
-    "Pune Crime: उरुळी कांचनमध्ये बंद घराचे कुलूप तोडून चोरी; २ लाख २२ हजारांचे सोन्या-चांदीचे दागिने लंपास"
+    "PCMC Employee Arrested for Molesting Woman Teacher at Zonal Office",
+    "Doc held for allegedly molesting woman patient in Chinchwad"
    ],
    [
-    "Pune City police await Rural police inquiry before acting against cop in robbery bid case",
-    "Pune Crime: उरुळी कांचनमध्ये बंद घराचे कुलूप तोडून चोरी; २ लाख २२ हजारांचे सोन्या-चांदीचे दागिने लंपास"
+    "Shirur Accident : रक्षाबंधनासाठी बहिणीकडे गेलेल्या भावाचा राखी बांधून घरी परतताना दूचाकीच्या अपघातात मृत्यु",
+    "22-year-old biker killed in head-on crash near Ranjangaon; pickup driver arrested for drunk driving"
    ],
    [
-    "Supriya Sule : पुण्यातील कोर्टाबाहेरील हल्ल्यावर सुप्रिया सुळे संतापल्या; म्हणाल्या…, फडणवीसांनी पुण्याचं पालकत्व घ्यावं",
-    "पुण्यात शिवाजीनगर कोर्टाबाहेर हल्ला झाला, त्याची हिस्ट्री काय? LokmatNews MaharashtraNews Pune ShivajinagarCourt MarathiNews Media"
+    "Four youths killed, two injured in road accident on Pune-Satara highway",
+    "Two lose lives in multi-vehicle accident on Shirur bypass"
    ],
    [
-    "Man kills wife’s partner after spotting them together in Pune's Bhor",
-    "Man murdered over character suspicion; accused held"
+    "Pune: गुंतवणूक, नोकरीच्या आमिषाने पुण्यात लूट; विश्रामबाग, नऱ्हे आणि खराडीत गुन्हे दाखल; तिघांना ६१ लाखांना गंडा",
+    "Wagholi bizman cheated of Rs71 L, two held"
    ]
   ],
   "date_spread": [
+   {
+    "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
+    "days": [
+     "2026-06-13",
+     "2026-09-05",
+     "2026-10-11",
+     "2026-11-23"
+    ]
+   },
    {
     "t": "Teacher’s Killing in Purandar: Brother-in-Law Arrested, Police Cite Dispute Over Money and Gold",
     "days": [
@@ -370,13 +379,6 @@
      "2026-10-29",
      "2026-11-07"
     ]
-   },
-   {
-    "t": "Scooterist dies in hit-and-run",
-    "days": [
-     "2026-06-10",
-     "2026-11-03"
-    ]
    }
   ],
   "non_incident_wording": [
@@ -384,6 +386,11 @@
    "Elderly man assaulted in upscale building in Gahunje"
   ],
   "area_disagreement": [
+   {
+    "t": "6-year-old girl dies after motorcycle hits tractor trolley in Pimpri",
+    "case_area": "Wagholi",
+    "reading": "Pimpri"
+   },
    {
     "t": "Man cheats job aspirants of ₹1.37 cr with fake PMC appointment letters",
     "case_area": "Pimpri",
@@ -418,11 +425,6 @@
     "t": "Pune Crime: वाहनाला कट मारल्याच्या किरकोळ वाद, कोयत्याने तरुणावर जीवघेणा हल्ला, एक हात आणि तीन बोटं तुटली, राजगुरूनगर हादरले",
     "case_area": "Old city peths",
     "reading": "Rajgurunagar / Khed"
-   },
-   {
-    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Bavdhan"
    }
   ],
   "silent_days": [
