@@ -3,14 +3,16 @@
  "used": {
   "gemini-3.5-flash-lite": 51,
   "gemini-3.6-flash": 16,
-  "gemini-3.1-flash-lite": 157,
+  "gemini-3.1-flash-lite": 218,
   "gemini-flash-lite-latest": 30,
-  "gemini-3-flash-preview": 9
+  "gemini-3-flash-preview": 11
  },
  "rested": {
   "gemini-3.6-flash": true,
   "gemini-3.5-flash-lite": true,
-  "gemini-flash-lite-latest": true
+  "gemini-flash-lite-latest": true,
+  "gemini-3.1-flash-lite": true,
+  "gemini-3-flash-preview": true
  },
  "errors": [
   "gemini-3-flash-preview: The read operation timed out",
@@ -37,18 +39,18 @@
  },
  "lx_reset": 1,
  "last_run": {
-  "busy": 2,
+  "busy": 0,
   "stop": "no model left today (allowance used or retired)"
  },
- "read": 293,
- "older": 2878,
- "unread": 6,
- "second": 89,
- "expert": 8,
- "not_incident": 215,
- "updated": "2026-11-25T21:04:59.638Z",
- "judged": 199,
- "audited": 1873,
- "overturned": 937,
- "triaged": 1170
+ "read": 463,
+ "older": 2734,
+ "unread": 4,
+ "second": 120,
+ "expert": 7,
+ "not_incident": 221,
+ "updated": "2026-11-25T21:36:15.963Z",
+ "judged": 214,
+ "audited": 1902,
+ "overturned": 939,
+ "triaged": 1493
 }
