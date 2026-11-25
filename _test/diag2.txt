@@ -1,0 +1,129 @@
+our cases with a report in the last 3 days: 73
+
+   AI answered 25 of 25
+     violence       | Pune Firing News : पुण्यात गुन्हेगारांना कायद्याचा धाक उरलाय का? सुप्रिया सुळेंचा सवाल, पुण्याचं पालकत्व घेण्य
+     no             | बोगस दिव्यांगत्वाचा लाभ घेणाऱ्या ५ शिक्षकांवर निलंबनाची कारवाई; आतापर्यंत घेतलेल्या सुविधांची होणार वसुली
+     no             | NCCचा अनोखा उपक्रम! आता युवकांना मिळणार AI चे धडे; सहा तासांच्या प्रशिक्षणातून काय शिकणार?
+     no             | पुणे शहर विद्रूपीकरण पुरस्कारात सत्ताधारी पक्षाचे नेते अव्वल! स्थायी समिती अध्यक्ष श्रीनाथ भिमाले यांना ‘साहेब
+     violence       | Pune Court Firing : 'महाराष्ट्राचा तालिबान करायचा आहे का?' हर्षवर्धन सपकाळ संतापले; फडणवीस सरकारवर गंभीर आरोप!
+     accident       | Pune Accident: खूप वाईट बातमी! बसस्टॉपवर मुलं उभी अन् ट्रक आला आणि थेट...; 3 जणांचा चिरडून मृत्यू
+     no             | पुणे जिल्हा परिषदेच्या शाळेतील विद्यार्थ्यांची आंतरराष्ट्रीय कामगिरी; दक्षिण कोरियामध्ये करणार प्रतिनिधित्व
+     no             | ‘शिक्षणाचे माहेरघर हे गुन्हेगारांचे आवडते घर झाले...’; रोहित पवारांचा घणाघात
+     no             | प्रदूषणाने पावसालाही रोखले? ढगांच्या निर्मिती प्रक्रियेत थेट...; समोर आला धक्कादायक खुलासा
+     no             | हृदयविकार अन् रक्तदाबाच्या गोळ्यांमध्येही घटकांची मोठी कपात! जेजुरी एमआयडीसीतील औषध कंपनीचे काळे कारनामे उघड..
+     no             | Dharashiv Dance Competition : पुण्यात धाराशिवच्या कलाकारांचा डंका! 'रस रंग' ग्रुपची गरब्यात बाजी
+     no             | पुण्यात Taekwondo चा ‘सुवर्ण’ झंझावात; इंटरनॅशनल तायक्वांदोत भारताने राखले वर्चस्व
+     violence       | पुण्यातील हल्ला प्रकरणावर पालकमंत्री सुनेत्रा पवारांची पहिली प्रतिक्रिया; म्हणाल्या, 'गंभीर...'
+     violence       | पुणे हादरलं! न्यायालयाबाहेर बंदूक फेकून हल्लेखोर पसार; मंदार किवळेवरील हल्ल्यामागे कात्रजमधील हत्येची इनसाईड स
+     no             | Phule Ambedkar Adhyasan: महात्मा फुले यांच्या पुण्यतिथीला खास उपक्रम! फुलेवाड्यातून 'या' समाजाच्या शिक्षणाचे ह
+     violence       | 'पुण्याच्या कायदा-सुव्यवस्थेचे अक्षरशः तीनतेरा वाजलेत...' शिवाजीनगर गोळीबार घटनेवरून सुप्रिया सुळेंचा संताप
+     no             | दिलासादायक ! पुणे मेट्रो मार्गिका 3 वरील आणखी दोन स्थानके प्रवाशांसाठी आज होणार खुली
+     violence       | पुण्यात भरदिवसा गोळीबार; शिवाजीनगर कोर्टाबाहेर घडला थरार, एक जखमी
+     fire/emergency | ST Bus Fire: कुर्डूवाडीचे तरुण झाले देवदूत! पेटत्या एसटी बसमधून ३८ प्रवाशांना सुखरूप बाहेर काढले
+     no             | Todays Gold-Silver Price: मुंबई - पुण्यात पुन्हा वाढले सोन्याचे दर! 22 आणि 24 कॅरेट दागिन्यांसाठी आता मोजावी ल
+     no             | Pune FDA Raid: पुण्यात अन्न सुरक्षेचा मोठा प्रश्न ऐरणीवर! ९६ आस्थापनांची तपासणी, 'इतके' लायसन्स रद्द
+     no             | Pune Metro आता थांबणार नाय! 'या' मार्गावर दररोज ५० हजार प्रवाशांचा प्रवास
+     no/emergency   | Pune Court Bomb Threat: शिवाजीनगर न्यायालयाला बॉम्बची धमकी? न्यायालय परिसर रिकामा
+     no             | पुण्याच्या क्रिकेट मैदानात MES क्लबचा दबदबा! अभिषेक ठाकुर करंडक स्पर्धेत विजयांची हॅट्ट्रिक
+     burglary       | Sambhajinagar House Burglary : कुटुंबासह पुण्याला गेले अन् चोरट्यांनी घर फोडले; सोन्या-चांदीसह १.४५ लाखांचा ऐव
+====================================================================================================
+Navarashtra: 25 Pune stories in 48 h (0 already read by us); the AI calls 9 incidents and 2 live situations; 7 of the incidents are already in the engine, 2 are NEW
+   NEW  11-25T04:29 area not in headline             fire   | ST Bus Fire: कुर्डूवाडीचे तरुण झाले देवदूत! पेटत्या एसटी बसमधून ३८ प्रवाशांना सुखरूप बाहेर काढले
+   NEW  11-24T15:38 area not in headline             burglary | Sambhajinagar House Burglary : कुटुंबासह पुण्याला गेले अन् चोरट्यांनी घर फोडले; सोन्या-चांदीसह १.४५ लाखांचा ऐवज लंपास
+   have 11-25T17:04 -> #24   | Pune Firing News : पुण्यात गुन्हेगारांना कायद्याचा धाक उरलाय का? सुप्रिया सुळेंचा सवाल, पुण्याचं पाल
+   have 11-25T14:31 -> #24   | Pune Court Firing : 'महाराष्ट्राचा तालिबान करायचा आहे का?' हर्षवर्धन सपकाळ संतापले; फडणवीस सरकारवर ग
+   have 11-25T14:19 -> #4    | Pune Accident: खूप वाईट बातमी! बसस्टॉपवर मुलं उभी अन् ट्रक आला आणि थेट...; 3 जणांचा चिरडून मृत्यू
+   have 11-25T11:05 -> #5    | पुण्यातील हल्ला प्रकरणावर पालकमंत्री सुनेत्रा पवारांची पहिली प्रतिक्रिया; म्हणाल्या, 'गंभीर...'
+   have 11-25T09:58 -> #14   | पुणे हादरलं! न्यायालयाबाहेर बंदूक फेकून हल्लेखोर पसार; मंदार किवळेवरील हल्ल्यामागे कात्रजमधील हत्येच
+   have 11-25T09:27 -> #24   | 'पुण्याच्या कायदा-सुव्यवस्थेचे अक्षरशः तीनतेरा वाजलेत...' शिवाजीनगर गोळीबार घटनेवरून सुप्रिया सुळेंच
+   have 11-25T08:16 -> #5    | पुण्यात भरदिवसा गोळीबार; शिवाजीनगर कोर्टाबाहेर घडला थरार, एक जखमी
+   archive https://www.navarashtra.com/sitemap.xml: 2434 entries e.g. https://www.navarashtra.com/sitemap/sitemap-static-pages.xml / https://www.navarashtra.com/sitemap/sitemap-daily-2019-05-02.xml; dates seen 2019-05-02 .. 2026-11-26
+Saam TV: https://saamtv.esakal.com/sitemap/sitemap-daily-2026-11-26.xml failed: HTTP Error 404: Not Found
+   AI answered 20 of 20
+     no             | mumbai bhivandi shawarma food poisoning 56 people shop demolished municipal action
+     no             | pune municipal corporation launches bhau flex kadhha campaign against illegal hoardings
+     murder         | pune young man shot and attack by sickle out side pune shivaji nagar court pune become gangs of wasepur
+     drugs          | fda cracks down on fake drug manufacturing unit in jejuri pune dublicate heart bp and diabetes medicines facto
+     no             | maharashtra latest live news updates today 25th november 2026 aajchya tajya batmya loksabha pavasali adhivesha
+     no             | maharashtra politics sunetra pawar makes major organisational move in ncp siddharth kamble appointed state vic
+     accident       | pune bopdev ghat accident latest news road accident two students killed three seriously injured after speeding
+     violence       | rekha konde expelled from thackeray group women wing city president action after pune assault incident
+     murder         | pune shivajinagar court attack mandar kivale attacked with sickle after bail assailants attempt firing in reve
+     murder         | pune crime man shot at and attacked with sickle outside shivajinagar court
+     accident       | pune road accident 22 year old mpsc aspirant sonali kolekar dies after two wheeler falls under st bus cctv cap
+     no             | junnar politics sharad sonawane devaram lande alleged viral call recording audio clip political controversy 10
+     no             | neral railway station gets igbc gold rating for green infrastructure 4 escalators 5 lifts and seating for 437 
+     murder         | breaking news firing outside shivajinagar court in pune gunshots fired and attacker uses sickle police launch 
+     no             | airoli katai naka corridor nears completion kalyan to navi mumbai travel time to reduce by 30 to 45 minutes
+     drugs          | medicines for heart attacks blood pressure and diabetes found to be counterfeit ias tukaram mundhe fda takes m
+     accident       | pune jejuri morgaon road accident shivai st bus and two wheeler head on collision husband and wife killed on t
+     no             | karjat forts winter trekking one day picnic spots near mumbai pune maharashtra 7 historical places travel tour
+     no             | pune hinjewadi shivajinagar metro two new stations balewadi high street balewadi phata open from november 25 m
+     kidnap         | ambernath 12 year old boy kidnapped for rs 5 lakh ransom ice cream lure two accused arrested child rescued wit
+====================================================================================================
+Saam TV: 20 Pune stories in 48 h (0 already read by us); the AI calls 11 incidents and 0 live situations; 7 of the incidents are already in the engine, 4 are NEW
+   NEW  11-25T15:43 Saswad / Jejuri, Pune Rural      drugs  | fda cracks down on fake drug manufacturing unit in jejuri pune dublicate heart bp and diabetes medicines factory busted
+   NEW  11-25T11:25 area not in headline             violence | rekha konde expelled from thackeray group women wing city president action after pune assault incident
+   NEW  11-25T07:07 area not in headline             drugs  | medicines for heart attacks blood pressure and diabetes found to be counterfeit ias tukaram mundhe fda takes major actio
+   NEW  11-25T01:05 area not in headline             kidnap | ambernath 12 year old boy kidnapped for rs 5 lakh ransom ice cream lure two accused arrested child rescued within hours 
+   have 11-25T16:25 -> #5    | pune young man shot and attack by sickle out side pune shivaji nagar court pune become gangs of wase
+   have 11-25T11:33 -> #4    | pune bopdev ghat accident latest news road accident two students killed three seriously injured afte
+   have 11-25T09:38 -> #5    | pune shivajinagar court attack mandar kivale attacked with sickle after bail assailants attempt firi
+   have 11-25T09:34 -> #5    | pune crime man shot at and attacked with sickle outside shivajinagar court
+   have 11-25T08:59 -> #10   | pune road accident 22 year old mpsc aspirant sonali kolekar dies after two wheeler falls under st bu
+   have 11-25T07:41 -> #5    | breaking news firing outside shivajinagar court in pune gunshots fired and attacker uses sickle poli
+   have 11-25T03:24 -> #44   | pune jejuri morgaon road accident shivai st bus and two wheeler head on collision husband and wife k
+   archive https://saamtv.esakal.com/sitemap/sitemap-daily-2026-05-19.xml: 126 entries e.g. https://saamtv.esakal.com/ampstories/web-stories/sugarcane-juice-does-drinking-sugarcane-j / https://saamtv.esakal.com/sports/ipl-2026-sunrisers-hyderabad-seal-playoff-spot-after-defe; dates seen 2024-08-11 .. 2026-05-20
+   AI answered 8 of 8
+     violence/emergency | Pune Court Attack: दोन स्कूटर, 5 ते 6 हल्लेखोर, गोळीबार अन् कोयत्याने सपासप वार; पुणे न्यायालयाबाहेर रक्तरंजित
+     murder         | Pune Court Firing: हत्येचा आरोपी जामिनावर सुटला पण न्यायालयाबाहेरच...; पुण्यात कोर्टाबाहेर गोळीबार अन् कोयत्या
+     violence       | Pune Shivajinagar Court Firing : पुण्यात शिवाजीनगर कोर्टाबाहेर भरदिवसा गोळीबार; सीसीटीव्ही फुटेज आले समोर
+     no             | Supriya Sule : पुण्यात शिवाजीनगर कोर्टाबाहेर भरदिवसा गोळीबार, सुप्रिया सुळेंची प्रतिक्रिया, म्हणाल्या...
+     no             | Pune : FDA कारवाईत पुणे विभाग राज्यात अव्वल; सात महिन्यांत 6,924 आस्थापनांची तपासणी
+     violence       | Pune : पुण्यात शिवाजीनगर कोर्टाबाहेर भरदिवसा गोळीबार
+     no             | Sonia Gandhi : काँग्रेस नेत्या सोनिया गांधी यांना सावरकरांच्या नातवाकडून कायदेशीर नोटीस
+     no             | Pune : पुणे शहर आणि पुणे स्टेशन परिसरात अन्न औषध प्रशासनाची मोठी कारवाई
+====================================================================================================
+Lokshahi: 8 Pune stories in 48 h (0 already read by us); the AI calls 4 incidents and 1 live situations; 4 of the incidents are already in the engine, 0 are NEW
+   have 11-25T17:15 -> #5    | Pune Court Attack: दोन स्कूटर, 5 ते 6 हल्लेखोर, गोळीबार अन् कोयत्याने सपासप वार; पुणे न्यायालयाबाहेर
+   have 11-25T10:13 -> #5    | Pune Court Firing: हत्येचा आरोपी जामिनावर सुटला पण न्यायालयाबाहेरच...; पुण्यात कोर्टाबाहेर गोळीबार अ
+   have 11-25T09:23 -> #5    | Pune Shivajinagar Court Firing : पुण्यात शिवाजीनगर कोर्टाबाहेर भरदिवसा गोळीबार; सीसीटीव्ही फुटेज आले
+   have 11-25T08:00 -> #5    | Pune : पुण्यात शिवाजीनगर कोर्टाबाहेर भरदिवसा गोळीबार
+   archive https://www.lokshahi.com/webcontent-sitemap.xml: 478 entries e.g. https://www.lokshahi.com/sitemap_2026-11-25.xml / https://www.lokshahi.com/sitemap_2025-06-12.xml; dates seen 2025-06-12 .. 2026-11-25
+   AI answered 10 of 30
+     -              | पुण्यात काय सुरु आहे? आधी कोर्टाबाहेर गोळीबार, दौंडमध्ये रात्रीचे सर्च ऑपरेशन सुरु, गेल्या तीन तासांपासून संपू
+     -              | बिबट्याचा भात कापणी करणाऱ्या सासू-सुनेवर हल्ला, सासूचा जागीच मृत्यू; सून गंभीर जखमी
+     -              | Pune Accident : खेड्यातली लेक पुण्यात गेली, MPSCतून अधिकारी व्हायचं स्वप्न... पण सोनालीला बसनं चिरडलं, क्षणात 
+     -              | मोठी बातमी! मंदार किवळे हल्लाप्रकरणात 6 आरोपींवर सर्वात मोठी कारवाई, पोलिसांनी सगळ्यांना...अवघ्या काही तासात ख
+     -              | सुनेत्रा पवार पालकमंत्री असलेल्या पुण्याचे CM फडणवीसांनी पालकत्व घ्यावे, सुप्रिया सुळेंची मोठी मागणी
+     -              | पुण्यात कोर्टाबाहेर मंदार किवळेंवर गोळीबार अन् कोयत्याने वार; दौंडमधून 5 आरोपी जेरबंद!
+     -              | पुणे कोर्ट हल्ला प्रकरणी बावनकुळे आक्रमक; म्हणाले, आरोपींना शोधून काढणार, कोणालाही सोडणार नाही!'
+     -              | दिसला की तोडला, टार्गेट ऑन दी स्पॉट! पुण्यात मंदार किवळेला मारण्यासाठी वर्षभरापूर्वीच...रक्तरंजित हल्ल्याचा प्
+     -              | बोपदेव घाट परिसरात भीषण अपघात! विद्यार्थ्यांच्या घोळक्यात आयशर टेम्पो घुसला; दोघांचा जागीच मृत्यू, काही जण गंभ
+     -              | पुणे शिवाजीनगर कोर्टाबाहेर नेमकं काय घडलं? प्रत्यक्षदर्शीने सांगितला धक्कादायक अनुभव
+     -              | बदल्याच्या आगीतूनच हल्ला? जामिनावरील मंदारवर गोळीबारानंतर कोयत्यानेही सपासप वार; दिसला की तोडा, थरारक प्लॅन सम
+     -              | पुण्यातील कोर्टाबाहेर गोळीबार, कोयत्याने हल्ला; पालकमंत्री सुनेत्रा पवारांचा गुन्हेगारांना मोठा इशारा, म्हणाल्
+     -              | Pune Crime : ....म्हणून मंदार किवळेवर हल्ला? पुणे गोळीबार प्रकरणात पोलिसांची हादरवणारी माहिती
+     -              | पुण्यातील मंदार किवळेची हल्ला प्रकरणात धक्कादायक ट्विस्ट, कात्रज हत्याकांडाचे हादरवणारे कनेक्शन समोर!
+     -              | Pune Case : मुंबईत भरदिवसा रक्ताचा सडा! सुप्रिया सुळे संतापल्या; राज्यातील कायदा-सुव्यवस्थेवर गंभीर प्रश्न
+     -              | पुणे हादरलं कोर्टाबाहेर टोळक्याकडून एकावर गोळीबार, गोळ्या झाडल्या अन्.., वकिलाने संगितला थरारक अनुभव
+     -              | Pune : पुण्याच्या औधमध्ये जिल्हा रुग्णालय परिसरात शेकडो रुग्णवाहिका उद्धघाटनाच्या प्रतिक्षेत, अरोग्यमंतत्री...
+     -              | पुणे कोर्टाबाहेर थरार! आधी गोळीबार, मग कोयत्याने जीवघेणा हल्ला; शहरात खळबळ
+     -              | 12 वर्षापासून मी ऐकतेय मंत्री होणार... सुप्रिया सुळेंचं मिश्किल विधान, मुख्यमंत्रीपदाची चर्चा फेटाळली
+     -              | पुणे महापालिका आयुक्तांनी थेट स्थायी समितीच्या अध्यक्षांनाच शहर विद्रूपीकरणाचा पुरस्कार केला जाहीर, थेट..
+     accident/emergency | तोरणा किल्ल्यावर 50 फूट दरीत कोसळला पर्यटक, 7 तासांच्या थरारक रेस्क्यूनंतर सुखरूप सुटका!
+     no             | आजचे पेट्रोल, डिझेल, CNG दर: 25 नोव्हेंबर 2026 - महाराष्ट्रातील शहरांनुसार ताजे दर
+     accident/emergency | Pune : रात्रीचा अंधार, खोल दरी अन् सात तासांचं रेस्क्यू ऑपरेशन; तोरणा किल्ल्यावर 20 वर्षीय तरुणाला जीवदान
+     no             | Aditya Thackearay : आदित्य ठाकरेंनी मुख्यमंत्री देवेंद्र फडणवीस यांना लिहिलं पात्र लिहिलं; नेमकं कारण काय?
+     no             | पुण्यातील दगडूशेठ गणपती मंदिरात दिव्यांची आरास
+     no             | पुण्यात एफडीएची मोठी कारवाई, इंडुकेअर फार्मास्युटिकल कंपनीचा परवाना रद्द, धक्कादायक माहिती समोर
+     no             | Sayaji Shinde : सह्याद्रीतील बेसुमार वृक्षतोडीविरोधात सयाजी शिंदें आक्रमक; 'त्या' कंपनीला काळ्या यादीत टाकण्या
+     no             | Pune News: आदिवासींच्या जमिनीसाठी 10 कोटींची डील? प्रकल्पाला विरोध करणारा नेताच निघाला मास्टरमाईंड, पुणे जिल्ह
+     no             | Pimpri-Chinchwad : पिंपरी-चिंचवडमधील हॉटेल्सवर FDA चा छापा; पिंपळे सौदागर आणि वाकडमध्ये धडक तपासणी
+     no             | तुकाराम मुंढे यांचा मोठा दणका, पुण्यातील प्रसिद्ध 9 हॉटेलवर कारवाई, थेट..
+====================================================================================================
+TV9 full index: 35 Pune stories in 48 h (5 already read by us); the AI calls 2 incidents and 2 live situations; 0 of the incidents are already in the engine, 2 are NEW
+   NEW  11-25T04:38 Velhe / Rajgad, Pune Rural       accident | तोरणा किल्ल्यावर 50 फूट दरीत कोसळला पर्यटक, 7 तासांच्या थरारक रेस्क्यूनंतर सुखरूप सुटका!
+   NEW  11-25T03:13 Velhe / Rajgad, Pune Rural       accident | Pune : रात्रीचा अंधार, खोल दरी अन् सात तासांचं रेस्क्यू ऑपरेशन; तोरणा किल्ल्यावर 20 वर्षीय तरुणाला जीवदान
+   archive https://www.tv9marathi.com/sitemap.xml failed: HTTP Error 404: Not Found
+exit 0
