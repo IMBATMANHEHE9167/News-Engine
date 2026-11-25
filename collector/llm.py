@@ -402,8 +402,8 @@ def run_judges(pairs, cache):
     S = Session()
     if not S.key or not pairs:
         return 0
-    asked, n = 0, CFG['pair_batch']
-    for k in range(0, len(pairs), n):
+    asked, n, k, tries = 0, CFG['pair_batch'], 0, 0
+    while k < len(pairs):
         if asked >= CFG['per_run']['judges'] or not S.time_left():
             break
         model = S.take('readers')
@@ -412,6 +412,10 @@ def run_judges(pairs, cache):
         chunk = pairs[k:k + n]
         res = S.ask('readers', model, lambda: judge(S.key, model, chunk))
         asked += 1
+        if res is None and S.retry and tries < 2:
+            tries += 1                          # busy or at its limit: the same pairs go to the next model, not skipped
+            continue
+        k, tries = k + n, 0
         for key, _, _ in chunk:
             if res and key in res and cache.get(key) not in ('same', 'diff'):
                 cache[key] = res[key]

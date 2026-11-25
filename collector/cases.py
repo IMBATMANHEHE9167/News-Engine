@@ -249,8 +249,14 @@ def build(items, vec=None, verdicts=None):
     open_ = [(s, k, recs[i]['r'], recs[j]['r']) for k, (i, j, s) in cand.items()
              if k not in verdicts and (find(i) != find(j) or not is_firm(i, j))]
     open_.sort(key=lambda t: (max(t[2]['d'], t[3]['d'])[:10], t[0]), reverse=True)
-    seen = {k for k, _, _ in checks}
-    return events, checks + [(k, a, b) for _, k, a, b in open_ if k not in seen]
+    # Asked first: the open pairs that hold a case back (two cases, last 7 days): each is a possible double count, and the
+    # held case is not counted until the judge answers. Then the checks of cases already shown, then the rest.
+    urgent = [(k, recs[i]['r'], recs[j]['r']) for k, (i, j, s) in sorted(cand.items(), key=lambda kv: max(recs[kv[1][0]]['pub'], recs[kv[1][1]]['pub']), reverse=True)
+              if k not in verdicts and find(i) != find(j) and max(recs[i]['pub'], recs[j]['pub']) >= newest - 7]
+    seen = {k for k, _, _ in urgent}
+    rest = [c for c in checks if c[0] not in seen]
+    seen |= {k for k, _, _ in rest}
+    return events, urgent + rest + [(k, a, b) for _, k, a, b in open_ if k not in seen]
 
 
 def _case(xs):
