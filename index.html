@@ -606,7 +606,7 @@ footer p{margin:0;max-width:820px}
 
 /* Leaflet in the forge's materials */
 .leaflet-container{font-family:var(--sans);background:var(--paper-3)}
-.leaflet-gl-layer,.leaflet-tile-pane{filter:var(--tile-filter)}
+.leaflet-tile-pane{filter:var(--tile-filter)}
 .leaflet-bar{border:0!important;box-shadow:0 0 0 1px var(--rule-2)!important;border-radius:12px!important;overflow:hidden}
 .leaflet-bar a{background:var(--paper-2)!important;color:var(--ink)!important;border-bottom:1px solid var(--rule)!important;border-radius:0!important;width:36px!important;height:36px!important;line-height:34px!important;font-weight:400}
 .leaflet-bar a:hover{background:var(--paper-3)!important}
@@ -1212,15 +1212,59 @@ function paneShow() {
   const id = MAPID[document.body.dataset.tab];
   GMAP.m.getContainer().querySelectorAll('.leaflet-pane.tp').forEach(p => p.classList.toggle('on', p.dataset.tab === id));
 }
+// The basemap is our own style, made from OpenFreeMap Positron: every colour set in the VIDRAKSH greys (water a cool grey,
+// parks and woods a hair greener), with hill shading from free elevation data (Mapzen terrarium tiles on AWS Open Data), so
+// the Sahyadri ridges, ghats and forts read. No filter: the map stays sharp on phones and high-DPI screens.
+const OFM = 'https://tiles.openfreemap.org/styles/';
+const BASE_PAL = {
+  light: { bg: '#E6E6E6', res: '#E0E0E0', park: '#D8DCD5', wood: '#D3D8CF', water: '#C3CDD3', bld: '#D2D2D2', minor: '#F4F4F4', major: '#FFFFFF', mcase: '#C4C4C4', moto: '#FFFFFF', motocase: '#AFAFAF', rail: '#B0B0B0', label: '#3B3B3B', label2: '#6A6A6A', halo: '#E6E6E6', bound: '#9A9A9A', shade: 'rgba(0,0,0,0.20)', lit: 'rgba(255,255,255,0.35)' },
+  dark: { bg: '#181818', res: '#1C1C1C', park: '#1C211C', wood: '#1A1F1A', water: '#10171B', bld: '#242424', minor: '#2B2B2B', major: '#363636', mcase: '#121212', moto: '#404040', motocase: '#111111', rail: '#3A3A3A', label: '#B5B5B5', label2: '#858585', halo: '#181818', bound: '#555555', shade: 'rgba(0,0,0,0.55)', lit: 'rgba(255,255,255,0.06)' } };
+let POSITRON = null;
+async function baseStyle() {
+  POSITRON = POSITRON || await fetch(OFM + 'positron').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  const style = JSON.parse(JSON.stringify(POSITRON)), P = BASE_PAL[isDarkTheme() ? 'dark' : 'light'];
+  const set = (l, k, v) => { l.paint = l.paint || {}; l.paint[k] = v; };
+  for (const l of style.layers) {
+    const id = l.id, line = l.type === 'line';
+    if (/shield/.test(id)) { l.layout = { ...(l.layout || {}), visibility: 'none' }; continue; }   // road-number badges: clutter
+    if (l.type === 'background') set(l, 'background-color', P.bg);
+    else if (id === 'water') set(l, 'fill-color', P.water);
+    else if (id === 'waterway') set(l, 'line-color', P.water);
+    else if (id === 'park') { set(l, 'fill-color', P.park); set(l, 'fill-opacity', 1); }
+    else if (id.includes('wood')) { set(l, 'fill-color', P.wood); set(l, 'fill-opacity', 0.9); }
+    else if (id.includes('residential')) set(l, 'fill-color', P.res);
+    else if (id === 'building') { set(l, 'fill-color', P.bld); set(l, 'fill-outline-color', P.bld); }
+    else if (line && /motorway.*casing/.test(id)) set(l, 'line-color', P.motocase);
+    else if (line && /motorway/.test(id)) set(l, 'line-color', P.moto);
+    else if (line && /major.*casing/.test(id)) set(l, 'line-color', P.mcase);
+    else if (line && /major/.test(id)) set(l, 'line-color', P.major);
+    else if (line && /minor|path|pier/.test(id)) set(l, 'line-color', P.minor);
+    else if (line && /rail/.test(id)) set(l, 'line-color', P.rail);
+    else if (line && /boundary/.test(id)) set(l, 'line-color', P.bound);
+    else if (l.type === 'symbol') {
+      set(l, 'text-color', /label_(city|town)/.test(id) ? P.label : P.label2); set(l, 'text-halo-color', P.halo); set(l, 'text-halo-width', 1.4);
+      if (l.layout && l.layout['text-field']) l.layout['text-field'] = ['coalesce', ['get', 'name:en'], ['get', 'name_en'], ['get', 'name']];
+    }
+  }
+  style.sources.dem = { type: 'raster-dem', tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'], encoding: 'terrarium', tileSize: 256, maxzoom: 14, attribution: 'Terrain: Mapzen, AWS Open Data' };
+  style.layers.splice(Math.max(0, style.layers.findIndex(l => l.id === 'waterway')), 0,
+    { id: 'hills', type: 'hillshade', source: 'dem', paint: { 'hillshade-exaggeration': 0.45, 'hillshade-shadow-color': P.shade, 'hillshade-highlight-color': P.lit, 'hillshade-accent-color': P.shade } });
+  return style;
+}
+// Our style when it loads; OpenFreeMap's own style if it cannot be made.
+const restyle = gl => baseStyle().then(s => gl.setStyle(s)).catch(() => { try { gl.setStyle(OFM + (isDarkTheme() ? 'dark' : 'liberty')); } catch {} });
 function setBaseOn(e) {
   e.stale = false;
   // A theme change restyles the vector basemap in place: removing it while it still has a frame queued throws inside the
   // basemap library, and a new one costs a fresh download and a flash.
   const gl = e.base && e.base.getMaplibreMap && e.base.getMaplibreMap();
-  if (gl) { try { gl.setStyle('https://tiles.openfreemap.org/styles/' + (isDarkTheme() ? 'dark' : 'liberty')); return; } catch {} }
+  if (gl) { restyle(gl); return; }
   if (e.base) { e.m.removeLayer(e.base); e.base = null; }
   try {
-    if (window.maplibregl && L.maplibreGL) e.base = L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/' + (isDarkTheme() ? 'dark' : 'liberty'), attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap' }).addTo(e.m);
+    if (window.maplibregl && L.maplibreGL) {
+      e.base = L.maplibreGL({ style: { version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': BASE_PAL[isDarkTheme() ? 'dark' : 'light'].bg } }] }, attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap · Terrain: Mapzen, AWS Open Data' }).addTo(e.m);
+      restyle(e.base.getMaplibreMap());
+    }
   } catch {}
   if (!e.base) e.base = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(e.m);
   if (e.layer) e.layer.bringToFront?.();
@@ -2225,7 +2269,7 @@ function anSources() {
       ${OC ? row('Organised crime groups', sd(OC.updated), 'Groups and their reports, from the engine and each group’s own news searches.') : ''}
       ${SITSTATUS ? row('Situations', sd(SITSTATUS.scanned), 'Scanned every 15 minutes.') : ''}
       ${QUAL ? row('Data checks', sd(QUAL.updated), 'Permanent error tests and detectors over every report.') : ''}
-      ${row('Maps', '', 'OpenFreeMap, OpenMapTiles and OpenStreetMap contributors.')}
+      ${row('Maps', '', 'OpenFreeMap, OpenMapTiles and OpenStreetMap contributors. Terrain: Mapzen terrarium tiles, AWS Open Data.')}
     </div></section>`;
 }
 

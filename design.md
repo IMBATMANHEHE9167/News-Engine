@@ -70,8 +70,10 @@ each composed, not inverted.
 | `--neg` | #A3322A | #EE8573 | a failed data check, nothing else |
 
 Copper text never sits on a heat well; the busiest cell's number is bold ink.
-**Basemap.** OpenFreeMap liberty (light: roads, places and highways read clearly) / dark, fully greyed by
-`--tile-filter` so only copper carries colour.
+**Basemap (founder's choice 2026-11-25, map-lab option C).** Our own vector style made in code from OpenFreeMap Positron
+(`baseStyle()` in index.html): every colour set in the brand greys per theme (`BASE_PAL`), water a cool grey, parks and woods a
+hair greener, road-number badges hidden, English labels; hill shading from Mapzen terrarium elevation tiles (AWS Open Data). No
+filter on the vector map (it stays sharp); `--tile-filter` greys only the raster OpenStreetMap fallback.
 
 **Browser surfaces.** `color-scheme` per theme, themed scrollbars, copper caret and accent, selection in solid copper,
 `theme-color` = `--shell`.
