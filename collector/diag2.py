@@ -94,7 +94,11 @@ for name, urls in SRC.items():
             pune.append(dict(id=E.hash_id(x['link']), t=title, u=x['link'], d=E.iso(x['date']), x=''))
     seen_link = [c for c in pune if c['u'] in have]
     fresh = [c for c in pune if c['u'] not in have]
-    tri = llm.triage(fresh, limit=6)
+    tri = llm.triage(fresh, limit=8, size=20)
+    print('   AI answered %d of %d' % (len(tri), len(fresh)))
+    for c in fresh[:60]:
+        a = tri.get(c['id'])
+        print('     %-14s | %s' % ('-' if a is None else (a['i'] or 'no') + ('/' + a['s'] if a['s'] else ''), c['t'][:110]))
     inc = [c for c in fresh if (tri.get(c['id']) or {}).get('i')]
     sits = [c for c in fresh if (tri.get(c['id']) or {}).get('s')]
     m = match(inc)
