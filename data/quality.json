@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T14:47:14.453Z",
+ "updated": "2026-11-25T15:17:49.138Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -160,7 +160,7 @@
   {
    "name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case",
    "ok": true,
-   "detail": "one case",
+   "detail": "no matching reports yet",
    "bad": []
   },
   {
@@ -204,25 +204,49 @@
    "ok": true,
    "detail": "counted",
    "bad": []
+  },
+  {
+   "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
+   "ok": true,
+   "detail": "no matching reports yet",
+   "bad": []
+  },
+  {
+   "name": "Jejuri couple killed by an MSRTC bus (Nov 2026): the X post and the paper are one case",
+   "ok": true,
+   "detail": "no matching reports yet",
+   "bad": []
+  },
+  {
+   "name": "Katraj LPG cylinder fire (Nov 2026): the X post and the paper are one case",
+   "ok": true,
+   "detail": "no matching reports yet",
+   "bad": []
+  },
+  {
+   "name": "Worker assaulted with a wooden tool over fruit-cart waste: an outlet's X post and its article are one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   }
  ],
  "detectors": {
   "split_cases": 1,
-  "date_spread": 27,
-  "waiting_for_judge": 261,
+  "date_spread": 26,
+  "waiting_for_judge": 633,
   "pairs_judged": 4008,
   "pairs_judged_same": 2072,
   "judge_checked_by_expert": 1679,
   "judge_overturned_by_expert": 884,
   "non_incident_wording": 2,
-  "area_disagreement": 37,
+  "area_disagreement": 36,
   "silent_days": 4,
   "source_gap_days": 68,
-  "unverified": 42,
+  "unverified": 71,
   "ruled_out_by_ai": 189,
   "future_times": 0,
-  "reports": 2993,
-  "cases": 1516
+  "reports": 3031,
+  "cases": 1494
  },
  "examples": {
   "split_cases": [
@@ -232,15 +256,6 @@
    ]
   ],
   "date_spread": [
-   {
-    "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
-    "days": [
-     "2026-06-13",
-     "2026-09-05",
-     "2026-10-11",
-     "2026-11-23"
-    ]
-   },
    {
     "t": "Teacher’s Killing in Purandar: Brother-in-Law Arrested, Police Cite Dispute Over Money and Gold",
     "days": [
@@ -297,6 +312,13 @@
      "2026-10-29",
      "2026-11-07"
     ]
+   },
+   {
+    "t": "Scooterist dies in hit-and-run",
+    "days": [
+     "2026-06-10",
+     "2026-11-03"
+    ]
    }
   ],
   "non_incident_wording": [
@@ -304,11 +326,6 @@
    "Elderly man assaulted in upscale building in Gahunje"
   ],
   "area_disagreement": [
-   {
-    "t": "6-year-old girl dies after motorcycle hits tractor trolley in Pimpri",
-    "case_area": "Wagholi",
-    "reading": "Pimpri"
-   },
    {
     "t": "Man cheats job aspirants of ₹1.37 cr with fake PMC appointment letters",
     "case_area": "Pimpri",
@@ -343,6 +360,11 @@
     "t": "Pune Crime: वाहनाला कट मारल्याच्या किरकोळ वाद, कोयत्याने तरुणावर जीवघेणा हल्ला, एक हात आणि तीन बोटं तुटली, राजगुरूनगर हादरले",
     "case_area": "Old city peths",
     "reading": "Rajgurunagar / Khed"
+   },
+   {
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Bavdhan"
    }
   ],
   "silent_days": [
@@ -369,9 +391,33 @@
   ],
   "source_gaps": [
    {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
+    ]
+   },
+   {
     "source": "lkm",
     "days": 2,
     "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "pkn",
+    "days": 29,
+    "examples": [
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15",
      "2026-11-20",
      "2026-11-22"
     ]
@@ -386,30 +432,6 @@
      "2026-11-04",
      "2026-11-11",
      "2026-11-12"
-    ]
-   },
-   {
-    "source": "skl",
-    "days": 8,
-    "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
-    ]
-   },
-   {
-    "source": "pkn",
-    "days": 29,
-    "examples": [
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-15",
-     "2026-11-20",
-     "2026-11-22"
     ]
    },
    {
@@ -434,5 +456,5 @@
   ],
   "future_times": []
  },
- "passed": 34
+ "passed": 38
 }
