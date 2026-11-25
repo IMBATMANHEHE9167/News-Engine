@@ -1,25 +1,21 @@
 {
- "scanned": "2026-11-25T14:00:19.735Z",
+ "scanned": "2026-11-25T14:15:25.808Z",
  "every": 15,
- "sources_ok": 21,
+ "sources_ok": 25,
  "sources_failed": [
+  "gn",
   "ie",
   "lks",
   "ptm",
-  "xie",
-  "xmet",
-  "xmt3",
-  "xpcp",
+  "xabp",
+  "xcp",
+  "xlks",
+  "xpcc",
   "xpmp",
   "xppl",
-  "xprp",
-  "xptm",
-  "xskl",
-  "xtrf",
-  "xtv9",
   "xvb"
  ],
- "reports": 183,
- "situations": 104,
- "new": 2
+ "reports": 188,
+ "situations": 108,
+ "new": 5
 }
