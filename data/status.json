@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T05:17:40.275Z",
- "total": 2881,
- "added": 0,
+ "updated": "2026-11-25T06:17:50.074Z",
+ "total": 2884,
+ "added": 3,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -80,8 +80,8 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 4,
-   "added": 0,
+   "found": 6,
+   "added": 2,
    "note": ""
   },
   {
@@ -144,8 +144,8 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
