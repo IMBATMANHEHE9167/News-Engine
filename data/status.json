@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T13:16:33.353Z",
- "total": 2923,
- "added": 6,
+ "updated": "2026-11-25T13:25:34.180Z",
+ "total": 2924,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -81,7 +81,7 @@
    "name": "Punekar News",
    "ok": true,
    "found": 5,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -97,7 +97,7 @@
    "name": "Pune City Live",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -121,15 +121,15 @@
    "name": "ABP Majha",
    "ok": true,
    "found": 6,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -161,7 +161,7 @@
    "name": "Sakal",
    "ok": true,
    "found": 21,
-   "added": 2,
+   "added": 0,
    "note": ""
   }
  ]
