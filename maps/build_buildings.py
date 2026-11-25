@@ -15,6 +15,7 @@ import urllib.request
 import numpy as np
 import pyarrow.parquet as pq
 import rasterio
+import rasterio.windows
 import s2sphere
 from rasterio.enums import Resampling
 from rasterio.warp import transform_bounds
@@ -64,9 +65,16 @@ for n, (url, b) in enumerate(tiles):
         continue
     subprocess.run(['curl', '-sSL', '--retry', '3', '-o', '/tmp/h.tif', url], check=True)
     with rasterio.open('/tmp/h.tif') as ras:
+        # The highest value in each DEC x DEC block, read in strips (a whole 25,000 x 25,000 band would not fit in memory).
         H, W = ras.height // DEC, ras.width // DEC
-        hgt = ras.read(2, out_shape=(H, W), resampling=Resampling.max)
-        pres = ras.read(3, out_shape=(H, W), resampling=Resampling.max)
+        hgt, pres = np.zeros((H, W), np.float32), np.zeros((H, W), np.float32)
+        step = 2000
+        for r0 in range(0, H * DEC, step):
+            rows = min(step, H * DEC - r0)
+            win = rasterio.windows.Window(0, r0, W * DEC, rows)
+            for band, dst in ((2, hgt), (3, pres)):
+                a = ras.read(band, window=win)
+                dst[r0 // DEC:(r0 + rows) // DEC] = a[:rows // DEC * DEC].reshape(rows // DEC, DEC, W, DEC).max(axis=(1, 3))
         tr = ras.transform * ras.transform.scale(ras.width / W, ras.height / H)
     hgt[pres < 0.3] = 0                      # heights only where a building is present (Google's advice)
     for i in inside:
