@@ -29,6 +29,9 @@ jobs:
       - run: (timeout 300 python collector/situations.py > _test/situations.txt 2>&1; echo "exit $?" >> _test/situations.txt; python -c "import json; [print(r['t'][:70], '|', r.get('S'), r.get('a'), r.get('w'), r.get('st'), r.get('en','')[:80]) for r in json.load(open('data/sitreports.json'))[:30]]" >> _test/situations.txt 2>&1) || true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - run: (timeout 900 python collector/diag2.py > _test/diag2.txt 2>&1; echo "exit $?" >> _test/diag2.txt) || true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: (timeout 1300 python collector/diag.py > _test/diag.txt 2>&1; echo "exit $?" >> _test/diag.txt) || true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -36,5 +39,5 @@ jobs:
       - run: |
           git config user.name "vidraksh-collector"
           git config user.email "actions@users.noreply.github.com"
-          git add -f _test/result.txt _test/collect.txt _test/situations.txt _test/diag.txt
+          git add -f _test/result.txt _test/collect.txt _test/situations.txt _test/diag.txt _test/diag2.txt
           git commit -q -m "engine test result" && git push -q
