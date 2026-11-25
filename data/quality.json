@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T19:43:19.180Z",
+ "updated": "2026-11-25T21:21:51.199Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -153,9 +153,15 @@
   },
   {
    "name": "21-year-old posing as an IAS officer (Rs 35 lakh society fraud) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक",
+     "Pune: 21-Year-Old Poses As IAS Officer, Cheats People With MHADA Lottery Promise; Siphons Of Rs 35 Lakh From Housing Society",
+     "Pune: 21-Year-Old Posing As IAS Officer Arrested In ₹35 Lakh Fraud Case"
+    ]
+   ]
   },
   {
    "name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case",
@@ -208,19 +214,19 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
    "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
-   "ok": false,
-   "detail": "no matching reports yet",
+   "ok": true,
+   "detail": "connected: feud murder case in Katraj; revenge murder of a man in Santoshnagar, Katraj; revenge murder of a young man in Katraj",
    "bad": []
   },
   {
@@ -231,46 +237,35 @@
   },
   {
    "name": "Katraj LPG cylinder fire (Nov 2026): the X post and the paper are one case",
-   "ok": false,
-   "detail": "3 cases",
-   "bad": [
-    [
-     "Pune: Fire Breaks Out in LPG Cylinder at House in Katraj; Fire Brigade Brings Blaze Under Control"
-    ],
-    [
-     "Pune: Fire Breaks Out in LPG Cylinder at House in Katraj; Fire Brigade Brings Blaze Under Control"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Worker assaulted with a wooden tool over fruit-cart waste: an outlet's X post and its article are one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Pune: Two Men Assault Worker With Wooden Tool Over Refusal To Clear Fruit Cart Waste in Thergaon"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   }
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 23,
+  "judged_same_kept_apart": 40,
   "date_spread": 27,
-  "waiting_for_judge": 1435,
-  "pairs_judged": 4428,
-  "pairs_judged_same": 2387,
-  "judge_checked_by_expert": 1813,
-  "judge_overturned_by_expert": 904,
+  "waiting_for_judge": 898,
+  "pairs_judged": 4994,
+  "pairs_judged_same": 2766,
+  "judge_checked_by_expert": 1872,
+  "judge_overturned_by_expert": 937,
   "non_incident_wording": 2,
-  "area_disagreement": 37,
+  "area_disagreement": 38,
   "silent_days": 4,
   "source_gap_days": 67,
-  "unverified": 145,
-  "ruled_out_by_ai": 197,
+  "unverified": 100,
+  "ruled_out_by_ai": 215,
   "future_times": 0,
-  "reports": 3150,
-  "cases": 1487
+  "reports": 3177,
+  "cases": 1538
  },
  "examples": {
   "split_cases": [
@@ -281,39 +276,56 @@
   ],
   "judged_same_kept_apart": [
    [
-    "Inter-State Robbery Gang: ओतूर पोलिसांची धडाकेबाज कारवाई; दरोड्याच्या तयारीतील आंतरराज्यीय टोळी जेरबंद",
-    "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh"
+    "Balewadi Crime : आयएएस अधिकारी असल्याचे भासवून ३५ लाखांची फसवणूक; बालेवाडीतील २१ वर्षीय तरुणाला अटक, सोसायटीचा अध्यक्ष बनून म्हाडाच्या सदनिकांचेही दाखवले आमिष",
+    "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक"
    ],
    [
-    "Pune Man Allegedly Kills Mother After She Refuses Money For Alcohol",
-    "Pune: 30-Year-Old Man Arrested for Allegedly Killing Mother During Family Dispute"
+    "Balewadi Crime : आयएएस अधिकारी असल्याचे भासवून ३५ लाखांची फसवणूक; बालेवाडीतील २१ वर्षीय तरुणाला अटक, सोसायटीचा अध्यक्ष बनून म्हाडाच्या सदनिकांचेही दाखवले आमिष",
+    "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक"
    ],
    [
-    "Pune Man Allegedly Kills Mother After She Refuses Money For Alcohol",
-    "Pune: 30-Year-Old Man Arrested for Allegedly Killing Mother During Family Dispute"
+    "Balewadi Crime : आयएएस अधिकारी असल्याचे भासवून ३५ लाखांची फसवणूक; बालेवाडीतील २१ वर्षीय तरुणाला अटक, सोसायटीचा अध्यक्ष बनून म्हाडाच्या सदनिकांचेही दाखवले आमिष",
+    "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक"
    ],
    [
-    "Pune Man Allegedly Kills Mother After She Refuses Money For Alcohol",
-    "Pune: 30-Year-Old Man Arrested for Allegedly Killing Mother During Family Dispute"
+    "Balewadi Crime : आयएएस अधिकारी असल्याचे भासवून ३५ लाखांची फसवणूक; बालेवाडीतील २१ वर्षीय तरुणाला अटक, सोसायटीचा अध्यक्ष बनून म्हाडाच्या सदनिकांचेही दाखवले आमिष",
+    "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक"
    ],
    [
-    "Four youths killed, two injured in road accident on Pune-Satara highway",
-    "Two lose lives in multi-vehicle accident on Shirur bypass"
+    "Balewadi Crime : आयएएस अधिकारी असल्याचे भासवून ३५ लाखांची फसवणूक; बालेवाडीतील २१ वर्षीय तरुणाला अटक, सोसायटीचा अध्यक्ष बनून म्हाडाच्या सदनिकांचेही दाखवले आमिष",
+    "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक"
    ],
    [
-    "Pune: गुंतवणूक, नोकरीच्या आमिषाने पुण्यात लूट; विश्रामबाग, नऱ्हे आणि खराडीत गुन्हे दाखल; तिघांना ६१ लाखांना गंडा",
-    "Wagholi bizman cheated of Rs71 L, two held"
-   ],
-   [
-    "Pune: Police Van Crashes Into Multiple Vehicles in Sadashiv Peth; Driver Detained",
+    "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
     "Pune: CCTV Captures Police Van Ploughing Into Parked Vehicles in Sadashiv Peth"
    ],
    [
-    "Pune Man Allegedly Kills Mother After She Refuses Money For Alcohol",
-    "Pune: 30-Year-Old Man Arrested for Allegedly Killing Mother During Family Dispute"
+    "Man cheats job aspirants of ₹1.37 cr with fake PMC appointment letters",
+    "15 people cheated of Rs1.37 crore with fake PMC appointment letters"
+   ],
+   [
+    "धक्कादायक! IAS अधिकारी असल्याचे सांगत तब्बल 35 लाख रुपयांना घातला गंडा, 21 वर्षीय तरुणाचा प्रताप, आरोपीला अटक",
+    "Balewadi Crime : आयएएस अधिकारी असल्याचे भासवून ३५ लाखांची फसवणूक; बालेवाडीतील २१ वर्षीय तरुणाला अटक, सोसायटीचा अध्यक्ष बनून म्हाडाच्या सदनिकांचेही दाखवले आमिष"
    ]
   ],
   "date_spread": [
+   {
+    "t": "“Why Were You Looking at Me?” Minor Argument Turns Violent in PCMC; Young Man Slashed with Cutter . . A minor argument over a seemingly simple question “Why were you looking at me?” reportedly turned violent in…",
+    "days": [
+     "2026-11-21",
+     "2026-11-25"
+    ]
+   },
+   {
+    "t": "तोरणा किल्ल्यावर 50 फूट दरीत कोसळला पर्यटक, 7 तासांच्या थरारक रेस्क्यूनंतर सुखरूप सुटका!",
+    "days": [
+     "2026-10-20",
+     "2026-10-31",
+     "2026-11-01",
+     "2026-11-09",
+     "2026-11-23"
+    ]
+   },
    {
     "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
     "days": [
@@ -335,6 +347,7 @@
     "t": "Man killed over alleged molestation dispute; two held",
     "days": [
      "2026-07-02",
+     "2026-11-15",
      "2026-11-16",
      "2026-11-17"
     ]
@@ -363,22 +376,6 @@
      "2026-10-06",
      "2026-11-06"
     ]
-   },
-   {
-    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
-    "days": [
-     "2026-10-20",
-     "2026-10-31",
-     "2026-11-01",
-     "2026-11-09"
-    ]
-   },
-   {
-    "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
-    "days": [
-     "2026-10-29",
-     "2026-11-07"
-    ]
    }
   ],
   "non_incident_wording": [
@@ -386,6 +383,16 @@
    "Elderly man assaulted in upscale building in Gahunje"
   ],
   "area_disagreement": [
+   {
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "case_area": "Velhe / Rajgad",
+    "reading": "Bavdhan"
+   },
+   {
+    "t": "A 70-year-old woman, Lata Ramchandra Undre, allegedly lost a cash pouch containing ₹48,000 while travelling on a PMPML bus from Alandi to Shivajinagar. The incident raises concerns about passenger safety and thefts on…",
+    "case_area": "Dighi / Alandi",
+    "reading": "Shivajinagar"
+   },
    {
     "t": "6-year-old girl dies after motorcycle hits tractor trolley in Pimpri",
     "case_area": "Wagholi",
@@ -415,16 +422,6 @@
     "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
-   },
-   {
-    "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
-    "case_area": "Old city peths",
-    "reading": "Chikhali / Moshi"
-   },
-   {
-    "t": "Pune Crime: वाहनाला कट मारल्याच्या किरकोळ वाद, कोयत्याने तरुणावर जीवघेणा हल्ला, एक हात आणि तीन बोटं तुटली, राजगुरूनगर हादरले",
-    "case_area": "Old city peths",
-    "reading": "Rajgurunagar / Khed"
    }
   ],
   "silent_days": [
@@ -516,5 +513,5 @@
   ],
   "future_times": []
  },
- "passed": 37
+ "passed": 39
 }
