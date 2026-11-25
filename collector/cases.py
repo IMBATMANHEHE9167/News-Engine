@@ -19,6 +19,7 @@ never allowed to decide which reports get compared; they only describe the case 
 5. The case's details are decided by its reports together: type and area by majority, death or injury only when enough
    of its reports say so, the day of the crime by the days its reports are sure of (impossible days ignored)."""
 from collections import Counter
+from datetime import date
 
 import engine as E
 
@@ -37,6 +38,7 @@ NEIGHBOUR = 0.30        # same kind of crime, same area, published within two da
 TOP = 6                 # at most this many closest candidates per report (plus every name or figure match)
 PROVISIONAL = 0.92      # until judged, pairs this alike (same family, published within 3 days) are joined
 RARE_TOKEN = 25         # a lone name word in at most this many reports can identify a person
+COVER_FROM = (date(2026, 5, 19) - date(1970, 1, 1)).days   # first day our history covers (collect.HISTORY_FROM)
 
 
 def pair_key(a, b):
@@ -266,8 +268,12 @@ def _case(xs):
         day, sure = min(x['pub'] for x in base), False
     lead = next((x for x in sorted(new, key=lambda x: x['r']['d']) if x['r'].get('b')), None)
     spots = [r['p'] for r in reports if r.get('p') and r.get('a') == a]
+    # Counted unless every report is a later development AND the crime day is unknown or before our coverage starts
+    # (a court ruling or compensation award on an old crime). A crime inside our window whose first report we never
+    # received (only follow-ups, e.g. "trek death takes a turn") is still an incident.
+    orphan = not new and not (sure and day >= COVER_FROM)
     e = dict(c=c, a=a, d=E.day_str(day) + 'T06:30:00.000Z', last=reports[0]['d'], stated=sure,
-             orphan=not new, h=lead['r'].get('h') if lead else None, b=lead['r'].get('b') if lead else None,
+             orphan=orphan, h=lead['r'].get('h') if lead else None, b=lead['r'].get('b') if lead else None,
              o=o, p=min(spots, key=lambda p: (p[3] != 'x',)) if spots else None, reports=reports)
     if all(r.get('uv') for r in reports):
         e['uv'] = 1

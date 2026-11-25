@@ -59,6 +59,11 @@ def build(items, events, verdicts, ask):
             pat, want = t['region']
             hs = [e for e in holders(pat) if not e['a'] or E.AREA[e['a']]['r'] != want]
             ok, detail, bad = not hs, ', '.join(sorted({E.AREA[e['a']]['name'] if e['a'] else 'no area' for e in hs})) or 'right part of the district', [e['reports'][0]['t'] for e in hs[:5]]
+        elif 'counted' in t:
+            hs = holders(t['counted'])
+            ok = any(not e.get('orphan') for e in hs)
+            detail = 'counted' if ok else 'not counted (later development only)' if hs else 'no matching reports yet'
+            bad = [e['reports'][0]['t'] for e in hs[:3]] if not ok else []
         elif 'not_fatal' in t:
             hs = [e for e in holders(t['not_fatal']) if e.get('o') == 'fatal']
             ok, detail, bad = not hs, '%d marked as a death' % len(hs) if hs else 'no death marked', [e['reports'][0]['t'] for e in hs[:5]]
@@ -157,6 +162,10 @@ def build(items, events, verdicts, ask):
 
     D['unverified'] = sum(1 for r in items if r.get('uv') and not r.get('nx'))
     D['ruled_out_by_ai'] = sum(1 for r in items if r.get('nx'))
+    late = datetime.now(timezone.utc) + timedelta(minutes=15)
+    future = [r for r in items if E.parse_date(r['d']) > late]   # a publication time later than now is a misread time zone
+    D['future_times'] = len(future)
+    X['future_times'] = [dict(t=r['t'], s=r['s'], d=r['d']) for r in future[:8]]
     D['reports'] = len(items)
     D['cases'] = len(counted)
     out['passed'] = sum(1 for t in out['tests'] if t['ok'])

@@ -87,6 +87,13 @@ if any(not has_link(r) for r in items):
     lost = [r for r in items if not has_link(r)]
     items = [r for r in items if has_link(r)]
     print('link repair: %d links restored, %d reports without a recoverable link dropped' % (fixed, len(lost)))
+# One-time repair (2026-11-25): Lokmat times stored before the time-zone fix were India time read as GMT (5.5 h late).
+FIX_LKM = 'lkm_tz' not in ((read_json('backfill.json', None) or {}).get('fixes') or [])
+if FIX_LKM:
+    for r in items:
+        if r.get('s') == 'lkm' and r.get('d'):
+            r['d'] = E.iso(E.parse_date(r['d']) - timedelta(hours=5, minutes=30))
+    print('time repair: %d Lokmat reports moved back 5.5 h' % sum(1 for r in items if r.get('s') == 'lkm'))
 LOADED = len(items)
 class OSet(dict):
     """A set that remembers the order things were added in (the file keeps the newest 20,000)."""
@@ -208,6 +215,8 @@ items = [r for r in items if not r.get('drop')]
 #   paged   = a WordPress feed read page by page (?paged=N); headlines and summaries are in the feed.
 #   monthly = a paper's monthly article index (addresses only); each likely candidate page is read once.
 bf = read_json('backfill.json', None) or dict(next=ist_date(NOW - timedelta(days=2)), stop=ist_date(NOW - timedelta(days=BACKFILL_SPAN)), days=0, kept=0, note='')
+if FIX_LKM:
+    bf.setdefault('fixes', []).append('lkm_tz')
 MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
 
 

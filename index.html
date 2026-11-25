@@ -2272,12 +2272,13 @@ function drawQuality() {
     ['ruled_out_by_ai', 'Reports the AI ruled out as not an incident in Pune'],
     ['waiting_for_judge', 'Close pairs of reports waiting for the AI judge (same incident or not)'],
     ['judge_checked_by_expert', 'Judge verdicts re-checked by the stronger expert model'],
-    ['judge_overturned_by_expert', 'Of those, wrongly merged and split apart again'],
+    ['judge_overturned_by_expert', 'Of those, judged by the expert to be two different incidents'],
     ['split_cases', 'Cases that name the same victim as another case'],
     ['date_spread', 'Cases whose reports disagree on the day by more than three days'],
     ['non_incident_wording', 'Counted cases whose headline reads like policy, buildings or features'],
     ['area_disagreement', 'Reports the AI places in another part of the district than their case'],
     ['silent_days', 'Days with far fewer incidents than the days around them'],
+    ['future_times', 'Reports whose publication time is later than now (a misread time zone)'],
   ].filter(([k]) => D[k] != null);
   return `<section id="an-checks" style="scroll-margin-top:calc(var(--stick) + 24px)"><h3 class="sec-h">Data checks<span>updated ${ago(QUAL.updated)}</span></h3>
     <p class="say" style="margin-top:0"><span class="fig big">${QUAL.passed}</span>of ${tests.length} permanent error tests pass.</p>

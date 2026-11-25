@@ -113,6 +113,19 @@ def parse_date(s):
         return None
 
 
+def parse_published(s):
+    """A publisher's time. Indian papers that leave out the time zone mean India time (e.g. Lokmat's
+    article:published_time "2026-11-25T18:25:28" is 18:25 IST); reading it as GMT put stories 5.5 hours in the future.
+    A time still later than now is impossible and becomes now (the moment we read it)."""
+    d = parse_date(s)
+    if d is None:
+        return None
+    if not isinstance(s, datetime) and not re.search(r'(Z|[+-]\d\d:?\d\d|GMT|UTC?|[A-Z]{3})\s*$', str(s).strip()):
+        d = d - timedelta(hours=5, minutes=30)
+    now = datetime.now(timezone.utc)
+    return now if d > now + timedelta(minutes=10) else d
+
+
 def ms(d):
     return int(parse_date(d).timestamp() * 1000)
 
@@ -148,7 +161,7 @@ def parse_feed(xml):
         b = m.group(0)
         title = strip(tag(b, 'title'))
         link = strip(tag(b, 'link')) or strip(tag(b, 'guid'))
-        d = parse_date(strip(tag(b, 'pubDate')))
+        d = parse_published(strip(tag(b, 'pubDate')))
         if not title or not re.match(r'https?://', link) or not d:
             continue
         text = strip(tag(b, 'description')) + ' ' + strip(tag(b, 'content:encoded'))
@@ -163,7 +176,7 @@ def parse_sitemap(xml):
         link = strip(tag(b, 'loc'))
         if not re.match(r'https?://', link):
             continue
-        d = parse_date(strip(tag(b, 'news:publication_date')) or strip(tag(b, 'lastmod')))
+        d = parse_published(strip(tag(b, 'news:publication_date')) or strip(tag(b, 'lastmod')))
         out.append(dict(title=strip(tag(b, 'news:title')), link=link.split('#')[0].split('?')[0], date=d, text=''))
     return out
 
@@ -190,7 +203,7 @@ def page_head(html):
     title = strip(meta_of(html, 'og:title')) or strip(tag(str(html), 'title'))
     title = re.sub(r'\s*[|\-–]\s*(Sakal|eSakal|Lokmat|Lokmat\.com|Loksatta|Pudhari|Latest Marathi News[^|]*|Marathi News[^|]*)\s*$', '', title, flags=I).strip()
     m = re.search(r'"datePublished"\s*:\s*"([^"]+)"', str(html))
-    return dict(title=title, date=parse_date(meta_of(html, 'article:published_time') or (m.group(1) if m else '')))
+    return dict(title=title, date=parse_published(meta_of(html, 'article:published_time') or (m.group(1) if m else '')))
 
 
 def page_text(html):
@@ -1123,7 +1136,7 @@ def parse_gnews(xml):
     for m in re.finditer(r'<item>[\s\S]*?</item>', str(xml), re.I):
         b = m.group(0)
         title, link = strip(tag(b, 'title')), strip(tag(b, 'link'))
-        d = parse_date(strip(tag(b, 'pubDate')))
+        d = parse_published(strip(tag(b, 'pubDate')))
         src = strip(tag(b, 'source'))
         if title and d and link:
             out.append(dict(title=title, link=link, date=d, text='', source=src))

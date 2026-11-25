@@ -1,5 +1,5 @@
 {
- "note": "Permanent error tests. Every error found by hand becomes a test here, so the same kind of mistake is caught every hour, for ever. one_case: every counted report matching the pattern is in exactly one case. apart: no case holds reports matching both patterns. not_incident: no counted case holds a report matching the pattern. type: every counted case holding a matching report has this type. not_fatal: no such case is marked as a death. organised: a matching report is listed under Organised crime. situation_placed: the live situation holding a matching report has an area. region: such cases lie in this part of the district (city, pcmc, rural). Patterns are case-insensitive regular expressions on headlines.",
+ "note": "Permanent error tests. Every error found by hand becomes a test here, so the same kind of mistake is caught every hour, for ever. one_case: every counted report matching the pattern is in exactly one case. apart: no case holds reports matching both patterns. not_incident: no counted case holds a report matching the pattern. type: every counted case holding a matching report has this type. not_fatal: no such case is marked as a death. counted: a case holding a matching report is counted as an incident. organised: a matching report is listed under Organised crime. situation_placed: the live situation holding a matching report has an area. region: such cases lie in this part of the district (city, pcmc, rural). Patterns are case-insensitive regular expressions on headlines.",
  "tests": [
   {"name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka", "region": ["opium.*katraj|katraj.*opium|कात्रजमध्ये .*अफू", "city"]},
   {"name": "Jambhulwadi multi-vehicle crash (near Katraj) is placed in the city, not Ambegaon taluka", "region": ["Jambhulwadi: Two Dead|accident in Jambhulwadi|involved in accident", "city"]},
@@ -33,7 +33,8 @@
   {"name": "MCOCA on the gang that fired at a dahi handi is under Organised crime", "organised": "दहीहंडी उत्सवात गोळीबार करणाऱ्या टोळीवर"},
   {"name": "Pune auto-rickshaw strike from 23 Nov (sit-in outside Pune RTO) is placed on the map", "situation_placed": "Auto-Rickshaw Drivers Announce Indefinite Strike"},
   {"name": "GRP constable attacked at Pune railway station (knife or sickle, per paper) is one case", "one_case": "assault GRP constable|Constable Attacked With Sickle at Pune Railway|Railway Police Constable Attacked|रेल्वे पोलिसाचा चाकूने|रेल्वे पोलिसावर चाकूने"},
-  {"name": "Narayangaon tamasha centre firing and the arrest of its main suspect are one case", "one_case": "Narayangaon Art Center Firing|tamasha centre in Junnar"}
+  {"name": "Narayangaon tamasha centre firing and the arrest of its main suspect are one case", "one_case": "Narayangaon Art Center Firing|tamasha centre in Junnar"},
+  {"name": "Ketan Agarwal murder (Lohagad Fort) is counted as an incident, though every report is a later development", "counted": "ketan ag(a)?r(a)?wal|lohagad (fort )?(murder|trek)|lohgad case|केतन"}
  ],
  "calendar_from": "2026-05-25"
 }
