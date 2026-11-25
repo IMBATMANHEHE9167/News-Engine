@@ -33,10 +33,11 @@ def try_get(url):
 
 
 def ist(d):
-    return (d + timedelta(hours=5, minutes=30)).strftime('%d %b %H:%M')
+    return (d.astimezone(timezone.utc) + timedelta(hours=5, minutes=30)).strftime('%d %b %H:%M')
 
 
 print('Coverage audit, %s IST\n' % ist(NOW))
+SOFT = []
 for feed in E.FEEDS:
     url = feed['url'].replace('{date}', (NOW + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d'))
     xml, how = try_get(url)
@@ -65,6 +66,9 @@ for feed in E.FEEDS:
         else:
             t = {}
             v = E.assess(it['title'], it['link'], it['text'], it['date'], E.is_home(feed, it['link']), False, trace=t)
+            E.extract_items(feed, [it], SOFT)
+            if E.situation_kind(it['title']):
+                print('   SITUATION  %-11s %s | %s' % (ist(it['date']), E.situation_kind(it['title']), it['title'][:110]))
             verdict = 'KEPT ' + v['c'] if v else t.get('why', '?')
             title = it['title']
         why[verdict.split(':')[0] if not verdict.startswith('KEPT') else 'KEPT'] += 1
@@ -73,18 +77,11 @@ for feed in E.FEEDS:
     print('   -- last 26 h: %s' % dict(why))
     time.sleep(0.5)
 
-# Google News per paper: what did each paper publish about Pune crime in the last day?
-print('\n' + '=' * 100 + '\nGoogle News, last day, per paper (crime words)\n')
-Q = '(pune OR pimpri OR chinchwad OR hinjewadi) (police OR murder OR arrested OR accident OR killed OR fire OR robbery OR threat OR attack OR fraud OR molested OR theft OR firing)'
-for site in ['punemirror.com', 'mypunepulse.com', 'punekarnews.in', 'punecitylive.in', 'freepressjournal.in', 'indianexpress.com',
-             'timesofindia.indiatimes.com', 'hindustantimes.com', 'loksatta.com', 'lokmat.com', 'esakal.com', 'pudhari.news',
-             'maharashtratimes.com', 'punepulse.com', 'thebridgechronicle.com', 'mid-day.com', 'ndtv.com', 'news18.com']:
-    u = 'https://news.google.com/rss/search?' + urllib.parse.urlencode(dict(q='%s site:%s when:1d' % (Q, site), hl='en-IN', gl='IN', ceid='IN:en'))
-    xml, how = try_get(u)
-    lst = E.parse_gnews(xml) if xml else []
-    print('%-28s %d' % (site, len(lst)))
-    for it in lst[:12]:
-        t = {}
-        v = E.assess(re.sub(r'\s+-\s+[^-]+$', '', it['title']), 'https://' + site + '/pune/x', '', it['date'], False, False, trace=t)
-        print('   %-11s %-40.40s | %s' % (ist(it['date']), ('KEPT ' + v['c']) if v else t.get('why', '?'), it['title'][:110]))
-    time.sleep(1.5)
+# The AI gate, for real, on what the word rules turned away today.
+import llm
+SOFT.sort(key=lambda c: c['d'], reverse=True)
+ans = llm.triage(SOFT[:150], limit=5)
+print('\n' + '=' * 100 + '\nAI gate on %d reports the words turned away (%d answered)\n' % (len(SOFT), len(ans)))
+for c in SOFT[:150]:
+    a = ans.get(c['id'])
+    print('  %-5s %-12s %-11s %-5s | %s' % ('-' if not a else (a['i'] or 'no'), '' if not a else (a['s'] or ''), c['d'][5:16], c['s'], c['t'][:120]))

@@ -1712,7 +1712,7 @@ function drawSits() {
   };
   let k = 0;
   const block = (title, arr, kind, empty) => `<div class="day"><span><b>${title}</b></span><span class="mono">${arr.length}</span></div>` + (arr.length ? arr.map(g => item(g, k++, kind)).join('') : `<p class="note" style="margin:0;padding:14px 22px 18px">${empty}</p>`);
-  $('sitIntro').innerHTML = `<div><h1>Live Situations</h1><p class="sub">Protests, bandhs, road blockades, strikes, unrest and prohibitory orders in ${esc(viewName())}, from local papers and Google News. The day beside each is the day it happens or happened; what is live today blinks.</p></div>
+  $('sitIntro').innerHTML = `<div><h1>Live Situations</h1><p class="sub">Protests, bandhs, road blockades, strikes, unrest, prohibitory orders, emergencies and disruptions of transport and services in ${esc(viewName())}, from local papers, their accounts on X, police and civic accounts, and Google News. The day beside each is the day it happens or happened; what is live today blinks.</p></div>
     <div class="figs"><div><b class="fig${now.length ? ' hot' : ''}">${now.length}</b><span>live: today or ongoing</span></div><div><b class="fig">${planned.length}</b><span>planned</span></div><div><b class="fig">${recent.length}</b><span>recent, ${esc(periodName())}</span></div></div>`;
   $('sitList').innerHTML = block('Live: today and ongoing', now, 'now', 'Nothing reported for today.') + block('Planned', planned, 'plan', 'Nothing announced for the coming days.') + block('Recent', recent, 'past', oneDay ? 'Nothing on this day.' : 'Nothing in this period.');
   drawSitMap(SITS_SHOWN, dayName);

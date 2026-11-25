@@ -7,7 +7,7 @@
   "experts": ["gemini-3.6-flash", "gemini-3-flash", "gemini-flash-latest"],
   "rpd": {"readers": 500, "experts": 20},
   "rpm": {"readers": 15, "experts": 5},
-  "per_run": {"readers": 80, "experts": 3, "judges": 40, "audit": 2},
+  "per_run": {"readers": 80, "experts": 3, "judges": 40, "audit": 2, "triage": 6},
   "batch": 6,
   "pair_batch": 15,
   "chars": 2500,
@@ -51,12 +51,14 @@
   "rival": "\\b(rival|rivalry|feud|revenge|retaliat\\w+|enmity)\\b|वैमनस्य|वर्चस्व|बदला|प्रतिस्पर्धी"
  },
  "situations": {
-  "note": "Public order: protests, bandhs, road blockades, strikes, unrest, prohibitory orders. Most serious kind first.",
+  "note": "Public order: protests, bandhs, road blockades, strikes, unrest, prohibitory orders; also emergencies (bomb threats, evacuations, collapses, gas leaks, floods) and disruptions of transport and services (metro or bus breakdowns, road closures, diversions, traffic jams, water or power cuts). Most serious kind first. The word patterns only find candidates: the AI reading decides.",
   "kinds": [
    ["unrest", "Unrest & clashes", ["\\b(stone[- ]?pelting|lathi[- ]?charge\\w*|communal (tension|clash\\w*)|tension (prevails|grips|erupts|in)|riot\\w*|mob (attack\\w*|fury|violence)|arson|clash\\w* between (two )?(groups|communities|supporters))\\b|दगडफेक|लाठीमार|लाठीचार्ज|तणाव|तणावपूर्ण|जाळपोळ|दंगल", "i"]],
+   ["emergency", "Emergency", ["\\b(bomb (threat|scare|hoax)|hoax (call|e-?mail|bomb)|threat(ening)? e-?mail|evacuat\\w+|gas (leak\\w*|cylinder blast)|(building|wall|slab|bridge|hoarding|tree) collapse\\w*|waterlogg\\w+|flash floods?|flood(ed|ing)|landslides?|stampede|blaze|massive fire|major fire)\\b|बॉम्ब|धमकीचा ई-?मेल|रिकामे करण्यात|इमारत कोसळ|भिंत कोसळ|होर्डिंग कोसळ|गॅस गळती|पूरस्थिती|पाणी साचले|दरड कोसळ|चेंगराचेंगरी|भीषण आग", "i"]],
    ["order", "Prohibitory orders", ["\\b(prohibitory orders?|section 144|bnss (section )?163|curfew|internet (shut ?down|suspen\\w+|ban))\\b|जमावबंदी|संचारबंदी|कलम 144|इंटरनेट बंद", "i"]],
    ["bandh", "Bandh", ["\\bbandh\\b|बंदची हाक|बंद पाळ|बंदला (प्रतिसाद|पाठिंबा)|कडकडीत बंद|बंद पुकार|बंदचे आवाहन", "i"]],
    ["block", "Road blockade", ["\\b(rasta roko|chakka jam|road ?blockade|blocked (the )?(road|highway))\\b|रास्ता रोको|रास्तारोको|रस्ता रोको|चक्काजाम|महामार्ग अडव|रस्ता अडव", "i"]],
+   ["disruption", "Disruption", ["\\b(snag|technical (glitch|fault)|stranded|services? (hit|disrupted|suspended|halted|resumed)|disrupt(ed|ion)|traffic (jam|snarl\\w*|congestion|chaos|diversions?)|diversions?|road (closed|closure)|closed for traffic|power (cut|outage|failure)|blackout|water (cut|supply (cut|disrupted|suspended|shut))|outage|broke down|breakdown|derail\\w*)\\b|वाहतूक कोंडी|वाहतूक बंद|वाहतुकीत बदल|वाहतूक वळव|पाणीपुरवठा बंद|पाणी बंद|वीजपुरवठा खंडित|बत्ती गुल|मेट्रो (सेवा )?(विस्कळीत|ठप्प|बंद)|तांत्रिक बिघाड|खोळंबा", "i"]],
    ["fast", "Hunger strike", ["\\b(hunger strike|fast unto death|indefinite fast)\\b|उपोषण", "i"]],
    ["strike", "Strike", ["\\b(on strike|go on strike|indefinite strike|strike (by|of|called|continues|enters|called off|withdrawn)|stir by|work boycott|walk[- ]?out|cease work)\\b|संपावर|बेमुदत संप|संप पुकार|संप मागे|काम बंद आंदोलन|संपाचा", "i"]],
    ["protest", "Protest", ["\\b(protest\\w*|agitat\\w+|morcha|dharna|demonstrat\\w+|sit[- ]?in|gherao\\w*|march(ed)? (to|on|against)|stir)\\b|आंदोलन|मोर्चा|धरणे|निदर्शने|घेराव|ठिय्या|निषेध", "i"]]
@@ -1817,7 +1819,26 @@
     "esakal\\.com\\/(pune|pimpri-chinchwad)\\/",
     "i"
    ]
-  }
+  },
+  {"id": "xptm", "name": "Pune Times Mirror on X", "url": "https://fxtwitter.com/ThePuneMirror/feed.xml", "pune": true, "x": true},
+  {"id": "xppl", "name": "Pune Pulse on X", "url": "https://fxtwitter.com/pulse_pune/feed.xml", "pune": true, "x": true},
+  {"id": "xpkn", "name": "Punekar News on X", "url": "https://fxtwitter.com/punekarnews/feed.xml", "pune": true, "x": true},
+  {"id": "xie", "name": "Express Pune on X", "url": "https://fxtwitter.com/ExpressPune/feed.xml", "pune": true, "x": true},
+  {"id": "xvb", "name": "Varad Bhatkhande (FPJ reporter) on X", "url": "https://fxtwitter.com/VaradBhatkhande/feed.xml", "pune": false, "x": true},
+  {"id": "xpcp", "name": "Pune City Police on X", "url": "https://fxtwitter.com/PuneCityPolice/feed.xml", "pune": true, "x": true},
+  {"id": "xcp", "name": "Pune Police Commissioner on X", "url": "https://fxtwitter.com/CPPuneCity/feed.xml", "pune": true, "x": true},
+  {"id": "xpcc", "name": "Pimpri Chinchwad Police on X", "url": "https://fxtwitter.com/PCcityPolice/feed.xml", "pune": true, "x": true},
+  {"id": "xprp", "name": "Pune Rural Police on X", "url": "https://fxtwitter.com/PuneRuralPolice/feed.xml", "pune": true, "x": true},
+  {"id": "xtrf", "name": "Pune Traffic Police on X", "url": "https://fxtwitter.com/PuneCityTraffic/feed.xml", "pune": true, "x": true},
+  {"id": "xmet", "name": "Pune Metro on X", "url": "https://fxtwitter.com/metrorailpune/feed.xml", "pune": true, "x": true},
+  {"id": "xmt3", "name": "Puneri Metro Line 3 on X", "url": "https://fxtwitter.com/MetroPuneri/feed.xml", "pune": true, "x": true},
+  {"id": "xpmp", "name": "PMPML on X", "url": "https://fxtwitter.com/PMPMLPune/feed.xml", "pune": true, "x": true},
+  {"id": "xpmc", "name": "Pune Municipal Corporation on X", "url": "https://fxtwitter.com/PMCPune/feed.xml", "pune": true, "x": true},
+  {"id": "xlkm", "name": "Lokmat on X", "url": "https://fxtwitter.com/lokmat/feed.xml", "pune": false, "x": true},
+  {"id": "xskl", "name": "Sakal on X", "url": "https://fxtwitter.com/SakalMediaNews/feed.xml", "pune": false, "x": true},
+  {"id": "xlks", "name": "Loksatta on X", "url": "https://fxtwitter.com/LoksattaLive/feed.xml", "pune": false, "x": true},
+  {"id": "xabp", "name": "ABP Majha on X", "url": "https://fxtwitter.com/abpmajhatv/feed.xml", "pune": false, "x": true},
+  {"id": "xtv9", "name": "TV9 Marathi on X", "url": "https://fxtwitter.com/TV9Marathi/feed.xml", "pune": false, "x": true}
  ],
  "unit": [
   [

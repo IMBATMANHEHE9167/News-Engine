@@ -38,6 +38,11 @@ def read_json(name, fallback):
 
 
 def get(url):
+    page = E.x_post_page(url, _get) if 'x.com/' in url or 'twitter.com/' in url else None
+    return page if page is not None else _get(url)
+
+
+def _get(url):
     req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'text/html, application/rss+xml, application/xml, */*'})
     try:
         with urllib.request.urlopen(req, timeout=30) as res:
@@ -143,37 +148,54 @@ def read_candidates(feed, cands, budget, fallback):
 
 # ---- 1. Today's feeds and indexes
 budget = {'left': MAX_PAGES}
-PAGED_FEEDS = {'pkn': 'https://www.punekarnews.in/feed/?paged={p}', 'ptm': 'https://punemirror.com/feed/?paged={p}',
-               'pcl': 'https://punecitylive.in/feed/?paged={p}'}
+SOFT = []          # Pune reports the word rules turned away on wording alone: shown to the AI gate (step 4a)
+
+
+def paged_url(feed):
+    """Page N of a news feed (WordPress and most news feeds take ?paged=N). X feeds and indexes have no pages."""
+    if feed.get('kind') or feed.get('x') or feed.get('daily'):
+        return None
+    return feed['url'] + ('&' if '?' in feed['url'] else '?') + 'paged={p}'
+
+
 for feed in E.FEEDS:
     row = dict(id=feed['id'], name=feed['name'], ok=False, found=0, added=0, note='')
     urls = [feed['url'].replace('{date}', ist_date(NOW - timedelta(days=k))) for k in (0, 1)] if feed.get('daily') else [feed['url']]
-    # A WordPress feed lists only its latest 10 stories: in a busy hour that is less than an hour of news. Read its
-    # earlier pages too, until they reach back 26 hours, so no story falls off the feed between two runs.
-    if feed['id'] in PAGED_FEEDS:
-        for p in range(2, 9):
-            try:
-                lst = E.parse_feed(get(PAGED_FEEDS[feed['id']].format(p=p)))
-            except Exception:
-                break
-            if not lst:
-                break
-            got = E.extract_items(feed, lst)
-            row['found'] += len(got)
-            row['added'] += E.merge(items, got, rejected)
-            row['ok'] = True
-            if min(x['date'] for x in lst) < NOW - timedelta(hours=26):
-                break
-            time.sleep(0.5)
+    seen_links, oldest = set(), None
     for url in urls:
         try:
-            res = E.extract(feed, get(url))
+            xml = get(url)
+            lst = E.parse_sitemap(xml) if feed.get('kind') else E.parse_feed(xml)
+            res = E.extract_items(feed, lst, SOFT)
             row['ok'] = True
             row['found'] += len(res)
             row['added'] += read_candidates(feed, res, budget, NOW) if feed.get('kind') == 'urlmap' else E.merge(items, res, rejected)
+            seen_links |= {x['link'] for x in lst}
+            ds = [x['date'] for x in lst if x['date']]
+            oldest = min(ds + ([oldest] if oldest else [])) if ds else oldest
         except Exception as e:
             if not row['ok']:
                 row['note'] = str(e)[:80]
+    # A feed lists only its latest stories (10 to 40): in a busy hour, or when a run is late or fails, stories fall off it
+    # before the next read. Read its earlier pages until they reach back 26 hours. A feed that ignores ?paged= returns
+    # the same stories again, and the reading stops there.
+    pu = paged_url(feed)
+    if pu and row['ok'] and oldest and oldest > NOW - timedelta(hours=26):
+        for p in range(2, 13):
+            try:
+                lst = E.parse_feed(get(pu.format(p=p)))
+            except Exception:
+                break
+            lst = [x for x in lst if x['link'] not in seen_links]
+            if not lst:
+                break
+            seen_links |= {x['link'] for x in lst}
+            got = E.extract_items(feed, lst, SOFT)
+            row['found'] += len(got)
+            row['added'] += E.merge(items, got, rejected)
+            if min(x['date'] for x in lst) < NOW - timedelta(hours=26):
+                break
+            time.sleep(0.5)
     added += row['added']
     sources.append(row)
     print('%-4s %s found=%d new=%d %s' % (feed['id'], 'ok ' if row['ok'] else 'ERR', row['found'], row['added'], row['note']))
@@ -323,6 +345,44 @@ if sakal and bf['next'] >= bf['stop']:
         changed = True
     print('backfill next=%s days=%d kept=%d %s' % (bf['next'], bf['days'], bf['kept'], bf['note']))
 (DATA / 'backfill.json').write_text(json.dumps(bf, ensure_ascii=False, indent=1), 'utf-8')
+
+# ---- 4a. AI gate: Pune reports the word rules turned away on wording alone go to the AI (llm.triage), so a report the
+# rules have no word for is not lost. An incident it lets in becomes a record like any other ('tg' = the type it gave):
+# read in full next, and counted only when a second reader of another model agrees (engine.verdict). Live situations it
+# finds are handed to the Situations scan (data/triage.json 'sit'). Every answer is kept, so nothing is asked twice.
+TRI = read_json('triage.json', None) or {}
+tri_seen, tri_wait, tri_sit = TRI.get('seen') or {}, TRI.get('wait') or [], TRI.get('sit') or []
+have_ids = {r['id'] for r in items}
+pool = {c['id']: c for c in tri_wait + SOFT if c['id'] not in tri_seen and c['id'] not in have_ids and c['id'] not in rejected
+        and c['d'] >= E.iso(NOW - timedelta(days=4))}
+cands = sorted(pool.values(), key=lambda c: c['d'], reverse=True)
+let_in = 0
+try:
+    import llm
+    answers = llm.triage(cands, limit=E.R['llm']['per_run'].get('triage', 6))
+except Exception as ex:
+    answers = {}
+    print('ai gate failed: %s' % str(ex)[:200])
+for c in cands:
+    a = answers.get(c['id'])
+    if not a:
+        continue
+    tri_seen[c['id']] = (a['i'] or '-') + '|' + (a['s'] or '-')
+    if a['s']:
+        tri_sit.append(dict(id=c['id'], t=c['t'], u=c['u'], s=c['s'], d=c['d'], x=c.get('x', '')[:400], k=a['s']))
+    if a['i']:
+        feed = E.feed_of(c['s'])
+        v = E.assess(c['t'], c['u'], c.get('x', ''), E.parse_date(c['d']), c.get('home', False), False, ai=a['i'])
+        if feed and v:
+            rec = E.record(feed, c['t'], c['u'], E.parse_date(c['d']), v)
+            rec['tg'] = a['i']
+            let_in += E.merge(items, [rec], rejected)
+TRI = dict(seen=dict(list(tri_seen.items())[-30000:]), wait=[c for c in cands if c['id'] not in answers][:400],
+           sit=[s for s in tri_sit if s['d'] >= E.iso(NOW - timedelta(days=14))][-500:])
+(DATA / 'triage.json').write_text(json.dumps(TRI, ensure_ascii=False, separators=(',', ':')), 'utf-8')
+print('ai gate: %d turned away by the words, %d asked, %d let in as incidents, %d live situations' %
+      (len(cands), len(answers), let_in, sum(1 for c in cands if (answers.get(c['id']) or {}).get('s'))))
+added += let_in
 
 # ---- 4b. LLM layer: a language model reads each report and fills a fixed form (llm.py); its reading decides (engine).
 try:

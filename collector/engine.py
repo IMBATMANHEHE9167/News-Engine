@@ -165,6 +165,15 @@ def parse_feed(xml):
         if not title or not re.match(r'https?://', link) or not d:
             continue
         text = strip(tag(b, 'description')) + ' ' + strip(tag(b, 'content:encoded'))
+        if re.match(r'https://(x|twitter)\.com/', link):
+            # A post on X (through FxTwitter's feed): its feed title is cut short, so the post itself is the headline,
+            # without the @names a reply starts with, links and the # of hashtags.
+            post = re.sub(r'\s+', ' ', re.sub(r'https?://\S+', ' ', text)).replace('#', '').strip()
+            post = re.sub(r'^(@\w+\s+)+', '', post).strip()
+            if len(post) < 25:
+                continue
+            title = post if len(post) <= 220 else post[:220].rsplit(' ', 1)[0] + '…'
+            text = post
         out.append(dict(title=title, link=link.split('#')[0].split('?')[0], date=d, text=text))
     return out
 
@@ -634,8 +643,10 @@ def outcome(c, title, lead):
     return None
 
 
-def assess(title, link, text='', pub=None, home=False, index=False, keep_area=None, trace=None):
-    """Everything concluded about one report, or None when it should not be kept. trace (a dict) gets the reason."""
+def assess(title, link, text='', pub=None, home=False, index=False, keep_area=None, trace=None, ai=None):
+    """Everything concluded about one report, or None when it should not be kept. trace (a dict) gets the reason.
+    ai: the incident type the AI gate (llm.triage) gave a report these word rules could not place; it then passes the
+    word checks (type, headline wording, road, police wording) but never the place checks."""
     def no(why):
         if trace is not None:
             trace['why'] = why
@@ -643,10 +654,10 @@ def assess(title, link, text='', pub=None, home=False, index=False, keep_area=No
     slug = slug_title(link)
     if filed_elsewhere(link):
         return no('filed under another district')
-    if NOISE.search(title) or REACTION.search(title):
+    if (NOISE.search(title) or REACTION.search(title)) and not ai:
         m = NOISE.search(title) or REACTION.search(title)
         return no('headline is not an incident report: ' + m.group(0))
-    if index and NOISE.search(slug):
+    if index and NOISE.search(slug) and not ai:
         return no('address words are not an incident report: ' + NOISE.search(slug).group(0))
     lead = marathi_lead(text) if index else text
     if not in_pune(title, lead, index) or (index and HAPPENED_ELSEWHERE.search(slug)):
@@ -655,14 +666,16 @@ def assess(title, link, text='', pub=None, home=False, index=False, keep_area=No
     c = classify(title)
     if not c and (not index or EVENT.search(title)):
         c = classify(title, lead)
+    if not c and ai:
+        c = ai
     if not c:
         return no('no incident type')
-    if c == 'accident' and not ROAD.search(title + ' ' + slug + ' ' + lead[:500]):
+    if c == 'accident' and not ai and not ROAD.search(title + ' ' + slug + ' ' + lead[:500]):
         return no('accident, but not on the road')
     # A real murder report always speaks of police, a case, an arrest, a body or a death. A feature that only uses the
     # word ("Halloween parties put guests on the murder trail") does not. Checked only when the article was read.
     # (Not for fires, crashes or thefts: those are often reported with no police words at all.)
-    if c == 'murder' and len(lead) > 200 and not CONTEXT.search(title + ' ' + lead[:1500]):
+    if c == 'murder' and not ai and len(lead) > 200 and not CONTEXT.search(title + ' ' + lead[:1500]):
         return no('no police or casualty wording: a feature, not an incident')
     o = outcome(c, title, lead)
     if c == 'murder' and o != 'fatal':          # "attempt to murder" with no one killed is an assault
@@ -727,8 +740,9 @@ def record(feed, title, link, d, v):
     return dict(id=hash_id(link), t=title, u=link, s=feed['id'], d=iso(d), **v, r=RULES_VERSION)
 
 
-def extract_items(feed, items):
-    """One source's entries -> incident records; for headline-less indexes, candidates {cand, link, slug, date, home}."""
+def extract_items(feed, items, soft=None):
+    """One source's entries -> incident records; for headline-less indexes, candidates {cand, link, slug, date, home}.
+    soft (a list) gets the Pune reports the word rules turned away on wording alone, for the AI gate (llm.triage)."""
     out = []
     for it in items:
         home = is_home(feed, it['link'])
@@ -744,14 +758,19 @@ def extract_items(feed, items):
             continue
         if not it['title'] or not it['date']:
             continue
-        v = assess(it['title'], it['link'], it['text'], it['date'], home, False)
+        t = {}
+        v = assess(it['title'], it['link'], it['text'], it['date'], home, False, trace=t)
         if v:
             out.append(record(feed, it['title'], it['link'], it['date'], v))
+        elif soft is not None and SOFT_NO.match(t.get('why', '')) and in_pune(it['title'], it['text'], False) \
+                and (home or PUNE.search(it['title'] + ' ' + it['text'][:600])):
+            soft.append(dict(id=hash_id(it['link']), t=it['title'], u=it['link'], s=feed['id'], d=iso(it['date']),
+                             x=it['text'][:700], home=home))
     return out
 
 
-def extract(feed, xml):
-    return extract_items(feed, parse_sitemap(xml) if feed.get('kind') else parse_feed(xml))
+def extract(feed, xml, soft=None):
+    return extract_items(feed, parse_sitemap(xml) if feed.get('kind') else parse_feed(xml), soft)
 
 
 def finish(feed, cand, html, fallback):
@@ -772,7 +791,7 @@ def recheck(rec, text, trace=None):
     """Judge a stored record again with its article text ('' if unreadable). False when it should be removed."""
     feed = feed_of(rec['s'])
     v = assess(rec['t'], rec['u'], text, rec['d'], is_home(feed, rec['u']) if feed else False, feed.get('kind') == 'urlmap',
-               (rec.get('R0') or rec).get('a'), trace)
+               (rec.get('R0') or rec).get('a'), trace, ai=rec.get('tg'))
     if not v:
         return False
     rec.pop('R0', None)                      # the rules' fresh judgement becomes the base the LLM reading is applied to
@@ -783,6 +802,21 @@ def recheck(rec, text, trace=None):
             rec.pop(k, None)
     rec['r'] = RULES_VERSION
     return True
+
+
+SOFT_NO = re.compile(r'(no incident type|headline is not an incident report|accident, but not on the road|no police or casualty wording)')
+XPOST = re.compile(r'^https://(?:x|twitter)\.com/(\w+)/status/(\d+)')
+
+
+def x_post_page(url, fetch):
+    """A post on X as a small page (x.com itself shows a sign-in page): its text through FxTwitter's free API. None for
+    any other address."""
+    m = XPOST.match(url)
+    if not m:
+        return None
+    t = (json.loads(fetch('https://api.fxtwitter.com/%s/status/%s' % m.groups())).get('tweet') or {}).get('text') or ''
+    t = t.replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
+    return '<html><head><meta name="description" content="%s"></head><body></body></html>' % t
 
 
 def merge(existing, incoming, rejected=frozenset()):
@@ -1067,13 +1101,14 @@ def situation_day(title, text, pub, planned):
     return (date.fromisoformat(w['day']) - date(1970, 1, 1)).days
 
 
-def situation(title, link='', pub=None, text='', source=''):
-    """A public-order report -> {k, a, p, w, st, ...}, or None. Works on a headline alone (Google News gives no text)."""
+def situation(title, link='', pub=None, text='', source='', kind=None):
+    """A public-order report -> {k, a, p, w, st, ...}, or None. Works on a headline alone (Google News gives no text).
+    kind: the kind the AI gate (llm.triage) gave a report these word patterns did not catch."""
     t = title
     m = GN_SOURCE.search(t)
     if m and source and m.group(1).strip().lower() == source.strip().lower():
         t = t[:m.start()]                          # "Headline - Source" (Google News)
-    k = situation_kind(t)
+    k = situation_kind(t) or kind
     if not k or not pub:
         return None
     if not in_pune(t, text) or HAPPENED_ELSEWHERE.search(slug_title(link)):
@@ -1218,7 +1253,9 @@ def verdict(rec):
         if rec.get('Lx', 0) >= 3:                      # the AI refused this article three times (safety block):
             return {'ok': True, 'c': (rec.get('R0') or rec).get('c'), 'ro': 1}   # the rules decide; retried tomorrow
         return None
-    rules = (True, fam((rec.get('R0') or rec).get('c')))
+    # The rules' vote. A report the word rules turned away and only the AI gate let in (tg) counts as a "no" from the
+    # rules, so a second reader of another model must agree before it is counted.
+    rules = (False, None) if rec.get('tg') else (True, fam((rec.get('R0') or rec).get('c')))
     a = _view(L)
     if a == rules:
         return L

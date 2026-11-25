@@ -30,6 +30,8 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: (timeout 900 python collector/diag.py > _test/diag.txt 2>&1; echo "exit $?" >> _test/diag.txt) || true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: (GEMINI_API_KEY= timeout 900 python collector/collect.py > _test/collect.txt 2>&1; echo "exit $?" >> _test/collect.txt) || true
       - run: |
           git config user.name "vidraksh-collector"

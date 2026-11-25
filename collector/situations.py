@@ -21,6 +21,11 @@ KEEP_DAYS = 60
 
 
 def get(url):
+    page = E.x_post_page(url, _get) if 'x.com/' in url or 'twitter.com/' in url else None
+    return page if page is not None else _get(url)
+
+
+def _get(url):
     req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'application/rss+xml, application/xml, */*'})
     with urllib.request.urlopen(req, timeout=30) as res:
         return res.read().decode(res.headers.get_content_charset() or 'utf-8', errors='replace')
@@ -41,11 +46,13 @@ def found(entries, source_id, source_name, out):
     for it in entries:
         if not it.get('title') or not it.get('date'):
             continue
-        s = E.situation(it['title'], it['link'], it['date'], it.get('text', ''), it.get('source', ''))
+        s = E.situation(it['title'], it['link'], it['date'], it.get('text', ''), it.get('source', ''), it.get('tk'))
         if s:
             title = E.GN_SOURCE.sub('', it['title']) if it.get('source') else it['title']
             out.append(dict(id=E.hash_id(it['link']), t=title, u=it['link'], s=source_id, n=it.get('source') or source_name,
                             d=E.iso(it['date']), **s))
+            if it.get('tk'):
+                out[-1]['tk'] = it['tk']
 
 
 def apply_reading(r):
@@ -101,6 +108,10 @@ def main():
         except Exception:
             failed.append('gn')
         time.sleep(2)
+    # 2b. Situations the AI gate found among reports these word patterns miss (hourly collector, data/triage.json).
+    names = {f['id']: f['name'] for f in E.FEEDS}
+    for t in (read_json('triage.json', None) or {}).get('sit') or []:
+        found([dict(title=t['t'], link=t['u'], date=E.parse_date(t['d']), text=t.get('x', ''), tk=t['k'])], t['s'], names.get(t['s'], t['s']), new)
 
     # 3. Keep 60 days; judge every report again with the current rules; join reports of one situation.
     cutoff = E.iso(started - timedelta(days=KEEP_DAYS))
@@ -114,7 +125,7 @@ def main():
             fresh += 1
     judged = []
     for r in rows.values():
-        s = E.situation(r['t'], r['u'], r['d'])
+        s = E.situation(r['t'], r['u'], r['d'], kind=r.get('tk'))
         if s:
             judged.append({k: v for k, v in r.items() if k not in ('k', 'a', 'p', 'w', 'st')} | s)
     judged.sort(key=lambda r: r['d'], reverse=True)

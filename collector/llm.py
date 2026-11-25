@@ -526,12 +526,15 @@ SIT_VERSION = 2
 SIT_AREAS = {a['name']: a['id'] for a in E.AREAS}
 SITUATION = """You read Indian news reports (Marathi or English) about public-order situations in Pune district, Maharashtra:
 protests, morchas, dharnas, sit-ins, bandhs, road blockades (rasta roko), strikes, hunger strikes, prohibitory orders,
-unrest and clashes. For each article, fill the form from the headline and the text (when the text is empty, decide
+unrest and clashes; disruptions of transport or public services; and emergencies. For each article, fill the form from the headline and the text (when the text is empty, decide
 from the headline alone: an empty text is never a reason to say false):
 - is_situation: true only for such a situation in Pune district (Pune city, Pimpri-Chinchwad, Pune rural talukas). False
-  for crimes, politics without a public action, court cases, events elsewhere, and features.
+  for ordinary crimes, politics without a public action, court cases, events elsewhere, and features.
 - kind: unrest (clashes, stone pelting, lathi charge), order (prohibitory orders), bandh, block (road blockade), fast
-  (hunger strike), strike (work stoppage), protest (any other protest, morcha, dharna, sit-in, march).
+  (hunger strike), strike (work stoppage), protest (any other protest, morcha, dharna, sit-in, march),
+  emergency (bomb threat or hoax, evacuation, building, wall or hoarding collapse, gas leak, flooding, major fire),
+  disruption (metro, train or bus breakdown or suspension, stranded commuters, road closure or traffic diversion, long
+  traffic jam, water or power cut).
 - status: planned if it is announced for a later day; ongoing if it is happening or continues; over if it took place.
 - starts: the day it happens or starts (YYYY-MM-DD); resolve "tomorrow", "from Monday", "November 23" against the
   publication date given. Empty if not stated.
@@ -542,7 +545,7 @@ from the headline alone: an empty text is never a reason to say false):
 - summary: one neutral English sentence, at most 25 words: who, what, why, when, where."""
 SIT_SCHEMA = {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {
     'id': {'type': 'STRING'}, 'is_situation': {'type': 'BOOLEAN'},
-    'kind': {'type': 'STRING', 'enum': ['unrest', 'order', 'bandh', 'block', 'fast', 'strike', 'protest']},
+    'kind': {'type': 'STRING', 'enum': [k for k, _, _ in E.SITU_KINDS]},
     'status': {'type': 'STRING', 'enum': ['planned', 'ongoing', 'over']}, 'starts': {'type': 'STRING'},
     'venue': {'type': 'STRING'}, 'area': {'type': 'STRING', 'enum': sorted(SIT_AREAS) + ['none']},
     'summary': {'type': 'STRING'}},
@@ -595,3 +598,56 @@ def read_situations(rows, get, limit=4, size=6):
                 r['en'] = r['S']['s']
     _save(S.state)
     return asked
+
+
+# ---- The AI gate. The word rules find most incidents, but a headline they have no word for ("held for hacking senior to
+# death"), or one with a word that usually means "not an incident" ("bail"), was turned away for good and the AI never saw
+# it. Now every Pune report the rules turn away on wording alone is shown to the AI, headline and opening lines, in
+# batches. Its answer only opens the door: an incident let in this way is then read in full like any report, and because
+# the rules said no, a second reader of another model must agree before it is counted (engine.verdict, 'tg').
+TRIAGE = """You sort news items (Marathi or English, from Pune news sources and their accounts on X) for a crime and
+public-safety desk covering Pune district (Pune city, Pimpri-Chinchwad, Pune rural talukas). For each item:
+- incident: true if it reports a specific crime, road accident, fire or similar incident that happened in Pune district,
+  or a later development of one (arrest, raid, seizure, charge sheet, court step in a Pune case). False for policy, civic
+  works, schedules, awareness drives, statistics and trends, features, politics, sports, and anything outside Pune district.
+- type: the incident's type (none if not an incident).
+- situation: true if it reports a live or announced public situation in Pune district: a protest, bandh, strike, road
+  blockade, unrest or prohibitory order; a disruption of transport or services (metro, train or bus breakdown, stranded
+  commuters, road closure or diversion, long traffic jam, water or power cut); or an emergency (bomb threat, evacuation,
+  building or wall collapse, gas leak, flooding, major fire).
+- kind: the situation's kind (none if not a situation)."""
+
+
+def triage(cands, limit=6, size=30):
+    """cands: [{id, t, x, d}] -> {id: {'i': type or '', 's': kind or ''}} for the items answered (at most limit requests)."""
+    S = Session()
+    if not S.key or not cands:
+        return {}
+    kinds = [k for k, _, _ in E.SITU_KINDS]
+    schema = {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {
+        'id': {'type': 'STRING'}, 'incident': {'type': 'BOOLEAN'}, 'type': {'type': 'STRING', 'enum': TYPES + ['none']},
+        'situation': {'type': 'BOOLEAN'}, 'kind': {'type': 'STRING', 'enum': kinds + ['none']}},
+        'required': ['id', 'incident', 'type', 'situation', 'kind']}}
+    out, asked = {}, 0
+    for k in range(0, len(cands), size):
+        if asked >= limit or not S.time_left():
+            break
+        model = S.take('readers')
+        if not model:
+            break
+        chunk = cands[k:k + size]
+        parts = ['ITEM id=%s\nPublished: %s\nHeadline: %s\nOpening: %s' % (c['id'], E.day_str(E.day_of(c['d'])), c['t'], (c.get('x') or '')[:400])
+                 for c in chunk]
+        payload = {'systemInstruction': {'parts': [{'text': TRIAGE}]},
+                   'contents': [{'role': 'user', 'parts': [{'text': '\n\n-----\n\n'.join(parts)}]}],
+                   'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': schema, 'temperature': 0}}
+        res = S.ask('readers', model, lambda: answer(call(S.key, model, payload)))
+        asked += 1
+        for f in res or []:
+            if isinstance(f, dict) and f.get('id') in {c['id'] for c in chunk}:
+                t = f.get('type') if f.get('incident') and f.get('type') in TYPES else ''
+                s = f.get('kind') if f.get('situation') and f.get('kind') in kinds else ''
+                out[f['id']] = {'i': t, 's': s}
+    S.state['triaged'] = S.state.get('triaged', 0) + len(out)
+    _save(S.state)
+    return out
