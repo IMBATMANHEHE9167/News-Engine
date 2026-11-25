@@ -1,13 +1,14 @@
 {
- "scanned": "2026-11-25T21:15:22.566Z",
+ "scanned": "2026-11-25T21:30:21.460Z",
  "every": 15,
- "sources_ok": 33,
+ "sources_ok": 32,
  "sources_failed": [
+  "gn",
   "ie",
   "lks",
   "ptm"
  ],
- "reports": 230,
- "situations": 124,
- "new": 0
+ "reports": 256,
+ "situations": 133,
+ "new": 26
 }
