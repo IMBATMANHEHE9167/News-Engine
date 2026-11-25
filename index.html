@@ -272,6 +272,7 @@ body[data-tab="oc"] .notice{top:calc(100% + 76px)}
 .dl dd{margin:0;color:var(--ink);font-family:var(--mono);font-size:13px}
 .tl-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:22px 0 0;font:500 20px/1.1 var(--display)}
 .tl-h span{font:500 12px var(--mono);color:var(--ink-3)}
+.conn{list-style:none;margin:8px 0 0;padding:0}.conn li{padding:6px 0;border-top:1px solid var(--rule);font-size:14px;line-height:1.4}.conn b{font-weight:600;margin-right:4px}.conn em{color:var(--ink-3);font-style:normal;font-size:12px;margin-left:4px}
 .tl{list-style:none;margin:10px 0 0;padding:0;position:relative}
 .tl li{position:relative;display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding:12px 0;border-top:1px solid var(--rule)}
 .tl li::after{content:"";position:absolute;left:77px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--copper)}
@@ -972,6 +973,19 @@ const STATUS_TXT = {
   orphan: ['Later development', 'A follow-up report that could not yet be tied to a case. Shown here, not counted.']
 };
 const statusOf = e => STATUS_TXT[e.uv ? 'uv' : e.orphan ? 'orphan' : 'counted'];
+// Separate incidents a case is connected to (its reports say so: revenge for, retaliation, same feud, same accused,
+// sequel), and the later cases that point back at it. One we hold is named by its headline and day; one before our
+// records keeps the reports' description.
+const REL = { revenge: ['Revenge for', 'Avenged by'], retaliation: ['Retaliation for', 'Answered by'], feud: ['Same feud as', 'Same feud as'],
+  same_accused: ['Same accused as', 'Same accused in'], sequel: ['Followed from', 'Led to'] };
+function connected(e) {
+  const at = id => EVENTS.find(x => x.id === id);
+  const one = (word, o, fallback, day) => `<li><b>${word}</b> ${o ? `${esc(lead(o).t)} <span class="mono">${fmtDay(o.d)}</span>`
+    : `${esc(fallback || 'an earlier incident')}${day ? ` <span class="mono">${fmtDay(day)}</span>` : ''} <em>not in our records</em>`}</li>`;
+  const rows = [...(e.rel || []).map(r => one((REL[r.r] || ['Connected to'])[0], r.to && at(r.to), r.cl, r.dt)),
+    ...(e.by || []).map(b => { const o = at(b.fr); return o ? one((REL[b.r] || ['', 'Connected to'])[1], o) : ''; })].join('');
+  return rows ? `<h3 class="tl-h">Connected incidents</h3><ul class="conn">${rows}</ul>` : '';
+}
 
 // The case record: everything the engine knows about one case, with the incident, the reports and the status kept apart.
 function caseDetail(e) {
@@ -993,6 +1007,7 @@ function caseDetail(e) {
       <div><small>First published</small><span class="mono">${fmtDay(reps[0].d)}${timed(reps[0].d) ? ', ' + clock(reps[0].d) : ''}</span></div>
       <div><small>Latest</small><span class="mono">${fmtDay(e.last)}${timed(e.last) ? ', ' + clock(e.last) : ''}</span></div>
     </div>
+    ${connected(e)}
     <h3 class="tl-h">Reports in time order <span>${e.reports.length}</span></h3>
     <ol class="tl">${reps.map(r => `<li class="${r.k === 'f' ? 'dev' : ''}"><time datetime="${esc(r.d)}">${fmtDay(r.d)}<br>${pubTime(r.d)}</time><div>
       <div class="src"><b>${esc(SRC[r.s] || r.s)}</b><span>${r.k === 'f' ? 'Later development' : 'Report'}</span></div>
@@ -2035,7 +2050,7 @@ function drawOc() {
   $('ocBody').innerHTML = `<div class="reghead">${list.length ? `${plural(list.length, 'group')}${q ? ' matching the search' : ''}${ocWhen() ? ' with reports' + ocWhen() : ''}, busiest first. The date beside each is its latest report.` : ''}</div>` +
     (list.length ? list.map(card).join('') : `<div class="empty">${q ? `No group matches “${esc(q)}”${ocWhen()}.` : `No group has a report${ocWhen()}.`}</div>`) +
     (hits.length ? `<div class="day"><span><b>Reports mentioning “${esc(key ? key.name : q)}”</b></span><span>${plural(new Set(hits.filter(r => r.ev != null).map(r => r.ev)).size, 'incident')}, ${plural(hits.length, 'report')}</span></div><div style="padding:0 20px 8px">` +
-      hits.slice(0, 30).map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), esc(r.gr.name))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') + '</div>' : '');
+      hits.slice(0, 30).map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), esc(r.gr.name), r.sig ? 'unverified social post, not counted' : '')}${link(r, esc(r.t))}${enP(r)}</div>`).join('') + '</div>' : '');
 }
 function drawOcProfile(g) {
   const reps = g.reports || [];
@@ -2061,7 +2076,7 @@ function drawOcProfile(g) {
     ${sec('Linked groups <span>named together in reports</span>', linked)}
     ${sec('Signals', signals ? `<p class="note" style="margin-top:0">${signals}</p>` : '')}
     ${sec('Incidents by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i data-tip="${esc(monthTip(m, n))}" aria-label="${esc(monthTip(m, n))}" style="height:${Math.max(6, n / max * 100)}%;--g:${glowOf(n, max)}"></i>`).join('')}</div><p class="note">Each bar is one month: how many incidents involved this group (an incident counts once, however many reports). ${months.length > 1 ? `${monthName(months[0][0])} to ${monthName(months[months.length - 1][0])}; the busiest month had ${plural(max, 'incident')}.` : ''} Point at (or tap) a bar for its month.</p>` : '')}
-    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
+    ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n), r.sig ? 'unverified social post, not counted' : '')}${link(r, esc(r.t))}${enP(r)}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
 }
 $('ocBody').onclick = e => {
   if (e.target.closest('#ocBack')) { e.preventDefault(); ocOpen = null; drawOc(); return; }

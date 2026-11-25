@@ -472,7 +472,7 @@ if ask or any(v is True for v in verdicts.values()):
     except Exception as ex:
         print('judges failed: %s' % str(ex)[:200])
     try:
-        llm.audit_judges(verdicts, {r['id']: r for r in judged})     # the expert re-checks the riskiest merges
+        llm.audit_judges(verdicts, {r['id']: r for r in judged}, C.CONFLICTS)     # the expert re-checks the riskiest merges
     except Exception as ex:
         print('judge audit failed: %s' % str(ex)[:200])
     if verdicts != old_verdicts:
@@ -483,7 +483,7 @@ verdicts = {k: v for k, v in verdicts.items() if all(x in alive for x in k.split
 print('cases: %d from %d reports; %d pairs judged, %d waiting for the judge' % (len(events), len(judged), len(verdicts), len(ask)))
 
 events.sort(key=lambda e: e['last'], reverse=True)
-keep = ('c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'uv', 'reports')
+keep = ('id', 'c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'uv', 'rel', 'by', 'reports')
 DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x')    # working fields the page never needs
 def slim(r):
     out = {k: v for k, v in r.items() if k not in DROP}

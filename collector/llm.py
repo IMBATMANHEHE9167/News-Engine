@@ -74,7 +74,14 @@ Accuracy matters more than anything: read the whole article, answer only from it
 - method: how it was done, at most 12 words, no names.
 - victim_role: e.g. delivery worker, woman pedestrian, jeweller, senior citizen; empty if not stated.
 - gang: the name of a criminal gang as the article names it (e.g. "Andekar gang"); empty if none.
-- summary: one neutral English sentence, at most 30 words, with NO personal names."""
+- summary: one neutral English sentence, at most 30 words, with NO personal names.
+- connected: other, SEPARATE incidents this one is said to be connected to (at most 2), e.g. an attack described as revenge
+  for an earlier murder, a gang clash in retaliation for an earlier assault, an earlier crime by the same accused that the
+  article names. Not other reports of this same incident. For each: relation (revenge = done to avenge it; retaliation =
+  a counter-attack in a feud; feud = part of the same rivalry; same_accused = an earlier crime of the same accused;
+  sequel = a later incident caused by it), description (6 to 14 words in English, NO personal names, e.g. "murder of a
+  young man in Katraj a year earlier"), date (YYYY-MM-DD, may be approximate; empty if unknown), victims and accused of
+  THAT incident (names in English letters, empty lists if unnamed). An empty list if none is mentioned."""
 
 ITEM = {
     'type': 'OBJECT',
@@ -103,10 +110,15 @@ ITEM = {
         'gang': {'type': 'STRING'},
         'police_action': {'type': 'ARRAY', 'items': {'type': 'STRING', 'enum': ACTIONS}},
         'summary': {'type': 'STRING'},
+        'connected': {'type': 'ARRAY', 'items': {'type': 'OBJECT', 'properties': {
+            'relation': {'type': 'STRING', 'enum': ['revenge', 'retaliation', 'feud', 'same_accused', 'sequel']},
+            'description': {'type': 'STRING'}, 'date': {'type': 'STRING'},
+            'victims': {'type': 'ARRAY', 'items': {'type': 'STRING'}}, 'accused': {'type': 'ARRAY', 'items': {'type': 'STRING'}}},
+            'required': ['relation', 'description', 'date', 'victims', 'accused']}},
     },
     'required': ['id', 'kind', 'not_reason', 'type', 'incident_date', 'incident_date_certain', 'victims', 'accused',
                  'case_label', 'outcome', 'place', 'locality', 'police_station', 'time', 'part_of_day', 'weapon', 'method',
-                 'victim_role', 'minor_involved', 'gang', 'police_action', 'summary'],
+                 'victim_role', 'minor_involved', 'gang', 'police_action', 'summary', 'connected'],
 }
 SCHEMA = {'type': 'ARRAY', 'items': ITEM}
 
@@ -206,7 +218,10 @@ def compact(f, model):
                o=f.get('outcome'), pl=f.get('place', ''), lo=f.get('locality', ''), ps=f.get('police_station', ''),
                tm=f.get('time', ''), pd=f.get('part_of_day', ''), w=f.get('weapon', ''), mo=f.get('method', ''),
                vr=f.get('victim_role', ''), va=f.get('victim_age'), n=f.get('offenders'), j=bool(f.get('minor_involved')),
-               g=f.get('gang', ''), act=[a for a in (f.get('police_action') or []) if a != 'none'], s=f.get('summary', ''))
+               g=f.get('gang', ''), act=[a for a in (f.get('police_action') or []) if a != 'none'], s=f.get('summary', ''),
+               rel=[{k: v for k, v in dict(r=c.get('relation'), cl=(c.get('description') or '')[:120], dt=E.valid_day(c.get('date', '')),
+                                          vn=E.name_keys(c.get('victims') or []), an=E.name_keys(c.get('accused') or [])).items() if v}
+                    for c in (f.get('connected') or [])[:2] if ok and c.get('relation')])
     if out['c'] not in TYPES:
         out['c'] = 'none'
     return {k: v for k, v in out.items() if v not in ('', None, [], 'unknown', 'none_or_unknown', 'none') or k in ('ok', 'c', 'v', 'm', 'k')}
@@ -389,7 +404,9 @@ def run(items, texts, get):
     second = newest([r for r in items if E.verdict(r) == 'second' and fresh(r)])
     left -= _read_pass(S, 'readers', 'L2', second, left, texts, get, avoid_own=True)
     # 3. Readings from an older form: read again (newest first), so every report has the case facts.
-    left -= _read_pass(S, 'readers', 'L', newest([r for r in items if r.get('L') and r['L'].get('v') != VERSION and fresh(r)]), left, texts, get)
+    # (capped, so the newest news, second readings and the judge keep their share of the day's free requests)
+    left -= _read_pass(S, 'readers', 'L', newest([r for r in items if r.get('L') and r['L'].get('v') != VERSION and fresh(r)]),
+                       min(left, CFG['per_run'].get('reread', left)), texts, get)
     # 4. Three-way splits: the expert reads.
     split = [r for r in items if E.verdict(r) == 'expert' and r.get('Xx', 0) < 2]
     for r in split:
@@ -425,7 +442,7 @@ def run_judges(pairs, cache):
     return asked
 
 
-def audit_judges(cache, by_id):
+def audit_judges(cache, by_id, first=()):
     """A stronger model re-judges the fast judge's riskiest verdicts, both ways: a "same" across different days, areas
     or types, and a "different" between reports that look alike (same area, same type, published within two days), since
     a "different" keeps two reports apart for good. Riskiest first, then the newest. Its answer is final ('same' or
@@ -452,6 +469,9 @@ def audit_judges(cache, by_id):
                 score += 10                      # a "different" against a victim named in both: re-checked first
         return score, max(a['d'], b['d'])
     todo = sorted((k for k, v in cache.items() if v in (True, False) and risk(k)), key=risk, reverse=True)
+    # Conflicting verdicts (judged "same" yet kept apart by a "different" across the same two cases) are settled first.
+    lead = [k for k in dict.fromkeys(first) if cache.get(k) in (True, False) and k.split('|')[0] in by_id and k.split('|')[1] in by_id]
+    todo = lead + [k for k in todo if k not in set(lead)]
     asked, n = 0, CFG['pair_batch']
     for k in range(0, len(todo), n):
         if asked >= CFG['per_run'].get('audit', 1):

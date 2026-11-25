@@ -28,6 +28,7 @@ OTHER = dict(id='other', name='Other gangs', type='other', leader='',
                    'Each is listed so none is left out; a gang that recurs gets its own profile.')
 
 
+SOCIAL = re.compile(r'instagram|facebook|youtube|threads|twitter', re.I)   # publishers that are social networks
 STOP = {'pune', 'news', 'crime', 'the', 'and', 'with', 'for', 'after', 'from', 'over', 'into', 'police', 'case', 'पुणे', 'पुण्यात', 'पुण्यातील', 'आणि', 'प्रकरणी'}   # too common to tell incidents apart
 
 def tag(title):
@@ -135,6 +136,11 @@ def build(events, get):
     for r in todo:
         if r['id'] in ans:
             r['ix'] = 1 if ans[r['id']]['i'] else 0
+    # A social-media post a search finds (Instagram, Facebook, YouTube) is an unverified signal: listed, never counted as
+    # an incident on its own; a paper or an official account reporting it makes it count (founder, 25 Nov 2026).
+    for r in reports:
+        if r.get('src') == 'search' and SOCIAL.search(r.get('n') or ''):
+            r['ix'], r['sig'] = 0, 1
     day = lambda r: E.day_of(r['d'])
     words = lambda t: {w for w in re.findall(r'[a-z]{3,}|[ऀ-ॿ]{3,}', t.lower())} - STOP
     union = {}
@@ -210,7 +216,7 @@ def build(events, get):
             months=sorted(months.items()),
             # Every report (not only the latest), so the page can recount any area view and period: the groups each names
             # (for links), its incident (ev) and its signals.
-            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'rv', 'src', 'gn', 'en', 'g', 'ev')
+            reports=[{k: r.get(k) for k in ('t', 'u', 'n', 'd', 'a', 'c', 'o', 'act', 'wpn', 'j', 'rv', 'src', 'gn', 'en', 'g', 'ev', 'sig')
                       if r.get(k) not in (None, [], '')} for r in mine]))
     profiles.sort(key=lambda p: (p['type'] == 'pattern', -p['n']))
     (DATA / 'groups.json').write_text(json.dumps(dict(updated=E.iso(now), note=O['note'], groups=profiles,

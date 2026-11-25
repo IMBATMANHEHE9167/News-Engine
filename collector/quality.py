@@ -64,6 +64,11 @@ def build(items, events, verdicts, ask):
             pat, want = t['region']
             hs = [e for e in holders(pat) if not e['a'] or E.AREA[e['a']]['r'] != want]
             ok, detail, bad = not hs, ', '.join(sorted({E.AREA[e['a']]['name'] if e['a'] else 'no area' for e in hs})) or 'right part of the district', [e['reports'][0]['t'] for e in hs[:5]]
+        elif 'connected' in t:
+            hs = holders(t['connected'])
+            ok = any(e.get('rel') for e in hs)
+            detail = 'connected: ' + '; '.join(sorted({(r.get('r') or '') + ' ' + (r.get('cl') or '') for e in hs for r in e.get('rel') or []}))[:160] if ok else 'no connection recorded' if hs else 'no matching reports yet'
+            bad = [] if ok else [e['reports'][0]['t'] for e in hs[:3]]
         elif 'counted' in t:
             hs = holders(t['counted'])
             ok = any(not e.get('orphan') for e in hs)

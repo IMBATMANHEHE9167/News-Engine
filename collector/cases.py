@@ -39,6 +39,7 @@ TOP = 6                 # at most this many closest candidates per report (plus 
 PROVISIONAL = 0.92      # until judged, pairs this alike (same family, published within 3 days) are joined
 RARE_TOKEN = 25         # a lone name word in at most this many reports can identify a person
 COVER_FROM = (date(2026, 5, 19) - date(1970, 1, 1)).days   # first day our history covers (collect.HISTORY_FROM)
+CONFLICTS = []           # set by build(): judge verdicts that conflict across two cases, for the expert to settle first
 
 
 def pair_key(a, b):
@@ -142,6 +143,13 @@ def build(items, vec=None, verdicts=None):
         for k, (s, j, fig) in enumerate(close):
             if k < TOP or fig:
                 add(i, j)
+    # Every pair the judge has already decided stays a candidate, whatever today's shortlist says: its verdict must count.
+    # (A verdict outside the shortlist was silently ignored; an expert's "same" on the court attack's X post was one.)
+    pos = {x: i for i, x in enumerate(ids)}
+    for k in verdicts:
+        a, b = k.split('|')
+        if a in pos and b in pos:
+            add(pos[a], pos[b])
 
     # 2-3. Links and never-together pairs.
     # Never together. The expert's "different" is final (hard). The fast judge's "different" is soft: it keeps reports
@@ -233,22 +241,60 @@ def build(items, vec=None, verdicts=None):
     # A case that may be a repeat of another (a pair the judge has not decided yet) is held as "being checked" and not
     # counted until the judge decides: the newer side of each open pair, among reports of the last 7 days. Without this
     # the same story from a second source (an outlet's post on X, a follow-up) was counted twice until judged.
+    # The side held is the newcomer: the case that began later (on the same day, the smaller one), never the established
+    # case it may repeat (a 58-report court case was once held because one of its reports had an open pair).
     newest = max((x['pub'] for x in recs), default=0)
+    start, size = {}, Counter()
+    for x in range(n):
+        r = find(x)
+        start[r] = min(start.get(r, 10 ** 9), recs[x]['pub'])
+        size[r] += 1
     held = set()
     for k, (i, j, s) in cand.items():
-        if k not in verdicts and find(i) != find(j):
-            later = i if (recs[i]['pub'], recs[i]['r']['d']) > (recs[j]['pub'], recs[j]['r']['d']) else j
-            gated = [x for x in (i, j) if recs[x]['r'].get('tg')]
-            if gated:
-                held.add(find(gated[0]))          # let in by the AI gate (also months back, in the re-scan): held too
-            elif recs[later]['pub'] >= newest - 7:
-                held.add(find(later))
+        ri, rj = find(i), find(j)
+        if k not in verdicts and ri != rj:
+            gated = recs[i]['r'].get('tg') or recs[j]['r'].get('tg')   # let in by the AI gate (also months back)
+            if gated or max(recs[i]['pub'], recs[j]['pub']) >= newest - 7:
+                held.add(ri if (start[ri], -size[ri]) > (start[rj], -size[rj]) else rj)
+    # Judged "same" by the fast judge, yet left in two cases (another pair across them was judged "different"): the verdicts
+    # conflict. These go to the expert first (llm.audit_judges, CONFLICTS): the pair itself and the "different"s across the
+    # two cases. The expert's word is final, so the conflict is settled for good on its next runs.
+    global CONFLICTS
+    CONFLICTS = []
+    for k, v in verdicts.items():
+        a, b = k.split('|')
+        if v is True and a in pos and b in pos and find(pos[a]) != find(pos[b]):
+            A, B = groups[find(pos[a])], {ids[m] for m in groups[find(pos[b])]}
+            CONFLICTS.append(k)
+            CONFLICTS.extend(pair_key(ids[m], o) for m in A for o in soft.get(ids[m], set()) & B)
+    CONFLICTS = list(dict.fromkeys(CONFLICTS))
     events = []
     for root, g in groups.items():
         e = _case([recs[i] for i in g])
         if root in held:
             e['uv'] = 1
         events.append(e)
+    # Connected incidents: a connection a report names (e.g. "revenge for the murder of X a year ago") is tied to the case
+    # whose victims (or accused) are the people it names and that came first; both cases show the link. A connection to
+    # an incident before our records stays on the case as a description only.
+    keys = []
+    for e in events:
+        vn, an = [], []
+        for r in e['reports']:
+            L = E.best_reading(r) or {}
+            vn += L.get('vn') or []
+            an += L.get('an') or []
+        keys.append((vn, an))
+    for n_, e in enumerate(events):
+        for rl in e.get('rel') or []:
+            for m_, o in enumerate(events):
+                if m_ == n_ or o.get('orphan') or o['d'] > e['d']:
+                    continue
+                if (rl.get('vn') and E.names_meet(rl['vn'], keys[m_][0], rare)) or \
+                        (rl.get('an') and E.names_meet(rl['an'], keys[m_][1] + keys[m_][0], rare) and rl.get('r') == 'same_accused'):
+                    rl['to'] = o['id']
+                    o.setdefault('by', []).append(dict(fr=e['id'], r=rl.get('r')))
+                    break
     open_ = [(s, k, recs[i]['r'], recs[j]['r']) for k, (i, j, s) in cand.items()
              if k not in verdicts and (find(i) != find(j) or not is_firm(i, j))]
     open_.sort(key=lambda t: (max(t[2]['d'], t[3]['d'])[:10], t[0]), reverse=True)
@@ -306,4 +352,14 @@ def _case(xs):
              o=o, p=min(spots, key=lambda p: (p[3] != 'x',)) if spots else None, reports=reports)
     if all(r.get('uv') for r in reports):
         e['uv'] = 1
+    # A stable name for the case (its first report), so other cases and the knowledge graph can point at it.
+    e['id'] = min(reports, key=lambda r: (r['d'], r['id']))['id']
+    # Separate incidents its reports say it is connected to (revenge for, retaliation, same feud, same accused, sequel).
+    rel = []
+    for x in xs:
+        for rl in (E.best_reading(x['r']) or {}).get('rel') or []:
+            if not any(rl.get('r') == o.get('r') and (rl.get('cl') or '')[:24] == (o.get('cl') or '')[:24] for o in rel):
+                rel.append(dict(rl))
+    if rel:
+        e['rel'] = rel[:3]
     return e
