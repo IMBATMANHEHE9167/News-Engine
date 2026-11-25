@@ -1,0 +1,90 @@
+name: Map tiles probe
+
+# Measures, without changing the site: how large our own Pune map tiles would be (OpenStreetMap -> OpenMapTiles schema
+# with tilemaker -> PMTiles), and how many Pune buildings carry heights in Overture vs OpenStreetMap (Prabhat Road and
+# the whole city). Result in _test/tiles.txt on the tiles-probe branch.
+on:
+  push:
+    branches: [tiles-probe]
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tools
+        run: |
+          sudo apt-get install -y -qq osmium-tool > /dev/null
+          git clone -q --depth 1 https://github.com/systemed/tilemaker /tmp/tm
+          (sudo apt-get install -y -qq tilemaker > /dev/null 2>&1 && echo "tilemaker from apt: $(tilemaker --help 2>&1 | head -1)") || echo "no apt tilemaker"
+          U=$(curl -s https://api.github.com/repos/protomaps/go-pmtiles/releases/latest | grep -o 'https://[^"]*Linux_x86_64.tar.gz' | head -1)
+          curl -sSL "$U" | tar xz -C /tmp && /tmp/pmtiles version || true
+          pip install -q overturemaps pyarrow shapely
+          mkdir -p _test
+      - name: OpenStreetMap cut
+        run: |
+          curl -sSL -o /tmp/west.osm.pbf https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf
+          osmium extract -b 73.30,17.85,75.25,19.40 /tmp/west.osm.pbf -o /tmp/district.osm.pbf
+          osmium extract -b 73.60,18.35,74.20,18.80 /tmp/west.osm.pbf -o /tmp/metro.osm.pbf
+          ls -la /tmp/*.osm.pbf | awk '{print $5, $9}' >> _test/tiles.txt
+      - name: Tiles (OpenMapTiles schema)
+        run: |
+          T=tilemaker; command -v tilemaker > /dev/null || { docker pull -q ghcr.io/systemed/tilemaker:master > /dev/null && T="docker run --rm -v /tmp:/tmp ghcr.io/systemed/tilemaker:master"; }
+          cd /tmp/tm
+          for a in metro district; do
+            start=$(date +%s)
+            $T /tmp/$a.osm.pbf --output /tmp/$a.mbtiles --config /tmp/tm/resources/config-openmaptiles.json --process /tmp/tm/resources/process-openmaptiles.lua > /tmp/tm-$a.log 2>&1 || tail -5 /tmp/tm-$a.log
+            /tmp/pmtiles convert /tmp/$a.mbtiles /tmp/$a.pmtiles > /dev/null 2>&1 || true
+            echo "tiles $a: mbtiles $(stat -c %s /tmp/$a.mbtiles 2>/dev/null) bytes, pmtiles $(stat -c %s /tmp/$a.pmtiles 2>/dev/null) bytes, $(( $(date +%s) - start )) s" >> $GITHUB_WORKSPACE/_test/tiles.txt
+          done
+          /tmp/pmtiles show /tmp/metro.pmtiles 2>&1 | head -20 >> $GITHUB_WORKSPACE/_test/tiles.txt || true
+      - name: Building heights, OpenStreetMap
+        run: |
+          for b in "prabhat 73.825,18.505,73.845,18.522" "metro 73.60,18.35,74.20,18.80"; do
+            set -- $b
+            osmium extract -b $2 /tmp/west.osm.pbf -o /tmp/b-$1.osm.pbf --overwrite > /dev/null
+            all=$(osmium tags-filter /tmp/b-$1.osm.pbf w/building r/building -o /tmp/bb.osm.pbf --overwrite > /dev/null && osmium fileinfo -e /tmp/bb.osm.pbf | grep -E 'Number of ways' | head -1)
+            h=$(osmium tags-filter /tmp/bb.osm.pbf w/height w/building:levels -o /tmp/bh.osm.pbf --overwrite > /dev/null && osmium fileinfo -e /tmp/bh.osm.pbf | grep -E 'Number of ways' | head -1)
+            echo "OSM $1: buildings $all ; with height or levels $h" >> _test/tiles.txt
+          done
+      - name: Building heights, Overture
+        run: |
+          python - <<'EOF' >> _test/tiles.txt 2>&1
+          import subprocess, pyarrow.parquet as pq, pyarrow.compute as pc
+          for name, bbox in [('prabhat', '73.825,18.505,73.845,18.522'), ('metro', '73.60,18.35,74.20,18.80')]:
+              out = '/tmp/ov-%s.parquet' % name
+              r = subprocess.run(['overturemaps', 'download', '--bbox=' + bbox, '-f', 'geoparquet', '--type=building', '-o', out], capture_output=True, text=True)
+              if r.returncode:
+                  print('Overture %s failed: %s' % (name, r.stderr[-300:])); continue
+              t = pq.read_table(out)
+              n = t.num_rows
+              h = t.column('height') if 'height' in t.column_names else None
+              f = t.column('num_floors') if 'num_floors' in t.column_names else None
+              nh = n - h.null_count if h is not None else 0
+              nf = n - f.null_count if f is not None else 0
+              import os
+              print('Overture %s: %d buildings, %d with height, %d with floors, file %d bytes' % (name, n, nh, nf, os.path.getsize(out)))
+              if h is not None and nh:
+                  hv = [x for x in h.to_pylist() if x is not None]
+                  hv.sort()
+                  print('   heights: median %.1f m, 90th %.1f m, max %.1f m, over 30 m: %d' % (hv[len(hv)//2], hv[int(len(hv)*.9)], hv[-1], sum(1 for x in hv if x > 30)))
+              if 'sources' in t.column_names:
+                  src = {}
+                  for s in t.column('sources').to_pylist()[:200000]:
+                      for d in (s or []):
+                          src[d.get('dataset')] = src.get(d.get('dataset'), 0) + 1
+                  print('   sources: %s' % src)
+          EOF
+      - name: Save
+        run: |
+          git config user.name "vidraksh-collector"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f _test/tiles.txt
+          git commit -q -m "tiles probe result" && git push -q
