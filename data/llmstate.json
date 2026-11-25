@@ -25,17 +25,17 @@
  },
  "lx_reset": 1,
  "last_run": {
-  "busy": 18,
-  "stop": "nothing left to read, or this run's share used"
+  "busy": 30,
+  "stop": "out of time"
  },
  "read": 2956,
  "older": 0,
- "unread": 7,
+ "unread": 37,
  "second": 0,
  "expert": 8,
  "not_incident": 189,
- "updated": "2026-11-25T14:03:52.610Z",
- "judged": 43,
+ "updated": "2026-11-25T14:44:50.001Z",
+ "judged": 46,
  "audited": 1679,
  "overturned": 884,
  "triaged": 60
