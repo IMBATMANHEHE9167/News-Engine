@@ -33,12 +33,17 @@ jobs:
           pip install -q overturemaps pyarrow shapely rasterio s2sphere numpy pyproj
           mkdir -p /tmp/out
       - name: Base map (Pune district, zoom 0-14)
+        continue-on-error: true
         run: |
-          curl -sSL -o /tmp/west.osm.pbf https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf
-          osmium extract -b 73.30,17.85,75.25,19.40 /tmp/west.osm.pbf -o /tmp/district.osm.pbf
-          java -Xmx5g -jar /tmp/planetiler.jar --osm-path=/tmp/district.osm.pbf --output=/tmp/out/pune.pmtiles --download --force \
-            --bounds=73.30,17.85,75.25,19.40 --maxzoom=14 > /tmp/pt.log 2>&1 || { tail -30 /tmp/pt.log; exit 1; }
-          ls -la /tmp/out
+          curl -sSL --retry 4 --retry-delay 10 -o /tmp/west.osm.pbf https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf
+          ls -la /tmp/west.osm.pbf | tee -a /tmp/out/build.log
+          osmium extract -b 73.30,17.85,75.25,19.40 /tmp/west.osm.pbf -o /tmp/district.osm.pbf --overwrite
+          for k in 1 2; do   # its downloads (water polygons, Natural Earth) sometimes fail: one retry
+            java -Xmx5g -jar /tmp/planetiler.jar --osm-path=/tmp/district.osm.pbf --output=/tmp/out/pune.pmtiles --download --force \
+              --bounds=73.30,17.85,75.25,19.40 --maxzoom=14 > /tmp/pt.log 2>&1 && break
+            echo "planetiler attempt $k failed:" >> /tmp/out/build.log; grep -iE "error|exception|fail" /tmp/pt.log | tail -12 >> /tmp/out/build.log; sleep 20
+          done
+          ls -la /tmp/out | tee -a /tmp/out/build.log
       - name: Buildings with heights (city, PCMC, Hinjewadi)
         continue-on-error: true
         run: |
