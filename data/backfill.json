@@ -1,8 +1,8 @@
 {
- "next": "2026-10-18",
+ "next": "2026-10-14",
  "stop": "2026-05-19",
- "days": 215,
- "kept": 829,
+ "days": 219,
+ "kept": 830,
  "note": "",
  "src": {
   "toi": {
@@ -68,7 +68,7 @@
   "pkn": {
    "done": false,
    "kept": 462,
-   "note": "",
+   "note": "HTTP 403",
    "page": 226,
    "reached": "2026-08-28",
    "refill": 1,

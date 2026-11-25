@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T22:25:55.438Z",
+ "updated": "2026-11-25T23:28:17.048Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -248,21 +248,21 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 7,
+  "judged_same_kept_apart": 6,
   "date_spread": 26,
-  "waiting_for_judge": 918,
+  "waiting_for_judge": 921,
   "pairs_judged": 5204,
-  "pairs_judged_same": 2850,
-  "judge_checked_by_expert": 1917,
-  "judge_overturned_by_expert": 939,
+  "pairs_judged_same": 2849,
+  "judge_checked_by_expert": 1977,
+  "judge_overturned_by_expert": 955,
   "non_incident_wording": 2,
   "area_disagreement": 38,
   "silent_days": 4,
   "source_gap_days": 67,
-  "unverified": 146,
+  "unverified": 147,
   "ruled_out_by_ai": 221,
   "future_times": 0,
-  "reports": 3219,
+  "reports": 3220,
   "cases": 1544
  },
  "examples": {
@@ -296,10 +296,6 @@
    [
     "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
     "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
-   ],
-   [
-    "Fire breaks out at wood stores and chemical unit on Bhosari-Alandi Road",
-    "Cause of Timber Market Fire Yet to Be Ascertained; Pune Police Seek Fire Brigade Report"
    ]
   ],
   "date_spread": [
