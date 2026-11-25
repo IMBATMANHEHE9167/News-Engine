@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T06:17:50.074Z",
- "total": 2884,
- "added": 3,
+ "updated": "2026-11-25T07:18:10.197Z",
+ "total": 2885,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -81,7 +81,7 @@
    "name": "Punekar News",
    "ok": true,
    "found": 6,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -120,7 +120,7 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 3,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -144,16 +144,16 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 3,
-   "added": 1,
+   "found": 2,
+   "added": 0,
    "note": ""
   },
   {
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 3,
-   "added": 0,
+   "found": 2,
+   "added": 1,
    "note": ""
   },
   {
