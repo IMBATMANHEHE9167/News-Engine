@@ -421,6 +421,10 @@ added += let_in
 # ---- 4b. LLM layer: a language model reads each report and fills a fixed form (llm.py); its reading decides (engine).
 try:
     import llm
+    # English under every Marathi headline at once, from the headline alone (25 per request), so a report still waiting
+    # for its full reading is never shown without English; the reading's own summary replaces it later (page: L.s first).
+    llm.english(sorted([r for r in items if re.search('[ऀ-ॿ]', r['t']) and not (r.get('L') or {}).get('s') and not r.get('en')],
+                       key=lambda r: r['d'], reverse=True)[:100], limit=4)
     llm.run(items, TEXTS, get)
     changed = True
 except Exception as ex:

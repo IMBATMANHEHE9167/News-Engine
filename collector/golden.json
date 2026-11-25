@@ -37,6 +37,7 @@
   {"name": "Ketan Agarwal murder (Lohagad Fort) is counted as an incident, though every report is a later development", "counted": "ketan ag(a)?r(a)?wal|lohagad (fort )?(murder|trek)|lohgad case|केतन"},
   {"name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case", "one_case": "mandar ki(v|w)a?le|मंदार किवळे"},
   {"name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)", "one_case": "Who Was Shubham Chavan|मंदार किवळे वकिलांशी|Shivajinagar Court Fire"},
+  {"name": "Gang clash on Keshavnagar-Manjari road, Mundhwa (25 Nov 2026), found only by the gang search, is in the engine as a counted incident", "counted": "केशवनगर-मांजरी|Keshav ?nagar.{0,30}Manjari"},
   {"name": "Jejuri couple killed by an MSRTC bus (Nov 2026): the X post and the paper are one case", "one_case": "Couple Heading Home From Farm Killed|Jejuri ST bus Bike Accident|जेजुरी-मोरगाव रस्त्यावर एसटी बस"},
   {"name": "Katraj LPG cylinder fire (Nov 2026): the X post and the paper are one case", "one_case": "LPG cylinder at a house in Navin Vasahat|Fire Breaks Out in LPG Cylinder at House in Katraj"},
   {"name": "Worker assaulted with a wooden tool over fruit-cart waste: an outlet's X post and its article are one case", "one_case": "Assault Worker With Wooden Tool"}
