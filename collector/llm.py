@@ -657,8 +657,8 @@ def triage(cands, limit=6, size=30):
         'id': {'type': 'STRING'}, 'incident': {'type': 'BOOLEAN'}, 'type': {'type': 'STRING', 'enum': TYPES + ['none']},
         'situation': {'type': 'BOOLEAN'}, 'kind': {'type': 'STRING', 'enum': kinds + ['none']}},
         'required': ['id', 'incident', 'type', 'situation', 'kind']}}
-    out, asked = {}, 0
-    for k in range(0, len(cands), size):
+    out, asked, k, tries = {}, 0, 0, 0
+    while k < len(cands):
         if asked >= limit or not S.time_left():
             break
         model = S.pick('readers')
@@ -672,6 +672,10 @@ def triage(cands, limit=6, size=30):
                    'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': schema, 'temperature': 0}}
         res = S.ask('readers', model, lambda: answer(call(S.key, model, payload)))
         asked += 1
+        if res is None and S.retry and tries < 2:
+            tries += 1                          # busy: the same items go to the next model, not skipped
+            continue
+        k, tries = k + size, 0
         for f in res or []:
             if isinstance(f, dict) and f.get('id') in {c['id'] for c in chunk}:
                 t = f.get('type') if f.get('incident') and f.get('type') in TYPES else ''
