@@ -11,7 +11,7 @@
   "batch": 6,
   "pair_batch": 15,
   "chars": 2500,
-  "run_seconds": 1500
+  "run_seconds": 900
  },
  "organised": {
   "note": "Groups as publicly reported. Leaders are named as the press names them: accused, not convicted unless a report says so. Never stored: names of juveniles or of victims of sexual offences. Community labels (e.g. 'Irani gang') are not used as group names.",

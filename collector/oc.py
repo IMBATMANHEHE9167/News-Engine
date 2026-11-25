@@ -28,6 +28,8 @@ OTHER = dict(id='other', name='Other gangs', type='other', leader='',
                    'Each is listed so none is left out; a gang that recurs gets its own profile.')
 
 
+STOP = {'pune', 'news', 'crime', 'the', 'and', 'with', 'for', 'after', 'from', 'over', 'into', 'police', 'case', 'पुणे', 'पुण्यात', 'पुण्यातील', 'आणि', 'प्रकरणी'}   # too common to tell incidents apart
+
 def tag(title):
     """What a headline says about organised crime."""
     g = [x['id'] for x in GROUPS if x['rx'].search(title)]
@@ -51,7 +53,8 @@ def dump_lines(rows):
 
 
 def build(events, get):
-    rows = {r['id']: r for r in read_json('ocreports.json', [])}
+    # Search results are kept from run to run; engine reports are made again each run (their incident numbers change).
+    rows = {r['id']: r for r in read_json('ocreports.json', []) if r.get('src') == 'search'}
 
     # 1. Stored incident reports that name a group (or a koyta), with the incident they belong to. Where the LLM layer has
     #    read the article, the gang it names, the police action and whether minors were involved count too; gang names
@@ -78,7 +81,7 @@ def build(events, get):
             if not t['g'] and (set(t['act']) & HEAVY or len((L.get('g') or '').strip()) > 3):
                 t['g'] = ['other']
             if t['g']:
-                rows[r['id']] = dict(id=r['id'], t=r['t'], u=r['u'], n=r['s'], d=r['d'], a=r.get('a') or e['a'], c=e['c'],
+                rows[r['id']] = dict(id=r['id'], t=r['t'], u=r['u'], n=r['s'], d=r['d'], a=e['a'] or r.get('a'), c=e['c'],
                                      o=e.get('o'), ev=k, src='engine', **t)
                 if L.get('g'):
                     rows[r['id']]['gn'] = L['g'].strip()[:60]
@@ -115,6 +118,48 @@ def build(events, get):
         if r.get('src') == 'search':                           # engine rows were tagged above, with the LLM reading
             r.update(tag(r['t']))
     reports = [r for r in reports if r['g']]
+    # Every report belongs to one incident (ev), or to none. Maps and counts count incidents, never reports: eleven papers
+    # on one court attack are one incident (founder, 25 Nov 2026).
+    #  - An engine report: its case.
+    #  - A search result: first the AI gate says whether it reports an incident at all (a feature such as "who invented the
+    #    koyta?" or a statement is listed, never counted); then it joins the engine incident of the same group within a day
+    #    whose reports share most of its words (no place needed), else one with the same group, area and day; else it is an
+    #    incident of its own, shared with search results of the same group, area and day.
+    todo = [r for r in reports if r.get('src') == 'search' and 'ix' not in r]
+    try:
+        import llm
+        ans = llm.triage([dict(id=r['id'], t=r['t'], x='', d=r['d']) for r in todo[:150]], limit=3)
+    except Exception as ex:
+        ans = {}
+        print('organised gate failed: %s' % str(ex)[:120])
+    for r in todo:
+        if r['id'] in ans:
+            r['ix'] = 1 if ans[r['id']]['i'] else 0
+    day = lambda r: E.day_of(r['d'])
+    words = lambda t: {w for w in re.findall(r'[a-z]{3,}|[ऀ-ॿ]{3,}', t.lower())} - STOP
+    union = {}
+    for r in reports:
+        if r.get('src') != 'search':
+            union.setdefault(r['ev'], [set(), r])[0].update(words(r['t']))
+    for r in reports:
+        if r.get('src') != 'search':
+            continue
+        r.pop('ev', None)
+        if not r.get('ix'):
+            continue                                           # not (yet) known to be an incident: listed, not counted
+        w = words(r['t'])
+        best, score = None, 0.0
+        for ev, (ws, x) in union.items():
+            if set(x['g']) & set(r['g']) and abs(day(x) - day(r)) <= 1 and w:
+                s = len(w & ws) / len(w)
+                if s > score:
+                    best, score = ev, s
+        if best is not None and score >= 0.5:
+            r['ev'] = best
+            continue
+        hit = r.get('a') and next((x for x in reports if x.get('ev') is not None and x is not r and set(x['g']) & set(r['g'])
+                                   and x.get('a') == r.get('a') and abs(day(x) - day(r)) <= 1), None)
+        r['ev'] = hit['ev'] if hit else 's' + r['id']
     try:                                                       # English under the Marathi headlines the searches found
         import llm
         llm.english([r for r in reports if r.get('src') == 'search'])
@@ -133,8 +178,12 @@ def build(events, get):
             continue
         count = lambda key: sorted(((k, sum(1 for r in mine if k in (r.get(key) or []))) for k in {x for r in mine for x in (r.get(key) or [])}),
                                    key=lambda kv: -kv[1])
+        first_of = {}                                   # each incident once: its earliest report gives its area and month
+        for r in reversed(mine):
+            if r.get('ev') is not None:                 # a report of no incident (a feature, a statement) is not counted
+                first_of.setdefault(r['ev'], r)
         areas = {}
-        for r in mine:
+        for r in first_of.values():
             if r.get('a'):
                 areas[r['a']] = areas.get(r['a'], 0) + 1
         crimes = {}
@@ -147,7 +196,7 @@ def build(events, get):
                 if other != gr['id']:
                     rivals[other] = rivals.get(other, 0) + 1
         months = {}
-        for r in mine:
+        for r in first_of.values():
             months[r['d'][:7]] = months.get(r['d'][:7], 0) + 1
         last = mine[0]['d']
         profiles.append(dict(

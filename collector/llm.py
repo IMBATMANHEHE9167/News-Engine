@@ -28,6 +28,7 @@ DATA = Path(__file__).resolve().parent.parent / 'data'
 API = 'https://generativelanguage.googleapis.com/v1beta'
 CFG = E.R['llm']
 VERSION = CFG['version']
+DEADLINE = float('inf')   # set by collect.py: no AI work starts after it, so a run always ends in time to save
 TYPES = [c['id'] for c in E.CATS]
 PARTS = ['morning', 'afternoon', 'evening', 'night', 'unknown']
 WEAPONS = ['koyta', 'sword_or_knife', 'firearm', 'blunt_object', 'vehicle', 'fire_or_acid', 'none_or_unknown']
@@ -277,7 +278,7 @@ class Session:
             time.sleep(min(60, max(1, min(resting) - time.time())))
 
     def time_left(self):
-        return time.time() - self.started < CFG['run_seconds']
+        return time.time() - self.started < CFG['run_seconds'] and time.time() < DEADLINE
 
     def ask(self, role, model, fn):
         """Run one request with the usual handling. Returns its result, or None (and the reason is recorded).
@@ -406,7 +407,7 @@ def run_judges(pairs, cache):
     while k < len(pairs):
         if asked >= CFG['per_run']['judges'] or not S.time_left():
             break
-        model = S.take('readers')
+        model = S.pick('readers')
         if not model:
             break
         chunk = pairs[k:k + n]
@@ -455,7 +456,7 @@ def audit_judges(cache, by_id):
     for k in range(0, len(todo), n):
         if asked >= CFG['per_run'].get('audit', 1):
             break
-        model = S.take('experts')
+        model = S.pick('experts')
         if not model:
             break
         chunk = [(key, by_id[key.split('|')[0]], by_id[key.split('|')[1]]) for key in todo[k:k + n]]
@@ -640,7 +641,7 @@ def triage(cands, limit=6, size=30):
     for k in range(0, len(cands), size):
         if asked >= limit or not S.time_left():
             break
-        model = S.take('readers')
+        model = S.pick('readers')
         if not model:
             break
         chunk = cands[k:k + size]

@@ -1919,16 +1919,30 @@ let OCV = null, OCV_KEY = '';
 function ocList() {
   const k = `${view}|${period}|${OC.updated}`;
   if (OCV && OCV_KEY === k) return OCV;
-  const tally = xs => { const m = {}; for (const x of xs) if (x != null && x !== '') m[x] = (m[x] || 0) + 1; return Object.entries(m).sort((a, b) => b[1] - a[1]); };
+  // Everything here counts INCIDENTS, never reports: the many papers on one attack are one incident (ev, set by oc.py:
+  // the engine's case, or one incident per group, area and day for search results). An incident counts once per area,
+  // month, weapon, police action or linked group, however many of its reports say so.
+  const evOf = r => r.ev;                  // null: a report of no incident (a feature, a statement): listed, not counted
+  const tally = (rs, f) => {
+    const m = {}, seen = new Set();
+    for (const r of rs) for (const x of [].concat(f(r))) {
+      if (evOf(r) == null || x == null || x === '' || seen.has(x + '|' + evOf(r))) continue;
+      seen.add(x + '|' + evOf(r)); m[x] = (m[x] || 0) + 1;
+    }
+    return Object.entries(m).sort((a, b) => b[1] - a[1]);
+  };
   OCV = OC.groups.map(g => {
     const rs = (g.reports || []).filter(r => ocInView(r) && ocInPeriod(r)), ds = rs.map(r => r.d).sort();
+    const first = new Map();                 // each incident's earliest report: its area and month
+    for (const r of [...rs].sort((a, b) => (a.d < b.d ? -1 : 1))) if (evOf(r) != null && !first.has(evOf(r))) first.set(evOf(r), r);
+    const inc = [...first.values()];
     return { ...g, reports: rs, n: rs.length, first: ds[0] || g.first, last: ds[ds.length - 1] || g.last,
-      incidents: new Set(rs.filter(r => r.ev != null).map(r => r.ev)).size,
-      areas: tally(rs.map(r => r.a)), actions: tally(rs.flatMap(r => r.act || [])), weapons: tally(rs.flatMap(r => r.wpn || [])),
-      linked: tally(rs.flatMap(r => (r.g || []).filter(x => x !== g.id))),
-      months: tally(rs.map(r => r.d.slice(0, 7))).sort((a, b) => (a[0] < b[0] ? -1 : 1)),
-      juvenile: rs.filter(r => r.j).length, rivalry: rs.filter(r => r.rv).length };
-  }).sort((a, b) => ((a.type === 'pattern' || a.type === 'other') - (b.type === 'pattern' || b.type === 'other')) || b.n - a.n);
+      incidents: inc.length, areaEv: inc.reduce((m, r) => { if (r.a) (m[r.a] = m[r.a] || new Set()).add(evOf(r)); return m; }, {}),
+      areas: tally(inc, r => r.a), actions: tally(rs, r => r.act || []), weapons: tally(rs, r => r.wpn || []),
+      linked: tally(rs, r => (r.g || []).filter(x => x !== g.id)),
+      months: tally(inc, r => r.d.slice(0, 7)).sort((a, b) => (a[0] < b[0] ? -1 : 1)),
+      juvenile: new Set(rs.filter(r => r.j && r.ev != null).map(evOf)).size, rivalry: new Set(rs.filter(r => r.rv && r.ev != null).map(evOf)).size };
+  }).sort((a, b) => ((a.type === 'pattern' || a.type === 'other') - (b.type === 'pattern' || b.type === 'other')) || b.incidents - a.incidents);
   OCV_KEY = k;
   return OCV;
 }
@@ -2002,7 +2016,7 @@ function drawOc() {
   if (g) { drawOcProfile(g); return; }
   const key = ocKey(q), test = key ? key.test : r => r.t.toLowerCase().includes(q);
   const list = G.filter(x => x.n && ocMatch(x, q));
-  if (key) list.sort((a, b) => (b.reports || []).filter(test).length - (a.reports || []).filter(test).length);
+  if (key) { const ni = x => new Set((x.reports || []).filter(r => test(r) && r.ev != null).map(r => r.ev)).size; list.sort((a, b) => ni(b) - ni(a)); }
   const seen = new Set();
   const hits = q ? G.flatMap(x => (x.reports || []).filter(test).map(r => ({ ...r, gr: x })))
     .filter(r => !seen.has(r.u) && seen.add(r.u)).sort((a, b) => (a.d < b.d ? 1 : -1)) : [];
@@ -2014,39 +2028,39 @@ function drawOc() {
       <div>
         <div class="rec-type"><span>${esc(OC_TYPE[x.type] || x.type)}</span><span class="tag" title="${x.active ? 'Reported in the last four months' : 'No report for over four months'}">${x.active ? 'Active' : 'Quiet'}</span></div>
         <a class="rec-head" href="#oc" data-g="${x.id}">${esc(x.name)}</a>
-        <div class="rec-meta">${x.leader ? `<span><span class="place">${esc(x.leader)}</span> <span class="acc">accused</span></span>` : ''}<span>${plural(x.n, 'report')}</span>${x.incidents ? `<span>${plural(x.incidents, 'incident')} in the engine</span>` : ''}${acts.mcoca ? `<span>MCOCA in ${acts.mcoca}</span>` : ''}${where ? `<span>${where}</span>` : ''}${key ? `<span><b>${(x.reports || []).filter(test).length}</b> mention ${esc(key.name.toLowerCase())}</span>` : ''}</div>
+        <div class="rec-meta">${x.leader ? `<span><span class="place">${esc(x.leader)}</span> <span class="acc">accused</span></span>` : ''}<span><b>${plural(x.incidents, 'incident')}</b>, ${plural(x.n, 'report')}</span>${acts.mcoca ? `<span>MCOCA in ${acts.mcoca}</span>` : ''}${where ? `<span>${where}</span>` : ''}${key ? `<span><b>${new Set((x.reports || []).filter(r => test(r) && r.ev != null).map(r => r.ev)).size}</b> incidents with ${esc(key.name.toLowerCase())}</span>` : ''}</div>
       </div>
     </article>`;
   };
   $('ocBody').innerHTML = `<div class="reghead">${list.length ? `${plural(list.length, 'group')}${q ? ' matching the search' : ''}${ocWhen() ? ' with reports' + ocWhen() : ''}, busiest first. The date beside each is its latest report.` : ''}</div>` +
     (list.length ? list.map(card).join('') : `<div class="empty">${q ? `No group matches “${esc(q)}”${ocWhen()}.` : `No group has a report${ocWhen()}.`}</div>`) +
-    (hits.length ? `<div class="day"><span><b>Reports mentioning “${esc(key ? key.name : q)}”</b></span><span>${hits.length}</span></div><div style="padding:0 20px 8px">` +
+    (hits.length ? `<div class="day"><span><b>Reports mentioning “${esc(key ? key.name : q)}”</b></span><span>${plural(new Set(hits.filter(r => r.ev != null).map(r => r.ev)).size, 'incident')}, ${plural(hits.length, 'report')}</span></div><div style="padding:0 20px 8px">` +
       hits.slice(0, 30).map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), esc(r.gr.name))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') + '</div>' : '');
 }
 function drawOcProfile(g) {
   const reps = g.reports || [];
   const months = g.months || [], max = Math.max(1, ...months.map(m => m[1]));
   const monthName = m => new Date(m + '-15T00:00:00Z').toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
-  const monthTip = (m, n) => `${monthName(m)}: ${plural(n, 'report')} naming ${g.name}${n === max && months.length > 1 ? ' (the busiest month shown)' : ''}`;
+  const monthTip = (m, n) => `${monthName(m)}: ${plural(n, 'incident')} involving ${g.name}${n === max && months.length > 1 ? ' (the busiest month shown)' : ''}`;
   const sec = (title, body) => body ? `<section class="sec"><h3 class="sec-h">${title}</h3>${body}</section>` : '';
   const tags = r => [...(r.act || []).map(k => OC_ACT[k]), ...(r.wpn || []).map(k => OC_WPN[k]), r.j ? 'minor involved' : ''].filter(Boolean);
   const linked = (g.linked || []).map(([id, n]) => {
     const o = OC.groups.find(x => x.id === id);
     return `<div class="row"><span><a class="lnk" href="#oc" data-g="${id}">${esc(o ? o.name : id)}</a></span><span class="n" title="Named together in ${plural(n, 'report')}">${n}</span></div>`;
   }).join('');
-  const signals = [g.juvenile ? `${g.juvenile} report${g.juvenile > 1 ? 's' : ''} involve minors (never named here).` : '',
-    g.rivalry ? `${g.rivalry} report${g.rivalry > 1 ? 's' : ''} speak of rivalry or revenge.` : ''].filter(Boolean).join(' ');
+  const signals = [g.juvenile ? `${g.juvenile} incident${g.juvenile > 1 ? 's' : ''} involve minors (never named here).` : '',
+    g.rivalry ? `${g.rivalry} incident${g.rivalry > 1 ? 's' : ''} are reported as rivalry or revenge.` : ''].filter(Boolean).join(' ');
   $('ocBody').innerHTML = `<div class="ocprof"><button type="button" id="ocBack" class="back">Back to all groups</button>
     <h2 class="ocname">${esc(g.name)}</h2>
     <div class="rec-meta" style="margin-top:0"><span>${esc(OC_TYPE[g.type] || g.type)}</span>${g.leader ? `<span>Led by <span class="place">${esc(g.leader)}</span> <span class="acc">accused, not convicted unless a report says so</span></span>` : ''}</div>
     ${g.about ? `<p class="say" style="margin-top:12px">${esc(g.about)}</p>` : ''}
-    <p class="say" style="margin-top:12px">${g.n ? `<b>${g.n}</b> ${g.n === 1 ? 'report' : 'reports'}${ocWhen()}${g.n > 1 ? `, from ${ocDay(g.first)} to ${ocDay(g.last)}` : `, on ${ocDay(g.first)}`}${g.incidents ? `, <b>${g.incidents}</b> of them ${g.incidents === 1 ? 'an incident' : 'incidents'} in the engine` : ''}.` : `No report${ocWhen()}.`} ${g.active ? '<em>Active</em> in the last four months.' : 'Quiet for over four months.'}</p>
-    ${sec('Police action', ocRows(g.actions || [], k => OC_ACT[k] || k, g.n))}
+    <p class="say" style="margin-top:12px">${g.n ? `<b>${g.incidents}</b> ${g.incidents === 1 ? 'incident' : 'incidents'}${ocWhen()}, from ${plural(g.n, 'report')}${g.n > 1 ? `, ${ocDay(g.first)} to ${ocDay(g.last)}` : `, on ${ocDay(g.first)}`}.` : `No report${ocWhen()}.`} ${g.active ? '<em>Active</em> in the last four months.' : 'Quiet for over four months.'}</p>
+    ${sec('Police action', ocRows(g.actions || [], k => OC_ACT[k] || k, g.incidents || 1))}
     ${sec('Where', ocRows((g.areas || []).slice(0, 8), a => AREA[a] ? AREA[a].name : a, (g.areas || [[0, 1]])[0][1]))}
-    ${sec('Weapons named', ocRows(g.weapons || [], k => OC_WPN[k] || k, g.n))}
+    ${sec('Weapons named', ocRows(g.weapons || [], k => OC_WPN[k] || k, g.incidents || 1))}
     ${sec('Linked groups <span>named together in reports</span>', linked)}
     ${sec('Signals', signals ? `<p class="note" style="margin-top:0">${signals}</p>` : '')}
-    ${sec('Reports by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i data-tip="${esc(monthTip(m, n))}" aria-label="${esc(monthTip(m, n))}" style="height:${Math.max(6, n / max * 100)}%;--g:${glowOf(n, max)}"></i>`).join('')}</div><p class="note">Each bar is one month: how many reports named this group. ${months.length > 1 ? `${monthName(months[0][0])} to ${monthName(months[months.length - 1][0])}; the busiest month had ${plural(max, 'report')}.` : ''} Point at (or tap) a bar for its month.</p>` : '')}
+    ${sec('Incidents by month', months.length ? `<div class="spark">${months.map(([m, n]) => `<i data-tip="${esc(monthTip(m, n))}" aria-label="${esc(monthTip(m, n))}" style="height:${Math.max(6, n / max * 100)}%;--g:${glowOf(n, max)}"></i>`).join('')}</div><p class="note">Each bar is one month: how many incidents involved this group (an incident counts once, however many reports). ${months.length > 1 ? `${monthName(months[0][0])} to ${monthName(months[months.length - 1][0])}; the busiest month had ${plural(max, 'incident')}.` : ''} Point at (or tap) a bar for its month.</p>` : '')}
     ${sec(`Reports${view !== 'all' ? ' in this view' : ''} <span>${reps.length}</span>`, reps.map(r => `<div class="mini ocrep" data-a="${esc(r.a || '')}">${meta(ocDay(r.d), r.a && AREA[r.a] ? esc(AREA[r.a].name) : '', tags(r).join(', '), esc(SRC[r.n] || r.n))}${link(r, esc(r.t))}${enP(r)}</div>`).join('') || '<p class="note" style="margin-top:0">None in this view.</p>')}</div>`;
 }
 $('ocBody').onclick = e => {
@@ -2102,24 +2116,25 @@ function drawOcMap(q) {
   const G = ocList(), gs = G.filter(g => g.n && ocMatch(g, q));
   const focus = ocHot || (ocOpen && G.some(x => x.id === ocOpen) ? ocOpen : null), fg = focus && G.find(x => x.id === focus);
   const per = {}, names = [], seen = a => AREA[a] && (view === 'all' || areaInView(a));   // only the areas of this view
-  for (const g of [...gs].sort((x, y) => y.n - x.n)) {
+  for (const g of [...gs].sort((x, y) => y.incidents - x.incidents)) {
     for (const [a, n] of (g.areas || [])) if (seen(a)) (per[a] = per[a] || []).push([g, n]);
     const t = (g.areas || []).find(([a]) => seen(a)); if (t) names.push({ a: t[0], text: g.name.replace(' (Pune links)', '') });
   }
-  const tot = a => per[a].reduce((s, x) => s + x[1], 0), max = Math.max(1, ...Object.keys(per).map(tot));
+  // An area's total is its distinct incidents across the groups shown: an attack tagged with two groups counts once.
+  const tot = a => new Set(per[a].flatMap(([g]) => [...((g.areaEv || {})[a] || [])])).size, max = Math.max(1, ...Object.keys(per).map(tot));
   const fmax = fg ? Math.max(1, ...(fg.areas || []).map(x => x[1])) : 1, copper = css('--copper');
   for (const a of Object.keys(per)) {
     const here = per[a].sort((x, y) => y[1] - x[1]), t = tot(a), mine = fg ? ((here.find(x => x[0].id === focus) || [0, 0])[1]) : t;
     const on = !fg || mine > 0, v = on ? mine : t, mx = fg ? fmax : max, ll = [AREA[a].lat, AREA[a].lon];
     heatDisc(e.layer, ll, (7 + Math.sqrt(v) * (fg ? 4.2 : 2.8)) * (innerWidth < 760 ? .75 : 1), v, mx, { pane: e.heat, mute: !on, label: on && (fg || v >= 3) ? v : null })
-      .bindTooltip(`<b>${esc(AREA[a].name)}</b><br>${here.slice(0, 5).map(([g, n]) => `${esc(g.name)}: ${n} report${n > 1 ? 's' : ''}`).join('<br>')}`, { className: 'tip', direction: 'top', offset: [0, -6] })
+      .bindTooltip(`<b>${esc(AREA[a].name)}</b><br>${here.slice(0, 5).map(([g, n]) => `${esc(g.name)}: ${n} incident${n > 1 ? 's' : ''}`).join('<br>')}`, { className: 'tip', direction: 'top', offset: [0, -6] })
       .on('click', () => { ocOpen = fg && mine ? focus : here[0][0].id; ocHot = null; drawOc(); ocToTop(); });
   }
   if (!fg) placeLabels(e, names.map(x => ({ ll: [AREA[x.a].lat, AREA[x.a].lon], text: x.text, r: 7 + Math.sqrt(tot(x.a)) * 2.8 })));
   if (!e.zoomHook) { e.zoomHook = true; e.m.on('zoomend', () => { if (OC && !$('ocv').classList.contains('hide')) drawOcMap($('ocQ').value.trim().toLowerCase()); }); }
   $('ocKey').innerHTML = fg
-    ? `<div><b style="margin:0;padding:0;font-family:var(--sans)">${esc(fg.name)}</b></div><div>Reports naming this group, by area</div>${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:0"')}`
-    : `<div>Reports naming a group, by area; each group's name sits on its busiest area</div>${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:0"')}<div style="color:var(--ink-3)">Hover a group to see its ground</div>`;
+    ? `<div><b style="margin:0;padding:0;font-family:var(--sans)">${esc(fg.name)}</b></div><div>Incidents involving this group, by area</div>${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:0"')}`
+    : `<div>Incidents involving a group, by area (one incident counts once, however many reports); each group's name sits on its busiest area</div>${sizeKey().replace('class="heatkey"', 'class="heatkey" style="margin:0"')}<div style="color:var(--ink-3)">Hover a group to see its ground</div>`;
 }
 /* Gang links, as an arc diagram: the groups in a column, busiest first, each with its reports; an arc to the left joins two
    groups named together in reports (rivals, allies or the same case), thicker for more reports together. A solid copper
@@ -2579,14 +2594,14 @@ function gArms() {
   for (let y = +first.slice(0, 4), m = +first.slice(5, 7); `${y}-${String(m).padStart(2, '0')}` <= now; m === 12 ? (y++, m = 1) : m++) months.push(`${y}-${String(m).padStart(2, '0')}`);
   const shown = months.slice(-24), K = n => OC_KEYS.find(k => k.name === n);
   const mult = name => {
-    const k = K(name), hit = reps.filter(k.test), n = shown.map(mo => hit.filter(r => istDay(r.d).slice(0, 7) === mo).length), mx = Math.max(1, ...n), W = 240, H = 60, bw = W / shown.length;
+    const k = K(name), hit = reps.filter(k.test), fo = new Map(); for (const r of [...hit].sort((a, b) => (a.d < b.d ? -1 : 1))) { const e = r.ev; if (e != null && !fo.has(e)) fo.set(e, r); } const inc = [...fo.values()], n = shown.map(mo => inc.filter(r => istDay(r.d).slice(0, 7) === mo).length), mx = Math.max(1, ...n), W = 240, H = 60, bw = W / shown.length;
     const bars = n.map((v, i) => v ? `<rect x="${i * bw + .5}" y="${H - Math.max(2, v / mx * H)}" width="${Math.max(1, bw - 1.5)}" height="${Math.max(2, v / mx * H)}" class="gbar last"${tip(`${new Date(shown[i] + '-15T06:30:00Z').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}: ${v}`)}/>` : '').join('');
-    return `<div class="mult" data-k="${esc(name)}" style="cursor:pointer"><h4>${esc(name === 'Arrest' ? 'Arrests' : name)}<span>by month</span></h4><b class="fig">${fmtN(hit.length)}</b><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:60px">${bars}<line x1="0" x2="${W}" y1="${H}" y2="${H}" class="grule"/></svg><p>${n.slice(-3).reduce((p, q) => p + q, 0)} in the last 3 months</p></div>`;
+    return `<div class="mult" data-k="${esc(name)}" style="cursor:pointer"><h4>${esc(name === 'Arrest' ? 'Arrests' : name)}<span>by month</span></h4><b class="fig">${fmtN(inc.length)}</b><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:60px">${bars}<line x1="0" x2="${W}" y1="${H}" y2="${H}" class="grule"/></svg><p>${n.slice(-3).reduce((p, q) => p + q, 0)} in the last 3 months</p></div>`;
   };
   const span = shown.length ? `${new Date(shown[0] + '-15T06:30:00Z').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })} to ${new Date(shown[shown.length - 1] + '-15T06:30:00Z').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}` : '';
   $('gBox').innerHTML = `<h3 class="sec-h" style="margin-top:6px">Weapons named</h3><div class="mults">${['Koyta', 'Firearm', 'Sword or knife'].map(mult).join('')}</div>
     <h3 class="sec-h" style="margin-top:24px">Police action</h3><div class="mults">${['Arrest', 'MCOCA', 'MPDA', 'Externment'].map(mult).join('')}</div>
-    <p class="note">${fmtN(reps.length)} reports about gangs and violence in this view and time; the bars run ${span}. The figure is all reports naming it; a report can name more than one. Select a chart to list its reports.</p>`;
+    <p class="note">${fmtN(reps.length)} reports about gangs and violence in this view and time; the bars run ${span}. Each figure counts incidents: one attack reported by many papers counts once, in the month it was first reported. Select a chart to list its reports.</p>`;
   $('gBox').querySelectorAll('.mult').forEach(el => el.onclick = () => gPickSet(`Reports naming ${el.dataset.k.toLowerCase()}`, reps.filter(K(el.dataset.k).test), true));
 }
 
