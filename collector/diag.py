@@ -88,22 +88,23 @@ for c in SOFT[:150]:
 
 # Candidate sources (founder, 25 Nov): reachable from here? how many entries, how many Pune ones, how far back?
 print('\n' + '=' * 100 + '\nCandidate sources\n')
-CANDS = ['https://mpcnews.in/feed/', 'https://www.navarashtra.com/rss/pune', 'https://www.navarashtra.com/feed',
-         'https://maharashtratimes.com/maharashtra/pune-news/rssfeedsection/2429654.cms',
-         'https://maharashtratimes.com/rssfeedsdefault.cms', 'https://lokmat.news18.com/rss/pune.xml',
-         'https://www.saamtv.com/feed', 'https://www.saamtv.com/rss/pune', 'https://zeenews.india.com/marathi/rss/pune-news.xml',
-         'https://www.thebridgechronicle.com/feed', 'https://www.thebridgechronicle.com/rss/pune',
-         'https://www.lokshahi.com/feed', 'https://www.punepulse.com/feed/', 'https://www.mid-day.com/rss/pune.xml',
-         'https://www.freepressjournal.in/stories.rss?section=pune', 'https://www.loksatta.com/pune/feed/',
-         'https://www.esakal.com/rss/pune', 'https://www.ndtv.com/rss/cities/pune', 'https://pudhari.news/feed',
-         'https://www.lokmat.com/rss/pune/', 'https://www.punepolice.gov.in/press-release', 'https://www.pcpc.gov.in/']
+CANDS = ['https://zeenews.india.com/marathi/sitemaps/news-sitemap.xml', 'https://www.thebridgechronicle.com/news_sitemap.xml',
+         'https://www.lokshahi.com/news-sitemap.xml', 'https://www.navarashtra.com/news_sitemap.xml', 'https://www.tv9marathi.com/news-sitemap.xml',
+         'https://saamtv.esakal.com/robots.txt', 'https://saamtv.esakal.com/news-sitemap.xml', 'https://saamtv.esakal.com/sitemap/sitemap-daily-' + (NOW + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d') + '.xml',
+         'https://maharashtratimes.com/staticsitemap/mt/sitemap-index.xml', 'https://maharashtratimes.com/sitemap/news.xml',
+         'https://www.navarashtra.com/feed', 'https://saamtv.esakal.com/feed']
 for u in CANDS:
     xml, how = try_get(u)
     if xml is None:
         print('%-90s FAILED %s' % (u, how))
         continue
+    if u.endswith('robots.txt'):
+        print('%-90s %s' % (u, ' '.join(re.findall(r'(?im)^sitemap:\s*(\S+)', xml))[:300]))
+        continue
     lst = E.parse_feed(xml) or E.parse_sitemap(xml)
     ds = [x['date'] for x in lst if x.get('date')]
+    day = [x for x in lst if x.get('date') and x['date'] > NOW - timedelta(hours=24)]
+    pune24 = sum(1 for x in day if re.search(r'pune|pimpri|chinchwad|hinjaw|hinjew|पुण|पिंपरी|चिंचवड|हिंजवड', (x.get('title') or '') + ' ' + x['link'], re.I))
     pune = sum(1 for x in lst if re.search(r'pune|pimpri|chinchwad|hinjaw|hinjew|पुण|पिंपरी|चिंचवड|हिंजवड', x['title'] + ' ' + x['link'], re.I))
-    print('%-90s via %-7s entries=%-4d pune=%-4d span=%s' % (u, how, len(lst), pune,
+    print('%-90s via %-7s entries=%-4d pune=%-4d last24h=%d pune24h=%d span=%s' % (u, how, len(lst), pune, len(day), pune24,
           '%.1f h' % ((max(ds) - min(ds)).total_seconds() / 3600) if len(ds) > 1 else '-'))
