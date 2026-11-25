@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T03:17:42.767Z",
- "total": 2880,
- "added": 0,
+ "updated": "2026-11-25T04:17:41.701Z",
+ "total": 2881,
+ "added": 1,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -120,8 +120,8 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 5,
+   "found": 4,
    "added": 0,
    "note": ""
   },
