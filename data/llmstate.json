@@ -1,10 +1,10 @@
 {
  "day": "2026-11-25",
  "used": {
-  "gemini-3.5-flash-lite": 16,
+  "gemini-3.5-flash-lite": 18,
   "gemini-3.6-flash": 11,
-  "gemini-3.1-flash-lite": 21,
-  "gemini-flash-lite-latest": 1,
+  "gemini-3.1-flash-lite": 33,
+  "gemini-flash-lite-latest": 7,
   "gemini-3-flash-preview": 1
  },
  "rested": {},
@@ -25,17 +25,18 @@
  },
  "lx_reset": 1,
  "last_run": {
-  "busy": 1,
+  "busy": 18,
   "stop": "nothing left to read, or this run's share used"
  },
- "read": 2921,
+ "read": 2956,
  "older": 0,
- "unread": 3,
+ "unread": 7,
  "second": 0,
  "expert": 8,
- "not_incident": 185,
- "updated": "2026-11-25T13:25:31.791Z",
- "judged": 29,
+ "not_incident": 189,
+ "updated": "2026-11-25T14:03:52.610Z",
+ "judged": 43,
  "audited": 1679,
- "overturned": 884
+ "overturned": 884,
+ "triaged": 60
 }
