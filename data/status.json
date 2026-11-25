@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T07:18:10.197Z",
- "total": 2885,
- "added": 1,
+ "updated": "2026-11-25T08:18:01.961Z",
+ "total": 2888,
+ "added": 3,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -80,7 +80,7 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 6,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -112,16 +112,16 @@
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 4,
-   "added": 0,
+   "found": 5,
+   "added": 1,
    "note": ""
   },
   {
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 2,
-   "added": 0,
+   "found": 3,
+   "added": 1,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 2,
+   "found": 3,
    "added": 1,
    "note": ""
   },
@@ -160,7 +160,7 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 9,
+   "found": 10,
    "added": 0,
    "note": ""
   }
