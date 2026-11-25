@@ -32,6 +32,7 @@ jobs:
           pip install -q overturemaps pyarrow shapely rasterio s2sphere numpy
           mkdir -p _test
       - name: Our own Pune tiles (Planetiler)
+        if: ${{ false }}   # measured: 33 MB, 148 s for the district at z0-14
         run: |
           curl -sSL -o /tmp/west.osm.pbf https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf
           osmium extract -b 73.30,17.85,75.25,19.40 /tmp/west.osm.pbf -o /tmp/district.osm.pbf
@@ -53,9 +54,11 @@ jobs:
           lst = json.load(urllib.request.urlopen('https://storage.googleapis.com/storage/v1/b/open-buildings-temporal-data/o?prefix=v1/manifests/%s_&maxResults=50' % tok))
           names = [o['name'] for o in lst.get('items', [])]
           print('S2 level-2 token %s: %d manifests, e.g. %s' % (tok, len(names), names[:3]))
-          man = [n for n in names if '_2023_' in n] or names
+          man = [n for n in names if '_2023_' in n and 'EPSG_32643' in n] or [n for n in names if '_2023_' in n]
+          print('2023 manifests', man)
           m = json.load(urllib.request.urlopen('https://storage.googleapis.com/open-buildings-temporal-data/' + man[0]))
           ts = m['tilesets'][0]
+          print('uriPrefix', m['uriPrefix'], 'first uri', ts['sources'][0]['uris'][0], 'affine', ts['sources'][0]['affineTransform'], 'dims', ts['sources'][0]['dimensions'])
           print('manifest keys', list(m.keys()), 'crs', ts.get('crs'), 'sources', len(ts['sources']), 'bands', [b.get('id') for b in m.get('bands', [])][:6])
           hit = None
           for s in ts['sources']:
