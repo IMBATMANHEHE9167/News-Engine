@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T02:17:49.970Z",
+ "updated": "2026-11-25T03:17:42.767Z",
  "total": 2880,
- "added": 1,
+ "added": 0,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -56,7 +56,7 @@
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
-   "found": 6,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -64,8 +64,8 @@
    "id": "toi",
    "name": "Times of India",
    "ok": true,
-   "found": 4,
-   "added": 1,
+   "found": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -162,7 +162,7 @@
    "ok": true,
    "found": 9,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   }
  ]
 }
