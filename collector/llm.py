@@ -436,6 +436,10 @@ def audit_judges(cache, by_id):
         db = E.day_of(b['d']) if not b.get('i') else (E.date.fromisoformat(b['i']) - E.date(1970, 1, 1)).days
         if cache[k] is True:
             score = (abs(da - db) > 1) + (a.get('a') != b.get('a')) + (a.get('c') != b.get('c'))
+            va, vb = (E.best_reading(a) or {}).get('vn') or [], (E.best_reading(b) or {}).get('vn') or []
+            if va and vb and not E.names_meet(va, vb, set()):
+                score += 5                       # a "same" between reports whose victim names differ: it now joins them
+                                                 # over the name check (cases.join), so the expert re-checks it early
         else:
             score = (a.get('a') == b.get('a')) + (a.get('c') == b.get('c')) + (abs(E.day_of(a['d']) - E.day_of(b['d'])) <= 2)
             va, vb = (E.best_reading(a) or {}).get('vn') or [], (E.best_reading(b) or {}).get('vn') or []

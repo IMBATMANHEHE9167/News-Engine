@@ -45,6 +45,11 @@ def build(items, events, verdicts, ask):
     for t in GOLD['tests']:
         if 'one_case' in t:
             hs = [e for e in holders(t['one_case']) if not e.get('orphan')] or holders(t['one_case'])
+            # A case held as "being checked" for more than 3 hours (the judge has had a run) counts too: a test must not
+            # pass only because the repeat is hidden.
+            rx1, late = re.compile(t['one_case'], re.I), E.iso(datetime.now(timezone.utc) - timedelta(hours=3))
+            hs = hs + [e for e in events if e.get('uv') and not e.get('orphan') and max(r['d'] for r in e['reports']) < late
+                       and any(rx1.search(r['t']) for r in e['reports'])]
             ok = len(hs) <= 1
             detail = '%d cases' % len(hs) if not ok else 'one case' if hs else 'no matching reports yet'
             bad = [[r['t'] for r in e['reports'][:3]] for e in hs[1:6]] if not ok else []
@@ -100,6 +105,13 @@ def build(items, events, verdicts, ask):
     split = [sorted(s) for s in owner.values() if len(s) > 1]
     D['split_cases'] = len(split)
     X['split_cases'] = [[counted[i]['reports'][0]['t'] for i in s[:3]] for s in split[:8]]
+    # The judge read both articles and said "same incident", yet the two reports sit in different cases: a structural
+    # error in joining (e.g. a lossy name check overruling the judge). Should stay at or near zero.
+    where = {r['id']: n for n, e in enumerate(events) for r in e['reports']}
+    apart = [k for k, v in verdicts.items() if E.same(v) and all(x in where for x in k.split('|'))
+             and where[k.split('|')[0]] != where[k.split('|')[1]]]
+    D['judged_same_kept_apart'] = len(apart)
+    X['judged_same_kept_apart'] = [[events[where[x]]['reports'][0]['t'] for x in k.split('|')] for k in apart[:8]]
 
     spread = []
     for e in counted:

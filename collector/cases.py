@@ -182,8 +182,12 @@ def build(items, vec=None, verdicts=None):
                 return False
         if not firm and any(soft.get(ids[m], set()) & inside for m in members[rj]):
             return False                          # the fast judge said "different", and nothing firmer joins them
-        if names[ri] and names[rj] and not E.names_meet(names[ri], names[rj], rare):
-            return False                          # both name their victims, and the names differ
+        # Both name their victims and the names differ: kept apart, unless the judge (who reads both articles in full)
+        # said this very pair is the same incident. Names are read by the AI and their keys are lossy: "Kivle" and
+        # "Kivale" of one man once kept a court attack in two cases against 24 "same" verdicts of the judge.
+        if names[ri] and names[rj] and not E.names_meet(names[ri], names[rj], rare) \
+                and not E.same(verdicts.get(pair_key(ids[i], ids[j]))):
+            return False
         up[rj] = ri
         members[ri] += members[rj]
         names[ri] += names[rj]

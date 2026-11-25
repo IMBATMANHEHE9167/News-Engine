@@ -399,7 +399,8 @@ def skeleton(s):
         for a, b in (('ksh', 'ks'), ('chh', 'c'), ('sh', 's'), ('ch', 'c'), ('kh', 'k'), ('gh', 'g'), ('th', 't'), ('dh', 'd'),
                      ('ph', 'p'), ('bh', 'b'), ('jh', 'j'), ('x', 'ks'), ('q', 'k'), ('z', 'j'), ('f', 'p'), ('w', 'v'), ('m', 'n')):
             w = w.replace(a, b)
-        w = re.sub(r'(?<=[aeiou])[vy](?![aeiou])', '', w)     # "ow", "ay": vowel sounds, not consonants
+        w = re.sub(r'(?<=[aeiou])y(?![aeiou])', '', w)       # "ay", "ey": vowel sounds, not consonants. Never a v:
+        # "Jadhav", "Kivle", "Shivneri" keep their v, as जाधव, किवळे and शिवनेरी do (2026-11-25).
         sk = re.sub(r'[aeiouh]', '', w)
     return re.sub(r'(.)\1+', r'\1', sk)
 
