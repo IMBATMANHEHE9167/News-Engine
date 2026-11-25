@@ -1,15 +1,12 @@
 {
- "scanned": "2026-11-25T22:45:20.994Z",
+ "scanned": "2026-11-25T23:00:27.458Z",
  "every": 15,
- "sources_ok": 29,
+ "sources_ok": 31,
  "sources_failed": [
+  "gn",
   "ie",
   "lks",
-  "ptm",
-  "xie",
-  "xlkm",
-  "xpcp",
-  "xpmp"
+  "ptm"
  ],
  "reports": 280,
  "situations": 150,
