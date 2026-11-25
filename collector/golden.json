@@ -34,7 +34,11 @@
   {"name": "Pune auto-rickshaw strike from 23 Nov (sit-in outside Pune RTO) is placed on the map", "situation_placed": "Auto-Rickshaw Drivers Announce Indefinite Strike"},
   {"name": "GRP constable attacked at Pune railway station (knife or sickle, per paper) is one case", "one_case": "assault GRP constable|Constable Attacked With Sickle at Pune Railway|Railway Police Constable Attacked|रेल्वे पोलिसाचा चाकूने|रेल्वे पोलिसावर चाकूने"},
   {"name": "Narayangaon tamasha centre firing and the arrest of its main suspect are one case", "one_case": "Narayangaon Art Center Firing|tamasha centre in Junnar"},
-  {"name": "Ketan Agarwal murder (Lohagad Fort) is counted as an incident, though every report is a later development", "counted": "ketan ag(a)?r(a)?wal|lohagad (fort )?(murder|trek)|lohgad case|केतन"}
+  {"name": "Ketan Agarwal murder (Lohagad Fort) is counted as an incident, though every report is a later development", "counted": "ketan ag(a)?r(a)?wal|lohagad (fort )?(murder|trek)|lohgad case|केतन"},
+  {"name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case", "one_case": "mandar ki(v|w)a?le|मंदार किवळे"},
+  {"name": "Jejuri couple killed by an MSRTC bus (Nov 2026): the X post and the paper are one case", "one_case": "Couple Heading Home From Farm Killed|Jejuri ST bus Bike Accident|जेजुरी-मोरगाव रस्त्यावर एसटी बस"},
+  {"name": "Katraj LPG cylinder fire (Nov 2026): the X post and the paper are one case", "one_case": "LPG cylinder at a house in Navin Vasahat|Fire Breaks Out in LPG Cylinder at House in Katraj"},
+  {"name": "Worker assaulted with a wooden tool over fruit-cart waste: an outlet's X post and its article are one case", "one_case": "Assault Worker With Wooden Tool"}
  ],
  "calendar_from": "2026-05-25"
 }

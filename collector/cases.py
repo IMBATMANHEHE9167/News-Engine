@@ -226,7 +226,22 @@ def build(items, vec=None, verdicts=None):
                 if k not in verdicts:
                     checks.append((k, recs[i]['r'], recs[centre]['r']))
 
-    events = [_case([recs[i] for i in g]) for g in groups.values()]
+    # A case that may be a repeat of another (a pair the judge has not decided yet) is held as "being checked" and not
+    # counted until the judge decides: the newer side of each open pair, among reports of the last 7 days. Without this
+    # the same story from a second source (an outlet's post on X, a follow-up) was counted twice until judged.
+    newest = max((x['pub'] for x in recs), default=0)
+    held = set()
+    for k, (i, j, s) in cand.items():
+        if k not in verdicts and find(i) != find(j):
+            later = i if (recs[i]['pub'], recs[i]['r']['d']) > (recs[j]['pub'], recs[j]['r']['d']) else j
+            if recs[later]['pub'] >= newest - 7:
+                held.add(find(later))
+    events = []
+    for root, g in groups.items():
+        e = _case([recs[i] for i in g])
+        if root in held:
+            e['uv'] = 1
+        events.append(e)
     open_ = [(s, k, recs[i]['r'], recs[j]['r']) for k, (i, j, s) in cand.items()
              if k not in verdicts and (find(i) != find(j) or not is_firm(i, j))]
     open_.sort(key=lambda t: (max(t[2]['d'], t[3]['d'])[:10], t[0]), reverse=True)
