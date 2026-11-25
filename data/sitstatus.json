@@ -1,5 +1,5 @@
 {
- "scanned": "2026-11-25T08:00:22.623Z",
+ "scanned": "2026-11-25T08:15:20.568Z",
  "every": 15,
  "sources_ok": 14,
  "sources_failed": [
@@ -7,7 +7,7 @@
   "lks",
   "ptm"
  ],
- "reports": 138,
- "situations": 81,
- "new": 0
+ "reports": 139,
+ "situations": 82,
+ "new": 1
 }
