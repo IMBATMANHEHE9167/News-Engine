@@ -1,9 +1,10 @@
 {
- "scanned": "2026-11-25T01:00:36.950Z",
+ "scanned": "2026-11-25T01:15:19.682Z",
  "every": 15,
- "sources_ok": 12,
+ "sources_ok": 14,
  "sources_failed": [
-  "gn",
+  "ie",
+  "lks",
   "ptm"
  ],
  "reports": 131,
