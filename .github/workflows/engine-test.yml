@@ -12,7 +12,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,7 +29,7 @@ jobs:
       - run: (timeout 300 python collector/situations.py > _test/situations.txt 2>&1; echo "exit $?" >> _test/situations.txt; python -c "import json; [print(r['t'][:70], '|', r.get('S'), r.get('a'), r.get('w'), r.get('st'), r.get('en','')[:80]) for r in json.load(open('data/sitreports.json'))[:30]]" >> _test/situations.txt 2>&1) || true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      - run: (timeout 900 python collector/diag.py > _test/diag.txt 2>&1; echo "exit $?" >> _test/diag.txt) || true
+      - run: (timeout 1300 python collector/diag.py > _test/diag.txt 2>&1; echo "exit $?" >> _test/diag.txt) || true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: (GEMINI_API_KEY= timeout 900 python collector/collect.py > _test/collect.txt 2>&1; echo "exit $?" >> _test/collect.txt) || true

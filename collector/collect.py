@@ -39,7 +39,26 @@ def read_json(name, fallback):
 
 def get(url):
     page = E.x_post_page(url, _get) if 'x.com/' in url or 'twitter.com/' in url else None
-    return page if page is not None else _get(url)
+    if page is not None:
+        return page
+    if 'fxtwitter.com/' not in url:
+        return _get(url)
+    # FxTwitter builds each feed live from X: now and then it answers 404 or a cut-short feed. Ask up to three times and
+    # keep the fullest answer.
+    best, err = '', None
+    for k in range(3):
+        try:
+            got = _get(url)
+            if got.count('<item') > best.count('<item'):
+                best = got
+            if best.count('<item') >= 20:
+                break
+        except Exception as ex:
+            err = ex
+        time.sleep(2 + 3 * k)
+    if not best and err:
+        raise err
+    return best
 
 
 def _get(url):

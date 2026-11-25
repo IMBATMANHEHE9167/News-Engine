@@ -85,3 +85,25 @@ print('\n' + '=' * 100 + '\nAI gate on %d reports the words turned away (%d answ
 for c in SOFT[:150]:
     a = ans.get(c['id'])
     print('  %-5s %-12s %-11s %-5s | %s' % ('-' if not a else (a['i'] or 'no'), '' if not a else (a['s'] or ''), c['d'][5:16], c['s'], c['t'][:120]))
+
+# Candidate sources (founder, 25 Nov): reachable from here? how many entries, how many Pune ones, how far back?
+print('\n' + '=' * 100 + '\nCandidate sources\n')
+CANDS = ['https://mpcnews.in/feed/', 'https://www.navarashtra.com/rss/pune', 'https://www.navarashtra.com/feed',
+         'https://maharashtratimes.com/maharashtra/pune-news/rssfeedsection/2429654.cms',
+         'https://maharashtratimes.com/rssfeedsdefault.cms', 'https://lokmat.news18.com/rss/pune.xml',
+         'https://www.saamtv.com/feed', 'https://www.saamtv.com/rss/pune', 'https://zeenews.india.com/marathi/rss/pune-news.xml',
+         'https://www.thebridgechronicle.com/feed', 'https://www.thebridgechronicle.com/rss/pune',
+         'https://www.lokshahi.com/feed', 'https://www.punepulse.com/feed/', 'https://www.mid-day.com/rss/pune.xml',
+         'https://www.freepressjournal.in/stories.rss?section=pune', 'https://www.loksatta.com/pune/feed/',
+         'https://www.esakal.com/rss/pune', 'https://www.ndtv.com/rss/cities/pune', 'https://pudhari.news/feed',
+         'https://www.lokmat.com/rss/pune/', 'https://www.punepolice.gov.in/press-release', 'https://www.pcpc.gov.in/']
+for u in CANDS:
+    xml, how = try_get(u)
+    if xml is None:
+        print('%-90s FAILED %s' % (u, how))
+        continue
+    lst = E.parse_feed(xml) or E.parse_sitemap(xml)
+    ds = [x['date'] for x in lst if x.get('date')]
+    pune = sum(1 for x in lst if re.search(r'pune|pimpri|chinchwad|hinjaw|hinjew|पुण|पिंपरी|चिंचवड|हिंजवड', x['title'] + ' ' + x['link'], re.I))
+    print('%-90s via %-7s entries=%-4d pune=%-4d span=%s' % (u, how, len(lst), pune,
+          '%.1f h' % ((max(ds) - min(ds)).total_seconds() / 3600) if len(ds) > 1 else '-'))

@@ -1264,7 +1264,7 @@ def verdict(rec):
     if a == rules:
         return L
     L2 = rec.get('L2')
-    if L2 and L2.get('v') != R['llm']['version']:
+    if L2 and (L2.get('v') or 0) < R['llm'].get('valid_from', R['llm']['version']):
         L2 = None                                     # a second reading under an older form: read again
     if not L2:
         return 'second'
@@ -1276,7 +1276,7 @@ def verdict(rec):
     if b == rules:
         return L2
     X = rec.get('X')
-    if X and X.get('v') != R['llm']['version']:
+    if X and (X.get('v') or 0) < R['llm'].get('valid_from', R['llm']['version']):
         X = None
     if not X:
         return 'expert'
