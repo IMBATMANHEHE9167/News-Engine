@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T21:40:01.543Z",
+ "updated": "2026-11-25T22:25:55.438Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -69,9 +69,13 @@
   },
   {
    "name": "Kasba Ganpati temple donation-box theft is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Swift Action by Faraskhana Police Cracks Temple Break-In in 8 Hours! Following a break-in at Shri Kasba Ganpati Temple, Faraskhana Police analysed CCTV footage and traced the suspect through detailed investigation.…"
+    ]
+   ]
   },
   {
    "name": "Karegaon water-filter plant worker shot in place of his employer (29 Sep 2026) is one case",
@@ -246,19 +250,19 @@
   "split_cases": 1,
   "judged_same_kept_apart": 7,
   "date_spread": 26,
-  "waiting_for_judge": 897,
+  "waiting_for_judge": 918,
   "pairs_judged": 5204,
   "pairs_judged_same": 2850,
-  "judge_checked_by_expert": 1902,
+  "judge_checked_by_expert": 1917,
   "judge_overturned_by_expert": 939,
   "non_incident_wording": 2,
   "area_disagreement": 38,
   "silent_days": 4,
   "source_gap_days": 67,
-  "unverified": 128,
+  "unverified": 146,
   "ruled_out_by_ai": 221,
   "future_times": 0,
-  "reports": 3201,
+  "reports": 3219,
   "cases": 1544
  },
  "examples": {
@@ -382,9 +386,9 @@
     "reading": "Shivajinagar"
    },
    {
-    "t": "Court rejects anticipatory bail plea of woman in ₹11.67 crore investment fraud",
-    "case_area": "Viman Nagar",
-    "reading": "Wakad"
+    "t": "IT grads trapped in Pune job scam; company-agent nexus exposed",
+    "case_area": "Wakad",
+    "reading": "Viman Nagar"
    },
    {
     "t": "Pune Crime: 'मामा थांब मला...', आईच्या वाट्याची जमीन, भाच्याने मंदिरासमोर घेतला जीव; भोरमधील हत्याकांड काय?",
@@ -501,5 +505,5 @@
   ],
   "future_times": []
  },
- "passed": 40
+ "passed": 39
 }
