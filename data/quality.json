@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T12:20:55.378Z",
+ "updated": "2026-11-25T13:23:34.848Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -198,24 +198,31 @@
    "ok": true,
    "detail": "one case",
    "bad": []
+  },
+  {
+   "name": "Ketan Agarwal murder (Lohagad Fort) is counted as an incident, though every report is a later development",
+   "ok": true,
+   "detail": "counted",
+   "bad": []
   }
  ],
  "detectors": {
   "split_cases": 1,
   "date_spread": 27,
-  "waiting_for_judge": 15,
-  "pairs_judged": 3840,
-  "pairs_judged_same": 1921,
+  "waiting_for_judge": 46,
+  "pairs_judged": 3871,
+  "pairs_judged_same": 1943,
   "judge_checked_by_expert": 1649,
   "judge_overturned_by_expert": 860,
   "non_incident_wording": 2,
   "area_disagreement": 37,
   "silent_days": 4,
-  "source_gap_days": 67,
-  "unverified": 11,
+  "source_gap_days": 68,
+  "unverified": 12,
   "ruled_out_by_ai": 184,
-  "reports": 2917,
-  "cases": 1502
+  "future_times": 0,
+  "reports": 2923,
+  "cases": 1504
  },
  "examples": {
   "split_cases": [
@@ -342,7 +349,7 @@
    {
     "day": "2026-07-10",
     "incidents": 1,
-    "usual": 6
+    "usual": 7
    },
    {
     "day": "2026-07-22",
@@ -362,10 +369,15 @@
   ],
   "source_gaps": [
    {
-    "source": "lkm",
-    "days": 1,
+    "source": "skl",
+    "days": 8,
     "examples": [
-     "2026-11-20"
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
     ]
    },
    {
@@ -381,15 +393,11 @@
     ]
    },
    {
-    "source": "skl",
-    "days": 8,
+    "source": "lkm",
+    "days": 2,
     "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
+     "2026-11-20",
+     "2026-11-22"
     ]
    },
    {
@@ -423,7 +431,8 @@
      "2026-11-06"
     ]
    }
-  ]
+  ],
+  "future_times": []
  },
- "passed": 33
+ "passed": 34
 }
