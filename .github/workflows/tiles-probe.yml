@@ -1,8 +1,8 @@
 name: Map tiles probe
 
-# Measures, without changing the site: how large our own Pune map tiles would be (OpenStreetMap -> OpenMapTiles schema
-# with tilemaker -> PMTiles), and how many Pune buildings carry heights in Overture vs OpenStreetMap (Prabhat Road and
-# the whole city). Result in _test/tiles.txt on the tiles-probe branch.
+# Measures, without changing the site: (1) our own Pune map tiles built with Planetiler (OpenMapTiles schema, PMTiles):
+# size and build time; (2) Google Open Buildings 2.5D heights (public GCS rasters) sampled on Overture footprints around
+# Prabhat Road. Result in _test/tiles.txt on the tiles-probe branch.
 on:
   push:
     branches: [tiles-probe]
@@ -13,74 +13,83 @@ permissions:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
       - name: Tools
         run: |
           sudo apt-get install -y -qq osmium-tool > /dev/null
-          git clone -q --depth 1 https://github.com/systemed/tilemaker /tmp/tm
-          (sudo apt-get install -y -qq tilemaker > /dev/null 2>&1 && echo "tilemaker from apt: $(tilemaker --help 2>&1 | head -1)") || echo "no apt tilemaker"
+          curl -sSL -o /tmp/planetiler.jar https://github.com/onthegomap/planetiler/releases/latest/download/planetiler.jar
           U=$(curl -s https://api.github.com/repos/protomaps/go-pmtiles/releases/latest | grep -o 'https://[^"]*Linux_x86_64.tar.gz' | head -1)
-          curl -sSL "$U" | tar xz -C /tmp && /tmp/pmtiles version || true
-          pip install -q overturemaps pyarrow shapely
+          curl -sSL "$U" | tar xz -C /tmp
+          pip install -q overturemaps pyarrow shapely rasterio s2sphere numpy
           mkdir -p _test
-      - name: OpenStreetMap cut
+      - name: Our own Pune tiles (Planetiler)
         run: |
           curl -sSL -o /tmp/west.osm.pbf https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf
           osmium extract -b 73.30,17.85,75.25,19.40 /tmp/west.osm.pbf -o /tmp/district.osm.pbf
-          osmium extract -b 73.60,18.35,74.20,18.80 /tmp/west.osm.pbf -o /tmp/metro.osm.pbf
-          ls -la /tmp/*.osm.pbf | awk '{print $5, $9}' >> _test/tiles.txt
-      - name: Tiles (OpenMapTiles schema)
-        run: |
-          T=tilemaker; command -v tilemaker > /dev/null || { docker pull -q ghcr.io/systemed/tilemaker:master > /dev/null && T="docker run --rm -v /tmp:/tmp ghcr.io/systemed/tilemaker:master"; }
-          cd /tmp/tm
-          for a in metro district; do
-            start=$(date +%s)
-            $T /tmp/$a.osm.pbf --output /tmp/$a.mbtiles --config /tmp/tm/resources/config-openmaptiles.json --process /tmp/tm/resources/process-openmaptiles.lua > /tmp/tm-$a.log 2>&1 || tail -5 /tmp/tm-$a.log
-            /tmp/pmtiles convert /tmp/$a.mbtiles /tmp/$a.pmtiles > /dev/null 2>&1 || true
-            echo "tiles $a: mbtiles $(stat -c %s /tmp/$a.mbtiles 2>/dev/null) bytes, pmtiles $(stat -c %s /tmp/$a.pmtiles 2>/dev/null) bytes, $(( $(date +%s) - start )) s" >> $GITHUB_WORKSPACE/_test/tiles.txt
-          done
-          /tmp/pmtiles show /tmp/metro.pmtiles 2>&1 | head -20 >> $GITHUB_WORKSPACE/_test/tiles.txt || true
-      - name: Building heights, OpenStreetMap
-        run: |
-          for b in "prabhat 73.825,18.505,73.845,18.522" "metro 73.60,18.35,74.20,18.80"; do
-            set -- $b
-            osmium extract -b $2 /tmp/west.osm.pbf -o /tmp/b-$1.osm.pbf --overwrite > /dev/null
-            all=$(osmium tags-filter /tmp/b-$1.osm.pbf w/building r/building -o /tmp/bb.osm.pbf --overwrite > /dev/null && osmium fileinfo -e /tmp/bb.osm.pbf | grep -E 'Number of ways' | head -1)
-            h=$(osmium tags-filter /tmp/bb.osm.pbf w/height w/building:levels -o /tmp/bh.osm.pbf --overwrite > /dev/null && osmium fileinfo -e /tmp/bh.osm.pbf | grep -E 'Number of ways' | head -1)
-            echo "OSM $1: buildings $all ; with height or levels $h" >> _test/tiles.txt
-          done
-      - name: Building heights, Overture
+          start=$(date +%s)
+          java -Xmx5g -jar /tmp/planetiler.jar --osm-path=/tmp/district.osm.pbf --output=/tmp/district.pmtiles --download --force \
+            --bounds=73.30,17.85,75.25,19.40 --maxzoom=14 > /tmp/pt.log 2>&1 || tail -20 /tmp/pt.log >> _test/tiles.txt
+          echo "planetiler district z0-14: $(stat -c %s /tmp/district.pmtiles 2>/dev/null) bytes, $(( $(date +%s) - start )) s" >> _test/tiles.txt
+          /tmp/pmtiles show /tmp/district.pmtiles 2>&1 | head -14 >> _test/tiles.txt || true
+      - name: Google 2.5D heights on Overture footprints (Prabhat Road)
         run: |
           python - <<'EOF' >> _test/tiles.txt 2>&1
-          import subprocess, pyarrow.parquet as pq, pyarrow.compute as pc
-          for name, bbox in [('prabhat', '73.825,18.505,73.845,18.522'), ('metro', '73.60,18.35,74.20,18.80')]:
-              out = '/tmp/ov-%s.parquet' % name
-              r = subprocess.run(['overturemaps', 'download', '--bbox=' + bbox, '-f', 'geoparquet', '--type=building', '-o', out], capture_output=True, text=True)
-              if r.returncode:
-                  print('Overture %s failed: %s' % (name, r.stderr[-300:])); continue
-              t = pq.read_table(out)
-              n = t.num_rows
-              h = t.column('height') if 'height' in t.column_names else None
-              f = t.column('num_floors') if 'num_floors' in t.column_names else None
-              nh = n - h.null_count if h is not None else 0
-              nf = n - f.null_count if f is not None else 0
-              import os
-              print('Overture %s: %d buildings, %d with height, %d with floors, file %d bytes' % (name, n, nh, nf, os.path.getsize(out)))
-              if h is not None and nh:
-                  hv = [x for x in h.to_pylist() if x is not None]
-                  hv.sort()
-                  print('   heights: median %.1f m, 90th %.1f m, max %.1f m, over 30 m: %d' % (hv[len(hv)//2], hv[int(len(hv)*.9)], hv[-1], sum(1 for x in hv if x > 30)))
-              if 'sources' in t.column_names:
-                  src = {}
-                  for s in t.column('sources').to_pylist()[:200000]:
-                      for d in (s or []):
-                          src[d.get('dataset')] = src.get(d.get('dataset'), 0) + 1
-                  print('   sources: %s' % src)
+          import json, urllib.request, subprocess, numpy as np, s2sphere, rasterio, pyarrow.parquet as pq
+          from rasterio.windows import from_bounds
+          from shapely import wkb
+          from shapely.geometry import box
+          from rasterio.warp import transform_bounds
+          lon, lat = 73.835, 18.513
+          tok = s2sphere.CellId.from_lat_lng(s2sphere.LatLng.from_degrees(lat, lon)).parent(2).to_token()
+          lst = json.load(urllib.request.urlopen('https://storage.googleapis.com/storage/v1/b/open-buildings-temporal-data/o?prefix=v1/manifests/%s_&maxResults=50' % tok))
+          names = [o['name'] for o in lst.get('items', [])]
+          print('S2 level-2 token %s: %d manifests, e.g. %s' % (tok, len(names), names[:3]))
+          man = [n for n in names if '_2023_' in n] or names
+          m = json.load(urllib.request.urlopen('https://storage.googleapis.com/open-buildings-temporal-data/' + man[0]))
+          ts = m['tilesets'][0]
+          print('manifest keys', list(m.keys()), 'crs', ts.get('crs'), 'sources', len(ts['sources']), 'bands', [b.get('id') for b in m.get('bands', [])][:6])
+          hit = None
+          for s in ts['sources']:
+              a, d = s['affineTransform'], s['dimensions']
+              x0, y0 = a['translateX'], a['translateY']; x1 = x0 + a['scaleX'] * d['width']; y1 = y0 + a['scaleY'] * d['height']
+              xb = transform_bounds(ts['crs'], 'EPSG:4326', min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1))
+              if xb[0] <= lon <= xb[2] and xb[1] <= lat <= xb[3]:
+                  hit = s; break
+          if not hit:
+              print('no tile covers Prabhat Road'); raise SystemExit
+          url = 'https://storage.googleapis.com/open-buildings-temporal-data/' + m['uriPrefix'] + hit['uris'][0] if not m['uriPrefix'].startswith('gs://') else m['uriPrefix'].replace('gs://', 'https://storage.googleapis.com/') + hit['uris'][0]
+          print('tile', url)
+          subprocess.run(['curl', '-sSL', '-o', '/tmp/t.tif', url], check=True)
+          subprocess.run(['overturemaps', 'download', '--bbox=73.825,18.505,73.845,18.522', '-f', 'geoparquet', '--type=building', '-o', '/tmp/pb.parquet'], check=True)
+          t = pq.read_table('/tmp/pb.parquet')
+          geoms = [wkb.loads(g) for g in t.column('geometry').to_pylist()]
+          with rasterio.open('/tmp/t.tif') as r:
+              print('raster', r.count, 'bands', r.dtypes, 'res', r.res, 'crs', r.crs, 'descriptions', r.descriptions, 'scales', r.scales)
+              hb = 2 if r.count >= 2 else 1
+              out = []
+              for g in geoms:
+                  b = transform_bounds('EPSG:4326', r.crs, *g.bounds)
+                  w = from_bounds(*b, r.transform)
+                  try:
+                      arr = r.read(hb, window=w, boundless=True, fill_value=0).astype(float)
+                  except Exception:
+                      continue
+                  v = arr[arr > 0]
+                  if v.size:
+                      out.append(float(np.percentile(v, 90)) * (r.scales[hb - 1] or 1))
+              out.sort()
+              print('Prabhat Road: %d footprints, %d with a 2.5D height; median %.1f m, 90th %.1f m, max %.1f m; over 20 m: %d, over 30 m: %d, over 45 m: %d' % (
+                  len(geoms), len(out), out[len(out)//2] if out else 0, out[int(len(out)*.9)] if out else 0, out[-1] if out else 0,
+                  sum(1 for x in out if x > 20), sum(1 for x in out if x > 30), sum(1 for x in out if x > 45)))
           EOF
       - name: Save
         run: |
