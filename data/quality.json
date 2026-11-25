@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T15:50:52.682Z",
+ "updated": "2026-11-25T16:50:55.240Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -237,8 +237,11 @@
   {
    "name": "Katraj LPG cylinder fire (Nov 2026): the X post and the paper are one case",
    "ok": false,
-   "detail": "2 cases",
+   "detail": "3 cases",
    "bad": [
+    [
+     "Pune: Fire Breaks Out in LPG Cylinder at House in Katraj; Fire Brigade Brings Blaze Under Control"
+    ],
     [
      "Pune: Fire Breaks Out in LPG Cylinder at House in Katraj; Fire Brigade Brings Blaze Under Control"
     ]
@@ -259,7 +262,7 @@
   "split_cases": 1,
   "judged_same_kept_apart": 54,
   "date_spread": 26,
-  "waiting_for_judge": 678,
+  "waiting_for_judge": 783,
   "pairs_judged": 4008,
   "pairs_judged_same": 2072,
   "judge_checked_by_expert": 1679,
@@ -268,11 +271,11 @@
   "area_disagreement": 36,
   "silent_days": 4,
   "source_gap_days": 68,
-  "unverified": 93,
+  "unverified": 97,
   "ruled_out_by_ai": 190,
   "future_times": 0,
-  "reports": 3057,
-  "cases": 1478
+  "reports": 3066,
+  "cases": 1477
  },
  "examples": {
   "split_cases": [
