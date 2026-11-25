@@ -2028,7 +2028,7 @@ function drawOc() {
       <div>
         <div class="rec-type"><span>${esc(OC_TYPE[x.type] || x.type)}</span><span class="tag" title="${x.active ? 'Reported in the last four months' : 'No report for over four months'}">${x.active ? 'Active' : 'Quiet'}</span></div>
         <a class="rec-head" href="#oc" data-g="${x.id}">${esc(x.name)}</a>
-        <div class="rec-meta">${x.leader ? `<span><span class="place">${esc(x.leader)}</span> <span class="acc">accused</span></span>` : ''}<span><b>${plural(x.incidents, 'incident')}</b>, ${plural(x.n, 'report')}</span>${acts.mcoca ? `<span>MCOCA in ${acts.mcoca}</span>` : ''}${where ? `<span>${where}</span>` : ''}${key ? `<span><b>${new Set((x.reports || []).filter(r => test(r) && r.ev != null).map(r => r.ev)).size}</b> incidents with ${esc(key.name.toLowerCase())}</span>` : ''}</div>
+        <div class="rec-meta">${x.leader ? `<span><span class="place">${esc(x.leader)}</span> <span class="acc">accused</span></span>` : ''}<span><b>${plural(x.incidents, 'incident')}</b>, ${plural(x.n, 'report')}</span>${acts.mcoca ? `<span>MCOCA in ${acts.mcoca}</span>` : ''}${where ? `<span>${where}</span>` : ''}${key ? `<span>${plural(new Set((x.reports || []).filter(r => test(r) && r.ev != null).map(r => r.ev)).size, 'incident')} with ${esc(key.name.toLowerCase())}</span>` : ''}</div>
       </div>
     </article>`;
   };
