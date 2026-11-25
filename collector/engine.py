@@ -756,6 +756,9 @@ def extract_items(feed, items, soft=None):
             slug = slug_title(it['link'])
             if (classify(slug) or CRIME_WORDS.search(slug)) and not NOISE.search(slug) and not HAPPENED_ELSEWHERE.search(slug):
                 out.append(dict(cand=1, link=it['link'], slug=slug, date=it['date'], home=home))
+            elif soft is not None and home and it['date'] and not HAPPENED_ELSEWHERE.search(slug) and len(slug) > 15:
+                # An address with no crime word: the AI gate reads its words (the page is read only if it says yes).
+                soft.append(dict(id=hash_id(it['link']), t=slug, u=it['link'], s=feed['id'], d=iso(it['date']), x='', home=home, cand=1))
             continue
         if not it['title'] or not it['date']:
             continue
@@ -774,13 +777,13 @@ def extract(feed, xml, soft=None):
     return extract_items(feed, parse_sitemap(xml) if feed.get('kind') else parse_feed(xml), soft)
 
 
-def finish(feed, cand, html, fallback):
+def finish(feed, cand, html, fallback, ai=None):
     """A candidate from a headline-less index -> record, using the article page. None when it fails the checks."""
     head, text = page_head(html), page_text(html)
     d = head['date'] or cand.get('date') or fallback
     if not head['title'] or not d:
         return None
-    v = assess(head['title'], cand['link'], text, d, cand['home'], True)
+    v = assess(head['title'], cand['link'], text, d, cand['home'], True, ai=ai)
     if not v:
         return None
     rec = record(feed, head['title'], cand['link'], d, v)

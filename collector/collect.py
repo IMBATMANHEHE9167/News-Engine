@@ -267,6 +267,14 @@ for sid in ('pkn', 'ptm', 'pcl'):
     st0 = bf['src'].setdefault(sid, dict(done=False, kept=0, note=''))
     if not st0.get('refill'):
         st0.update(done=False, page=1, refill=1, until=REFILL_FROM)
+# One-time re-scan for the AI gate (25 Nov 2026): every history source is read again back to HISTORY_FROM. Stories we
+# have are skipped; the Pune stories the word rules turned away go to the AI gate (HSOFT, step 4a), a few hundred per run.
+HSOFT = []
+if not bf.get('regate'):
+    bf['regate'] = NOW.isoformat()[:16]
+    for A in ARCHIVES:
+        bf['src'].setdefault(A['id'], dict(done=False, kept=0, note='')).update(done=False, page=1, i=0, files=None, until=HISTORY_FROM)
+    bf['next'] = ist_date(NOW - timedelta(days=2))
 ab = {'left': ARCHIVE_PAGES}
 for A in ARCHIVES:
     st = bf['src'].setdefault(A['id'], dict(done=False, kept=0, note=''))
@@ -284,7 +292,7 @@ for A in ARCHIVES:
                 if not lst:
                     st['done'] = True
                     break
-                st['kept'] += E.merge(items, E.extract_items(feed, [x for x in lst if ist_date(x['date']) >= st.get('until', HISTORY_FROM)]), rejected)
+                st['kept'] += E.merge(items, E.extract_items(feed, [x for x in lst if ist_date(x['date']) >= st.get('until', HISTORY_FROM)], HSOFT), rejected)
                 st['reached'] = ist_date(min(x['date'] for x in lst))
                 if st['reached'] < st.get('until', HISTORY_FROM):
                     st['done'] = True
@@ -302,7 +310,7 @@ for A in ARCHIVES:
             pseudo = dict(feed, kind='urlmap', path=A['path'])
             while st['i'] < len(st['files']) and ab['left'] > 0 and time.time() - T0 < RUN_LIMIT:
                 allx = [x for x in E.parse_sitemap(get(st['files'][st['i']])) if A['path'].search(x['link'])]
-                cands = [c for c in E.extract_items(pseudo, allx) if not c['date'] or ist_date(c['date']) >= HISTORY_FROM]
+                cands = [c for c in E.extract_items(pseudo, allx, HSOFT) if not c['date'] or ist_date(c['date']) >= HISTORY_FROM]
                 have = known()
                 open_ = [c for c in cands if E.hash_id(c['link']) not in have and E.hash_id(c['link']) not in rejected]
                 if open_:
@@ -330,7 +338,7 @@ if sakal and bf['next'] >= bf['stop']:
             break
         day = bf['next']
         try:
-            cands = E.extract(sakal, get(sakal['url'].replace('{date}', day)))
+            cands = E.extract(sakal, get(sakal['url'].replace('{date}', day)), HSOFT)
             before = bb['left']
             bf['kept'] += read_candidates(sakal, cands, bb, E.parse_date(day + 'T12:00:00+05:30'))
             if bb['left'] <= 0 and before > 0 and len(cands) > before:
@@ -357,31 +365,57 @@ pool = {c['id']: c for c in tri_wait + SOFT if c['id'] not in tri_seen and c['id
         and c['d'] >= E.iso(NOW - timedelta(days=4))}
 cands = sorted(pool.values(), key=lambda c: c['d'], reverse=True)
 let_in = 0
-try:
-    import llm
-    answers = llm.triage(cands, limit=E.R['llm']['per_run'].get('triage', 6))
-except Exception as ex:
-    answers = {}
-    print('ai gate failed: %s' % str(ex)[:200])
-for c in cands:
-    a = answers.get(c['id'])
-    if not a:
-        continue
+
+
+def admit(c, a):
+    """The AI gate said yes: the report becomes a record. A headline-less index entry (cand) is read from its page."""
+    global let_in
     tri_seen[c['id']] = (a['i'] or '-') + '|' + (a['s'] or '-')
-    if a['s']:
+    if a['s'] and c['d'] >= E.iso(NOW - timedelta(days=14)):
         tri_sit.append(dict(id=c['id'], t=c['t'], u=c['u'], s=c['s'], d=c['d'], x=c.get('x', '')[:400], k=a['s']))
-    if a['i']:
-        feed = E.feed_of(c['s'])
-        v = E.assess(c['t'], c['u'], c.get('x', ''), E.parse_date(c['d']), c.get('home', False), False, ai=a['i'])
-        if feed and v:
-            rec = E.record(feed, c['t'], c['u'], E.parse_date(c['d']), v)
-            rec['tg'] = a['i']
-            let_in += E.merge(items, [rec], rejected)
-TRI = dict(seen=dict(list(tri_seen.items())[-30000:]), wait=[c for c in cands if c['id'] not in answers][:400],
-           sit=[s for s in tri_sit if s['d'] >= E.iso(NOW - timedelta(days=14))][-500:])
+    feed = E.feed_of(c['s'])
+    if not a['i'] or not feed:
+        return
+    rec = None
+    try:
+        if c.get('cand'):
+            rec = E.finish(feed, dict(link=c['u'], date=E.parse_date(c['d']), home=c.get('home', True)), get(c['u']), E.parse_date(c['d']), ai=a['i'])
+        else:
+            v = E.assess(c['t'], c['u'], c.get('x', ''), E.parse_date(c['d']), c.get('home', False), False, ai=a['i'])
+            rec = E.record(feed, c['t'], c['u'], E.parse_date(c['d']), v) if v else None
+    except Exception:
+        tri_seen.pop(c['id'], None)                    # the page could not be read: ask again next run
+        return
+    if rec:
+        rec['tg'] = a['i']
+        let_in += E.merge(items, [rec], rejected)
+
+
+def gate(cs, limit):
+    try:
+        import llm
+        ans = llm.triage(cs, limit=limit)
+    except Exception as ex:
+        ans = {}
+        print('ai gate failed: %s' % str(ex)[:200])
+    for c in cs:
+        if ans.get(c['id']):
+            admit(c, ans[c['id']])
+    return ans
+
+
+answers = gate(cands, E.R['llm']['per_run'].get('triage', 6))
+# The months before (the one-time re-scan, HSOFT): oldest stories the words turned away, asked after today's.
+hpool = {c['id']: c for c in (TRI.get('hist') or []) + HSOFT if c['id'] not in tri_seen and c['id'] not in have_ids
+         and c['id'] not in rejected and c['id'] not in pool and c['d'] >= HISTORY_FROM}
+hist = sorted(hpool.values(), key=lambda c: c['d'], reverse=True)
+hanswers = gate(hist, E.R['llm']['per_run'].get('triage_hist', 8)) if hist else {}
+TRI = dict(seen=dict(list(tri_seen.items())[-80000:]), wait=[c for c in cands if c['id'] not in answers][:400],
+           sit=[s for s in tri_sit if s['d'] >= E.iso(NOW - timedelta(days=14))][-500:],
+           hist=[c for c in hist if c['id'] not in hanswers][:30000])
 (DATA / 'triage.json').write_text(json.dumps(TRI, ensure_ascii=False, separators=(',', ':')), 'utf-8')
-print('ai gate: %d turned away by the words, %d asked, %d let in as incidents, %d live situations' %
-      (len(cands), len(answers), let_in, sum(1 for c in cands if (answers.get(c['id']) or {}).get('s'))))
+print('ai gate: %d turned away by the words today, %d asked; history %d waiting, %d asked; %d let in as incidents' %
+      (len(cands), len(answers), len(hist), len(hanswers), let_in))
 added += let_in
 
 # ---- 4b. LLM layer: a language model reads each report and fills a fixed form (llm.py); its reading decides (engine).

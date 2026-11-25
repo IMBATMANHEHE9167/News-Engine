@@ -238,7 +238,10 @@ def build(items, vec=None, verdicts=None):
     for k, (i, j, s) in cand.items():
         if k not in verdicts and find(i) != find(j):
             later = i if (recs[i]['pub'], recs[i]['r']['d']) > (recs[j]['pub'], recs[j]['r']['d']) else j
-            if recs[later]['pub'] >= newest - 7:
+            gated = [x for x in (i, j) if recs[x]['r'].get('tg')]
+            if gated:
+                held.add(find(gated[0]))          # let in by the AI gate (also months back, in the re-scan): held too
+            elif recs[later]['pub'] >= newest - 7:
                 held.add(find(later))
     events = []
     for root, g in groups.items():
@@ -252,7 +255,8 @@ def build(items, vec=None, verdicts=None):
     # Asked first: the open pairs that hold a case back (two cases, last 7 days): each is a possible double count, and the
     # held case is not counted until the judge answers. Then the checks of cases already shown, then the rest.
     urgent = [(k, recs[i]['r'], recs[j]['r']) for k, (i, j, s) in sorted(cand.items(), key=lambda kv: max(recs[kv[1][0]]['pub'], recs[kv[1][1]]['pub']), reverse=True)
-              if k not in verdicts and find(i) != find(j) and max(recs[i]['pub'], recs[j]['pub']) >= newest - 7]
+              if k not in verdicts and find(i) != find(j)
+              and (max(recs[i]['pub'], recs[j]['pub']) >= newest - 7 or recs[i]['r'].get('tg') or recs[j]['r'].get('tg'))]
     seen = {k for k, _, _ in urgent}
     rest = [c for c in checks if c[0] not in seen]
     seen |= {k for k, _, _ in rest}
