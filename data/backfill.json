@@ -1,13 +1,13 @@
 {
- "next": "2026-05-18",
+ "next": "2026-11-19",
  "stop": "2026-05-19",
- "days": 179,
+ "days": 183,
  "kept": 827,
  "note": "",
  "src": {
   "toi": {
    "done": true,
-   "kept": 657,
+   "kept": 666,
    "note": "",
    "files": [
     "https://timesofindia.indiatimes.com/staticsitemap/toi/category/city/2026-November-1.xml",
@@ -32,7 +32,9 @@
     "https://timesofindia.indiatimes.com/staticsitemap/toi/category/city/2026-May-3.xml"
    ],
    "i": 20,
-   "reached": "2026 May"
+   "reached": "2026 May",
+   "page": 1,
+   "until": "2026-05-19"
   },
   "ht": {
    "done": true,
@@ -48,37 +50,46 @@
     "https://www.hindustantimes.com/sitemap/may-2026.xml"
    ],
    "i": 7,
-   "reached": "may 2026"
+   "reached": "may 2026",
+   "page": 1,
+   "until": "2026-05-19"
   },
   "ptm": {
-   "done": true,
+   "done": false,
    "kept": 478,
-   "note": "",
-   "page": 178,
+   "note": "HTTP 403",
+   "page": 1,
    "reached": "2026-08-31",
    "refill": 1,
-   "until": "2026-09-01"
+   "until": "2026-05-19",
+   "i": 0,
+   "files": null
   },
   "pkn": {
-   "done": true,
+   "done": false,
    "kept": 458,
    "note": "",
-   "page": 200,
-   "reached": "2026-08-31",
+   "page": 26,
+   "reached": "2026-11-16",
    "refill": 1,
-   "until": "2026-09-01"
+   "until": "2026-05-19",
+   "i": 0,
+   "files": null
   },
   "pcl": {
    "done": true,
    "kept": 28,
    "note": "",
-   "page": 6,
-   "reached": "2026-08-23",
+   "page": 11,
+   "reached": "2026-04-15",
    "refill": 1,
-   "until": "2026-09-01"
+   "until": "2026-05-19",
+   "i": 0,
+   "files": null
   }
  },
  "fixes": [
   "lkm_tz"
- ]
+ ],
+ "regate": "2026-11-25T15:18"
 }

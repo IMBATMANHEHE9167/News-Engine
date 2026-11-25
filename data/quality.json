@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T15:17:49.138Z",
+ "updated": "2026-11-25T15:50:52.682Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -160,7 +160,7 @@
   {
    "name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
@@ -207,33 +207,59 @@
   },
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
+   "ok": false,
+   "detail": "3 cases",
+   "bad": [
+    [
+     "मंदार किवळेची प्रकृती क्रिटिकल, पुढचे 72 तास सांगता येणार नाही; कोर्टाबाहेर गोळीबार झालेला तरूण वाचणार की मरणार? ससूनच्या डीनने दिली हेल्थ अपडेट PuneFiring ShivajinagarCourt Firing SassoonHospital Pune KoytaGang…"
+    ],
+    [
+     "72 HOURS CRUCIAL: Mandar Kiwale, attacked with koytas after gunfire outside Pune Court, is battling for life. He suffered base-of-skull fracture, severe injuries to both hands & significant blood loss. Doctors are yet…"
+    ]
+   ]
+  },
+  {
+   "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
    "name": "Jejuri couple killed by an MSRTC bus (Nov 2026): the X post and the paper are one case",
-   "ok": true,
-   "detail": "no matching reports yet",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune: Couple Heading Home From Farm Killed as MSRTC E-Bus Hits Motorcycle Near Jejuri"
+    ]
+   ]
   },
   {
    "name": "Katraj LPG cylinder fire (Nov 2026): the X post and the paper are one case",
-   "ok": true,
-   "detail": "no matching reports yet",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune: Fire Breaks Out in LPG Cylinder at House in Katraj; Fire Brigade Brings Blaze Under Control"
+    ]
+   ]
   },
   {
    "name": "Worker assaulted with a wooden tool over fruit-cart waste: an outlet's X post and its article are one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune: Two Men Assault Worker With Wooden Tool Over Refusal To Clear Fruit Cart Waste in Thergaon"
+    ]
+   ]
   }
  ],
  "detectors": {
   "split_cases": 1,
+  "judged_same_kept_apart": 54,
   "date_spread": 26,
-  "waiting_for_judge": 633,
+  "waiting_for_judge": 678,
   "pairs_judged": 4008,
   "pairs_judged_same": 2072,
   "judge_checked_by_expert": 1679,
@@ -242,17 +268,51 @@
   "area_disagreement": 36,
   "silent_days": 4,
   "source_gap_days": 68,
-  "unverified": 71,
-  "ruled_out_by_ai": 189,
+  "unverified": 93,
+  "ruled_out_by_ai": 190,
   "future_times": 0,
-  "reports": 3031,
-  "cases": 1494
+  "reports": 3057,
+  "cases": 1478
  },
  "examples": {
   "split_cases": [
    [
     "Delivery partner held after fatal accident in Pune turns out to be murder",
     "Pedestrian dies in hit-and-run accident in Baner"
+   ]
+  ],
+  "judged_same_kept_apart": [
+   [
+    "टेम्पोच्या धडकेत तरुणाचा मृत्यू",
+    "Pune-Nashik Highway Accident: College Student Killed in Hit-and-Run Near Narayangaon"
+   ],
+   [
+    "Man kills wife’s partner after spotting them together in Pune's Bhor",
+    "Man murdered over character suspicion; accused held"
+   ],
+   [
+    "Man kills wife’s partner after spotting them together in Pune's Bhor",
+    "Man murdered over character suspicion; accused held"
+   ],
+   [
+    "Inter-State Robbery Gang: ओतूर पोलिसांची धडाकेबाज कारवाई; दरोड्याच्या तयारीतील आंतरराज्यीय टोळी जेरबंद",
+    "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh"
+   ],
+   [
+    "Dating App Friendship Costs Pune Businessman Over Rs 7 Crore in Cyber Scam",
+    "Wagholi bizman cheated of Rs71 L, two held"
+   ],
+   [
+    "Govt to Form Special Team as Bishnoi-Linked Extortion Cases Surface in Pune, Mumbai",
+    "Cloud Kitchen Owner in Pimpri Chinchwad Receives ₹5 Crore Extortion Threat; Police Launch Probe"
+   ],
+   [
+    "Fatal Crash Narayangaon: नारायणगावजवळ पिकअप जीपची मोटरसायकलला धडक; प्रविण गुंजाळ यांचा जागीच मृत्यू, चालकावर गुन्हा दाखल",
+    "Two brothers killed after motorcycle skids under truck"
+   ],
+   [
+    "Police recover stolen silver crown of Goddess Tuljabhavani again, arrest two",
+    "Crown theft case: Two accused arrested; crown, cash recovered"
    ]
   ],
   "date_spread": [
@@ -456,5 +516,5 @@
   ],
   "future_times": []
  },
- "passed": 38
+ "passed": 35
 }
