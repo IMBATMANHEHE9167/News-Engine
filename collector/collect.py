@@ -223,7 +223,10 @@ TEXTS = {}          # article text read this run, handed to the LLM layer so no 
 
 # ---- 2. Every record is judged once with its full article text; records judged under older rules are judged again.
 for rec in items:
-    if rec.get('e') and rec.get('r') == E.RULES_VERSION:
+    # Also judged again: a death the rules found in a headline that only reports a threat ("threatened with murder";
+    # the threat words were widened on 26 Nov 2026). Once judged again it is no longer marked fatal, so this runs once.
+    threat_death = (rec.get('R0') or rec).get('o') == 'fatal' and not rec.get('tf') and E.THREAT.search(rec['t'])
+    if rec.get('e') and rec.get('r') == E.RULES_VERSION and not threat_death:
         continue
     if budget['left'] <= 0:
         break
@@ -243,7 +246,15 @@ for rec in items:
             time.sleep(0.3)
             continue
     rec.pop('x', None)
-    if not E.recheck(rec, text):
+    kept = E.recheck(rec, text)
+    if threat_death:
+        rec['tf'] = 1                 # re-judged once for its threat words
+    if not kept and threat_death:
+        # Never removed for this re-judgement: only the death the threat words made is cleared (the readings decide the rest).
+        for d in (rec, rec.get('R0') or {}):
+            if d.get('o') == 'fatal':
+                d.pop('o', None)
+    elif not kept:
         rec['drop'] = 1
         rejected.add(rec['id'])
         removed += 1
@@ -503,7 +514,7 @@ print('cases: %d from %d reports; %d pairs judged, %d waiting for the judge' % (
 
 events.sort(key=lambda e: e['last'], reverse=True)
 keep = ('id', 'c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'uv', 'rel', 'by', 'reports')
-DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x')    # working fields the page never needs
+DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x', 'tf')    # working fields the page never needs
 def slim(r):
     out = {k: v for k, v in r.items() if k not in DROP}
     s = (E.best_reading(r) or {}).get('s')
