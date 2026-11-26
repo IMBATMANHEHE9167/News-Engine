@@ -444,7 +444,19 @@ answers = gate(cands, E.R['llm']['per_run'].get('triage', 6))
 hpool = {c['id']: c for c in (TRI.get('hist') or []) + HSOFT if c['id'] not in tri_seen and c['id'] not in have_ids
          and c['id'] not in rejected and c['id'] not in pool and c['d'] >= HISTORY_FROM}
 hist = sorted(hpool.values(), key=lambda c: c['d'], reverse=True)
-hanswers = gate(hist, E.R['llm']['per_run'].get('triage_hist', 8)) if hist else {}
+
+
+def spare(reserve):
+    """AI requests this run may still spend on old stories, after keeping `reserve` of its share for today's news."""
+    try:
+        import llm
+        return max(0, llm.Session().pace('readers') - llm.RUN.get('readers', 0) - reserve)
+    except Exception:
+        return 0
+
+
+# (the day's free AI allowance is ~610 requests: old stories only from what today's news leaves, 26 Nov 2026)
+hanswers = gate(hist, min(E.R['llm']['per_run'].get('triage_hist', 8), spare(20))) if hist else {}
 TRI = dict(seen=dict(list(tri_seen.items())[-80000:]), wait=[c for c in cands if c['id'] not in answers][:400],
            sit=[s for s in tri_sit if s['d'] >= E.iso(NOW - timedelta(days=14))][-500:],
            hist=[c for c in hist if c['id'] not in hanswers][:30000])
