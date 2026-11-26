@@ -507,7 +507,10 @@ if ask or any(v is True for v in verdicts.values()):
     except Exception as ex:
         print('judges failed: %s' % str(ex)[:200])
     try:
-        llm.audit_judges(verdicts, {r['id']: r for r in judged}, C.CONFLICTS)     # the expert re-checks the riskiest merges
+        # The expert re-checks the riskiest merges, but only when no report is waiting for its reading: its free allowance
+        # is small (about 20 a day per model), and a report waiting for it is held as "being checked" meanwhile.
+        if not any(E.verdict(r) == 'expert' and r.get('Xx', 0) < 2 for r in items):
+            llm.audit_judges(verdicts, {r['id']: r for r in judged}, C.CONFLICTS)
     except Exception as ex:
         print('judge audit failed: %s' % str(ex)[:200])
     if verdicts != old_verdicts:

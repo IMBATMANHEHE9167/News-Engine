@@ -402,6 +402,12 @@ def run(items, texts, get):
         for r in items:
             r.pop('Lx', None)
         S.state['lx_reset'] = 1
+    # Each new day (Pacific, as the allowance) the expert may try again the reports it failed on twice: they waited as
+    # "being checked" for ever before (26 Nov 2026), whatever the reason for the failures (busy, a blocked page).
+    if S.state.get('xx_day') != S.state.get('day'):
+        for r in items:
+            r.pop('Xx', None)
+        S.state['xx_day'] = S.state.get('day')
     fresh = lambda r: r.get('Lx', 0) < 3
     newest = lambda xs: sorted(xs, key=lambda r: r['d'], reverse=True)
     # A reading that ruled a report out only because its page came back empty (a blocked site) is dropped, so the report is
