@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T18:25:20.311Z",
+ "updated": "2026-11-26T19:22:26.841Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -89,9 +89,13 @@
   },
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Bopdev Ghat Accident : बोपदेव घाट अपघात प्रकरणातील चालकाला तीन दिवस पोलिस कोठडी"
+    ]
+   ]
   },
   {
    "name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out",
@@ -297,7 +301,7 @@
   "non_incident_wording": 5,
   "area_disagreement": 43,
   "silent_days": 5,
-  "source_gap_days": 61,
+  "source_gap_days": 67,
   "unverified": 94,
   "ruled_out_by_ai": 345,
   "future_times": 0,
@@ -536,6 +540,15 @@
     ]
    },
    {
+    "source": "prb",
+    "days": 3,
+    "examples": [
+     "2026-11-15",
+     "2026-11-17",
+     "2026-11-21"
+    ]
+   },
+   {
     "source": "ptm",
     "days": 16,
     "examples": [
@@ -553,9 +566,18 @@
     "examples": [
      "2026-11-22"
     ]
+   },
+   {
+    "source": "xppl",
+    "days": 3,
+    "examples": [
+     "2026-11-19",
+     "2026-11-21",
+     "2026-11-22"
+    ]
    }
   ],
   "future_times": []
  },
- "passed": 40
+ "passed": 39
 }
