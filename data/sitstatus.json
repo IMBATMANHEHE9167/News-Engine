@@ -1,11 +1,11 @@
 {
- "scanned": "2026-11-26T03:30:32.020Z",
+ "scanned": "2026-11-26T03:45:36.458Z",
  "every": 15,
  "sources_ok": 35,
  "sources_failed": [
   "ptm"
  ],
- "reports": 281,
- "situations": 151,
- "new": 0
+ "reports": 282,
+ "situations": 152,
+ "new": 1
 }
