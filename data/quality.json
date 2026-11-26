@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T05:22:28.649Z",
+ "updated": "2026-11-26T06:29:57.454Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -39,9 +39,13 @@
   },
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Ketan Agrawal Murder Case : केतन अग्रवाल हत्या प्रकरणात मोठी अपडेट; पोलिसांकडून २५०० पानी चार्जशीट दाखल"
+    ]
+   ]
   },
   {
    "name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case",
@@ -211,9 +215,14 @@
   },
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune Shivajinagar Court Mangesh Kiwale Case: भावाच्या मृतदेहासमोर शपथ, शुभमचा बदला, मंदार टार्गेटवर; ळ ठरली, दिसला की तोडला, 2025 मधील नेमकं प्रकरण काय?",
+     "Pune Shivajinagar Court Mandar Kiwale Case: भावाच्या मृतदेहासमोर शपथ, शुभमचा बदला, मंदार टार्गेटवर; वेळ ठरली, दिसला की तोडला, 2025 मधील नेमकं प्रकरण काय?"
+    ]
+   ]
   },
   {
    "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
@@ -250,7 +259,7 @@
   "split_cases": 1,
   "judged_same_kept_apart": 6,
   "date_spread": 26,
-  "waiting_for_judge": 1367,
+  "waiting_for_judge": 1664,
   "pairs_judged": 5204,
   "pairs_judged_same": 2851,
   "judge_checked_by_expert": 2022,
@@ -259,10 +268,10 @@
   "area_disagreement": 38,
   "silent_days": 4,
   "source_gap_days": 67,
-  "unverified": 173,
+  "unverified": 186,
   "ruled_out_by_ai": 221,
   "future_times": 0,
-  "reports": 3246,
+  "reports": 3259,
   "cases": 1542
  },
  "examples": {
@@ -436,17 +445,29 @@
   ],
   "source_gaps": [
    {
-    "source": "pud",
-    "days": 1,
-    "examples": [
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "lkm",
     "days": 2,
     "examples": [
      "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
+    ]
+   },
+   {
+    "source": "pud",
+    "days": 1,
+    "examples": [
      "2026-11-22"
     ]
    },
@@ -475,18 +496,6 @@
     ]
    },
    {
-    "source": "skl",
-    "days": 8,
-    "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
-    ]
-   },
-   {
     "source": "ptm",
     "days": 17,
     "examples": [
@@ -501,5 +510,5 @@
   ],
   "future_times": []
  },
- "passed": 39
+ "passed": 37
 }
