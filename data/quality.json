@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T12:14:45.704Z",
+ "updated": "2026-11-26T12:54:01.757Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -87,13 +87,9 @@
   },
   {
    "name": "Kasba Ganpati temple donation-box theft is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Swift Action by Faraskhana Police Cracks Temple Break-In in 8 Hours! Following a break-in at Shri Kasba Ganpati Temple, Faraskhana Police analysed CCTV footage and traced the suspect through detailed investigation.…"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Karegaon water-filter plant worker shot in place of his employer (29 Sep 2026) is one case",
@@ -268,22 +264,22 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 13,
+  "judged_same_kept_apart": 25,
   "date_spread": 27,
-  "waiting_for_judge": 615,
-  "pairs_judged": 7882,
-  "pairs_judged_same": 5303,
-  "judge_checked_by_expert": 2193,
+  "waiting_for_judge": 29,
+  "pairs_judged": 8545,
+  "pairs_judged_same": 5613,
+  "judge_checked_by_expert": 2243,
   "judge_overturned_by_expert": 1022,
   "non_incident_wording": 5,
-  "area_disagreement": 36,
+  "area_disagreement": 37,
   "silent_days": 5,
-  "source_gap_days": 65,
-  "unverified": 19,
-  "ruled_out_by_ai": 329,
+  "source_gap_days": 63,
+  "unverified": 17,
+  "ruled_out_by_ai": 336,
   "future_times": 0,
-  "reports": 3435,
-  "cases": 1608
+  "reports": 3457,
+  "cases": 1595
  },
  "examples": {
   "split_cases": [
@@ -306,24 +302,24 @@
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi"
    ],
    [
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "कुंजीरवाडीत बंद घर फोडून २३ हजारांची चोरी",
+    "Pune Crime News : लक्ष्मीपूजनाच्या दिवशी घरातील देवघराच्या खिडकीतून प्रवेश करून सोन्याचे दागिने आणि रोकड चोरणाऱ्या आरोपीला पोलिसांनी केली अटक"
+   ],
+   [
+    "Pune: Four Suffer Burns After Man Throws Acid-Like Liquid at Friend’s Family in Yerawada",
+    "शहरात दोन ठिकाणी तरुणांवर हल्ले"
+   ],
+   [
+    "Couple cheated of ₹10 lakh in pension scam",
+    "Pune: Cyber Fraudsters Dupe Kothrud Doctor of Rs 10 Lakh Over Fake Pension Card"
+   ],
+   [
+    "Pune Crime : पुणे कोर्टाबाहेरील हल्ला प्रकरण; आरोपींना 6 दिवसांची पोलीस कोठडी",
+    "Court cancels arrest warrants against Shetty, Khot in 2015 vandalism case"
    ],
    [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
     "Police arrest 61-year-old for sexual assault of two minor sisters"
-   ],
-   [
-    "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident",
-    "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi"
-   ],
-   [
-    "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
-    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
-   ],
-   [
-    "Pune Crime News : लक्ष्मीपूजनाच्या दिवशी घरातील देवघराच्या खिडकीतून प्रवेश करून सोन्याचे दागिने आणि रोकड चोरणाऱ्या आरोपीला पोलिसांनी केली अटक",
-    "पुण्यात घरफोडीच्या घटनांत सात लाखांचा ऐवज लंपास"
    ]
   ],
   "date_spread": [
@@ -471,6 +467,18 @@
   ],
   "source_gaps": [
    {
+    "source": "toi",
+    "days": 11,
+    "examples": [
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-04",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   },
+   {
     "source": "skl",
     "days": 7,
     "examples": [
@@ -492,14 +500,14 @@
    },
    {
     "source": "ptm",
-    "days": 17,
+    "days": 16,
     "examples": [
+     "2026-08-15",
      "2026-08-16",
      "2026-09-07",
      "2026-09-14",
      "2026-10-10",
-     "2026-10-18",
-     "2026-11-06"
+     "2026-10-18"
     ]
    },
    {
@@ -511,30 +519,18 @@
    },
    {
     "source": "pkn",
-    "days": 27,
+    "days": 26,
     "examples": [
+     "2026-10-25",
      "2026-10-28",
      "2026-11-01",
      "2026-11-02",
-     "2026-11-06",
      "2026-11-20",
      "2026-11-22"
-    ]
-   },
-   {
-    "source": "toi",
-    "days": 11,
-    "examples": [
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-04",
-     "2026-11-11",
-     "2026-11-12"
     ]
    }
   ],
   "future_times": []
  },
- "passed": 41
+ "passed": 42
 }
