@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T13:20:00.555Z",
+ "updated": "2026-11-26T13:48:25.389Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -264,22 +264,22 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 9,
+  "judged_same_kept_apart": 10,
   "date_spread": 27,
-  "waiting_for_judge": 2,
-  "pairs_judged": 8880,
-  "pairs_judged_same": 5807,
-  "judge_checked_by_expert": 2318,
+  "waiting_for_judge": 0,
+  "pairs_judged": 8974,
+  "pairs_judged_same": 5825,
+  "judge_checked_by_expert": 2393,
   "judge_overturned_by_expert": 1078,
   "non_incident_wording": 5,
-  "area_disagreement": 37,
+  "area_disagreement": 42,
   "silent_days": 5,
-  "source_gap_days": 63,
-  "unverified": 26,
-  "ruled_out_by_ai": 340,
+  "source_gap_days": 62,
+  "unverified": 37,
+  "ruled_out_by_ai": 339,
   "future_times": 0,
-  "reports": 3479,
-  "cases": 1595
+  "reports": 3490,
+  "cases": 1596
  },
  "examples": {
   "split_cases": [
@@ -374,18 +374,20 @@
     ]
    },
    {
+    "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
+    "days": [
+     "2026-10-28",
+     "2026-11-02",
+     "2026-11-03",
+     "2026-11-04"
+    ]
+   },
+   {
     "t": "Pune: Four Suffer Burns After Man Throws Acid-Like Liquid at Friend’s Family in Yerawada",
     "days": [
      "2026-07-05",
      "2026-07-06",
      "2026-11-06"
-    ]
-   },
-   {
-    "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
-    "days": [
-     "2026-10-29",
-     "2026-11-07"
     ]
    }
   ],
@@ -488,12 +490,12 @@
    },
    {
     "source": "toi",
-    "days": 11,
+    "days": 10,
     "examples": [
+     "2026-08-16",
      "2026-08-17",
      "2026-09-26",
      "2026-10-21",
-     "2026-11-04",
      "2026-11-11",
      "2026-11-12"
     ]
