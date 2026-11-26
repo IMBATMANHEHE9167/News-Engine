@@ -664,9 +664,11 @@ def assess(title, link, text='', pub=None, home=False, index=False, keep_area=No
     if not in_pune(title, lead, index) or (index and HAPPENED_ELSEWHERE.search(slug)):
         return no('outside Pune district')
 
-    c = classify(title)
+    # A threat is not the crime it names: "threatened with murder" does not make a murder (26 Nov 2026, a digital-arrest
+    # fraud was typed murder and so counted as a death).
+    c = classify(THREAT.sub(' ', title))
     if not c and (not index or EVENT.search(title)):
-        c = classify(title, lead)
+        c = classify(THREAT.sub(' ', title), THREAT.sub(' ', lead))
     if not c and ai:
         c = ai
     if not c:
