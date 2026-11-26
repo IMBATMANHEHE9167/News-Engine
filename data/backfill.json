@@ -1,7 +1,7 @@
 {
- "next": "2026-09-04",
+ "next": "2026-08-31",
  "stop": "2026-05-19",
- "days": 259,
+ "days": 263,
  "kept": 838,
  "note": "",
  "src": {
@@ -58,8 +58,8 @@
    "done": false,
    "kept": 480,
    "note": "",
-   "page": 76,
-   "reached": "2026-10-25",
+   "page": 101,
+   "reached": "2026-10-14",
    "refill": 1,
    "until": "2026-05-19",
    "i": 0,
@@ -68,9 +68,9 @@
   "pkn": {
    "done": false,
    "kept": 462,
-   "note": "HTTP 522",
-   "page": 452,
-   "reached": "2026-06-09",
+   "note": "",
+   "page": 477,
+   "reached": "2026-05-30",
    "refill": 1,
    "until": "2026-05-19",
    "i": 0,
