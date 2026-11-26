@@ -1,11 +1,11 @@
 {
- "updated": "2026-11-26T15:00:36.316Z",
- "total": 3537,
- "added": 2,
- "removed": 0,
+ "updated": "2026-11-26T15:09:18.230Z",
+ "total": 3539,
+ "added": 3,
+ "removed": 1,
  "rules": 11,
  "history": {
-  "reachedBack": "2026-07-30",
+  "reachedBack": "2026-07-26",
   "target": "2026-05-19",
   "kept": 838,
   "note": "",
@@ -24,7 +24,7 @@
     "note": ""
    },
    "ptm": {
-    "done": false,
+    "done": true,
     "reached": "2026-07-23",
     "kept": 480,
     "note": ""
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 10,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -88,7 +88,7 @@
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 3,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -120,8 +120,8 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 6,
+   "added": 1,
    "note": ""
   },
   {
@@ -153,14 +153,14 @@
    "name": "Lokmat",
    "ok": true,
    "found": 6,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 38,
+   "found": 39,
    "added": 0,
    "note": ""
   },
@@ -168,23 +168,23 @@
    "id": "xptm",
    "name": "Pune Times Mirror on X",
    "ok": true,
-   "found": 5,
+   "found": 17,
    "added": 0,
    "note": ""
   },
   {
    "id": "xppl",
    "name": "Pune Pulse on X",
-   "ok": true,
-   "found": 13,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   },
   {
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 16,
+   "found": 9,
    "added": 0,
    "note": ""
   },
@@ -192,23 +192,23 @@
    "id": "xie",
    "name": "Express Pune on X",
    "ok": true,
-   "found": 12,
+   "found": 5,
    "added": 0,
    "note": ""
   },
   {
    "id": "xvb",
    "name": "Varad Bhatkhande (FPJ reporter) on X",
-   "ok": true,
-   "found": 10,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   },
   {
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 19,
+   "found": 14,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -232,7 +232,7 @@
    "id": "xprp",
    "name": "Pune Rural Police on X",
    "ok": true,
-   "found": 1,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -280,7 +280,7 @@
    "id": "xlkm",
    "name": "Lokmat on X",
    "ok": true,
-   "found": 1,
+   "found": 5,
    "added": 1,
    "note": ""
   },
@@ -304,7 +304,7 @@
    "id": "xabp",
    "name": "ABP Majha on X",
    "ok": true,
-   "found": 1,
+   "found": 9,
    "added": 0,
    "note": ""
   },
@@ -312,7 +312,7 @@
    "id": "xtv9",
    "name": "TV9 Marathi on X",
    "ok": true,
-   "found": 2,
+   "found": 0,
    "added": 0,
    "note": ""
   }
