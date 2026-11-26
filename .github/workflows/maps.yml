@@ -1,10 +1,17 @@
-name: Map files for the map lab
+name: Map files
 
-# Builds our own Pune map files for the MAP LAB ONLY (the live site does not read them): the base map (Planetiler,
-# OpenMapTiles schema) and buildings with real heights (Overture footprints + Google Open Buildings 2.5D). Saved to the
-# 'maps' branch (replaced each time, so the repository does not grow), served from raw.githubusercontent.com.
+# Builds our own Pune map files: the base map (Planetiler, OpenMapTiles schema) and buildings with real heights (Overture
+# footprints + Google Open Buildings 2.5D). Always saved to the 'maps' branch (replaced each time, so it does not grow),
+# where the map lab reads them. Only when run with "publish" ticked are they also copied into the site's tiles/ folder on
+# main, where the live page reads them (GitHub Pages serves them in parts, fast). Each publish adds ~64 MB to the history,
+# so publish only after a rebuild that is worth it (a few times a year).
 on:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Also publish to the live site (tiles/ on main)'
+        type: boolean
+        default: false
   push:
     branches: [maps-build]
 
@@ -63,3 +70,16 @@ jobs:
           printf 'Map files for the map lab only (not used by the live site). Built by .github/workflows/maps.yml.\n' > README.md
           git add -A && git commit -q -m "map files $(date -u +%Y-%m-%d)"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" maps
+      - name: Publish to the live site (tiles/ on main), only when asked
+        if: ${{ inputs.publish }}
+        run: |
+          test -s /tmp/out/pune.pmtiles && test -s /tmp/out/buildings.pmtiles || { echo "a map file is missing: nothing published"; exit 1; }
+          git config user.name "vidraksh-collector"
+          git config user.email "actions@users.noreply.github.com"
+          for k in 1 2 3 4 5; do   # the collectors push to main often: start from the newest main each try
+            git fetch -q origin main && git checkout -q -B main origin/main
+            mkdir -p tiles && cp /tmp/out/pune.pmtiles /tmp/out/buildings.pmtiles tiles/
+            git add tiles && git commit -q -m "Map files for the live map $(date -u +%Y-%m-%d)" && git push -q origin main && exit 0
+            sleep $((k * 15))
+          done
+          exit 1
