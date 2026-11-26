@@ -246,7 +246,7 @@ def build(items, vec=None, verdicts=None):
     # A case that may be a repeat of another (a pair the judge has not decided yet) is held as "being checked" and not
     # counted until the judge decides: the newer side of each open pair, among reports of the last 7 days. Without this
     # the same story from a second source (an outlet's post on X, a follow-up) was counted twice until judged.
-    # The side held is the newcomer: the case that began later (on the same day, the smaller one), never the established
+    # The side held is the newcomer: the smaller case (on equal size, the one that began later), never an established
     # case it may repeat (a 58-report court case was once held because one of its reports had an open pair).
     newest = max((x['pub'] for x in recs), default=0)
     start, size = {}, Counter()
@@ -260,7 +260,12 @@ def build(items, vec=None, verdicts=None):
         if k not in verdicts and ri != rj:
             gated = recs[i]['r'].get('tg') or recs[j]['r'].get('tg')   # let in by the AI gate (also months back)
             if gated or max(recs[i]['pub'], recs[j]['pub']) >= newest - 7:
-                held.add(ri if (start[ri], -size[ri]) > (start[rj], -size[rj]) else rj)
+                # The smaller side is held (on equal size, the later one). An established story (5 reports or more) is
+                # never held by an undecided pair: on 26 Nov 2026 the 137-report Kiwale court attack went to "being
+                # checked" because it began after an older court story it had an open pair with.
+                side = ri if (size[ri], -start[ri]) < (size[rj], -start[rj]) else rj
+                if size[side] < 5:
+                    held.add(side)
     # Judged "same" by the fast judge, yet left in two cases (another pair across them was judged "different"): the verdicts
     # conflict. These go to the expert first (llm.audit_judges, CONFLICTS): the pair itself and the "different"s across the
     # two cases. The expert's word is final, so the conflict is settled for good on its next runs.
