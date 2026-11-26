@@ -1,10 +1,11 @@
 {
  "day": "2026-11-26",
  "used": {
-  "gemini-3.5-flash-lite": 65,
-  "gemini-3.1-flash-lite": 45,
-  "gemini-flash-lite-latest": 6,
-  "gemini-3.6-flash": 4
+  "gemini-3.5-flash-lite": 100,
+  "gemini-3.1-flash-lite": 62,
+  "gemini-flash-lite-latest": 24,
+  "gemini-3.6-flash": 4,
+  "gemini-3-flash-preview": 2
  },
  "rested": {},
  "errors": [],
@@ -20,20 +21,20 @@
    "gemini-flash-latest"
   ]
  },
- "triaged": 509,
+ "triaged": 825,
  "lx_reset": 1,
  "last_run": {
-  "busy": 7,
+  "busy": 17,
   "stop": "out of time"
  },
- "read": 607,
- "older": 2734,
- "unread": 11,
- "second": 35,
+ "read": 689,
+ "older": 2693,
+ "unread": 0,
+ "second": 6,
  "expert": 13,
- "not_incident": 281,
- "updated": "2026-11-26T08:39:13.919Z",
- "judged": 40,
- "audited": 2082,
- "overturned": 1038
+ "not_incident": 319,
+ "updated": "2026-11-26T09:39:26.395Z",
+ "judged": 80,
+ "audited": 2090,
+ "overturned": 1024
 }

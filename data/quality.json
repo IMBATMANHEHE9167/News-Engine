@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T08:51:28.098Z",
+ "updated": "2026-11-26T09:48:11.772Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -211,13 +211,9 @@
   },
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Pune Court Attack Caught On Camera, Mandar Kiwale Slashed After Firing Misfires"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
@@ -252,22 +248,22 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 132,
-  "date_spread": 25,
-  "waiting_for_judge": 2005,
-  "pairs_judged": 5589,
-  "pairs_judged_same": 3212,
-  "judge_checked_by_expert": 2060,
-  "judge_overturned_by_expert": 1024,
+  "judged_same_kept_apart": 81,
+  "date_spread": 26,
+  "waiting_for_judge": 1910,
+  "pairs_judged": 5967,
+  "pairs_judged_same": 3527,
+  "judge_checked_by_expert": 2088,
+  "judge_overturned_by_expert": 1022,
   "non_incident_wording": 5,
   "area_disagreement": 38,
-  "silent_days": 5,
-  "source_gap_days": 67,
-  "unverified": 59,
-  "ruled_out_by_ai": 281,
+  "silent_days": 4,
+  "source_gap_days": 66,
+  "unverified": 19,
+  "ruled_out_by_ai": 319,
   "future_times": 0,
-  "reports": 3352,
-  "cases": 1577
+  "reports": 3382,
+  "cases": 1595
  },
  "examples": {
   "split_cases": [
@@ -286,28 +282,28 @@
     "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh"
    ],
    [
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "Pune: In a major crackdown on drug trafficking, the Anti-Narcotics Cell (ANC) of Pune City Police has seized cannabis (ganja) worth approximately Rs 1.5 crore during a raid in the Shirur area of Pune Rural. The raid was…",
+    "Pune Crime: लोणी काळभोर ते शिरूर पोलिसांचा पाठलाग; कारमध्ये २५० किलो गांजा, १.५१ कोटींचा मुद्देमाल"
    ],
    [
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "Pune: In a major crackdown on drug trafficking, the Anti-Narcotics Cell (ANC) of Pune City Police has seized cannabis (ganja) worth approximately Rs 1.5 crore during a raid in the Shirur area of Pune Rural. The raid was…",
+    "Pune Crime: लोणी काळभोर ते शिरूर पोलिसांचा पाठलाग; कारमध्ये २५० किलो गांजा, १.५१ कोटींचा मुद्देमाल"
    ],
    [
-    "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident",
-    "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi"
+    "Pune: In a major crackdown on drug trafficking, the Anti-Narcotics Cell (ANC) of Pune City Police has seized cannabis (ganja) worth approximately Rs 1.5 crore during a raid in the Shirur area of Pune Rural. The raid was…",
+    "Pune Crime: लोणी काळभोर ते शिरूर पोलिसांचा पाठलाग; कारमध्ये २५० किलो गांजा, १.५१ कोटींचा मुद्देमाल"
    ],
    [
-    "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
-    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
+    "Pune: In a major crackdown on drug trafficking, the Anti-Narcotics Cell (ANC) of Pune City Police has seized cannabis (ganja) worth approximately Rs 1.5 crore during a raid in the Shirur area of Pune Rural. The raid was…",
+    "Pune Crime: लोणी काळभोर ते शिरूर पोलिसांचा पाठलाग; कारमध्ये २५० किलो गांजा, १.५१ कोटींचा मुद्देमाल"
    ],
    [
-    "Pune Court Attack: कात्रजमधील अर्धा गुंठा जागेवरून सुरू झाले खुनी हल्ल्याचे सत्र; पुणे शिवाजीनगर कोर्टाबाहेरील थरारक घटनेची A to Z स्टोरी punecourtattack crime police advocate",
-    "मंदार किवळे याच्यावर पुणे न्यायालयाच्या बाहेरच हल्ला झाला. मंदार किवळेने न्यायालयात जाण्यापासून ते हल्ला करून आरोपी पळून जाईपर्यंतचा सगळा घटनाक्रम सांगितला... वाचा Pune punecrime punenews PuneFiring MaharashtraNews…"
+    "Pune: In a major crackdown on drug trafficking, the Anti-Narcotics Cell (ANC) of Pune City Police has seized cannabis (ganja) worth approximately Rs 1.5 crore during a raid in the Shirur area of Pune Rural. The raid was…",
+    "Pune Crime: लोणी काळभोर ते शिरूर पोलिसांचा पाठलाग; कारमध्ये २५० किलो गांजा, १.५१ कोटींचा मुद्देमाल"
    ],
    [
-    "मंदार किवळे याच्यावर पुणे न्यायालयाच्या बाहेरच हल्ला झाला. मंदार किवळेने न्यायालयात जाण्यापासून ते हल्ला करून आरोपी पळून जाईपर्यंतचा सगळा घटनाक्रम सांगितला... वाचा Pune punecrime punenews PuneFiring MaharashtraNews…",
-    "Pune Court Attack: कात्रजमधील अर्धा गुंठा जागेवरून सुरू झाले खुनी हल्ल्याचे सत्र; पुणे शिवाजीनगर कोर्टाबाहेरील थरारक घटनेची A to Z स्टोरी punecourtattack crime police advocate"
+    "Pune: In a major crackdown on drug trafficking, the Anti-Narcotics Cell (ANC) of Pune City Police has seized cannabis (ganja) worth approximately Rs 1.5 crore during a raid in the Shirur area of Pune Rural. The raid was…",
+    "Pune Crime: लोणी काळभोर ते शिरूर पोलिसांचा पाठलाग; कारमध्ये २५० किलो गांजा, १.५१ कोटींचा मुद्देमाल"
    ]
   ],
   "date_spread": [
@@ -316,6 +312,15 @@
     "days": [
      "2026-11-21",
      "2026-11-25"
+    ]
+   },
+   {
+    "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
+    "days": [
+     "2026-06-13",
+     "2026-09-05",
+     "2026-10-11",
+     "2026-11-23"
     ]
    },
    {
@@ -367,13 +372,6 @@
      "2026-10-29",
      "2026-11-07"
     ]
-   },
-   {
-    "t": "Scooterist dies in hit-and-run",
-    "days": [
-     "2026-06-10",
-     "2026-11-03"
-    ]
    }
   ],
   "non_incident_wording": [
@@ -395,29 +393,29 @@
     "reading": "Viman Nagar"
    },
    {
-    "t": "Pune Crime: 'मामा थांब मला...', आईच्या वाट्याची जमीन, भाच्याने मंदिरासमोर घेतला जीव; भोरमधील हत्याकांड काय?",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Pimple Saudagar / Sangvi"
-   },
-   {
-    "t": "Pune: Man Held For Killing Maternal Uncle Over Ancestral Land Dispute in Bhor; Two Friends Arrested",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Pimple Saudagar / Sangvi"
+    "t": "6-year-old girl dies after motorcycle hits tractor trolley in Pimpri",
+    "case_area": "Wagholi",
+    "reading": "Pimpri"
    },
    {
     "t": "Bhor Police Patil’s Nephew Held In Land Dispute Killing, Two Friends Also Arrested",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Pimple Saudagar / Sangvi"
+    "case_area": "Pimple Saudagar / Sangvi",
+    "reading": "Bhor"
    },
    {
-    "t": "Police patil hacked to death over land dispute in Pune district; search on for three accused",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Pimple Saudagar / Sangvi"
+    "t": "Pune Crime: पुण्यातील पोलीस पाटलाच्या हत्याप्रकरणाला धक्कादायक वळण, भाच्यानेच जमिनीसाठी मामाचा काटा काढला, भोरच्या मौजे सांगवी बुद्रुक गावात नेमकं काय घडलं?",
+    "case_area": "Pimple Saudagar / Sangvi",
+    "reading": "Bhor"
    },
    {
-    "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Pimple Saudagar / Sangvi"
+    "t": "Pune Crime News: पुण्यातील भोरमध्ये थरार, पोलीस पाटलांना निर्घृणपणे संपवलं, डोक्यावर धारदार शस्त्राने वार अन्..., नेमकं काय घडलं?",
+    "case_area": "Pimple Saudagar / Sangvi",
+    "reading": "Bhor"
+   },
+   {
+    "t": "Bhor News : भोर तालुक्यात पोलीस पाटील अशोक साधू येनपुरे यांचा खून; घटनेने परिसरात खळबळ",
+    "case_area": "Pimple Saudagar / Sangvi",
+    "reading": "Bhor"
    },
    {
     "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
@@ -445,34 +443,9 @@
     "day": "2026-09-27",
     "incidents": 1,
     "usual": 7
-   },
-   {
-    "day": "2026-10-25",
-    "incidents": 2,
-    "usual": 8
    }
   ],
   "source_gaps": [
-   {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
-    "source": "pkn",
-    "days": 28,
-    "examples": [
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-15",
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
    {
     "source": "skl",
     "days": 8,
@@ -483,6 +456,26 @@
      "2026-10-01",
      "2026-10-11",
      "2026-11-10"
+    ]
+   },
+   {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "pkn",
+    "days": 27,
+    "examples": [
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-20",
+     "2026-11-22"
     ]
    },
    {
@@ -519,5 +512,5 @@
   ],
   "future_times": []
  },
- "passed": 38
+ "passed": 39
 }
