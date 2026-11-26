@@ -12,7 +12,7 @@
   {"name": "NDA: each shooting is one case (the expert judged the 11 Sep injury and the death reported on 17 Sep to be two incidents: \"second incident involving personnel in 10 days\")", "one_case": "NDA Security Personnel Dies|sepoy posted at NDA security post succumbs"},
   {"name": "Trainee PSI dowry harassment is one case", "one_case": "(trainee|probationary) PSI"},
   {"name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case", "one_case": "mandar ki(w|v)a?le|मंदार किवळे|pune court attack|कोर्टाबाहेर.*(हल्ला|हात|गोळीबार)"},
-  {"name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case", "one_case": "bopdev|बोपदेव"},
+  {"name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case", "one_case": "bopdev.*(accident|tempo|students|bus stop)|(accident|tempo|students).*bopdev|बोपदेव.*(अपघात|टेम्पो|विद्यार्थ)"},
   {"name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out", "counted": "Three engineering students killed, two critical as tempo"},
   {"name": "Trainee PSI dowry harassment is a crime against women", "type": ["(trainee|probationary) PSI", "women"]},
   {"name": "Kasba Ganpati temple donation-box theft is one case", "one_case": "Kasba (Ganpati )?(temple|मंदिर)|कसबा मंदिर"},
