@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T15:11:31.257Z",
+ "updated": "2026-11-26T15:26:39.086Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -266,44 +266,32 @@
   }
  ],
  "detectors": {
-  "split_cases": 3,
-  "judged_same_kept_apart": 16,
+  "split_cases": 1,
+  "judged_same_kept_apart": 9,
   "date_spread": 29,
-  "waiting_for_judge": 318,
+  "waiting_for_judge": 330,
   "pairs_judged": 9131,
   "pairs_judged_same": 5918,
-  "judge_checked_by_expert": 2466,
-  "judge_overturned_by_expert": 1077,
+  "judge_checked_by_expert": 2541,
+  "judge_overturned_by_expert": 1078,
   "non_incident_wording": 5,
   "area_disagreement": 43,
   "silent_days": 5,
   "source_gap_days": 61,
-  "unverified": 83,
+  "unverified": 85,
   "ruled_out_by_ai": 345,
   "future_times": 0,
-  "reports": 3539,
-  "cases": 1590
+  "reports": 3541,
+  "cases": 1589
  },
  "examples": {
   "split_cases": [
-   [
-    "Distant relative held for murdering two elderly women, robbing them of gold chains",
-    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
-   ],
-   [
-    "Distant relative held for murdering two elderly women, robbing them of gold chains",
-    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
-   ],
    [
     "Delivery partner held after fatal accident in Pune turns out to be murder",
     "Pedestrian dies in hit-and-run accident in Baner"
    ]
   ],
   "judged_same_kept_apart": [
-   [
-    "Distant relative held for murdering two elderly women, robbing them of gold chains",
-    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
-   ],
    [
     "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
     "Pune: CCTV Captures Police Van Ploughing Into Parked Vehicles in Sadashiv Peth"
@@ -321,16 +309,20 @@
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
-    "आष्टापुरात कृषी पंप चोरांचा धुमाकूळ",
-    "गणेशोत्सव विसर्जन मिरवणुकीदरम्यान गर्दीत भाविकांचे सोन्याचे दागिने व मोबाईल चोरणाऱ्या आंतरराज्यीय टोळीवर फरासखाना पोलिसांनी कारवाई केली. गोपनीय माहितीच्या आधारे केलेल्या तपासात या टोळीचा सहभाग निष्पन्न झाला. या कारवाईत…"
-   ],
-   [
-    "Distant relative held for murdering two elderly women, robbing them of gold chains",
-    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
+    "Police arrest 61-year-old for sexual assault of two minor sisters"
    ],
    [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
     "Police arrest 61-year-old for sexual assault of two minor sisters"
+   ],
+   [
+    "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident",
+    "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi"
+   ],
+   [
+    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
+    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
    ]
   ],
   "date_spread": [
