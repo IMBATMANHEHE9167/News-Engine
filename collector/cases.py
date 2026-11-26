@@ -188,8 +188,13 @@ def build(items, vec=None, verdicts=None):
                       if verdicts.get(pair_key(ids[m], ids[o])) == 'same' or victim_link(recs[m], recs[o]))
             if pos <= diffs:
                 return False
-        if not firm and any(soft.get(ids[m], set()) & inside for m in members[rj]):
-            return False                          # the fast judge said "different", and nothing firmer joins them
+        if not firm:
+            # The fast judge said "different" for some pairs across them: kept apart unless its own "same"s across them
+            # clearly outweigh those (3 to 1). One stray "different" among 120 "same"s used to split a story covered for
+            # days into separate cases (26 Nov 2026, Mandar Kiwale court attack: 119 "same" vs 3 "different").
+            neg = sum(len(soft.get(ids[m], set()) & inside) for m in members[rj])
+            if neg and sum(1 for m in members[rj] for o in members[ri] if E.same(verdicts.get(pair_key(ids[m], ids[o])))) < 3 * neg:
+                return False
         # Both name their victims and the names differ: kept apart, unless the judge (who reads both articles in full)
         # said this very pair is the same incident. Names are read by the AI and their keys are lossy: "Kivle" and
         # "Kivale" of one man once kept a court attack in two cases against 24 "same" verdicts of the judge.

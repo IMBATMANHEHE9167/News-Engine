@@ -34,10 +34,15 @@ PARTS = ['morning', 'afternoon', 'evening', 'night', 'unknown']
 WEAPONS = ['koyta', 'sword_or_knife', 'firearm', 'blunt_object', 'vehicle', 'fire_or_acid', 'none_or_unknown']
 ACTIONS = ['arrest', 'detained', 'fir_registered', 'mcoca', 'mpda', 'externment', 'chargesheet', 'property_action', 'none']
 KINDS = ['new_incident', 'development', 'not_incident']
+EMPTY_TEXT = re.compile(r'\b(text|article|content|page)\b[^.]{0,30}\b(is |was )?(empty|missing|not (available|provided)|blank)\b|'
+                        r'\b(empty|no|missing) (article )?(text|content)\b', re.I)
 WHY = ['none', 'outside_pune_district', 'no_specific_incident', 'suicide_or_natural_death', 'animal_attack', 'other']
 
 SYSTEM = """You read Indian news reports (Marathi or English) about Pune district, Maharashtra, for a crime-incident database.
-Accuracy matters more than anything: read the whole article, answer only from it, never guess. For each article:
+Accuracy matters more than anything: read the whole article, answer only from it, never guess. Some sites block us, so
+the text may be empty or not the article (a sign-in or cookie notice): then decide from the headline alone. A missing text
+is never a reason for not_incident; a headline that reports a specific crime, road accident or fire is that incident.
+For each article:
 - kind:
   new_incident = the article reports a specific crime, road accident or fire that happened (including the first report of
     an arrest for a recent specific crime).
@@ -196,7 +201,8 @@ def resolve_models(key):
 
 def read(key, model, batch):
     """One request: several articles -> {id: filled form}."""
-    parts = ['ARTICLE id=%s\nPublished: %s\nHeadline: %s\nText: %s' % (rec['id'], E.day_str(E.day_of(rec['d'])), rec['t'], text[:CFG['chars']])
+    parts = ['ARTICLE id=%s\nPublished: %s\nHeadline: %s\nText: %s' % (rec['id'], E.day_str(E.day_of(rec['d'])), rec['t'],
+             text[:CFG['chars']] if len((text or '').strip()) >= 200 else '(not available: the page could not be read; decide from the headline)')
              for rec, text in batch]
     payload = {
         'systemInstruction': {'parts': [{'text': SYSTEM}]},
@@ -398,6 +404,13 @@ def run(items, texts, get):
         S.state['lx_reset'] = 1
     fresh = lambda r: r.get('Lx', 0) < 3
     newest = lambda xs: sorted(xs, key=lambda r: r['d'], reverse=True)
+    # A reading that ruled a report out only because its page came back empty (a blocked site) is dropped, so the report is
+    # read again from its headline (26 Nov 2026: "Three engineering students killed..." at Bopdev Ghat was ruled out so).
+    for r in items:
+        for f in ('L', 'L2', 'X'):
+            L = r.get(f)
+            if isinstance(L, dict) and not L.get('ok') and EMPTY_TEXT.search('%s %s' % (L.get('s', ''), L.get('cl', ''))):
+                r.pop(f, None)
     # 1. Reports nobody has read yet (they are kept out of the counts until read).
     left -= _read_pass(S, 'readers', 'L', newest([r for r in items if not r.get('L') and fresh(r)]), left, texts, get)
     # 2. Second readings: the first reading and the rules disagree.
@@ -526,11 +539,13 @@ def english(rows, limit=4, size=25):
     S = Session()
     if not S.key:
         return 0
-    asked = 0
-    for k in range(0, len(todo), size):
-        if asked >= limit:
+    asked, k, tries = 0, 0, 0
+    # As the judge: wait for a model that is briefly busy (pick), and give a busy batch to the next model instead of
+    # dropping it (26 Nov 2026: one "busy" answer used to end the translations for the whole run).
+    while k < len(todo):
+        if asked >= limit + 2 or not S.time_left():
             break
-        model = S.take('readers')
+        model = S.pick('readers')
         if not model:
             break
         chunk = todo[k:k + size]
@@ -539,10 +554,16 @@ def english(rows, limit=4, size=25):
                    'generationConfig': {'responseMimeType': 'application/json', 'responseSchema': EN_SCHEMA, 'temperature': 0}}
         res = S.ask('readers', model, lambda: answer(call(S.key, model, payload)))
         asked += 1
+        if res is None and S.retry and tries < 2:
+            tries += 1
+            continue
+        k, tries = k + size, 0
         got = {x.get('id'): (x.get('en') or '').strip() for x in (res or []) if isinstance(x, dict)}
         for r in chunk:
             if got.get(r['id']):
                 r['en'] = got[r['id']][:200]
+        if asked >= limit + 2:                 # up to two extra requests only for retries after "busy"
+            break
     _save(S.state)
     return asked
 

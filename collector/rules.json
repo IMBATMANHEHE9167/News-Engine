@@ -11,7 +11,7 @@
   "rpm": {"readers": 15, "experts": 5},
   "per_run": {"readers": 80, "experts": 3, "judges": 40, "audit": 4, "reread": 30, "triage": 6, "triage_hist": 8},
   "batch": 6,
-  "pair_batch": 15,
+  "pair_batch": 25,
   "chars": 2500,
   "run_seconds": 900
  },
