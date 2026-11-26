@@ -221,12 +221,25 @@ for feed in E.FEEDS:
 
 TEXTS = {}          # article text read this run, handed to the LLM layer so no page is fetched twice
 
+# ---- 1b. A murder or death the word rules found in a headline that only reports a threat ("threatened with murder") is
+# corrected on every run, without reading the page again (the threat words were widened on 26 Nov 2026, after a
+# digital-arrest fraud was typed murder and counted as a death). The AI readings decide the rest as usual.
+for rec in items:
+    base = rec.get('R0') or rec
+    if (base.get('o') == 'fatal' or base.get('c') == 'murder') and E.THREAT.search(rec['t']) \
+            and not E.FATAL.search(E.THREAT.sub(' ', rec['t'])):
+        bare = E.THREAT.sub(' ', rec['t'])
+        c = E.classify(bare) or ('violence' if base.get('c') == 'murder' else base.get('c'))
+        for d in (rec, rec.get('R0') or {}):
+            if d.get('o') == 'fatal':
+                d.pop('o', None)
+            if d.get('c') == 'murder':
+                d['c'] = c
+        changed = True
+
 # ---- 2. Every record is judged once with its full article text; records judged under older rules are judged again.
 for rec in items:
-    # Also judged again: a death the rules found in a headline that only reports a threat ("threatened with murder";
-    # the threat words were widened on 26 Nov 2026). Once judged again it is no longer marked fatal, so this runs once.
-    threat_death = (rec.get('R0') or rec).get('o') == 'fatal' and not rec.get('tf') and E.THREAT.search(rec['t'])
-    if rec.get('e') and rec.get('r') == E.RULES_VERSION and not threat_death:
+    if rec.get('e') and rec.get('r') == E.RULES_VERSION:
         continue
     if budget['left'] <= 0:
         break
@@ -240,21 +253,13 @@ for rec in items:
         pass
     # A page that cannot be read right now is not evidence against the record: try again on later runs,
     # and only after three failures judge on the headline alone.
-    if not text and not threat_death:          # (a threat re-judgement needs only the headline)
+    if not text:
         rec['x'] = rec.get('x', 0) + 1
         if rec['x'] < 3:
             time.sleep(0.3)
             continue
     rec.pop('x', None)
-    kept = E.recheck(rec, text)
-    if threat_death:
-        rec['tf'] = 1                 # re-judged once for its threat words
-    if not kept and threat_death:
-        # Never removed for this re-judgement: only the death the threat words made is cleared (the readings decide the rest).
-        for d in (rec, rec.get('R0') or {}):
-            if d.get('o') == 'fatal':
-                d.pop('o', None)
-    elif not kept:
+    if not E.recheck(rec, text):
         rec['drop'] = 1
         rejected.add(rec['id'])
         removed += 1
@@ -514,7 +519,7 @@ print('cases: %d from %d reports; %d pairs judged, %d waiting for the judge' % (
 
 events.sort(key=lambda e: e['last'], reverse=True)
 keep = ('id', 'c', 'a', 'd', 'last', 'stated', 'orphan', 'h', 'b', 'o', 'p', 'uv', 'rel', 'by', 'reports')
-DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x', 'tf')    # working fields the page never needs
+DROP = ('R0', 'L', 'L2', 'X', 'Lx', 'Xx', 'f', 'r', 'e', 'x')    # working fields the page never needs
 def slim(r):
     out = {k: v for k, v in r.items() if k not in DROP}
     s = (E.best_reading(r) or {}).get('s')
