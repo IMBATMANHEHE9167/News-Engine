@@ -41,18 +41,19 @@
  "triaged": 2667,
  "lx_reset": 1,
  "last_run": {
-  "busy": 0,
+  "busy": 4,
   "stop": "no model left today (allowance used or retired)"
  },
  "read": 1711,
  "older": 1806,
- "unread": 18,
+ "unread": 20,
  "second": 48,
  "expert": 13,
  "not_incident": 345,
- "updated": "2026-11-26T14:49:11.381Z",
+ "updated": "2026-11-26T15:00:33.566Z",
  "judged": 258,
- "audited": 2468,
- "overturned": 1079,
- "xx_day": "2026-11-26"
+ "audited": 2466,
+ "overturned": 1077,
+ "xx_day": "2026-11-26",
+ "caps": {}
 }
