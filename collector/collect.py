@@ -240,7 +240,7 @@ for rec in items:
         pass
     # A page that cannot be read right now is not evidence against the record: try again on later runs,
     # and only after three failures judge on the headline alone.
-    if not text:
+    if not text and not threat_death:          # (a threat re-judgement needs only the headline)
         rec['x'] = rec.get('x', 0) + 1
         if rec['x'] < 3:
             time.sleep(0.3)
