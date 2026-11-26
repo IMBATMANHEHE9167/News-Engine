@@ -281,6 +281,9 @@ class Session:
             self.state = dict(day=today, used={}, rested={}, errors=[], models=self.state.get('models', {}),
                               caps=self.state.get('caps', {}))
         self.state.setdefault('caps', {})
+        if not self.state.get('rest_fix'):          # once (26 Nov 2026): models rested by a per-minute 429 are tried again;
+            self.state['rested'] = {}               # one truly at its daily limit is rested again by its first answer
+            self.state['rest_fix'] = 1
         self.busy = {}          # "busy" answers per model this run
         self.cool = {}          # a busy model rests until this time, then is tried again (it is not out for the run)
         self.stop = None        # why reading stopped early, kept in llmstate so a slow run explains itself
