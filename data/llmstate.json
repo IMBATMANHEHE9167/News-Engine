@@ -1,22 +1,19 @@
 {
  "day": "2026-11-26",
  "used": {
-  "gemini-3.5-flash-lite": 217,
-  "gemini-3.1-flash-lite": 305,
+  "gemini-3.5-flash-lite": 219,
+  "gemini-3.1-flash-lite": 306,
   "gemini-flash-lite-latest": 83,
   "gemini-3.6-flash": 13,
   "gemini-3-flash-preview": 21
  },
  "rested": {
   "gemini-3.1-flash-lite": true,
+  "gemini-flash-lite-latest": true,
   "gemini-3.5-flash-lite": true,
-  "gemini-flash-lite-latest": true
+  "gemini-3.6-flash": true
  },
  "errors": [
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.1-flash-lite: The read operation timed out",
-  "gemini-3.1-flash-lite: The read operation timed out",
-  "gemini-3.1-flash-lite: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3.1-flash-lite: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
@@ -24,7 +21,11 @@
   "gemini-3.1-flash-lite: daily limit after 305 requests",
   "gemini-3.5-flash-lite: daily limit after 217 requests",
   "gemini-flash-lite-latest: daily limit after 83 requests",
-  "gemini-3.6-flash: The read operation timed out"
+  "gemini-3.6-flash: The read operation timed out",
+  "gemini-3.1-flash-lite: daily limit after 306 requests",
+  "gemini-flash-lite-latest: daily limit after 83 requests",
+  "gemini-3.5-flash-lite: daily limit after 219 requests",
+  "gemini-3.6-flash: daily limit after 13 requests"
  ],
  "models": {
   "readers": [
@@ -38,27 +39,28 @@
    "gemini-flash-latest"
   ]
  },
- "triaged": 2668,
+ "triaged": 2732,
  "lx_reset": 1,
  "last_run": {
   "busy": 0,
-  "stop": "no model left today (allowance used or retired)"
+  "stop": "this run's share of the day's allowance used"
  },
  "read": 1711,
  "older": 1806,
- "unread": 24,
+ "unread": 29,
  "second": 48,
  "expert": 13,
  "not_incident": 345,
- "updated": "2026-11-26T15:20:14.948Z",
+ "updated": "2026-11-26T15:31:00.572Z",
  "judged": 258,
  "audited": 2541,
  "overturned": 1078,
  "xx_day": "2026-11-26",
  "caps": {
-  "gemini-3.1-flash-lite": 305,
-  "gemini-3.5-flash-lite": 217,
-  "gemini-flash-lite-latest": 83
+  "gemini-3.1-flash-lite": 306,
+  "gemini-flash-lite-latest": 83,
+  "gemini-3.5-flash-lite": 219
  },
- "rest_fix": 1
+ "rest_fix": 1,
+ "caps_fix": 1
 }

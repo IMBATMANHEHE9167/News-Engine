@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T15:26:39.086Z",
+ "updated": "2026-11-26T15:34:54.177Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -40,11 +40,14 @@
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
    "ok": false,
-   "detail": "2 cases",
+   "detail": "3 cases",
    "bad": [
     [
      "Trial begins in Ketan Agrawal murder case, Ujjwal Nikam appears as special prosecutor",
      "Ketan Agrawal murder trial starts; Ujjwal Nikam appears as special prosecutor"
+    ],
+    [
+     "Ketan Agarwal Murder Case: First Hearing Scheduled in Pune’s Wadgaon Maval Court on Saturday"
     ]
    ]
   },
@@ -269,7 +272,7 @@
   "split_cases": 1,
   "judged_same_kept_apart": 9,
   "date_spread": 29,
-  "waiting_for_judge": 330,
+  "waiting_for_judge": 348,
   "pairs_judged": 9131,
   "pairs_judged_same": 5918,
   "judge_checked_by_expert": 2541,
@@ -278,10 +281,10 @@
   "area_disagreement": 43,
   "silent_days": 5,
   "source_gap_days": 61,
-  "unverified": 85,
+  "unverified": 90,
   "ruled_out_by_ai": 345,
   "future_times": 0,
-  "reports": 3541,
+  "reports": 3546,
   "cases": 1589
  },
  "examples": {
