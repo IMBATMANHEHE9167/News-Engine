@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T13:48:25.389Z",
+ "updated": "2026-11-26T14:38:37.060Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -141,11 +141,9 @@
   },
   {
    "name": "Digital-arrest victim threatened with murder: no one died",
-   "ok": false,
-   "detail": "1 marked as a death",
-   "bad": [
-    "‘Digital arrest’ victim made to show bedridden wife, threatened with murder"
-   ]
+   "ok": true,
+   "detail": "no death marked",
+   "bad": []
   },
   {
    "name": "Shiv Sena (UBT) leader Rekha Konde assault is one case",
@@ -263,32 +261,44 @@
   }
  ],
  "detectors": {
-  "split_cases": 1,
-  "judged_same_kept_apart": 10,
-  "date_spread": 27,
-  "waiting_for_judge": 0,
-  "pairs_judged": 8974,
-  "pairs_judged_same": 5825,
-  "judge_checked_by_expert": 2393,
-  "judge_overturned_by_expert": 1078,
+  "split_cases": 3,
+  "judged_same_kept_apart": 16,
+  "date_spread": 29,
+  "waiting_for_judge": 1,
+  "pairs_judged": 9131,
+  "pairs_judged_same": 5918,
+  "judge_checked_by_expert": 2466,
+  "judge_overturned_by_expert": 1077,
   "non_incident_wording": 5,
-  "area_disagreement": 42,
+  "area_disagreement": 43,
   "silent_days": 5,
-  "source_gap_days": 62,
-  "unverified": 37,
-  "ruled_out_by_ai": 339,
+  "source_gap_days": 61,
+  "unverified": 59,
+  "ruled_out_by_ai": 343,
   "future_times": 0,
-  "reports": 3490,
-  "cases": 1596
+  "reports": 3511,
+  "cases": 1593
  },
  "examples": {
   "split_cases": [
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
    [
     "Delivery partner held after fatal accident in Pune turns out to be murder",
     "Pedestrian dies in hit-and-run accident in Baner"
    ]
   ],
   "judged_same_kept_apart": [
+   [
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
+   ],
    [
     "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
     "Pune: CCTV Captures Police Van Ploughing Into Parked Vehicles in Sadashiv Peth"
@@ -302,24 +312,20 @@
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
+    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
+    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
+   ],
+   [
     "आष्टापुरात कृषी पंप चोरांचा धुमाकूळ",
     "गणेशोत्सव विसर्जन मिरवणुकीदरम्यान गर्दीत भाविकांचे सोन्याचे दागिने व मोबाईल चोरणाऱ्या आंतरराज्यीय टोळीवर फरासखाना पोलिसांनी कारवाई केली. गोपनीय माहितीच्या आधारे केलेल्या तपासात या टोळीचा सहभाग निष्पन्न झाला. या कारवाईत…"
    ],
    [
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "Distant relative held for murdering two elderly women, robbing them of gold chains",
+    "Baramati: Two Elderly Women Killed In Suspected Robbery; Assailants Flee With Gold Ornaments"
    ],
    [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
     "Police arrest 61-year-old for sexual assault of two minor sisters"
-   ],
-   [
-    "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident",
-    "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi"
-   ],
-   [
-    "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
-    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
    ]
   ],
   "date_spread": [
@@ -377,8 +383,8 @@
     "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
     "days": [
      "2026-10-28",
+     "2026-11-01",
      "2026-11-02",
-     "2026-11-03",
      "2026-11-04"
     ]
    },
@@ -521,12 +527,12 @@
    },
    {
     "source": "pkn",
-    "days": 26,
+    "days": 25,
     "examples": [
+     "2026-10-11",
      "2026-10-25",
      "2026-10-28",
      "2026-11-01",
-     "2026-11-02",
      "2026-11-20",
      "2026-11-22"
     ]
@@ -534,5 +540,5 @@
   ],
   "future_times": []
  },
- "passed": 42
+ "passed": 43
 }
