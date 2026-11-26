@@ -161,7 +161,7 @@
    "i"
   ],
   "THREAT": [
-   "\\b(threat(ened|ening|s)? to kill|death threats?|threatened with death|kill threats?)\\b|जीवे मारण्याची धमकी|ठार मारण्याची धमकी|जिवे मारण्याची धमकी",
+   "\\b(threat(ened|ening|s)? (to kill|with (murder|death|being killed)|of (murder|death))|(death|murder|kill) threats?)\\b|जीवे मारण्याची धमकी|ठार मारण्याची धमकी|जिवे मारण्याची धमकी",
    "i"
   ],
   "FATAL": [
