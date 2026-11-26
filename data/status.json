@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-26T07:23:03.357Z",
- "total": 3285,
- "added": 24,
- "removed": 1,
+ "updated": "2026-11-26T08:39:16.503Z",
+ "total": 3352,
+ "added": 65,
+ "removed": 0,
  "rules": 11,
  "history": {
-  "reachedBack": "2026-09-12",
+  "reachedBack": "2026-09-08",
   "target": "2026-05-19",
-  "kept": 835,
+  "kept": 836,
   "note": "",
   "from": "2026-05-19",
   "archives": {
@@ -25,13 +25,13 @@
    },
    "ptm": {
     "done": false,
-    "reached": "2026-11-17",
-    "kept": 478,
+    "reached": "2026-11-03",
+    "kept": 479,
     "note": ""
    },
    "pkn": {
     "done": false,
-    "reached": "2026-06-18",
+    "reached": "2026-06-09",
     "kept": 462,
     "note": ""
    },
@@ -73,15 +73,15 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 9,
-   "added": 9,
+   "added": 0,
    "note": ""
   },
   {
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 8,
-   "added": 0,
+   "found": 7,
+   "added": 1,
    "note": ""
   },
   {
@@ -105,14 +105,14 @@
    "name": "Free Press Journal",
    "ok": true,
    "found": 2,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 9,
+   "found": 10,
    "added": 1,
    "note": ""
   },
@@ -120,7 +120,7 @@
    "id": "abp",
    "name": "ABP Majha",
    "ok": true,
-   "found": 8,
+   "found": 7,
    "added": 1,
    "note": ""
   },
@@ -128,8 +128,8 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 2,
-   "added": 1,
+   "found": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -145,14 +145,14 @@
    "name": "Pudhari",
    "ok": true,
    "found": 6,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 6,
+   "found": 7,
    "added": 1,
    "note": ""
   },
@@ -160,15 +160,15 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 25,
-   "added": 2,
+   "found": 26,
+   "added": 1,
    "note": ""
   },
   {
    "id": "xptm",
    "name": "Pune Times Mirror on X",
    "ok": true,
-   "found": 10,
+   "found": 24,
    "added": 0,
    "note": ""
   },
@@ -177,22 +177,22 @@
    "name": "Pune Pulse on X",
    "ok": true,
    "found": 13,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 15,
-   "added": 0,
+   "found": 11,
+   "added": 1,
    "note": ""
   },
   {
    "id": "xie",
    "name": "Express Pune on X",
    "ok": true,
-   "found": 2,
+   "found": 12,
    "added": 0,
    "note": ""
   },
@@ -201,14 +201,14 @@
    "name": "Varad Bhatkhande (FPJ reporter) on X",
    "ok": true,
    "found": 5,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 14,
+   "found": 34,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 4,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -240,7 +240,7 @@
    "id": "xtrf",
    "name": "Pune Traffic Police on X",
    "ok": true,
-   "found": 1,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -281,7 +281,7 @@
    "name": "Lokmat on X",
    "ok": true,
    "found": 2,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -295,16 +295,16 @@
   {
    "id": "xlks",
    "name": "Loksatta on X",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xabp",
    "name": "ABP Majha on X",
    "ok": true,
-   "found": 2,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -312,8 +312,8 @@
    "id": "xtv9",
    "name": "TV9 Marathi on X",
    "ok": true,
-   "found": 3,
-   "added": 2,
+   "found": 4,
+   "added": 0,
    "note": ""
   }
  ]

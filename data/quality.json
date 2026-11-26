@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T07:24:27.233Z",
+ "updated": "2026-11-26T08:51:28.098Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -39,13 +39,9 @@
   },
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Ketan Agrawal Murder Case : केतन अग्रवाल हत्या प्रकरणात मोठी अपडेट; पोलिसांकडून २५०० पानी चार्जशीट दाखल"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case",
@@ -216,18 +212,8 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": false,
-   "detail": "5 cases",
+   "detail": "2 cases",
    "bad": [
-    [
-     "Shivajinagar Court Mangesh Kiwale Case: आधी वाटलं किरकोळ वाद, नंतर रक्तबंबाळ होऊन तो हळूहळू चालत आला अन् पडला, हल्ल्यानंतरचे ते चार शब्द बोलले...; प्रत्यक्षदर्शीने सांगितला मंदार किवळेसोबतचा थरार"
-    ],
-    [
-     "मंदार किवळेवर हल्ला करण्याचा प्लान, शुभमच्या भावाने मृतदेहासमोरच…; काय आहे संपूर्ण प्रकरण?"
-    ],
-    [
-     "Pune Shivajinagar Court Mangesh Kiwale Case: भावाच्या मृतदेहासमोर शपथ, शुभमचा बदला, मंदार टार्गेटवर; ळ ठरली, दिसला की तोडला, 2025 मधील नेमकं प्रकरण काय?",
-     "Pune Shivajinagar Court Mandar Kiwale Case: भावाच्या मृतदेहासमोर शपथ, शुभमचा बदला, मंदार टार्गेटवर; वेळ ठरली, दिसला की तोडला, 2025 मधील नेमकं प्रकरण काय?"
-    ],
     [
      "Pune Court Attack Caught On Camera, Mandar Kiwale Slashed After Firing Misfires"
     ]
@@ -242,7 +228,7 @@
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": true,
-   "detail": "connected: feud murder of a man in Katraj due to land and financial dispute; revenge murder of a man in Santoshnagar, Katraj; same_accused murder of a man in 2025",
+   "detail": "connected: revenge murder of Shubham Chavan a year and a half earlier; revenge murder of a man in Katraj; revenge murder of shubham in Katraj",
    "bad": []
   },
   {
@@ -266,22 +252,22 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 6,
-  "date_spread": 26,
-  "waiting_for_judge": 2016,
-  "pairs_judged": 5204,
-  "pairs_judged_same": 2851,
-  "judge_checked_by_expert": 2022,
-  "judge_overturned_by_expert": 987,
-  "non_incident_wording": 2,
+  "judged_same_kept_apart": 132,
+  "date_spread": 25,
+  "waiting_for_judge": 2005,
+  "pairs_judged": 5589,
+  "pairs_judged_same": 3212,
+  "judge_checked_by_expert": 2060,
+  "judge_overturned_by_expert": 1024,
+  "non_incident_wording": 5,
   "area_disagreement": 38,
-  "silent_days": 4,
+  "silent_days": 5,
   "source_gap_days": 67,
-  "unverified": 212,
-  "ruled_out_by_ai": 221,
+  "unverified": 59,
+  "ruled_out_by_ai": 281,
   "future_times": 0,
-  "reports": 3285,
-  "cases": 1542
+  "reports": 3352,
+  "cases": 1577
  },
  "examples": {
   "split_cases": [
@@ -314,6 +300,14 @@
    [
     "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
     "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
+   ],
+   [
+    "Pune Court Attack: कात्रजमधील अर्धा गुंठा जागेवरून सुरू झाले खुनी हल्ल्याचे सत्र; पुणे शिवाजीनगर कोर्टाबाहेरील थरारक घटनेची A to Z स्टोरी punecourtattack crime police advocate",
+    "मंदार किवळे याच्यावर पुणे न्यायालयाच्या बाहेरच हल्ला झाला. मंदार किवळेने न्यायालयात जाण्यापासून ते हल्ला करून आरोपी पळून जाईपर्यंतचा सगळा घटनाक्रम सांगितला... वाचा Pune punecrime punenews PuneFiring MaharashtraNews…"
+   ],
+   [
+    "मंदार किवळे याच्यावर पुणे न्यायालयाच्या बाहेरच हल्ला झाला. मंदार किवळेने न्यायालयात जाण्यापासून ते हल्ला करून आरोपी पळून जाईपर्यंतचा सगळा घटनाक्रम सांगितला... वाचा Pune punecrime punenews PuneFiring MaharashtraNews…",
+    "Pune Court Attack: कात्रजमधील अर्धा गुंठा जागेवरून सुरू झाले खुनी हल्ल्याचे सत्र; पुणे शिवाजीनगर कोर्टाबाहेरील थरारक घटनेची A to Z स्टोरी punecourtattack crime police advocate"
    ]
   ],
   "date_spread": [
@@ -322,24 +316,6 @@
     "days": [
      "2026-11-21",
      "2026-11-25"
-    ]
-   },
-   {
-    "t": "तोरणा किल्ल्यावर 50 फूट दरीत कोसळला पर्यटक, 7 तासांच्या थरारक रेस्क्यूनंतर सुखरूप सुटका!",
-    "days": [
-     "2026-10-20",
-     "2026-10-31",
-     "2026-11-01",
-     "2026-11-09",
-     "2026-11-23"
-    ]
-   },
-   {
-    "t": "Balewadi Crime : आयएएस अधिकारी असल्याचे भासवून ३५ लाखांची फसवणूक; बालेवाडीतील २१ वर्षीय तरुणाला अटक, सोसायटीचा अध्यक्ष बनून म्हाडाच्या सदनिकांचेही दाखवले आमिष",
-    "days": [
-     "2026-11-15",
-     "2026-11-18",
-     "2026-11-19"
     ]
    },
    {
@@ -377,23 +353,37 @@
     ]
    },
    {
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "days": [
+     "2026-10-20",
+     "2026-10-31",
+     "2026-11-01",
+     "2026-11-09"
+    ]
+   },
+   {
     "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
     "days": [
      "2026-10-29",
      "2026-11-07"
     ]
+   },
+   {
+    "t": "Scooterist dies in hit-and-run",
+    "days": [
+     "2026-06-10",
+     "2026-11-03"
+    ]
    }
   ],
   "non_incident_wording": [
+   "A 42-year-old worker, Sanjay Dhotre, died after allegedly losing his balance and falling from a fourth-floor balcony while retrieving a wooden plank at an under-construction building in Gulab Hari Vasti, Wadgaon Shinde,…",
+   "Anita Raju Kota (45) alleged that she, her son Vignesh, and her daughter-in-law Priya were called to the parking area of a new SRA building at Inamke Mala in Lohiyanagar on the pretext of settling a dispute, where an…",
+   "A 2.2 kg gold heist, a 12-hour manhunt, and Khadak Police on the case. From reviewing area CCTV footage to tracking suspects hiding within the very same building, the trail led to a swift resolution, with over 100% of…",
    "Three engineers assault building contractor in road rage, booked",
    "Elderly man assaulted in upscale building in Gahunje"
   ],
   "area_disagreement": [
-   {
-    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
-    "case_area": "Velhe / Rajgad",
-    "reading": "Bavdhan"
-   },
    {
     "t": "A 70-year-old woman, Lata Ramchandra Undre, allegedly lost a cash pouch containing ₹48,000 while travelling on a PMPML bus from Alandi to Shivajinagar. The incident raises concerns about passenger safety and thefts on…",
     "case_area": "Dighi / Alandi",
@@ -428,6 +418,11 @@
     "t": "Bhor Police Patil Ashok Yenpure Found Dead In Suspected Sharp-Weapon Attack",
     "case_area": "Velhe / Rajgad",
     "reading": "Pimple Saudagar / Sangvi"
+   },
+   {
+    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
+    "case_area": "Lonavala / Maval",
+    "reading": "Wanowrie"
    }
   ],
   "silent_days": [
@@ -450,9 +445,46 @@
     "day": "2026-09-27",
     "incidents": 1,
     "usual": 7
+   },
+   {
+    "day": "2026-10-25",
+    "incidents": 2,
+    "usual": 8
    }
   ],
   "source_gaps": [
+   {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "pkn",
+    "days": 28,
+    "examples": [
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-15",
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "skl",
+    "days": 8,
+    "examples": [
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11",
+     "2026-11-10"
+    ]
+   },
    {
     "source": "ptm",
     "days": 17,
@@ -473,26 +505,6 @@
     ]
    },
    {
-    "source": "skl",
-    "days": 8,
-    "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
-    ]
-   },
-   {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "toi",
     "days": 11,
     "examples": [
@@ -503,21 +515,9 @@
      "2026-11-11",
      "2026-11-12"
     ]
-   },
-   {
-    "source": "pkn",
-    "days": 28,
-    "examples": [
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-15",
-     "2026-11-20",
-     "2026-11-22"
-    ]
    }
   ],
   "future_times": []
  },
- "passed": 37
+ "passed": 38
 }
