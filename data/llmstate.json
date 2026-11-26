@@ -13,7 +13,8 @@
   "gemini-3.5-flash-lite": true,
   "gemini-flash-lite-latest": true,
   "gemini-3.1-flash-lite": true,
-  "gemini-3-flash-preview": true
+  "gemini-3-flash-preview": true,
+  "gemini-flash-latest": true
  },
  "errors": [
   "gemini-3-flash-preview: The read operation timed out",
@@ -45,11 +46,11 @@
  },
  "read": 463,
  "older": 2734,
- "unread": 30,
+ "unread": 32,
  "second": 120,
  "expert": 7,
  "not_incident": 221,
- "updated": "2026-11-26T02:21:37.665Z",
+ "updated": "2026-11-26T03:19:14.376Z",
  "judged": 214,
  "audited": 2022,
  "overturned": 987,
