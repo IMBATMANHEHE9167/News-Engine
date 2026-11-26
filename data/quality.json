@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T17:26:59.676Z",
+ "updated": "2026-11-26T18:25:20.311Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -71,9 +71,21 @@
   },
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "4 cases",
+   "bad": [
+    [
+     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
+     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
+    ],
+    [
+     "Pune Court Attack: भावाच्या खूनाचा बदला घेण्यासाठी ५० हजारांची सुपारी, मध्य प्रदेशातून पिस्तूलांची खरेदी"
+    ],
+    [
+     "Pune Court Attack: 'बेल इज ग्रांटेड... ट्रिगर दबाया, खेल खल्लास'; शिवाजीनगर कोर्ट गोळीबारापूर्वी अपलोड केलेली रील व्हायरल PuneCourtAttack ShivajinagarCourt PuneFiring ViralReel BreakingNews",
+     "Pune Court Attack: 'बेल इज ग्रांटेड... ट्रिगर दबाया, खेल खल्लास'; शिवाजीनगर कोर्ट गोळीबारापूर्वी अपलोड केलेली रील व्हायरल"
+    ]
+   ]
   },
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
@@ -233,9 +245,14 @@
   },
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
+     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
+    ]
+   ]
   },
   {
    "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
@@ -272,7 +289,7 @@
   "split_cases": 1,
   "judged_same_kept_apart": 9,
   "date_spread": 29,
-  "waiting_for_judge": 379,
+  "waiting_for_judge": 380,
   "pairs_judged": 9131,
   "pairs_judged_same": 5918,
   "judge_checked_by_expert": 2541,
@@ -281,10 +298,10 @@
   "area_disagreement": 43,
   "silent_days": 5,
   "source_gap_days": 61,
-  "unverified": 93,
+  "unverified": 94,
   "ruled_out_by_ai": 345,
   "future_times": 0,
-  "reports": 3549,
+  "reports": 3550,
   "cases": 1588
  },
  "examples": {
@@ -475,6 +492,18 @@
   ],
   "source_gaps": [
    {
+    "source": "pkn",
+    "days": 25,
+    "examples": [
+     "2026-10-11",
+     "2026-10-25",
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
     "source": "skl",
     "days": 7,
     "examples": [
@@ -524,21 +553,9 @@
     "examples": [
      "2026-11-22"
     ]
-   },
-   {
-    "source": "pkn",
-    "days": 25,
-    "examples": [
-     "2026-10-11",
-     "2026-10-25",
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-20",
-     "2026-11-22"
-    ]
    }
   ],
   "future_times": []
  },
- "passed": 42
+ "passed": 40
 }
