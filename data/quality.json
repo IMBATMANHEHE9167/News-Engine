@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T10:53:07.975Z",
+ "updated": "2026-11-26T11:39:01.896Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -59,6 +59,24 @@
    "name": "Trainee PSI dowry harassment is one case",
    "ok": true,
    "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
+   "ok": true,
+   "detail": "no matching reports yet",
+   "bad": []
+  },
+  {
+   "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out",
+   "ok": true,
+   "detail": "counted",
    "bad": []
   },
   {
@@ -214,19 +232,19 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": true,
-   "detail": "one case",
+   "detail": "no matching reports yet",
    "bad": []
   },
   {
    "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
    "ok": true,
-   "detail": "one case",
+   "detail": "no matching reports yet",
    "bad": []
   },
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
-   "ok": true,
-   "detail": "connected: feud murder of a young man in Katraj a year earlier; revenge murder of Shubham Chavan a year and a half earlier; revenge murder of a man in Katraj",
+   "ok": false,
+   "detail": "no matching reports yet",
    "bad": []
   },
   {
@@ -250,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 18,
+  "judged_same_kept_apart": 8,
   "date_spread": 25,
-  "waiting_for_judge": 1705,
-  "pairs_judged": 6357,
-  "pairs_judged_same": 3888,
-  "judge_checked_by_expert": 2118,
+  "waiting_for_judge": 1335,
+  "pairs_judged": 7082,
+  "pairs_judged_same": 4521,
+  "judge_checked_by_expert": 2168,
   "judge_overturned_by_expert": 1022,
   "non_incident_wording": 5,
   "area_disagreement": 35,
   "silent_days": 4,
-  "source_gap_days": 66,
-  "unverified": 19,
-  "ruled_out_by_ai": 325,
+  "source_gap_days": 65,
+  "unverified": 17,
+  "ruled_out_by_ai": 322,
   "future_times": 0,
-  "reports": 3396,
-  "cases": 1599
+  "reports": 3422,
+  "cases": 1609
  },
  "examples": {
   "split_cases": [
@@ -284,18 +302,6 @@
     "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh"
    ],
    [
-    "🚨 बोपदेव घाट अपघातातील मृत सिद्धेश्वर राजेच्या कुटुंबीयांची आर्त हाक; ‘शासनाकडून साधी विचारपूसही नाही!’ पुण्यातील बोपदेव घाट येथे भरधाव आयशर ट्रकने धडक दिल्याने झालेल्या भीषण अपघातात तीन तरुणांचा मृत्यू झाला. यामध्ये…",
-    "Two students passed away on the spot and three others were seriously injured after an Eicher tempo rammed into a group of students waiting at a bus stop in Bopdev Ghat, Pune. Police arrived at the scene following the…"
-   ],
-   [
-    "🚨 बोपदेव घाट अपघातातील मृत सिद्धेश्वर राजेच्या कुटुंबीयांची आर्त हाक; ‘शासनाकडून साधी विचारपूसही नाही!’ पुण्यातील बोपदेव घाट येथे भरधाव आयशर ट्रकने धडक दिल्याने झालेल्या भीषण अपघातात तीन तरुणांचा मृत्यू झाला. यामध्ये…",
-    "Two students passed away on the spot and three others were seriously injured after an Eicher tempo rammed into a group of students waiting at a bus stop in Bopdev Ghat, Pune. Police arrived at the scene following the…"
-   ],
-   [
-    "🚨 बोपदेव घाट अपघातातील मृत सिद्धेश्वर राजेच्या कुटुंबीयांची आर्त हाक; ‘शासनाकडून साधी विचारपूसही नाही!’ पुण्यातील बोपदेव घाट येथे भरधाव आयशर ट्रकने धडक दिल्याने झालेल्या भीषण अपघातात तीन तरुणांचा मृत्यू झाला. यामध्ये…",
-    "Two students passed away on the spot and three others were seriously injured after an Eicher tempo rammed into a group of students waiting at a bus stop in Bopdev Ghat, Pune. Police arrived at the scene following the…"
-   ],
-   [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
     "Police arrest 61-year-old for sexual assault of two minor sisters"
    ],
@@ -306,6 +312,18 @@
    [
     "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident",
     "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi"
+   ],
+   [
+    "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
+    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
+   ],
+   [
+    "Pune Crime News : लक्ष्मीपूजनाच्या दिवशी घरातील देवघराच्या खिडकीतून प्रवेश करून सोन्याचे दागिने आणि रोकड चोरणाऱ्या आरोपीला पोलिसांनी केली अटक",
+    "पुण्यात घरफोडीच्या घटनांत सात लाखांचा ऐवज लंपास"
+   ],
+   [
+    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids",
+    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi"
    ]
   ],
   "date_spread": [
@@ -340,7 +358,6 @@
      "2026-08-09",
      "2026-08-10",
      "2026-08-11",
-     "2026-11-11",
      "2026-11-15"
     ]
    },
@@ -448,38 +465,6 @@
   ],
   "source_gaps": [
    {
-    "source": "skl",
-    "days": 8,
-    "examples": [
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11",
-     "2026-11-10"
-    ]
-   },
-   {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
-    "source": "pkn",
-    "days": 27,
-    "examples": [
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-06",
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "ptm",
     "days": 17,
     "examples": [
@@ -499,6 +484,38 @@
     ]
    },
    {
+    "source": "pkn",
+    "days": 27,
+    "examples": [
+     "2026-10-28",
+     "2026-11-01",
+     "2026-11-02",
+     "2026-11-06",
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "skl",
+    "days": 7,
+    "examples": [
+     "2026-07-06",
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11"
+    ]
+   },
+   {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
     "source": "toi",
     "days": 11,
     "examples": [
@@ -513,5 +530,5 @@
   ],
   "future_times": []
  },
- "passed": 38
+ "passed": 40
 }
