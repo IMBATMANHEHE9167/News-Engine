@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T06:29:57.454Z",
+ "updated": "2026-11-26T07:24:27.233Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -216,11 +216,20 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": false,
-   "detail": "2 cases",
+   "detail": "5 cases",
    "bad": [
+    [
+     "Shivajinagar Court Mangesh Kiwale Case: आधी वाटलं किरकोळ वाद, नंतर रक्तबंबाळ होऊन तो हळूहळू चालत आला अन् पडला, हल्ल्यानंतरचे ते चार शब्द बोलले...; प्रत्यक्षदर्शीने सांगितला मंदार किवळेसोबतचा थरार"
+    ],
+    [
+     "मंदार किवळेवर हल्ला करण्याचा प्लान, शुभमच्या भावाने मृतदेहासमोरच…; काय आहे संपूर्ण प्रकरण?"
+    ],
     [
      "Pune Shivajinagar Court Mangesh Kiwale Case: भावाच्या मृतदेहासमोर शपथ, शुभमचा बदला, मंदार टार्गेटवर; ळ ठरली, दिसला की तोडला, 2025 मधील नेमकं प्रकरण काय?",
      "Pune Shivajinagar Court Mandar Kiwale Case: भावाच्या मृतदेहासमोर शपथ, शुभमचा बदला, मंदार टार्गेटवर; वेळ ठरली, दिसला की तोडला, 2025 मधील नेमकं प्रकरण काय?"
+    ],
+    [
+     "Pune Court Attack Caught On Camera, Mandar Kiwale Slashed After Firing Misfires"
     ]
    ]
   },
@@ -259,7 +268,7 @@
   "split_cases": 1,
   "judged_same_kept_apart": 6,
   "date_spread": 26,
-  "waiting_for_judge": 1664,
+  "waiting_for_judge": 2016,
   "pairs_judged": 5204,
   "pairs_judged_same": 2851,
   "judge_checked_by_expert": 2022,
@@ -268,10 +277,10 @@
   "area_disagreement": 38,
   "silent_days": 4,
   "source_gap_days": 67,
-  "unverified": 186,
+  "unverified": 212,
   "ruled_out_by_ai": 221,
   "future_times": 0,
-  "reports": 3259,
+  "reports": 3285,
   "cases": 1542
  },
  "examples": {
@@ -445,10 +454,21 @@
   ],
   "source_gaps": [
    {
-    "source": "lkm",
-    "days": 2,
+    "source": "ptm",
+    "days": 17,
     "examples": [
-     "2026-11-20",
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10",
+     "2026-10-18",
+     "2026-11-06"
+    ]
+   },
+   {
+    "source": "pud",
+    "days": 1,
+    "examples": [
      "2026-11-22"
     ]
    },
@@ -465,9 +485,10 @@
     ]
    },
    {
-    "source": "pud",
-    "days": 1,
+    "source": "lkm",
+    "days": 2,
     "examples": [
+     "2026-11-20",
      "2026-11-22"
     ]
    },
@@ -493,18 +514,6 @@
      "2026-11-15",
      "2026-11-20",
      "2026-11-22"
-    ]
-   },
-   {
-    "source": "ptm",
-    "days": 17,
-    "examples": [
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10",
-     "2026-10-18",
-     "2026-11-06"
     ]
    }
   ],
