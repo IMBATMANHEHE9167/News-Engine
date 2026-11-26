@@ -152,6 +152,7 @@ def main():
     # English under Marathi headlines comes with the reading (or, for a report not yet read, from the headline alone).
     try:
         import llm
+        llm.SHARE = 0.075              # run four times an hour: its share of the day's AI allowance per run (llm.pace)
         llm.read_situations(judged, get)
         llm.english(judged)
     except Exception as ex:

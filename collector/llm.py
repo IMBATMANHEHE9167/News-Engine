@@ -168,7 +168,11 @@ def call(key, model, payload, timeout=150):
         if e.code in (403, 404):
             raise Gone(body) from None
         if e.code == 429:
-            raise Limit(body) from None
+            # Only the daily limit rests a model for the day. A per-minute limit is a pause, like "busy": treating every
+            # 429 as the daily limit put all readers out for the day after ~230 of their 500 requests (26 Nov 2026).
+            if re.search(r'per ?day|PerDay|daily', body, re.I) or not re.search(r'per ?minute|PerMinute', body, re.I):
+                raise Limit(body) from None
+            raise Busy(body) from None
         raise RuntimeError('HTTP %d %s' % (e.code, body)) from None
 
 
@@ -250,6 +254,19 @@ def judge(key, model, pairs):
     return {x.get('pair'): bool(x.get('same')) for x in answer(call(key, model, payload)) if isinstance(x, dict)}
 
 
+# Pacing (26 Nov 2026): the free allowance resets at midnight Pacific (13:30 IST). Runs used to spend all they could, so
+# the day's requests were gone ~6 h after the reset and new news waited unread ("being checked") until the next
+# afternoon. Now each run may use only its share of what is left, spread over the hours to the reset. The real daily
+# limit of each model is learned the first time Google refuses it ("caps"; Google's limits are below the nominal rpd).
+RUN = {}            # requests this process (one run) has made, per role
+SHARE = 0.7         # this program's share of an hour's pace; situations.py, run four times an hour, takes 0.075 a run
+
+
+def hours_to_reset():
+    now = datetime.now(ZoneInfo('America/Los_Angeles'))
+    return max(0.5, 24 - now.hour - now.minute / 60)
+
+
 class Session:
     """Model choice, daily allowance and pacing for one run."""
 
@@ -261,7 +278,9 @@ class Session:
             self.state = {}
         today = pacific_day()
         if self.state.get('day') != today:
-            self.state = dict(day=today, used={}, rested={}, errors=[], models=self.state.get('models', {}))
+            self.state = dict(day=today, used={}, rested={}, errors=[], models=self.state.get('models', {}),
+                              caps=self.state.get('caps', {}))
+        self.state.setdefault('caps', {})
         self.busy = {}          # "busy" answers per model this run
         self.cool = {}          # a busy model rests until this time, then is tried again (it is not out for the run)
         self.stop = None        # why reading stopped early, kept in llmstate so a slow run explains itself
@@ -278,8 +297,21 @@ class Session:
     def error(self, msg):
         self.state['errors'] = (self.state.get('errors', []) + [str(msg)[:160]])[-12:]
 
+    def limit(self, model, role):
+        return min(CFG['rpd'][role], self.state['caps'].get(model, CFG['rpd'][role]))
+
+    def pace(self, role):
+        """How many requests of this role this run may make: its share of what is left today, per hour to the reset."""
+        left = sum(max(0, self.limit(m, role) - self.state['used'].get(m, 0))
+                   for m in self.models.get(role, []) if not self.state['rested'].get(m))
+        return max(CFG.get('pace_min', {}).get(role, 4), int(left / hours_to_reset() * SHARE + 0.5))
+
+    def paced_out(self, role):
+        return RUN.get(role, 0) >= self.pace(role)
+
     def has(self, model, role):
-        return self.state['used'].get(model, 0) < CFG['rpd'][role] and not self.state['rested'].get(model) and self.cool.get(model, 0) <= time.time()
+        return self.state['used'].get(model, 0) < self.limit(model, role) and not self.state['rested'].get(model) \
+            and self.cool.get(model, 0) <= time.time() and not self.paced_out(role)
 
     def take(self, role, avoid=None):
         return next((m for m in self.models.get(role, []) if m != avoid and self.has(m, role)), None)
@@ -294,7 +326,8 @@ class Session:
             resting = [self.cool[x] for x in self.models.get(role, []) if x != avoid and self.cool.get(x, 0) > time.time()
                        and self.state['used'].get(x, 0) < CFG['rpd'][role] and not self.state['rested'].get(x)]
             if not resting or not self.time_left():
-                self.stop = self.stop or ('out of time' if resting else 'no model left today (allowance used or retired)')
+                self.stop = self.stop or ("this run's share of the day's allowance used" if self.paced_out(role) else
+                                          'out of time' if resting else 'no model left today (allowance used or retired)')
                 return None
             time.sleep(min(60, max(1, min(resting) - time.time())))
 
@@ -305,6 +338,7 @@ class Session:
         """Run one request with the usual handling. Returns its result, or None (and the reason is recorded).
         self.retry is True when the failure was the model's (limit, overload, retired), not the articles'."""
         self.retry = False
+        RUN[role] = RUN.get(role, 0) + 1
         try:
             out = fn()
             self.state['used'][model] = self.state['used'].get(model, 0) + 1
@@ -314,6 +348,9 @@ class Session:
             self.retry = True
             if isinstance(e, Gone):
                 self.error('%s: not available, rested for today' % model)
+            elif self.state['used'].get(model, 0) >= 20:          # learned: this model's real daily limit
+                self.state['caps'][model] = self.state['used'][model]
+            self.error('%s: daily limit after %d requests' % (model, self.state['used'].get(model, 0)))
         except Busy:
             n = self.busy[model] = self.busy.get(model, 0) + 1
             self.cool[model] = time.time() + min(300, 30 * n)     # rest 30 s, 60 s, ... up to 5 min, then try again
@@ -424,8 +461,11 @@ def run(items, texts, get):
     left -= _read_pass(S, 'readers', 'L2', second, left, texts, get, avoid_own=True)
     # 3. Readings from an older form: read again (newest first), so every report has the case facts.
     # (capped, so the newest news, second readings and the judge keep their share of the day's free requests)
+    # (and only from what this run's share leaves after keeping 10 requests for the judge, who keeps today's news from
+    # being counted twice)
+    spare = max(0, S.pace('readers') - RUN.get('readers', 0) - 10)
     left -= _read_pass(S, 'readers', 'L', newest([r for r in items if r.get('L') and r['L'].get('v') != VERSION and fresh(r)]),
-                       min(left, CFG['per_run'].get('reread', left)), texts, get)
+                       min(left, CFG['per_run'].get('reread', left), spare), texts, get)
     # 4. Three-way splits: the expert reads.
     split = [r for r in items if E.verdict(r) == 'expert' and r.get('Xx', 0) < 2]
     for r in split:
