@@ -10,6 +10,10 @@
 (function(){var t;try{t=localStorage.getItem('vidraksh-theme')}catch(e){}
 if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
 document.documentElement.dataset.theme=t;})();
+// The map needs the graphics card (WebGL). A browser without it (old phones, some locked-down office computers) is sent
+// to the classic page, which draws a plain street map instead.
+(function(){var ok=false;try{var c=document.createElement('canvas');ok=!!(c.getContext('webgl2')||c.getContext('webgl'))}catch(e){}
+if(!ok)location.replace('classic.html'+location.hash);})();
 </script>
 <title>विद्रक्ष · Live · Pune</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23E6E6E6'/%3E%3Crect x='8' y='15' width='16' height='2' fill='%23B3641D'/%3E%3C/svg%3E">
@@ -17,7 +21,6 @@ document.documentElement.dataset.theme=t;})();
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=boska@400,500&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Tiro+Devanagari+Marathi&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css">
 <style>
 /* Hallmark · redesign: full · shape: app screen · theme: kiln (by request of the brief: "do not play it safe"), colourways ember (dark) and bisque (light), accent re-pointed to VIDRAKSH copper · signature: the copper heat ramp, ash to white heat, marks how much happened where and when */
@@ -340,9 +343,11 @@ body.fullv .glasspage footer{display:block;grid-column:1/-1;max-width:none;margi
 .stage{position:relative;flex:1 1 auto;min-height:0;width:100%;overflow:hidden}
 .stage > .page.full{position:absolute;inset:0;z-index:2;pointer-events:none}
 :where(.stage > .page.full > *){pointer-events:auto}
-.leaflet-pane.tp{opacity:0;visibility:hidden;transition:opacity .16s ease,visibility 0s linear .16s}
-.leaflet-pane.tp.on{opacity:1;visibility:visible;transition:opacity .26s ease .16s,visibility 0s}
-@media (prefers-reduced-motion:reduce){.leaflet-pane.tp,.leaflet-pane.tp.on{transition:none}}
+.lpane{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.lpane>*{position:absolute;left:0;top:0;will-change:transform}
+.lpane.tp{opacity:0;visibility:hidden;transition:opacity .16s ease,visibility 0s linear .16s}
+.lpane.tp.on{opacity:1;visibility:visible;transition:opacity .26s ease .16s,visibility 0s}
+@media (prefers-reduced-motion:reduce){.lpane.tp,.lpane.tp.on{transition:none}}
 /* News and Analytics: each one glass sheet over the shared map, scrolling inside itself, sliding with the map tabs in the
    order of the tabs. Its glass is nearly solid (about 90% less see-through than the map panels'), so the reading is clear and the
    map is only just there. The Area/Time bar is glass too, almost solid, with the map running on under it. */
@@ -606,25 +611,30 @@ footer{max-width:1640px;margin:0 auto;padding:20px 28px 44px;font-size:12px;line
 footer p{margin:0;max-width:820px}
 
 /* Leaflet in the forge's materials */
-.leaflet-container{font-family:var(--sans);background:var(--paper-3)}
-.osm-fallback{filter:var(--tile-filter)}   /* only the raster fallback: the vector basemap sits in the tile pane too */
-.leaflet-bar{border:0!important;box-shadow:0 0 0 1px var(--rule-2)!important;border-radius:12px!important;overflow:hidden}
-.leaflet-bar a{background:var(--paper-2)!important;color:var(--ink)!important;border-bottom:1px solid var(--rule)!important;border-radius:0!important;width:36px!important;height:36px!important;line-height:34px!important;font-weight:400}
-.leaflet-bar a:hover{background:var(--paper-3)!important}
-.leaflet-control-attribution{background:color-mix(in srgb,var(--paper) 85%,transparent)!important;color:var(--ink-3)!important;font-size:10px!important;border-radius:8px 0 0 0}
-.leaflet-control-attribution a{color:var(--ink-2)!important}
+.maplibregl-map{font-family:var(--sans);background:var(--paper-3)}
+/* The map controls (zoom, compass, 3D) in the forge materials */
+.maplibregl-ctrl-group{border:0!important;box-shadow:0 0 0 1px var(--rule-2)!important;border-radius:12px!important;overflow:hidden}
+.maplibregl-ctrl-group button{background:var(--paper-2)!important;color:var(--ink)!important;border-bottom:1px solid var(--rule)!important;border-radius:0!important;width:36px!important;height:36px!important;font-weight:400}
+.maplibregl-ctrl-group button:hover{background:var(--paper-3)!important}
+[data-theme="dark"] .maplibregl-ctrl-group button .maplibregl-ctrl-icon{filter:invert(.85)}
+.maplibregl-map[style*="cursor: pointer"] .maplibregl-canvas-container.maplibregl-interactive{cursor:pointer}   /* over an incident or area */
+.v3d{font:600 12px var(--sans)!important;color:var(--ink)!important}
+.v3d.on{background:var(--ink)!important;color:var(--paper)!important}
+.maplibregl-ctrl-attrib{background:color-mix(in srgb,var(--paper) 85%,transparent)!important;color:var(--ink-3)!important;font-size:10px!important;border-radius:8px 0 0 0}
+.maplibregl-ctrl-attrib a{color:var(--ink-2)!important}
 .lbl{background:none!important;border:0!important;box-shadow:none!important;color:var(--ink)!important;font:600 11px var(--mono);padding:0!important;text-shadow:0 0 3px var(--paper),0 0 3px var(--paper)}
 .lbl::before{display:none!important}
 .lbl.on-copper{color:var(--on-copper)!important;text-shadow:none}
 .pin{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;font:600 11px var(--sans);color:var(--ink)!important;text-shadow:0 0 3px var(--paper),0 0 3px var(--paper),0 0 2px var(--paper)}
 .pin::before{display:none!important}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--paper-2)!important;color:var(--ink)!important;border-radius:var(--r-well)!important;box-shadow:var(--shadow)!important}
-.leaflet-popup-content{margin:14px 16px!important;font:13px/19px var(--sans);max-width:270px}
-.leaflet-popup-content a{color:var(--ink);font:500 14px/20px var(--sans);text-decoration:none}
-.leaflet-popup-content a:hover{text-decoration:underline;text-decoration-color:var(--copper)}
-.leaflet-container a.leaflet-popup-close-button{color:var(--ink-3)!important}
-.leaflet-tooltip.tip{background:var(--paper-2);color:var(--ink);border:1px solid var(--rule-2);border-radius:10px;box-shadow:var(--shadow);font:12px/17px var(--sans);padding:6px 10px}
-.leaflet-tooltip.tip::before{display:none}
+.lpop .maplibregl-popup-content{background:var(--paper-2)!important;color:var(--ink)!important;border-radius:var(--r-well)!important;box-shadow:var(--shadow)!important}
+.lpop .maplibregl-popup-content{padding:14px 16px!important;font:13px/19px var(--sans);max-width:270px}
+.lpop .maplibregl-popup-content a{color:var(--ink);font:500 14px/20px var(--sans);text-decoration:none}
+.lpop .maplibregl-popup-content a:hover{text-decoration:underline;text-decoration-color:var(--copper)}
+.lpop .maplibregl-popup-close-button{color:var(--ink-3)!important}
+.ltip .maplibregl-popup-content{background:var(--paper-2);color:var(--ink);border:1px solid var(--rule-2);border-radius:10px;box-shadow:var(--shadow);font:12px/17px var(--sans);padding:6px 10px}
+.ltip .maplibregl-popup-tip,.lpop .maplibregl-popup-tip{display:none}
+.maplibregl-ctrl-top-left,.maplibregl-ctrl-top-right,.maplibregl-ctrl-bottom-left,.maplibregl-ctrl-bottom-right{z-index:800}
 /* Heat on the maps: a solid copper disc. Its size is the count; the busiest areas glow. Never a tint of copper. */
 .disc{display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--copper);color:var(--on-copper);font:600 11px/1 var(--mono);box-shadow:0 0 0 1.5px var(--paper-2);cursor:pointer}
 .disc.warm{box-shadow:0 0 0 1.5px var(--paper-2),0 0 14px 2px var(--glow)}
@@ -815,9 +825,8 @@ footer p{margin:0;max-width:820px}
 
 <div id="gTip" class="gtip"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pmtiles@3.2.1/dist/pmtiles.js"></script>
 <script type="module">
 // Everything is worked out by the collector (collector/engine.py); the page only reads and draws it.
 const $ = id => document.getElementById(id);
@@ -1197,24 +1206,263 @@ wideCase.addEventListener('change', () => drawNews());
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && newsSel && !$('news').classList.contains('hide')) { newsSel = null; drawNews(); } });
 
 /* ---------- Map ---------- */
-// Every map on the page (incidents, situations, groups) is made the same way and shares the basemap and the heat ramp.
+// One MapLibre GL map for every tab (native, so it can tilt into 3D with real building heights). The page's tab code still
+// speaks the small part of Leaflet it always used (marks in panes, popups, fits, screen points, [lat, lng] and Leaflet zoom
+// levels); the adapter L below turns that into MapLibre. Leaflet zoom z = MapLibre zoom z - 1 (256- vs 512-pixel tiles).
+const OFM = 'https://tiles.openfreemap.org/styles/';
+let BASESTYLE = null, VIEW3D = false;
+const PX700 = z => 700 / (40075016.7 * Math.cos(18.53 * Math.PI / 180) / 512 / 2 ** z);
+const R700 = ['interpolate', ['exponential', 2], ['zoom'], 8, 3 * PX700(8), 16, 3 * PX700(16)];
+const PAL = {
+  // Greens a clear leaf green and water a deeper clear blue (still muted, never poster colours); a warmer, deeper ground so
+  // white roads stand out; crisper buildings.
+  light: { bg: '#E5E2DB', res: '#DEDBD3', park: '#C2D7B1', grass: '#CBDDBB', wood: '#AFCB9C', wet: '#BCD4C1', sand: '#E0DAC9', lu: '#DCD9D1',
+    water: '#8DB4CC', aero: '#D9D6CE', aeroLine: '#C9C5BC', bld: '#CDC8BF', bldLine: '#B3ADA3', bld3: '#DDD9D2',
+    moto: '#FFFFFF', motoC: '#7E7972', prim: '#FFFFFF', primC: '#8E8982', sec: '#FFFFFF', secC: '#A8A49D', minor: '#FCFBF9', minorC: '#BDB9B2',
+    serv: '#F4F3F0', servC: '#CAC6BF', path: '#C9C5BE', rail: '#A29E97', bound: '#8E8A84',
+    l1: '#141414', l2: '#2B2A28', l3: '#4E4C48', lRoad: '#5D5A54', lWater: '#4F6B7B', halo: 'rgba(233,232,228,0.94)',
+    shade: 'rgba(38,34,28,0.38)', lit: 'rgba(255,255,255,0.5)', sky: '#E9E8E4' },
+  dark: { bg: '#121314', res: '#17181A', park: '#16271A', grass: '#17241A', wood: '#142A19', wet: '#14231D', sand: '#1C1B17', lu: '#161719',
+    water: '#0B2536', aero: '#18191B', aeroLine: '#24262A', bld: '#222326', bldLine: '#2E2F33', bld3: '#2B2C30',
+    moto: '#4A4B4F', motoC: '#0B0C0D', prim: '#3E3F43', primC: '#0B0C0D', sec: '#35363A', secC: '#0C0D0E', minor: '#2A2B2E', minorC: '#0E0F10',
+    serv: '#232427', servC: '#101113', path: '#2E3033', rail: '#36383C', bound: '#55575C',
+    l1: '#EDEDED', l2: '#C6C6C6', l3: '#959595', lRoad: '#8D8D8D', lWater: '#6E8EA0', halo: 'rgba(18,19,20,0.94)',
+    shade: 'rgba(0,0,0,0.62)', lit: 'rgba(255,255,255,0.07)', sky: '#121314' } };
+// The live site's six kinds of crime (index.html FAMILIES), each with its own colour token.
+// Our own map files (the maps branch, built by .github/workflows/maps.yml): the Pune base map and buildings with real
+// heights, read in parts (PMTiles); if they are not there, OpenFreeMap's files are used instead. Where they are read from: the site itself (tiles/, served by GitHub Pages, fast and meant for visitors) when they have been
+// published there, else the maps branch on GitHub (fine for testing, slower).
+const OWN_AT = [new URL('tiles/', location.href).href, 'https://raw.githubusercontent.com/IMBATMANHEHE9167/News-Engine/maps/'];
+let OWN = OWN_AT[1];
+if (window.pmtiles) { const pp = new pmtiles.Protocol(); maplibregl.addProtocol('pmtiles', pp.tile); }
+// Helper threads that cut map tiles: one per spare core (the default gave one on a 4-core laptop, so buildings, base map,
+// hills and our data queued behind each other while exploring).
+maplibregl.setWorkerCount(Math.max(2, Math.min(4, (navigator.hardwareConcurrency || 4) - 1)));
+let HAVE = null;
+const have = async (f, at = OWN) => { if (new URLSearchParams(location.search).get('own') === '0') return false; try { const r = await fetch(at + f, { headers: { Range: 'bytes=0-15' } }); return r.status === 206 || r.status === 200; } catch { return false; } };
+async function style() {
+  BASESTYLE = BASESTYLE || await fetch(OFM + 'liberty').then(r => r.json());
+  if (!HAVE) { for (const at of OWN_AT) if (await have('pune.pmtiles', at)) { OWN = at; break; } HAVE = { base: await have('pune.pmtiles'), bld: await have('buildings.pmtiles') }; }
+  const s = JSON.parse(JSON.stringify(BASESTYLE)), P = PAL[isDarkTheme() ? 'dark' : 'light'];
+  const paint = (l, k, v) => { l.paint = l.paint || {}; l.paint[k] = v; };
+  const hide = l => { l.layout = { ...(l.layout || {}), visibility: 'none' }; };
+  const road = id => /motorway/.test(id) ? ['moto', 'motoC'] : /trunk_primary/.test(id) ? ['prim', 'primC'] : /secondary_tertiary/.test(id) ? ['sec', 'secC']
+    : /minor|street|link/.test(id) ? ['minor', 'minorC'] : /service_track/.test(id) ? ['serv', 'servC'] : null;
+  for (const l of s.layers) {
+    const id = l.id, t = l.type;
+    if (id === 'natural_earth' || /^poi|one_way|shield|road_area_pattern|park_outline/.test(id)) { hide(l); continue; }
+    // No picture textures (the wetland style painted riverbanks with pale leaf icons over our colour): flat colours only.
+    if (l.paint) for (const k of ['fill-pattern', 'line-pattern', 'fill-extrusion-pattern']) delete l.paint[k];
+    if (t === 'background') paint(l, 'background-color', P.bg);
+    else if (t === 'fill') {
+      const c = id === 'water' ? P.water : id === 'park' ? P.park : /wood/.test(id) ? P.wood : /grass/.test(id) ? P.grass : /wetland/.test(id) ? P.wet
+        : /sand/.test(id) ? P.sand : /ice/.test(id) ? P.bg : id === 'landuse_residential' ? P.res : /^landuse/.test(id) ? P.lu
+        : /aeroway/.test(id) ? P.aero : id === 'building' ? P.bld : null;
+      if (c) { paint(l, 'fill-color', c); paint(l, 'fill-opacity', 1); }
+      if (id === 'building') paint(l, 'fill-outline-color', P.bldLine);
+    } else if (t === 'fill-extrusion') {
+      // 3D buildings only from zoom 15 (at 14 thousands are drawn too small to read), fading in as one comes closer.
+      l.minzoom = 15;
+      paint(l, 'fill-extrusion-color', P.bld3); paint(l, 'fill-extrusion-opacity', ['interpolate', ['linear'], ['zoom'], 15, 0, 15.6, 1]);
+      paint(l, 'fill-extrusion-vertical-gradient', true);
+      l.layout = { ...(l.layout || {}), visibility: VIEW3D ? 'visible' : 'none' };
+    } else if (t === 'line') {
+      const r = road(id);
+      if (/^waterway/.test(id)) paint(l, 'line-color', P.water);
+      else if (/aeroway/.test(id)) paint(l, 'line-color', P.aeroLine);
+      else if (/boundary/.test(id)) paint(l, 'line-color', P.bound);
+      else if (/rail/.test(id)) paint(l, 'line-color', P.rail);
+      else if (/path_pedestrian/.test(id)) paint(l, 'line-color', P.path);
+      else if (r) paint(l, 'line-color', P[/casing/.test(id) ? r[1] : r[0]]);
+      if (/^tunnel/.test(id)) paint(l, 'line-opacity', 0.55);
+    } else if (t === 'symbol') {
+      const size = (a, b, c) => ['interpolate', ['linear'], ['zoom'], 9, a, 13, b, 17, c];
+      let col = P.l3;
+      l.layout = l.layout || {};
+      if (/label_city/.test(id)) { col = P.l1; l.layout['text-size'] = size(14, 19, 23); l.layout['text-font'] = ['Noto Sans Bold']; }
+      else if (id === 'label_town') { col = P.l2; l.layout['text-size'] = size(12, 16, 19); }
+      else if (/label_(village|other)/.test(id)) { col = P.l3; l.layout['text-size'] = size(10.5, 13.5, 16); }
+      else if (/highway-name/.test(id)) col = P.lRoad;
+      else if (/water/.test(id)) col = P.lWater;
+      paint(l, 'text-color', col); paint(l, 'text-halo-color', P.halo); paint(l, 'text-halo-width', 1.5); paint(l, 'text-halo-blur', 0.3);
+      if (l.layout['icon-image']) delete l.layout['icon-image'];
+      if (l.layout['text-field']) l.layout['text-field'] = ['coalesce', ['get', 'name:en'], ['get', 'name_en'], ['get', 'name']];
+    }
+  }
+  const dem = { type: 'raster-dem', tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'], encoding: 'terrarium', tileSize: 256, maxzoom: 14,
+    attribution: 'Terrain: Mapzen (SRTM: U.S. Geological Survey), AWS Open Data' };
+  // Elevation is needed for the hills, not for street detail (the city is almost flat): coarse tiles, far fewer downloads.
+  s.sources.dem = { ...dem, maxzoom: 12 }; s.sources.dem3d = { ...dem, maxzoom: 11 };
+  s.layers.splice(s.layers.findIndex(l => l.id === 'waterway_tunnel'), 0, { id: 'hills', type: 'hillshade', source: 'dem',
+    paint: { 'hillshade-exaggeration': 0.6, 'hillshade-illumination-direction': 315, 'hillshade-shadow-color': P.shade, 'hillshade-highlight-color': P.lit, 'hillshade-accent-color': P.shade } });
+  if (HAVE.base && window.pmtiles) s.sources.openmaptiles = { type: 'vector', url: 'pmtiles://' + OWN + 'pune.pmtiles',
+    attribution: '<a href="https://openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>' };
+  if (HAVE.bld && window.pmtiles) {
+    // Buildings: Overture footprints (more complete than OpenStreetMap alone) at their measured heights (Google Open Buildings
+    // 2.5D, 2023; OpenStreetMap heights where mapped), for Pune City, Pimpri-Chinchwad and Hinjewadi.
+    s.sources.bld = { type: 'vector', url: 'pmtiles://' + OWN + 'buildings.pmtiles', attribution: 'Buildings: © OpenStreetMap contributors, Overture Maps Foundation; heights: Google Open Buildings 2.5D (CC BY 4.0), contains Copernicus Sentinel-2 data' };
+    for (const l of s.layers) if (l.id === 'building' || l.id === 'building-3d') {
+      l.source = 'bld'; l['source-layer'] = 'buildings'; delete l.filter;
+      if (l.id === 'building') l.minzoom = 13;
+      else { l.paint['fill-extrusion-height'] = ['get', 'h']; l.paint['fill-extrusion-base'] = 0; }
+    }
+  }
+  s.sky = { 'sky-color': P.sky, 'horizon-color': P.sky, 'fog-color': P.sky, 'sky-horizon-blend': 0.7, 'horizon-fog-blend': 0.6, 'fog-ground-blend': 0.35 };
+  return s;
+}
+const LZ = 1;
+const toLL = p => Array.isArray(p) ? [p[1], p[0]] : [p.lng, p.lat];   // Leaflet [lat, lng] or {lat, lng} -> MapLibre [lng, lat]
+const L = (() => {
+  const S = z => 256 * 2 ** z;
+  // The map: Leaflet's calls on top of MapLibre. Marks live in panes (layers of page elements over the map), placed again
+  // on every move; each tab's panes fade with the tab exactly as before.
+  class Wrap {
+    constructor(gl) {
+      this.gl = gl; this.panes = {}; this.popups = new Set(); this.marks = new Set();
+      this.dragging = { disable: () => gl.dragPan.disable(), enable: () => gl.dragPan.enable() };
+      this.attributionControl = { setPrefix() {} };
+      gl.on('move', () => { for (const k of this.marks) k._pos(); });
+      gl.on('resize', () => { for (const k of this.marks) k._pos(); });
+    }
+    getContainer() { return this.gl.getContainer(); }
+    createPane(name) { const p = document.createElement('div'); p.className = 'lpane'; this.gl.getContainer().appendChild(p); return (this.panes[name] = p); }
+    getPane(name) { return this.panes[name] || this.createPane(name); }
+    getZoom() { return this.gl.getZoom() + LZ; }
+    getCenter() { const c = this.gl.getCenter(); return { lat: c.lat, lng: c.lng }; }
+    getSize() { const c = this.gl.getContainer(); return { x: c.clientWidth, y: c.clientHeight }; }
+    latLngToContainerPoint(ll) { const p = this.gl.project(toLL(ll)); return { x: p.x, y: p.y }; }
+    // Web Mercator pixels at a given Leaflet zoom (the area cells are worked out at zoom 12, independent of the view).
+    project(ll, z) { const [lng, lat] = toLL(ll), s = Math.sin(lat * Math.PI / 180); return { x: (lng + 180) / 360 * S(z), y: (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * S(z) }; }
+    unproject(p, z) { const n = Math.PI - 2 * Math.PI * p.y / S(z); return { lat: 180 / Math.PI * Math.atan(Math.sinh(n)), lng: p.x / S(z) * 360 - 180 }; }
+    setView(ll, z, o = {}) { const t = { center: toLL(ll), zoom: z - LZ }; if (o.animate) this.gl.easeTo({ ...t, duration: 500 }); else this.gl.jumpTo(t); return this; }
+    fitBounds(b, o = {}) {
+      const tl = o.paddingTopLeft || [0, 0], br = o.paddingBottomRight || [0, 0];
+      this.gl.fitBounds(b.gl, { padding: { left: tl[0], top: tl[1], right: br[0], bottom: br[1] }, maxZoom: o.maxZoom != null ? o.maxZoom - LZ : 22, duration: motion() === 'smooth' ? 500 : 0 });
+      return this;
+    }
+    invalidateSize() { this.gl.resize(); }
+    closePopup() { for (const p of [...this.popups]) p.remove(); }
+    on(types, fn) { for (const t of types.split(' ')) this.gl.on(t, e => fn({ containerPoint: e.point, latlng: e.lngLat, originalEvent: e.originalEvent })); return this; }
+  }
+  // A mark: a page element (divIcon) or a ring (circleMarker) pinned to a place, in a pane, with an optional popup or tip.
+  class Mark {
+    constructor(ll, o = {}) { this.ll = toLL(ll); this.o = o; this.cb = {}; }
+    getLatLng() { return { lat: this.ll[1], lng: this.ll[0] }; }
+    addTo(t) { if (t instanceof Group) t.addLayer(this); else this._mount(t); return this; }
+    _make() {
+      const o = this.o, el = document.createElement('div');
+      if (o.icon) {
+        const ic = o.icon, [w, h] = ic.iconSize || [0, 0], [ax, ay] = ic.iconAnchor || [w / 2, h / 2];
+        el.className = ic.className || ''; el.innerHTML = ic.html || ''; el.style.width = w + 'px'; el.style.height = h + 'px';
+        this.ax = ax; this.ay = ay; this.popOff = ic.popupAnchor || [0, -h / 2];
+      } else {
+        // Leaflet's ring: radius r to the middle of a stroke of width w, filled unless fill is false.
+        const r = o.radius || 10, wt = o.weight != null ? o.weight : 3, d = 2 * r + wt, fc = o.fillColor || o.color || '#000';
+        const bg = o.fill === false ? 'transparent' : (o.fillOpacity != null && o.fillOpacity < 1 ? `color-mix(in srgb, ${fc} ${Math.round(o.fillOpacity * 100)}%, transparent)` : fc);
+        el.style.cssText = `width:${d}px;height:${d}px;box-sizing:border-box;border-radius:50%;border:${wt}px solid ${o.color || '#000'};background:${bg}`;
+        this.ax = this.ay = d / 2; this.popOff = [0, -r];
+      }
+      el.style.zIndex = String(10000 + (o.zIndexOffset || 0));
+      return el;
+    }
+    _mount(w) {
+      this.w = w; const el = this.el = this._make();
+      w.getPane(this.o.pane || 'markerPane').appendChild(el); w.marks.add(this); this._pos();
+      if (this.o.interactive === false) { el.style.pointerEvents = 'none'; return; }
+      el.style.pointerEvents = 'auto';
+      el.addEventListener('click', ev => { ev.stopPropagation(); (this.cb.click || []).forEach(f => f(ev)); if (this.pop) this.openPopup(); });
+      el.addEventListener('mouseenter', () => {
+        if (!this.tip) return;
+        this.tipP = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: this.tip.o.offset || [0, -6], anchor: 'bottom', className: 'ltip ' + (this.tip.o.className || ''), maxWidth: '280px' })
+          .setLngLat(this.ll).setHTML(this.tip.html).addTo(w.gl);
+      });
+      el.addEventListener('mouseleave', () => { if (this.tipP) { this.tipP.remove(); this.tipP = null; } });
+    }
+    _pos() { if (!this.el) return; const p = this.w.gl.project(this.ll); this.el.style.transform = `translate(${p.x - this.ax}px,${p.y - this.ay}px)`; }
+    remove() { if (this.el) { this.el.remove(); this.w.marks.delete(this); this.el = null; } if (this.tipP) { this.tipP.remove(); this.tipP = null; } return this; }
+    on(t, f) { (this.cb[t] = this.cb[t] || []).push(f); return this; }
+    bindPopup(html) { this.pop = html; return this; }
+    openPopup() {
+      if (!this.w || !this.pop) return this;
+      this.w.closePopup();
+      const p = new maplibregl.Popup({ offset: this.popOff, maxWidth: '300px', className: 'lpop' }).setLngLat(this.ll).setHTML(this.pop).addTo(this.w.gl);
+      this.w.popups.add(p); p.on('close', () => this.w.popups.delete(p));
+      return this;
+    }
+    bindTooltip(html, o = {}) { this.tip = { html, o }; return this; }
+  }
+  class Group {
+    constructor() { this.items = new Set(); }
+    addTo(w) { this.w = w; return this; }
+    addLayer(m) { this.items.add(m); m._mount(this.w); return this; }
+    clearLayers() { for (const m of this.items) m.remove(); this.items.clear(); return this; }
+  }
+  return {
+    wrap: gl => new Wrap(gl),
+    marker: (ll, o) => new Mark(ll, o),
+    circleMarker: (ll, o) => new Mark(ll, o),
+    divIcon: o => o,
+    layerGroup: () => new Group(),
+    latLngBounds: pts => ({ gl: pts.reduce((b, p) => b.extend(toLL(p)), new maplibregl.LngLatBounds(toLL(pts[0]), toLL(pts[0]))) }),
+    point: (x, y) => ({ x, y }),
+  };
+})();
 const MAPS = {};
-let MAP, LAYER, picked = null, SPOTS = {};   // SPOTS: news key -> its mark on the map, for "See on map"
-// One map for the three map tabs (GMAP), made once; it keeps its view as the tabs change. Each tab ('map', 'sitMap',
-// 'ocMap') draws into panes of its own, which fade in and out with the tab: id+'Heat' for count discs, id for drawn marks,
-// id+'Top' for marks and labels above them.
+let MAP, LAYER, picked = null;
+// One map for every tab (GMAP), made once; it keeps its view as the tabs change. Each tab ('map', 'sitMap', 'ocMap') draws
+// into panes of its own, which fade in and out with the tab: id+'Heat' for count discs, id for drawn marks, id+'Top' for
+// marks and labels above them.
 let GMAP = null;
-// Every tab sits on the map stage, in the order of the tabs; News and Analytics have no marks of their own.
 const MAPTABS = ['news', 'map', 'sit', 'oc', 'an'], MAIN = { news: 'news', map: 'mapv', sit: 'sitv', oc: 'ocv', an: 'anv' }, MAPID = { news: 'newsMap', map: 'map', sit: 'sitMap', oc: 'ocMap', an: 'anMap' };
+// The relief (hills in 3D) is switched only once the map has stopped moving, outside the map's own frame: switching it
+// while a wheel or drag gesture was running crashed the map's frame queue and the screen went blank.
+const RELIEF_TO = 13;
+let reliefT = null;
+function relief() {
+  clearTimeout(reliefT);
+  reliefT = setTimeout(() => {
+    const gl = GMAP && GMAP.gl; if (!gl || !gl.getSource('dem3d')) return;
+    if (gl.isMoving()) { gl.once('moveend', relief); return; }
+    const want = VIEW3D && gl.getZoom() < RELIEF_TO, has = !!gl.getTerrain();
+    if (want !== has) gl.setTerrain(want ? { source: 'dem3d', exaggeration: 1.25 } : null);
+  }, 0);
+}
+// 2D / 3D: a small button on the map (it applies to every tab). 3D tilts the map, raises the buildings to their measured
+// heights and lifts the hills when zoomed out.
+function setView3d(on) {
+  VIEW3D = on; const gl = GMAP.gl;
+  if (gl.getLayer('building-3d')) gl.setLayoutProperty('building-3d', 'visibility', on ? 'visible' : 'none');
+  relief();
+  gl.easeTo({ pitch: on ? 58 : 0, bearing: on ? -14 : 0, duration: motion() === 'smooth' ? 1100 : 0 });
+  const b = $('v3d'); if (b) { b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }
+}
+class View3dControl {
+  onAdd() {
+    const d = document.createElement('div'); d.className = 'maplibregl-ctrl maplibregl-ctrl-group';
+    d.innerHTML = '<button type="button" id="v3d" class="v3d" aria-pressed="false" title="Tilt the map and raise the buildings">3D</button>';
+    d.firstChild.onclick = () => setView3d(!VIEW3D);
+    return d;
+  }
+  onRemove() {}
+}
 function makeMap(id) {
   if (!GMAP) {
-    // Full-screen map: the wheel (or a pinch) zooms; there are no plus and minus buttons.
-    const m = L.map('gmap', { zoomControl: false, scrollWheelZoom: true, wheelPxPerZoomLevel: 90, wheelDebounceTime: 30, zoomSnap: 0.25, zoomDelta: 0.5 }).setView([18.53, 73.86], 11);
-    m.attributionControl.setPrefix(false);
-    GMAP = { m, base: null, fitted: false, stale: false };
+    // Full-screen map: the wheel (or a pinch) zooms; plus/minus and the 3D button sit at the bottom right.
+    // Tilt at most 60 degrees (steeper loads twice the tiles out to the horizon and blanked weaker computers).
+    const gl = new maplibregl.Map({ container: 'gmap', style: { version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': PAL[isDarkTheme() ? 'dark' : 'light'].bg } }] },
+      center: [73.86, 18.53], zoom: 11 - LZ, maxPitch: 60, attributionControl: { compact: true }, fadeDuration: 150 });
+    gl.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
+    gl.addControl(new View3dControl(), 'bottom-right');
+    const m = L.wrap(gl);
+    GMAP = { m, gl, fitted: false, stale: false };
+    gl.on('moveend', relief);
+    // If the browser takes the map's drawing surface away (it does when graphics memory runs out) and does not give it back,
+    // the page is reloaded on the same tab rather than left blank.
+    { const cv = gl.getCanvas(); let back = null;
+      cv.addEventListener('webglcontextlost', () => { clearTimeout(back); back = setTimeout(() => location.reload(), 2500); });
+      cv.addEventListener('webglcontextrestored', () => clearTimeout(back)); }
     setBaseOn(GMAP);
-    // Every tab's panes are made now, faded out, so a tab opened for the first time fades in like the others ('t' keeps
-    // clear of Leaflet's own pane names).
+    // Every tab's panes are made now, faded out, so a tab opened for the first time fades in like the others.
     for (const t of Object.values(MAPID)) for (const [suf, z] of [['Heat', 395], ['', 405], ['Top', 610]]) { const p = m.createPane('t' + t + suf); p.style.zIndex = z; p.classList.add('tp'); p.dataset.tab = t; }
     paneShow();
   }
@@ -1225,67 +1473,28 @@ function makeMap(id) {
 function paneShow() {
   if (!GMAP) return;
   const id = MAPID[document.body.dataset.tab];
-  GMAP.m.getContainer().querySelectorAll('.leaflet-pane.tp').forEach(p => p.classList.toggle('on', p.dataset.tab === id));
+  GMAP.m.getContainer().querySelectorAll('.lpane.tp').forEach(p => p.classList.toggle('on', p.dataset.tab === id));
+  heatSync();
 }
-// The basemap is our own style, made from OpenFreeMap Positron: every colour set in the VIDRAKSH greys (water a cool grey,
-// parks and woods a hair greener), with hill shading from free elevation data (Mapzen terrarium tiles on AWS Open Data), so
-// the Sahyadri ridges, ghats and forts read. No filter: the map stays sharp on phones and high-DPI screens.
-const OFM = 'https://tiles.openfreemap.org/styles/';
-const BASE_PAL = {
-  light: { bg: '#E6E6E6', res: '#E0E0E0', park: '#D8DCD5', wood: '#D3D8CF', water: '#C3CDD3', bld: '#D2D2D2', minor: '#F4F4F4', major: '#FFFFFF', mcase: '#C4C4C4', moto: '#FFFFFF', motocase: '#AFAFAF', rail: '#B0B0B0', label: '#3B3B3B', label2: '#6A6A6A', halo: '#E6E6E6', bound: '#9A9A9A', shade: 'rgba(0,0,0,0.20)', lit: 'rgba(255,255,255,0.35)' },
-  dark: { bg: '#181818', res: '#1C1C1C', park: '#1C211C', wood: '#1A1F1A', water: '#10171B', bld: '#242424', minor: '#2B2B2B', major: '#363636', mcase: '#121212', moto: '#404040', motocase: '#111111', rail: '#3A3A3A', label: '#B5B5B5', label2: '#858585', halo: '#181818', bound: '#555555', shade: 'rgba(0,0,0,0.55)', lit: 'rgba(255,255,255,0.06)' } };
-let POSITRON = null;
-async function baseStyle() {
-  POSITRON = POSITRON || await fetch(OFM + 'positron').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
-  const style = JSON.parse(JSON.stringify(POSITRON)), P = BASE_PAL[isDarkTheme() ? 'dark' : 'light'];
-  const set = (l, k, v) => { l.paint = l.paint || {}; l.paint[k] = v; };
-  for (const l of style.layers) {
-    const id = l.id, line = l.type === 'line';
-    if (/shield/.test(id)) { l.layout = { ...(l.layout || {}), visibility: 'none' }; continue; }   // road-number badges: clutter
-    if (l.type === 'background') set(l, 'background-color', P.bg);
-    else if (id === 'water') set(l, 'fill-color', P.water);
-    else if (id === 'waterway') set(l, 'line-color', P.water);
-    else if (id === 'park') { set(l, 'fill-color', P.park); set(l, 'fill-opacity', 1); }
-    else if (id.includes('wood')) { set(l, 'fill-color', P.wood); set(l, 'fill-opacity', 0.9); }
-    else if (id.includes('residential')) set(l, 'fill-color', P.res);
-    else if (id === 'building') { set(l, 'fill-color', P.bld); set(l, 'fill-outline-color', P.bld); }
-    else if (line && /motorway.*casing/.test(id)) set(l, 'line-color', P.motocase);
-    else if (line && /motorway/.test(id)) set(l, 'line-color', P.moto);
-    else if (line && /major.*casing/.test(id)) set(l, 'line-color', P.mcase);
-    else if (line && /major/.test(id)) set(l, 'line-color', P.major);
-    else if (line && /minor|path|pier/.test(id)) set(l, 'line-color', P.minor);
-    else if (line && /rail/.test(id)) set(l, 'line-color', P.rail);
-    else if (line && /boundary/.test(id)) set(l, 'line-color', P.bound);
-    else if (l.type === 'symbol') {
-      set(l, 'text-color', /label_(city|town)/.test(id) ? P.label : P.label2); set(l, 'text-halo-color', P.halo); set(l, 'text-halo-width', 1.4);
-      if (l.layout && l.layout['text-field']) l.layout['text-field'] = ['coalesce', ['get', 'name:en'], ['get', 'name_en'], ['get', 'name']];
-    }
-  }
-  style.sources.dem = { type: 'raster-dem', tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'], encoding: 'terrarium', tileSize: 256, maxzoom: 14, attribution: 'Terrain: Mapzen, AWS Open Data' };
-  style.layers.splice(Math.max(0, style.layers.findIndex(l => l.id === 'waterway')), 0,
-    { id: 'hills', type: 'hillshade', source: 'dem', paint: { 'hillshade-exaggeration': 0.45, 'hillshade-shadow-color': P.shade, 'hillshade-highlight-color': P.lit, 'hillshade-accent-color': P.shade } });
-  return style;
-}
-// Our style when it loads; OpenFreeMap's own style if it cannot be made.
-const restyle = gl => baseStyle().then(s => gl.setStyle(s)).catch(() => { try { gl.setStyle(OFM + (isDarkTheme() ? 'dark' : 'liberty')); } catch {} });
-function setBaseOn(e) {
+// The basemap: the first time the whole style is set; a theme change sets the new colours in place (no new download).
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+async function setBaseOn(e) {
   e.stale = false;
-  // A theme change restyles the vector basemap in place: removing it while it still has a frame queued throws inside the
-  // basemap library, and a new one costs a fresh download and a flash.
-  const gl = e.base && e.base.getMaplibreMap && e.base.getMaplibreMap();
-  if (gl) { restyle(gl); return; }
-  if (e.base) { e.m.removeLayer(e.base); e.base = null; }
+  const gl = e.gl, s = await style();
+  if (!e.styled) {
+    e.styled = true;
+    gl.once('style.load', () => { if (gl.getLayer('building-3d')) gl.setLayoutProperty('building-3d', 'visibility', VIEW3D ? 'visible' : 'none'); relief(); heatInit(); });
+    gl.setStyle(s, { diff: false });
+    return;
+  }
   try {
-    if (window.maplibregl && L.maplibreGL) {
-      e.base = L.maplibreGL({ style: { version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': BASE_PAL[isDarkTheme() ? 'dark' : 'light'].bg } }] }, attribution: '© OpenFreeMap · OpenMapTiles · OpenStreetMap · Terrain: Mapzen, AWS Open Data' }).addTo(e.m);
-      restyle(e.base.getMaplibreMap());
-    }
-  } catch {}
-  if (!e.base) e.base = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap', className: 'osm-fallback' }).addTo(e.m);
-  if (e.layer) e.layer.bringToFront?.();
+    for (const l of s.layers) if (gl.getLayer(l.id)) for (const [k, v] of Object.entries(l.paint || {})) if (!same(gl.getPaintProperty(l.id, k), v)) gl.setPaintProperty(l.id, k, v);
+    gl.setSky(s.sky);
+    gl.setLight({ anchor: 'map', color: '#ffffff', intensity: isDarkTheme() ? 0.3 : 0.32, position: [1.4, 315, 40] });
+  } catch (err) { console.warn('theme in place failed', err); }
+  heatInit();
 }
-// The vector basemap draws on its own canvas: tell it the box size whenever its map is shown again.
-const glResize = e => { try { const g = e.base && (e.base.getMaplibreMap || e.base.getMapboxMap); if (g) g.call(e.base).resize(); } catch {} };
+const glResize = e => { try { e.gl.resize(); } catch {} };
 // A count drawn on a map: a solid copper disc of radius r; the busiest glow. Smaller discs sit on top of larger ones.
 function heatDisc(layer, ll, r, v, max, o = {}) {
   const f = v / Math.max(max, 1e-9), cls = 'disc' + (o.mute ? ' mute' : f >= .6 ? ' hot' : f >= .3 ? ' warm' : '') + (o.on ? ' on' : '');
@@ -1340,28 +1549,24 @@ function groupsOf(list) {
 const spiral = (k, gap) => { if (!k) return [0, 0]; const r = gap * Math.sqrt(k), t = k * 2.39996323; return [r * Math.cos(t), r * Math.sin(t)]; };
 
 // A canvas over the map, redrawn on every move and zoom so its marks keep their size on the screen.
-const CanvasLayer = L.Layer.extend({
-  initialize(draw, pane) { this._draw = draw; this._pane = pane; },
-  onAdd(map) {
-    this._map = map; this._c = L.DomUtil.create('canvas', 'cvl');
-    map.getPane(this._pane || 'overlayPane').appendChild(this._c);
-    map.on('move resize viewreset zoomend', this._queue, this);
-    map.on('zoomstart', this._hide, this);
+class CanvasLayer {
+  constructor(draw, pane) { this._draw = draw; this._pane = pane; }
+  addTo(w) {
+    this._map = w; this._c = document.createElement('canvas'); this._c.className = 'cvl';
+    w.getPane(this._pane).appendChild(this._c);
+    const q = () => { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = 0; this._reset(); }); };
+    w.gl.on('move', q); w.gl.on('resize', q);
     this._reset();
-  },
-  onRemove(map) { this._c.remove(); map.off('move resize viewreset zoomend', this._queue, this); map.off('zoomstart', this._hide, this); },
-  _hide() { this._c.style.opacity = 0; },
-  _queue() { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = 0; this._reset(); }); },
+    return this;
+  }
   _reset() {
     const m = this._map, s = m.getSize(), r = Math.min(2, window.devicePixelRatio || 1), c = this._c;
-    L.DomUtil.setPosition(c, m.containerPointToLayerPoint([0, 0]));
     if (c.width !== Math.round(s.x * r) || c.height !== Math.round(s.y * r)) { c.width = Math.round(s.x * r); c.height = Math.round(s.y * r); c.style.width = s.x + 'px'; c.style.height = s.y + 'px'; }
     const g = c.getContext('2d'); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, s.x, s.y);
-    c.style.opacity = 1;
     this._draw(g, m, s, r);
-  },
+  }
   redraw() { if (this._map) this._reset(); }
-});
+}
 // A small round sprite drawn once per theme and stamped for every point (fast, and crisp at any zoom).
 function sprite(rad, paint, r) {
   const pad = 3, size = Math.ceil((rad + pad) * 2 * r), c = document.createElement('canvas');
@@ -1449,50 +1654,41 @@ function areaAt(m, x, y) {
   for (const a of AREAS) { if (!areaInView(a.id)) continue; const poly = screenPoly(m, a.id); if (poly.length > 2 && inPoly(x, y, poly)) return a.id; }
   return null;
 }
-// The hotspot surface: every incident adds a smooth bump (a Gaussian about 700 m wide); the sum is coloured on a ramp.
-function hotspot(g, m, s, pts, alpha) {
-  const z = m.getZoom(), lat = m.getCenter().lat, mpp = 156543.03 * Math.cos(lat * Math.PI / 180) / Math.pow(2, z), bw = 700 / mpp;
-  const cell = Math.max(2, bw / 5), W = Math.ceil(s.x / cell) + 1, H = Math.ceil(s.y / cell) + 1, grid = new Float32Array(W * H), rc = Math.ceil(bw * 2.5 / cell);
-  const ker = []; for (let dy = -rc; dy <= rc; dy++) for (let dx = -rc; dx <= rc; dx++) { const d2 = (dx * dx + dy * dy) * cell * cell; ker.push([dx, dy, Math.exp(-d2 / (2 * bw * bw))]); }
-  for (const [x, y] of pts) {
-    const cx = Math.round(x / cell), cy = Math.round(y / cell);
-    if (cx < -rc || cy < -rc || cx > W + rc || cy > H + rc) continue;
-    for (const [dx, dy, w] of ker) { const gx = cx + dx, gy = cy + dy; if (gx >= 0 && gy >= 0 && gx < W && gy < H) grid[gy * W + gx] += w; }
-  }
-  let mx = peakOf(pts, bw); for (const v of grid) if (v > mx) mx = v;
-  if (!mx) return 0;
-  const lut = MP.lut, img = new ImageData(W, H);
-  for (let i = 0; i < grid.length; i++) {
-    const t = grid[i] / mx; if (t < .035) continue;
-    const L4 = lut[Math.min(255, Math.round(t * 255))], o = i * 4;
-    img.data[o] = L4[0]; img.data[o + 1] = L4[1]; img.data[o + 2] = L4[2]; img.data[o + 3] = L4[3] * alpha;
-  }
-  const off = document.createElement('canvas'); off.width = W; off.height = H; off.getContext('2d').putImageData(img, 0, 0);
-  g.save(); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high'; g.drawImage(off, 0, 0, W * cell, H * cell); g.restore();
+// Hotspots, drawn by the map engine on the graphics card (smooth while moving, and they lie on the ground in 3D): every
+// incident adds a smooth bump about 700 m wide (a Gaussian; the engine's radius is three widths, R700); the sum is coloured
+// on the five-stop ramp, scaled against the busiest place in the whole area chosen, so it reads the same at every zoom.
+// Checked against the old screen calculation on 26 Nov: same shape (correlation 0.99-1.0), same strength within 1-7%.
+function peakM(feats) {
+  const bw = 700, K = 111320, c = Math.cos(18.53 * Math.PI / 180), pts = feats.map(f => [f.geometry.coordinates[0] * K * c, f.geometry.coordinates[1] * K]);
+  let mx = 1;
+  for (const p of pts) { let s = 0; for (const q of pts) { const d2 = (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2; if (d2 < 6.25 * bw * bw) s += Math.exp(-d2 / (2 * bw * bw)); } if (s > mx) mx = s; }
   return mx;
 }
-// The surface is coloured against the busiest place in the whole area chosen, not only the part on the screen, so zooming
-// in to a street does not turn a quiet place red. The peak is the largest sum at any incident (points bucketed by reach).
-function peakOf(pts, bw) {
-  const R = bw * 2.5, R2 = R * R, k2 = 1 / (2 * bw * bw), b = new Map(), key = (x, y) => x + ',' + y;
-  for (const p of pts) { const k = key(Math.floor(p[0] / R), Math.floor(p[1] / R)); if (!b.has(k)) b.set(k, []); b.get(k).push(p); }
-  let mx = 0;
-  for (const p of pts) {
-    const cx = Math.floor(p[0] / R), cy = Math.floor(p[1] / R); let s = 0;
-    for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) { const l = b.get(key(cx + i, cy + j)); if (l) for (const q of l) { const d2 = (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2; if (d2 < R2) s += Math.exp(-d2 * k2); } }
-    if (s > mx) mx = s;
-  }
-  return mx;
+let HEATFOR = null;
+function heatInit() {
+  const gl = GMAP && GMAP.gl; if (!gl || !gl.getStyle()) return;
+  gl.setLight({ anchor: 'map', color: '#ffffff', intensity: isDarkTheme() ? 0.3 : 0.32, position: [1.4, 315, 40] });
+  const rgba = (v, a) => { const n = parseInt(/#([0-9a-f]{6})/i.exec(css(v))[1], 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+  const color = ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,0,0,0)', 0.0349, 'rgba(0,0,0,0)', 0.035, rgba('--h1', .22),
+    0.25, rgba('--h2', .5), 0.5, rgba('--h3', .72), 0.75, rgba('--h4', .86), 1, rgba('--h5', .95)];
+  if (!gl.getSource('pts')) gl.addSource('pts', { type: 'geojson', maxzoom: 14, data: { type: 'FeatureCollection', features: [] } });
+  if (!gl.getLayer('heat')) gl.addLayer({ id: 'heat', type: 'heatmap', source: 'pts', layout: { visibility: 'none' },
+    paint: { 'heatmap-intensity': 2.5066, 'heatmap-radius': R700, 'heatmap-weight': 1, 'heatmap-color': color } });
+  else gl.setPaintProperty('heat', 'heatmap-color', color);
+  HEATFOR = null; heatSync();
 }
-// The ramp: five stops from the theme (--h1 faint ... --h5 most), each with its own opacity, eased into 256 steps.
-function rampLUT() {
-  const parse = c => { const n = parseInt(/#([0-9a-f]{6})/i.exec(c)[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
-  const stops = [1, 2, 3, 4, 5].map(i => parse(css('--h' + i))), al = [.22, .5, .72, .86, .95], lut = [];
-  for (let i = 0; i < 256; i++) {
-    const t = i / 255 * 4, k = Math.min(3, Math.floor(t)), f = t - k;
-    lut.push([0, 1, 2].map(j => Math.round(stops[k][j] + (stops[k + 1][j] - stops[k][j]) * f)).concat([Math.round(255 * (al[k] + (al[k + 1] - al[k]) * f))]));
+function heatSync() {
+  const gl = GMAP && GMAP.gl; if (!gl || !gl.getLayer('heat')) return;
+  if (MP && MP.list && HEATFOR !== MP.list) {
+    HEATFOR = MP.list;
+    const f = [];
+    for (const g of MP.groups) for (let i = 0; i < g.es.length; i++) f.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [g.ll[1], g.ll[0]] }, properties: {} });
+    gl.getSource('pts').setData({ type: 'FeatureCollection', features: f });
+    gl.setPaintProperty('heat', 'heatmap-weight', 1 / peakM(f));
   }
-  return lut;
+  const on = onMapTab() && !!MP && mapMode !== 'points';
+  gl.setLayoutProperty('heat', 'visibility', on ? 'visible' : 'none');
+  gl.setPaintProperty('heat', 'heatmap-opacity', mapMode === 'all' ? .85 : 1);
 }
 const MAP_ABOUT = {
   points: ['Points', 'Every incident where the reports place it, coloured by its kind of crime: what happened, and exactly where it is known.'],
@@ -1505,9 +1701,8 @@ function initMap() {
   e0.cv = new CanvasLayer((g, m, s, r) => {
     if (!MP || !onMapTab()) return;                         // drawn only while its tab is open
     const theme = isDarkTheme(), all = mapMode === 'all';
-    if (MP.theme !== theme || MP.r !== r) { MP.theme = theme; MP.r = r; MP.spr = famSprites(r, 3.1); MP.sprSmall = famSprites(r, 2.6); MP.lut = rampLUT(); }
+    if (MP.theme !== theme || MP.r !== r) { MP.theme = theme; MP.r = r; MP.spr = famSprites(r, 3.1); MP.sprSmall = famSprites(r, 2.6); }
     const pts = MP.pts = layoutPoints(MP.groups, m, all ? 5.4 : 6.2);
-    if (mapMode !== 'points') hotspot(g, m, s, pts, all ? .85 : 1);
     if (mapMode !== 'hotspots') {
       const set = all ? MP.sprSmall : MP.spr;
       for (const [x, y, e] of pts) { if (x < -8 || y < -8 || x > s.x + 8 || y > s.y + 8) continue; const b = set[famOf(e.c)]; g.drawImage(b.c, x - b.half, y - b.half, b.size, b.size); }
@@ -1611,7 +1806,7 @@ function drawMap() {
     <div style="color:var(--ink-3)">${mapMode !== 'hotspots' ? 'Each dot is one incident and keeps its size at every zoom. Most reports name only their area: those incidents gather at its centre in a small spiral, whose size is the count and whose shape is not a location. ' : ''}${mapMode !== 'points' ? 'Hotspots are smoothed over about 700 metres; incidents that name only their area count at its centre, so a hot spot shows where reports concentrate, not a measured crime rate. ' : ''}${coarse.matches ? 'Hold a finger still on the map, then run it across: every incident ticks and the tip reads it; lift to open it. Tap an area to open it.' : "Point at the map to see an area's name and outline; select it to open the area."}</div>`;
   drawArea(); drawPatterns(list);
   $('mapOff').innerHTML = offContext();
-  e0.cv.redraw(); e0.hv.redraw();
+  e0.cv.redraw(); e0.hv.redraw(); heatSync();
 }
 // Every control on this tab answers a tap with a tick.
 $('mapv').addEventListener('click', ev => { if (ev.target.closest('button, select')) tick(8); });
@@ -2714,7 +2909,7 @@ drawViews();
 $('fTime').onchange = drawMap;
 // Moving between the three map tabs: the map stays as it is; the old tab's panels slide out the way of travel while the
 // new tab's slide in behind them (a push, by transform only, on the compositor), and the old tab's marks fade out as the
-// new tab's fade in (see .leaflet-pane.tp). Going right along the tabs, panels move right to left; going left, the reverse.
+// new tab's fade in (see .lpane.tp). Going right along the tabs, panels move right to left; going left, the reverse.
 let SLIDING = null;
 function endSlide() {
   if (!SLIDING) return;
