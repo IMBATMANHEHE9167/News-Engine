@@ -162,7 +162,8 @@ def call(key, model, payload, timeout=150):
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return json.loads(r.read().decode('utf-8'))
     except urllib.error.HTTPError as e:
-        body = e.read().decode('utf-8', 'replace')[:300]
+        full = e.read().decode('utf-8', 'replace')[:6000]   # Google names the limit hit (quotaId) deep in the reply
+        body = full[:300]
         if e.code in (500, 503, 504):
             raise Busy(body) from None
         if e.code in (403, 404):
@@ -170,7 +171,7 @@ def call(key, model, payload, timeout=150):
         if e.code == 429:
             # Only the daily limit rests a model for the day. A per-minute limit is a pause, like "busy": treating every
             # 429 as the daily limit put all readers out for the day after ~230 of their 500 requests (26 Nov 2026).
-            if re.search(r'per ?day|PerDay|daily', body, re.I) or not re.search(r'per ?minute|PerMinute', body, re.I):
+            if re.search(r'per ?day|PerDay|daily', full, re.I) or not re.search(r'per ?minute|PerMinute', full, re.I):
                 raise Limit(body) from None
             raise Busy(body) from None
         raise RuntimeError('HTTP %d %s' % (e.code, body)) from None
@@ -284,6 +285,10 @@ class Session:
         if not self.state.get('rest_fix'):          # once (26 Nov 2026): models rested by a per-minute 429 are tried again;
             self.state['rested'] = {}               # one truly at its daily limit is rested again by its first answer
             self.state['rest_fix'] = 1
+        if not self.state.get('caps_fix'):          # once: caps learned before the full reply was read may be per-minute stops
+            self.state['caps'] = {}
+            self.state['rested'] = {}               # (the rests then were judged on a cut reply too)
+            self.state['caps_fix'] = 1
         self.busy = {}          # "busy" answers per model this run
         self.cool = {}          # a busy model rests until this time, then is tried again (it is not out for the run)
         self.stop = None        # why reading stopped early, kept in llmstate so a slow run explains itself
@@ -313,7 +318,8 @@ class Session:
         return RUN.get(role, 0) >= self.pace(role)
 
     def has(self, model, role):
-        return self.state['used'].get(model, 0) < self.limit(model, role) and not self.state['rested'].get(model) \
+        # (learned caps only guide the pacing; they never block a model: Google's own answer decides when it is out)
+        return self.state['used'].get(model, 0) < CFG['rpd'][role] and not self.state['rested'].get(model) \
             and self.cool.get(model, 0) <= time.time() and not self.paced_out(role)
 
     def take(self, role, avoid=None):
