@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T11:39:01.896Z",
+ "updated": "2026-11-26T12:14:45.704Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -64,7 +64,7 @@
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
@@ -232,19 +232,19 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
    "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
    "ok": true,
-   "detail": "no matching reports yet",
+   "detail": "one case",
    "bad": []
   },
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
-   "ok": false,
-   "detail": "no matching reports yet",
+   "ok": true,
+   "detail": "connected: feud murder of a young man in Katraj a year earlier; revenge murder of Shubham Chavan a year and a half earlier; revenge murder of a young man in Katraj a year ",
    "bad": []
   },
   {
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 1,
-  "judged_same_kept_apart": 8,
-  "date_spread": 25,
-  "waiting_for_judge": 1335,
-  "pairs_judged": 7082,
-  "pairs_judged_same": 4521,
-  "judge_checked_by_expert": 2168,
+  "judged_same_kept_apart": 13,
+  "date_spread": 27,
+  "waiting_for_judge": 615,
+  "pairs_judged": 7882,
+  "pairs_judged_same": 5303,
+  "judge_checked_by_expert": 2193,
   "judge_overturned_by_expert": 1022,
   "non_incident_wording": 5,
-  "area_disagreement": 35,
-  "silent_days": 4,
+  "area_disagreement": 36,
+  "silent_days": 5,
   "source_gap_days": 65,
-  "unverified": 17,
-  "ruled_out_by_ai": 322,
+  "unverified": 19,
+  "ruled_out_by_ai": 329,
   "future_times": 0,
-  "reports": 3422,
-  "cases": 1609
+  "reports": 3435,
+  "cases": 1608
  },
  "examples": {
   "split_cases": [
@@ -300,6 +300,10 @@
    [
     "Inter-State Robbery Gang: ओतूर पोलिसांची धडाकेबाज कारवाई; दरोड्याच्या तयारीतील आंतरराज्यीय टोळी जेरबंद",
     "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh"
+   ],
+   [
+    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids",
+    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi"
    ],
    [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
@@ -320,10 +324,6 @@
    [
     "Pune Crime News : लक्ष्मीपूजनाच्या दिवशी घरातील देवघराच्या खिडकीतून प्रवेश करून सोन्याचे दागिने आणि रोकड चोरणाऱ्या आरोपीला पोलिसांनी केली अटक",
     "पुण्यात घरफोडीच्या घटनांत सात लाखांचा ऐवज लंपास"
-   ],
-   [
-    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids",
-    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi"
    ]
   ],
   "date_spread": [
@@ -378,17 +378,18 @@
     ]
    },
    {
+    "t": "Pune: Four Suffer Burns After Man Throws Acid-Like Liquid at Friend’s Family in Yerawada",
+    "days": [
+     "2026-07-05",
+     "2026-07-06",
+     "2026-11-06"
+    ]
+   },
+   {
     "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
     "days": [
      "2026-10-29",
      "2026-11-07"
-    ]
-   },
-   {
-    "t": "Scooterist dies in hit-and-run",
-    "days": [
-     "2026-06-10",
-     "2026-11-03"
     ]
    }
   ],
@@ -461,9 +462,34 @@
     "day": "2026-09-27",
     "incidents": 1,
     "usual": 7
+   },
+   {
+    "day": "2026-10-25",
+    "incidents": 2,
+    "usual": 8
    }
   ],
   "source_gaps": [
+   {
+    "source": "skl",
+    "days": 7,
+    "examples": [
+     "2026-07-06",
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11"
+    ]
+   },
+   {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
    {
     "source": "ptm",
     "days": 17,
@@ -496,26 +522,6 @@
     ]
    },
    {
-    "source": "skl",
-    "days": 7,
-    "examples": [
-     "2026-07-06",
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11"
-    ]
-   },
-   {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "toi",
     "days": 11,
     "examples": [
@@ -530,5 +536,5 @@
   ],
   "future_times": []
  },
- "passed": 40
+ "passed": 41
 }
