@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-27T21:23:08.557Z",
- "total": 3878,
- "added": 12,
+ "updated": "2026-11-27T22:23:04.392Z",
+ "total": 3911,
+ "added": 33,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 22,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -135,10 +135,10 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
-   "added": 0,
-   "note": "HTTP 403"
+   "ok": true,
+   "found": 6,
+   "added": 3,
+   "note": ""
   },
   {
    "id": "pud",
@@ -167,10 +167,10 @@
   {
    "id": "xptm",
    "name": "Pune Times Mirror on X",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 30,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xppl",
@@ -200,7 +200,7 @@
    "id": "xvb",
    "name": "Varad Bhatkhande (FPJ reporter) on X",
    "ok": true,
-   "found": 10,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -216,7 +216,7 @@
    "id": "xcp",
    "name": "Pune Police Commissioner on X",
    "ok": true,
-   "found": 6,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 2,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -232,7 +232,7 @@
    "id": "xprp",
    "name": "Pune Rural Police on X",
    "ok": true,
-   "found": 4,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -280,7 +280,7 @@
    "id": "xlkm",
    "name": "Lokmat on X",
    "ok": true,
-   "found": 0,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -288,25 +288,25 @@
    "id": "xskl",
    "name": "Sakal on X",
    "ok": true,
-   "found": 0,
+   "found": 1,
    "added": 0,
    "note": ""
   },
   {
    "id": "xlks",
    "name": "Loksatta on X",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xabp",
    "name": "ABP Majha on X",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 2,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xtv9",
