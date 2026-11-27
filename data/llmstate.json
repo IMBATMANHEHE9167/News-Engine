@@ -2,22 +2,21 @@
  "day": "2026-11-27",
  "used": {
   "gemini-3.5-flash-lite": 415,
-  "gemini-3.1-flash-lite": 136,
+  "gemini-3.1-flash-lite": 151,
   "gemini-3.6-flash": 20,
-  "gemini-3-flash-preview": 10,
+  "gemini-3-flash-preview": 14,
   "gemini-3.5-flash": 3,
-  "gemini-3.1-flash-lite-preview": 22,
-  "gemini-flash-lite-latest": 10
+  "gemini-3.1-flash-lite-preview": 37,
+  "gemini-flash-lite-latest": 10,
+  "gemini-3.8-flash": 1
  },
  "rested": {
   "gemini-3.5-flash-lite": true,
   "gemini-flash-lite-latest": true,
-  "gemini-3.5-flash": true
+  "gemini-3.5-flash": true,
+  "gemini-3.8-flash": true
  },
  "errors": [
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.6-flash: The read operation timed out",
-  "gemini-3.6-flash: The read operation timed out",
   "gemini-3.6-flash: The read operation timed out",
   "gemini-3.5-flash-lite: daily limit after 415 requests",
   "gemini-flash-lite-latest: daily limit after 10 requests",
@@ -26,6 +25,9 @@
   "gemini-3.1-flash-lite: The read operation timed out",
   "gemini-3.5-flash: daily limit after 3 requests",
   "gemini-3-flash-preview: The read operation timed out",
+  "gemini-3-flash-preview: The read operation timed out",
+  "gemini-3.8-flash: The read operation timed out",
+  "gemini-3.8-flash: daily limit after 1 requests",
   "gemini-3-flash-preview: The read operation timed out"
  ],
  "models": {
@@ -49,22 +51,22 @@
  },
  "rest_fix": 1,
  "caps_fix": 1,
- "triaged": 2504,
+ "triaged": 2541,
  "lx_reset": 1,
  "xx_day": "2026-11-27",
  "last_run": {
-  "busy": 12,
+  "busy": 11,
   "stop": "out of time"
  },
- "read": 3599,
- "older": 216,
+ "read": 3731,
+ "older": 84,
  "unread": 0,
  "second": 3,
  "expert": 1,
  "not_incident": 453,
- "updated": "2026-11-27T15:43:03.873Z",
- "judged": 107,
- "audited": 2848,
- "overturned": 1102,
- "waiting": 25
+ "updated": "2026-11-27T16:42:41.382Z",
+ "judged": 110,
+ "audited": 2923,
+ "overturned": 1103,
+ "waiting": 1
 }

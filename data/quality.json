@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T15:47:19.013Z",
+ "updated": "2026-11-27T16:47:17.956Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,15 +268,15 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "judged_same_kept_apart": 9,
-  "date_spread": 27,
-  "waiting_for_judge": 25,
-  "pairs_judged": 11300,
-  "pairs_judged_same": 7552,
-  "judge_checked_by_expert": 2848,
+  "judged_same_kept_apart": 11,
+  "date_spread": 25,
+  "waiting_for_judge": 1,
+  "pairs_judged": 11341,
+  "pairs_judged_same": 7560,
+  "judge_checked_by_expert": 2922,
   "judge_overturned_by_expert": 1102,
   "non_incident_wording": 6,
-  "area_disagreement": 43,
+  "area_disagreement": 42,
   "silent_days": 3,
   "source_gap_days": 64,
   "unverified": 4,
@@ -289,7 +289,7 @@
   "split_cases": [
    [
     "Senior citizen loses ₹32 lakh in digital arrest fraud",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "Pune Crime : बालेवाडीत कौटुंबिक वादातून सुनेला १० महिला बाउन्सर्सच्या मदतीने बेदम मारहाण"
    ],
    [
     "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi",
@@ -314,10 +314,6 @@
     "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
    ],
    [
-    "Police arrest 61-year-old for sexual assault of two minor sisters",
-    "Ayurveda practitioner held on charge of molesting patient"
-   ],
-   [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
@@ -332,6 +328,10 @@
    [
     "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
     "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
+   ],
+   [
+    "Truck Bike Accident : रक्षाबंधनासाठी निघालेल्या कुटुंबावर काळाचा घाला! ट्रक-दुचाकीच्या अपघातात वडील-मुलीचा मृत्यू; आई गंभीर",
+    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
    ]
   ],
   "date_spread": [
