@@ -13,6 +13,7 @@
   {"name": "Trainee PSI dowry harassment is one case", "one_case": "(trainee|probationary) PSI"},
   {"name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case", "one_case": "mandar ki(w|v)a?le|मंदार किवळे|pune court attack|कोर्टाबाहेर.*(हल्ला|हात|गोळीबार)"},
   {"name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case", "one_case": "bopdev.*(accident|tempo|students|bus stop)|(accident|tempo|students).*bopdev|बोपदेव.*(अपघात|टेम्पो|विद्यार्थ)"},
+  {"name": "Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case", "one_case": "Kondhwa lodge|Sexual Assault of Woman at Lodge"},
   {"name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out", "counted": "Three engineering students killed, two critical as tempo"},
   {"name": "Trainee PSI dowry harassment is a crime against women", "type": ["(trainee|probationary) PSI", "women"]},
   {"name": "Kasba Ganpati temple donation-box theft is one case", "one_case": "Kasba (Ganpati )?(temple|मंदिर)|कसबा मंदिर"},

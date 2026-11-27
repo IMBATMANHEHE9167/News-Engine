@@ -463,16 +463,22 @@ def run(items, texts, get):
             L = r.get(f)
             if isinstance(L, dict) and not L.get('ok') and EMPTY_TEXT.search('%s %s' % (L.get('s', ''), L.get('cl', ''))):
                 r.pop(f, None)
+    # The judge's share of this run is kept back from the reading: its waiting pairs (counted by the last run) are what
+    # keep repeats of one story apart ("being checked"). 27 Nov 2026: after an outage the reading of 110 waiting reports
+    # used the whole share and the judge got none, so the Kondhwa lodge case showed 5 times. Up to half the share.
+    pace = S.pace('readers')
+    keep = min(CFG['per_run']['judges'], -(-S.state.get('waiting', 0) // CFG['pair_batch']), pace // 2)
+    room = lambda: max(0, min(left, pace - RUN.get('readers', 0) - keep))
     # 1. Reports nobody has read yet (they are kept out of the counts until read).
-    left -= _read_pass(S, 'readers', 'L', newest([r for r in items if not r.get('L') and fresh(r)]), left, texts, get)
+    left -= _read_pass(S, 'readers', 'L', newest([r for r in items if not r.get('L') and fresh(r)]), room(), texts, get)
     # 2. Second readings: the first reading and the rules disagree.
     second = newest([r for r in items if E.verdict(r) == 'second' and fresh(r)])
-    left -= _read_pass(S, 'readers', 'L2', second, left, texts, get, avoid_own=True)
+    left -= _read_pass(S, 'readers', 'L2', second, room(), texts, get, avoid_own=True)
     # 3. Readings from an older form: read again (newest first), so every report has the case facts.
     # (capped, so the newest news, second readings and the judge keep their share of the day's free requests)
     # (and only from what this run's share leaves after keeping 10 requests for the judge, who keeps today's news from
     # being counted twice)
-    spare = max(0, S.pace('readers') - RUN.get('readers', 0) - 10)
+    spare = max(0, S.pace('readers') - RUN.get('readers', 0) - max(10, keep))
     left -= _read_pass(S, 'readers', 'L', newest([r for r in items if r.get('L') and r['L'].get('v') != VERSION and fresh(r)]),
                        min(left, CFG['per_run'].get('reread', left), spare), texts, get)
     # 4. Three-way splits: the expert reads.
@@ -506,8 +512,20 @@ def run_judges(pairs, cache):
             if res and key in res and cache.get(key) not in ('same', 'diff'):
                 cache[key] = res[key]
     S.state['judged'] = S.state.get('judged', 0) + asked
+    S.state['waiting'] = max(0, len(pairs) - k)           # the next run keeps this many back from its reading (run)
     _save(S.state)
     return asked
+
+
+def note_waiting(n):
+    """Record how many pairs wait for the judge when it is not called (none waiting), so no share is kept for it."""
+    try:
+        state = json.loads((DATA / 'llmstate.json').read_text('utf-8'))
+    except (OSError, ValueError):
+        return
+    if state.get('waiting') != n:
+        state['waiting'] = n
+        _save(state)
 
 
 def audit_judges(cache, by_id, first=()):

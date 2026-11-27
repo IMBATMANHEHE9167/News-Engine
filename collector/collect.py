@@ -527,6 +527,7 @@ if ask or any(v is True for v in verdicts.values()):
         print('judge audit failed: %s' % str(ex)[:200])
     if verdicts != old_verdicts:
         events, ask = C.build(judged, vec, verdicts)
+llm.note_waiting(len(ask))          # the next run keeps back the judge's share of its reading for these pairs
 alive = {r['id'] for r in judged}
 verdicts = {k: v for k, v in verdicts.items() if all(x in alive for x in k.split('|'))}
 (DATA / 'pairs4.json').write_text(json.dumps(verdicts, separators=(',', ':'), sort_keys=True), 'utf-8')
