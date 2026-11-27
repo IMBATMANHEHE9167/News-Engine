@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T06:20:15.931Z",
+ "updated": "2026-11-27T07:21:09.158Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -72,8 +72,12 @@
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
    "ok": false,
-   "detail": "6 cases",
+   "detail": "7 cases",
    "bad": [
+    [
+     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय? PuneCourtFiringCase PunePolice MandarKiwale ShubhamChavan",
+     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय?"
+    ],
     [
      "Cartoon by: cartoonistalok PuneCourt PuneFiring PuneCrime PuneNews punepolice (Firing Outside Pune Court, Pune Court Attack, Pune Shivaji Nagar Incident, Sakal Alok, PP510)"
     ],
@@ -86,9 +90,6 @@
     [
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
-    ],
-    [
-     "Pune Court Attack: भावाच्या खूनाचा बदला घेण्यासाठी ५० हजारांची सुपारी, मध्य प्रदेशातून पिस्तूलांची खरेदी"
     ]
    ]
   },
@@ -255,8 +256,12 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": false,
-   "detail": "4 cases",
+   "detail": "5 cases",
    "bad": [
+    [
+     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय? PuneCourtFiringCase PunePolice MandarKiwale ShubhamChavan",
+     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय?"
+    ],
     [
      "Pune court attack planned within 48 hours; assailants allegedly paid to target Mandar Kiwale"
     ],
@@ -304,7 +309,7 @@
   "split_cases": 1,
   "judged_same_kept_apart": 9,
   "date_spread": 29,
-  "waiting_for_judge": 1214,
+  "waiting_for_judge": 1290,
   "pairs_judged": 9131,
   "pairs_judged_same": 5918,
   "judge_checked_by_expert": 2541,
@@ -313,10 +318,10 @@
   "area_disagreement": 43,
   "silent_days": 5,
   "source_gap_days": 67,
-  "unverified": 119,
+  "unverified": 125,
   "ruled_out_by_ai": 345,
   "future_times": 0,
-  "reports": 3575,
+  "reports": 3581,
   "cases": 1585
  },
  "examples": {
@@ -507,6 +512,15 @@
   ],
   "source_gaps": [
    {
+    "source": "xppl",
+    "days": 3,
+    "examples": [
+     "2026-11-19",
+     "2026-11-21",
+     "2026-11-22"
+    ]
+   },
+   {
     "source": "pkn",
     "days": 25,
     "examples": [
@@ -575,15 +589,6 @@
     "source": "pud",
     "days": 1,
     "examples": [
-     "2026-11-22"
-    ]
-   },
-   {
-    "source": "xppl",
-    "days": 3,
-    "examples": [
-     "2026-11-19",
-     "2026-11-21",
      "2026-11-22"
     ]
    }
