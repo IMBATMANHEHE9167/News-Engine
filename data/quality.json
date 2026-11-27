@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T09:39:19.715Z",
+ "updated": "2026-11-27T10:41:15.345Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 2,
-  "judged_same_kept_apart": 12,
+  "judged_same_kept_apart": 14,
   "date_spread": 27,
   "waiting_for_judge": 0,
-  "pairs_judged": 10388,
-  "pairs_judged_same": 6952,
-  "judge_checked_by_expert": 2625,
-  "judge_overturned_by_expert": 1086,
+  "pairs_judged": 10476,
+  "pairs_judged_same": 6958,
+  "judge_checked_by_expert": 2673,
+  "judge_overturned_by_expert": 1092,
   "non_incident_wording": 5,
-  "area_disagreement": 42,
+  "area_disagreement": 43,
   "silent_days": 3,
   "source_gap_days": 65,
-  "unverified": 2,
-  "ruled_out_by_ai": 406,
+  "unverified": 3,
+  "ruled_out_by_ai": 415,
   "future_times": 0,
-  "reports": 3695,
-  "cases": 1661
+  "reports": 3715,
+  "cases": 1669
  },
  "examples": {
   "split_cases": [
@@ -298,12 +298,8 @@
   ],
   "judged_same_kept_apart": [
    [
-    "Pune News: Sinhagad Fort Sees Tourist Clash Amid Allegations Of Misconduct With Women",
-    "‘Why is she wearing shorts’: How family outing at Pune's Sinhagad Fort turned into assault"
-   ],
-   [
-    "Pune News: Sinhagad Fort Sees Tourist Clash Amid Allegations Of Misconduct With Women",
-    "‘Why is she wearing shorts’: How family outing at Pune's Sinhagad Fort turned into assault"
+    "Uruli Kanchan Crime : पतीला जीवे मारण्याची धमकी देऊन विवाहितेवर बळजबरीने अत्याचार; उरुळी कांचन पोलिस ठाण्यात गुन्हा दाखल",
+    "Pune Crime News: विवाहितेवर वारंवार अत्याचार, जीवे मारण्याच्या धमक्या; फरार आरोपी संदिप आघावला उरुळी कांचन पोलिसांची अटक"
    ],
    [
     "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
@@ -320,6 +316,10 @@
    [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
+   ],
+   [
+    "Pargaon Accident : पिकअपने दुचाकीला दिलेल्या धडकेमध्ये बहिण भावाचा जागीच मृत्यू",
+    "Sibling Pair Dies Together in Road Accident Days Before Raksha Bandhan"
    ],
    [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
@@ -360,7 +360,6 @@
     "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
     "days": [
      "2026-08-09",
-     "2026-08-10",
      "2026-08-11",
      "2026-11-15"
     ]
@@ -450,7 +449,7 @@
    {
     "day": "2026-07-10",
     "incidents": 1,
-    "usual": 6
+    "usual": 7
    },
    {
     "day": "2026-07-22",
