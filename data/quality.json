@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T11:36:31.322Z",
+ "updated": "2026-11-27T12:39:58.879Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -244,7 +244,7 @@
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": true,
-   "detail": "connected: retaliation attack on man outside court as revenge for earlier murder; same_accused 2025 Shubham Chavan murder case; same_accused murder case of Shubham Chavan ",
+   "detail": "connected: revenge murder of Shubham Chavan over a land dispute; same_accused 2025 Shubham Chavan murder case; same_accused murder case of Shubham Chavan in 2025 in which ",
    "bad": []
   },
   {
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 2,
-  "judged_same_kept_apart": 12,
+  "judged_same_kept_apart": 13,
   "date_spread": 28,
-  "waiting_for_judge": 0,
-  "pairs_judged": 10676,
-  "pairs_judged_same": 7091,
-  "judge_checked_by_expert": 2748,
+  "waiting_for_judge": 1,
+  "pairs_judged": 10945,
+  "pairs_judged_same": 7313,
+  "judge_checked_by_expert": 2798,
   "judge_overturned_by_expert": 1098,
-  "non_incident_wording": 5,
-  "area_disagreement": 44,
-  "silent_days": 3,
-  "source_gap_days": 65,
-  "unverified": 2,
-  "ruled_out_by_ai": 430,
+  "non_incident_wording": 6,
+  "area_disagreement": 43,
+  "silent_days": 2,
+  "source_gap_days": 64,
+  "unverified": 5,
+  "ruled_out_by_ai": 442,
   "future_times": 0,
-  "reports": 3746,
-  "cases": 1676
+  "reports": 3778,
+  "cases": 1682
  },
  "examples": {
   "split_cases": [
@@ -306,28 +306,28 @@
     "Pune: CCTV Captures Police Van Ploughing Into Parked Vehicles in Sadashiv Peth"
    ],
    [
-    "Inter-State Robbery Gang: ओतूर पोलिसांची धडाकेबाज कारवाई; दरोड्याच्या तयारीतील आंतरराज्यीय टोळी जेरबंद",
-    "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh"
+    "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh",
+    "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
    ],
    [
     "Youth Dies After Assault Linked to Anna Bhau Sathe Jayanti Dispute; 10 Detained, Including Five Minors",
     "Two Arrested, Two Juveniles Detained in Pune Murder Case; Hunt On for Remaining Suspects"
    ],
    [
-    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
-    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
+    "Youth Dies After Assault Linked to Anna Bhau Sathe Jayanti Dispute; 10 Detained, Including Five Minors",
+    "Two Arrested, Two Juveniles Detained in Pune Murder Case; Hunt On for Remaining Suspects"
+   ],
+   [
+    "Turkish and Chinese-made pistols seized in Pune extortion case",
+    "Mother Sentenced to Double Life Imprisonment for Murdering Two Young Children in Pune"
    ],
    [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
-    "Police arrest 61-year-old for sexual assault of two minor sisters",
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
-   ],
-   [
-    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
-    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
+    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
+    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ]
   ],
   "date_spread": [
@@ -397,6 +397,7 @@
    }
   ],
   "non_incident_wording": [
+   "A 71-year-old man was allegedly assaulted over a land ownership dispute in Pimple Gurav on the afternoon of November 22. According to the complaint, the accused laid claim to around five acres of land in Survey No.…",
    "A 42-year-old worker, Sanjay Dhotre, died after allegedly losing his balance and falling from a fourth-floor balcony while retrieving a wooden plank at an under-construction building in Gulab Hari Vasti, Wadgaon Shinde,…",
    "Anita Raju Kota (45) alleged that she, her son Vignesh, and her daughter-in-law Priya were called to the parking area of a new SRA building at Inamke Mala in Lohiyanagar on the pretext of settling a dispute, where an…",
    "A 2.2 kg gold heist, a 12-hour manhunt, and Khadak Police on the case. From reviewing area CCTV footage to tracking suspects hiding within the very same building, the trail led to a swift resolution, with over 100% of…",
@@ -447,14 +448,9 @@
   ],
   "silent_days": [
    {
-    "day": "2026-07-10",
-    "incidents": 1,
-    "usual": 7
-   },
-   {
     "day": "2026-07-22",
     "incidents": 1,
-    "usual": 7
+    "usual": 8
    },
    {
     "day": "2026-09-27",
@@ -463,6 +459,18 @@
    }
   ],
   "source_gaps": [
+   {
+    "source": "skl",
+    "days": 7,
+    "examples": [
+     "2026-07-06",
+     "2026-07-11",
+     "2026-09-23",
+     "2026-09-25",
+     "2026-10-01",
+     "2026-10-11"
+    ]
+   },
    {
     "source": "prb",
     "days": 3,
@@ -521,27 +529,15 @@
     ]
    },
    {
-    "source": "skl",
-    "days": 7,
-    "examples": [
-     "2026-07-06",
-     "2026-07-11",
-     "2026-09-23",
-     "2026-09-25",
-     "2026-10-01",
-     "2026-10-11"
-    ]
-   },
-   {
     "source": "ptm",
-    "days": 16,
+    "days": 15,
     "examples": [
+     "2026-07-25",
      "2026-08-15",
      "2026-08-16",
      "2026-09-07",
      "2026-09-14",
-     "2026-10-10",
-     "2026-10-18"
+     "2026-10-10"
     ]
    }
   ],
