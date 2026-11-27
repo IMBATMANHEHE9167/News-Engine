@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-27T16:42:44.205Z",
- "total": 3815,
- "added": 0,
+ "updated": "2026-11-27T17:40:26.369Z",
+ "total": 3834,
+ "added": 19,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -80,7 +80,7 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 6,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -128,7 +128,7 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 2,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -160,17 +160,17 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 28,
-   "added": 0,
+   "found": 33,
+   "added": 2,
    "note": ""
   },
   {
    "id": "xptm",
    "name": "Pune Times Mirror on X",
-   "ok": true,
-   "found": 30,
+   "ok": false,
+   "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   },
   {
    "id": "xppl",
@@ -178,13 +178,13 @@
    "ok": false,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": "HTTP 500"
   },
   {
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 6,
+   "found": 10,
    "added": 0,
    "note": ""
   },
@@ -192,7 +192,7 @@
    "id": "xie",
    "name": "Express Pune on X",
    "ok": true,
-   "found": 5,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -200,7 +200,7 @@
    "id": "xvb",
    "name": "Varad Bhatkhande (FPJ reporter) on X",
    "ok": true,
-   "found": 10,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -216,7 +216,7 @@
    "id": "xcp",
    "name": "Pune Police Commissioner on X",
    "ok": true,
-   "found": 8,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 4,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -240,17 +240,17 @@
    "id": "xtrf",
    "name": "Pune Traffic Police on X",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
   {
    "id": "xmet",
    "name": "Pune Metro on X",
-   "ok": true,
+   "ok": false,
    "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   },
   {
    "id": "xmt3",
@@ -263,10 +263,10 @@
   {
    "id": "xpmp",
    "name": "PMPML on X",
-   "ok": true,
+   "ok": false,
    "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   },
   {
    "id": "xpmc",
@@ -303,18 +303,18 @@
   {
    "id": "xabp",
    "name": "ABP Majha on X",
-   "ok": true,
-   "found": 0,
-   "added": 0,
-   "note": ""
-  },
-  {
-   "id": "xtv9",
-   "name": "TV9 Marathi on X",
    "ok": false,
    "found": 0,
    "added": 0,
    "note": "HTTP 404"
+  },
+  {
+   "id": "xtv9",
+   "name": "TV9 Marathi on X",
+   "ok": true,
+   "found": 0,
+   "added": 0,
+   "note": ""
   }
  ]
 }

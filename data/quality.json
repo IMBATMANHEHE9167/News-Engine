@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T16:47:17.956Z",
+ "updated": "2026-11-27T17:42:15.958Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,11 +268,11 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "judged_same_kept_apart": 11,
+  "judged_same_kept_apart": 13,
   "date_spread": 25,
-  "waiting_for_judge": 1,
-  "pairs_judged": 11341,
-  "pairs_judged_same": 7560,
+  "waiting_for_judge": 0,
+  "pairs_judged": 11387,
+  "pairs_judged_same": 7579,
   "judge_checked_by_expert": 2922,
   "judge_overturned_by_expert": 1102,
   "non_incident_wording": 6,
@@ -280,10 +280,10 @@
   "silent_days": 3,
   "source_gap_days": 64,
   "unverified": 4,
-  "ruled_out_by_ai": 453,
+  "ruled_out_by_ai": 459,
   "future_times": 0,
-  "reports": 3815,
-  "cases": 1699
+  "reports": 3834,
+  "cases": 1704
  },
  "examples": {
   "split_cases": [
@@ -322,16 +322,16 @@
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
-    "Police arrest 61-year-old for sexual assault of two minor sisters",
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
+    "Silver crown stolen from Tulja Bhavani temple recovered",
+    "Crown theft case: Two accused arrested; crown, cash recovered"
    ],
    [
-    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
-    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
+    "IT firm’s Hinjewadi branch hired many freshers without projects, likely eyeing govt IT contracts: Police after Hinjewadi company CEO’s arrest",
+    "FITE seeks SIT probe into alleged job scams targeting freshers"
    ],
    [
-    "Truck Bike Accident : रक्षाबंधनासाठी निघालेल्या कुटुंबावर काळाचा घाला! ट्रक-दुचाकीच्या अपघातात वडील-मुलीचा मृत्यू; आई गंभीर",
-    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
+    "Crown theft case: Two accused arrested; crown, cash recovered",
+    "Silver crown stolen from Tulja Bhavani temple recovered"
    ]
   ],
   "date_spread": [
