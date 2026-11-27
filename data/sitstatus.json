@@ -1,10 +1,9 @@
 {
- "scanned": "2026-11-27T15:15:45.145Z",
+ "scanned": "2026-11-27T15:30:37.613Z",
  "every": 15,
- "sources_ok": 33,
+ "sources_ok": 31,
  "sources_failed": [
-  "ppl",
-  "ptm",
+  "gn",
   "xppl"
  ],
  "reports": 378,
