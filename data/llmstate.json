@@ -1,34 +1,12 @@
 {
- "day": "2026-11-26",
+ "day": "2026-11-27",
  "used": {
-  "gemini-3.5-flash-lite": 219,
-  "gemini-3.1-flash-lite": 306,
-  "gemini-flash-lite-latest": 83,
-  "gemini-3.6-flash": 13,
-  "gemini-3-flash-preview": 21,
-  "gemini-flash-latest": 1
+  "gemini-3.5-flash-lite": 38,
+  "gemini-3.1-flash-lite": 5,
+  "gemini-3.6-flash": 3
  },
- "rested": {
-  "gemini-3.1-flash-lite": true,
-  "gemini-flash-lite-latest": true,
-  "gemini-3.5-flash-lite": true,
-  "gemini-3.6-flash": true,
-  "gemini-flash-latest": true
- },
- "errors": [
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.1-flash-lite: daily limit after 305 requests",
-  "gemini-3.5-flash-lite: daily limit after 217 requests",
-  "gemini-flash-lite-latest: daily limit after 83 requests",
-  "gemini-3.6-flash: The read operation timed out",
-  "gemini-3.1-flash-lite: daily limit after 306 requests",
-  "gemini-flash-lite-latest: daily limit after 83 requests",
-  "gemini-3.5-flash-lite: daily limit after 219 requests",
-  "gemini-3.6-flash: daily limit after 13 requests",
-  "gemini-flash-latest: The read operation timed out",
-  "gemini-flash-latest: daily limit after 1 requests"
- ],
+ "rested": {},
+ "errors": [],
  "models": {
   "readers": [
    "gemini-3.5-flash-lite",
@@ -41,28 +19,22 @@
    "gemini-flash-latest"
   ]
  },
- "triaged": 2732,
+ "caps": {},
+ "rest_fix": 1,
+ "caps_fix": 1,
+ "triaged": 396,
  "lx_reset": 1,
+ "xx_day": "2026-11-27",
  "last_run": {
   "busy": 0,
-  "stop": "no model left today (allowance used or retired)"
+  "stop": "this run's share of the day's allowance used"
  },
- "read": 1711,
+ "read": 1821,
  "older": 1806,
- "unread": 64,
- "second": 48,
- "expert": 13,
- "not_incident": 345,
- "updated": "2026-11-27T07:19:30.322Z",
- "judged": 258,
- "audited": 2541,
- "overturned": 1078,
- "xx_day": "2026-11-26",
- "caps": {
-  "gemini-3.1-flash-lite": 306,
-  "gemini-flash-lite-latest": 83,
-  "gemini-3.5-flash-lite": 219
- },
- "rest_fix": 1,
- "caps_fix": 1
+ "unread": 5,
+ "second": 66,
+ "expert": 5,
+ "not_incident": 381,
+ "updated": "2026-11-27T08:28:43.100Z",
+ "judged": 0
 }

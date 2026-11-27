@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T07:21:09.158Z",
+ "updated": "2026-11-27T08:30:13.912Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -39,17 +39,9 @@
   },
   {
    "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
-   "ok": false,
-   "detail": "3 cases",
-   "bad": [
-    [
-     "Trial begins in Ketan Agrawal murder case, Ujjwal Nikam appears as special prosecutor",
-     "Ketan Agrawal murder trial starts; Ujjwal Nikam appears as special prosecutor"
-    ],
-    [
-     "Ketan Agarwal Murder Case: First Hearing Scheduled in Pune’s Wadgaon Maval Court on Saturday"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case",
@@ -72,20 +64,10 @@
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
    "ok": false,
-   "detail": "7 cases",
+   "detail": "3 cases",
    "bad": [
     [
-     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय? PuneCourtFiringCase PunePolice MandarKiwale ShubhamChavan",
-     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय?"
-    ],
-    [
-     "Cartoon by: cartoonistalok PuneCourt PuneFiring PuneCrime PuneNews punepolice (Firing Outside Pune Court, Pune Court Attack, Pune Shivaji Nagar Incident, Sakal Alok, PP510)"
-    ],
-    [
-     "Pune court attack planned within 48 hours; assailants allegedly paid to target Mandar Kiwale"
-    ],
-    [
-     "Pune Shivajinagar Court Mandar Kiwale Case: 2 गुंठ्यांचा भूखंड, अर्ध्या गुंठ्यावरुन बिनसलं; पहिले 2025 आणि आता 2026 मध्ये पुण्यात भयंकर घडलं, किवळे आणि चव्हाण यांच्यातील वाद काय?"
+     "Pune Court Attack: पोलिसांची चक्रे वेगाने फिरली अन् आठवा आरोपी सापडला;अंगझडतीत गावठी पिस्तुलाचे रिकामे मॅगझीनही जप्त"
     ],
     [
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
@@ -96,10 +78,15 @@
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
    "ok": false,
-   "detail": "2 cases",
+   "detail": "3 cases",
    "bad": [
     [
-     "Bopdev Ghat Accident : बोपदेव घाट अपघात प्रकरणातील चालकाला तीन दिवस पोलिस कोठडी"
+     "Bopdev Ghat Accident : वडापाव खायचा राहून गेला... अन् मित्र कायमचा सोडून गेला! सिद्धेशचा मित्र राहुल बोरकरने सांगितली अपघातापूर्वीची हृदयद्रावक हकीकत",
+     "Three Trinity College Students Killed, Two Injured in Bopdev Ghat Accident",
+     "🚨 बोपदेव घाट अपघातातील मृत सिद्धेश्वर राजेच्या कुटुंबीयांची आर्त हाक; ‘शासनाकडून साधी विचारपूसही नाही!’ पुण्यातील बोपदेव घाट येथे भरधाव आयशर ट्रकने धडक दिल्याने झालेल्या भीषण अपघातात तीन तरुणांचा मृत्यू झाला. यामध्ये…"
+    ],
+    [
+     "Fatal Bopdev Ghat accident puts roadside bus stop safety under scanner"
     ]
    ]
   },
@@ -256,18 +243,8 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": false,
-   "detail": "5 cases",
+   "detail": "2 cases",
    "bad": [
-    [
-     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय? PuneCourtFiringCase PunePolice MandarKiwale ShubhamChavan",
-     "Pune Court Mandar Kiwale: अवघ्या अर्ध्या गुंठ्यावरून गँगवॉर, पुणे गोळीबार प्रकरणात मोठी माहिती, किवळे-चव्हाण यांच्यातील वाद तरी काय?"
-    ],
-    [
-     "Pune court attack planned within 48 hours; assailants allegedly paid to target Mandar Kiwale"
-    ],
-    [
-     "Pune Shivajinagar Court Mandar Kiwale Case: 2 गुंठ्यांचा भूखंड, अर्ध्या गुंठ्यावरुन बिनसलं; पहिले 2025 आणि आता 2026 मध्ये पुण्यात भयंकर घडलं, किवळे आणि चव्हाण यांच्यातील वाद काय?"
-    ],
     [
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
@@ -283,7 +260,7 @@
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": true,
-   "detail": "connected: feud murder of a young man in Katraj a year earlier; revenge murder of Shubham Chavan a year and a half earlier; revenge murder of a young man in Katraj a year ",
+   "detail": "connected: revenge murder of Shubham Chavan in Katraj a year earlier; revenge murder of a young man in Katraj earlier; same_accused murder of Shubham Chavan in 2025",
    "bad": []
   },
   {
@@ -309,19 +286,19 @@
   "split_cases": 1,
   "judged_same_kept_apart": 9,
   "date_spread": 29,
-  "waiting_for_judge": 1290,
-  "pairs_judged": 9131,
-  "pairs_judged_same": 5918,
-  "judge_checked_by_expert": 2541,
+  "waiting_for_judge": 1060,
+  "pairs_judged": 8968,
+  "pairs_judged_same": 5864,
+  "judge_checked_by_expert": 2531,
   "judge_overturned_by_expert": 1078,
   "non_incident_wording": 5,
   "area_disagreement": 43,
   "silent_days": 5,
   "source_gap_days": 67,
-  "unverified": 125,
-  "ruled_out_by_ai": 345,
+  "unverified": 76,
+  "ruled_out_by_ai": 381,
   "future_times": 0,
-  "reports": 3581,
+  "reports": 3632,
   "cases": 1585
  },
  "examples": {
@@ -367,13 +344,6 @@
   ],
   "date_spread": [
    {
-    "t": "“Why Were You Looking at Me?” Minor Argument Turns Violent in PCMC; Young Man Slashed with Cutter . . A minor argument over a seemingly simple question “Why were you looking at me?” reportedly turned violent in…",
-    "days": [
-     "2026-11-21",
-     "2026-11-25"
-    ]
-   },
-   {
     "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
     "days": [
      "2026-06-13",
@@ -389,6 +359,13 @@
      "2026-11-15",
      "2026-11-16",
      "2026-11-17"
+    ]
+   },
+   {
+    "t": "Ketan Agarwal Murder Case: Charge-Framing Hearing Adjourned to December 4 Due To Court Staff Strike",
+    "days": [
+     "2026-10-24",
+     "2026-10-31"
     ]
    },
    {
@@ -512,15 +489,6 @@
   ],
   "source_gaps": [
    {
-    "source": "xppl",
-    "days": 3,
-    "examples": [
-     "2026-11-19",
-     "2026-11-21",
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "pkn",
     "days": 25,
     "examples": [
@@ -529,6 +497,22 @@
      "2026-10-28",
      "2026-11-01",
      "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "pud",
+    "days": 1,
+    "examples": [
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "xppl",
+    "days": 3,
+    "examples": [
+     "2026-11-19",
+     "2026-11-21",
      "2026-11-22"
     ]
    },
@@ -553,15 +537,6 @@
     ]
    },
    {
-    "source": "prb",
-    "days": 3,
-    "examples": [
-     "2026-11-15",
-     "2026-11-17",
-     "2026-11-21"
-    ]
-   },
-   {
     "source": "skl",
     "days": 7,
     "examples": [
@@ -571,6 +546,15 @@
      "2026-09-25",
      "2026-10-01",
      "2026-10-11"
+    ]
+   },
+   {
+    "source": "prb",
+    "days": 3,
+    "examples": [
+     "2026-11-15",
+     "2026-11-17",
+     "2026-11-21"
     ]
    },
    {
@@ -584,16 +568,9 @@
      "2026-10-10",
      "2026-10-18"
     ]
-   },
-   {
-    "source": "pud",
-    "days": 1,
-    "examples": [
-     "2026-11-22"
-    ]
    }
   ],
   "future_times": []
  },
- "passed": 39
+ "passed": 40
 }
