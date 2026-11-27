@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T10:41:15.345Z",
+ "updated": "2026-11-27T11:36:31.322Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -244,7 +244,7 @@
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": true,
-   "detail": "connected: retaliation attack on man outside court as revenge for earlier murder; revenge murder of Shubham Chavan for which the victim was facing trial; same_accused murd",
+   "detail": "connected: retaliation attack on man outside court as revenge for earlier murder; same_accused 2025 Shubham Chavan murder case; same_accused murder case of Shubham Chavan ",
    "bad": []
   },
   {
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 2,
-  "judged_same_kept_apart": 14,
-  "date_spread": 27,
+  "judged_same_kept_apart": 12,
+  "date_spread": 28,
   "waiting_for_judge": 0,
-  "pairs_judged": 10476,
-  "pairs_judged_same": 6958,
-  "judge_checked_by_expert": 2673,
-  "judge_overturned_by_expert": 1092,
+  "pairs_judged": 10676,
+  "pairs_judged_same": 7091,
+  "judge_checked_by_expert": 2748,
+  "judge_overturned_by_expert": 1098,
   "non_incident_wording": 5,
-  "area_disagreement": 43,
+  "area_disagreement": 44,
   "silent_days": 3,
   "source_gap_days": 65,
-  "unverified": 3,
-  "ruled_out_by_ai": 415,
+  "unverified": 2,
+  "ruled_out_by_ai": 430,
   "future_times": 0,
-  "reports": 3715,
-  "cases": 1669
+  "reports": 3746,
+  "cases": 1676
  },
  "examples": {
   "split_cases": [
@@ -298,8 +298,8 @@
   ],
   "judged_same_kept_apart": [
    [
-    "Uruli Kanchan Crime : पतीला जीवे मारण्याची धमकी देऊन विवाहितेवर बळजबरीने अत्याचार; उरुळी कांचन पोलिस ठाण्यात गुन्हा दाखल",
-    "Pune Crime News: विवाहितेवर वारंवार अत्याचार, जीवे मारण्याच्या धमक्या; फरार आरोपी संदिप आघावला उरुळी कांचन पोलिसांची अटक"
+    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
+    "Police arrest 61-year-old for sexual assault of two minor sisters"
    ],
    [
     "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
@@ -310,24 +310,24 @@
     "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh"
    ],
    [
-    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
-    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
+    "Youth Dies After Assault Linked to Anna Bhau Sathe Jayanti Dispute; 10 Detained, Including Five Minors",
+    "Two Arrested, Two Juveniles Detained in Pune Murder Case; Hunt On for Remaining Suspects"
    ],
    [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
-    "Pargaon Accident : पिकअपने दुचाकीला दिलेल्या धडकेमध्ये बहिण भावाचा जागीच मृत्यू",
-    "Sibling Pair Dies Together in Road Accident Days Before Raksha Bandhan"
+    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
+    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "Police arrest 61-year-old for sexual assault of two minor sisters",
+    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
    ],
    [
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
+    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
    ]
   ],
   "date_spread": [
@@ -464,18 +464,12 @@
   ],
   "source_gaps": [
    {
-    "source": "lkm",
-    "days": 2,
+    "source": "prb",
+    "days": 3,
     "examples": [
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
-    "source": "pud",
-    "days": 1,
-    "examples": [
-     "2026-11-22"
+     "2026-11-15",
+     "2026-11-17",
+     "2026-11-21"
     ]
    },
    {
@@ -487,6 +481,21 @@
      "2026-10-11",
      "2026-11-01",
      "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "pud",
+    "days": 1,
+    "examples": [
      "2026-11-22"
     ]
    },
@@ -521,15 +530,6 @@
      "2026-09-25",
      "2026-10-01",
      "2026-10-11"
-    ]
-   },
-   {
-    "source": "prb",
-    "days": 3,
-    "examples": [
-     "2026-11-15",
-     "2026-11-17",
-     "2026-11-21"
     ]
    },
    {
