@@ -1,11 +1,11 @@
 {
  "version": 11,
  "llm": {
-  "note": "Gemini free tier. Version 2: the AI reading decides (incident or not, type, case facts, date). A second reader (a different model) checks every report where the first reader and the rules disagree; the expert settles only three-way splits. Judges decide whether two close reports are the same incident. The expert re-checks the riskiest \"same\" verdicts (audit). The \"-latest\" names always point to a current model, so a retired model never stops the layer. rpd/rpm are the free limits shown in AI Studio (Nov 2026).",
+  "note": "Gemini free tier. Version 2: the AI reading decides (incident or not, type, case facts, date). A second reader (a different model) checks every report where the first reader and the rules disagree; the expert settles only three-way splits. Judges decide whether two close reports are the same incident. The expert re-checks the riskiest \"same\" verdicts (audit). The \"-latest\" names always point to a current model, so a retired model never stops the layer. rpd/rpm are the free limits shown in AI Studio (Nov 2026). Each model has its own daily allowance and the three lite readers together give only ~610 a day, so 27 Nov 2026 four more models this key can use were added as readers (probed on engine-test): the engine read nothing for 17 hours a day once those 610 were gone.",
   "version": 4,
   "valid_from": 3,
   "valid_note": "version: the form; bump it to re-read every report (newest first, capped by per_run.reread). valid_from: the oldest form whose second and expert readings still decide. Raise it only when the meaning of the answers changes, never for an added question: discarding them made 386 reports unsettled at once (25 Nov 2026).",
-  "readers": ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-flash-lite-latest"],
+  "readers": ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-flash-lite-latest", "gemini-3.1-flash-lite-preview", "gemini-3.5-flash", "gemini-3.7-flash", "gemini-3.8-flash"],
   "experts": ["gemini-3.6-flash", "gemini-3-flash", "gemini-flash-latest"],
   "rpd": {"readers": 500, "experts": 20},
   "rpm": {"readers": 15, "experts": 5},
