@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T04:20:56.354Z",
+ "updated": "2026-11-27T05:20:44.441Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -72,18 +72,23 @@
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
    "ok": false,
-   "detail": "4 cases",
+   "detail": "6 cases",
    "bad": [
+    [
+     "Cartoon by: cartoonistalok PuneCourt PuneFiring PuneCrime PuneNews punepolice (Firing Outside Pune Court, Pune Court Attack, Pune Shivaji Nagar Incident, Sakal Alok, PP510)"
+    ],
+    [
+     "Pune court attack planned within 48 hours; assailants allegedly paid to target Mandar Kiwale"
+    ],
+    [
+     "Pune Shivajinagar Court Mandar Kiwale Case: 2 गुंठ्यांचा भूखंड, अर्ध्या गुंठ्यावरुन बिनसलं; पहिले 2025 आणि आता 2026 मध्ये पुण्यात भयंकर घडलं, किवळे आणि चव्हाण यांच्यातील वाद काय?"
+    ],
     [
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
     ],
     [
      "Pune Court Attack: भावाच्या खूनाचा बदला घेण्यासाठी ५० हजारांची सुपारी, मध्य प्रदेशातून पिस्तूलांची खरेदी"
-    ],
-    [
-     "Pune Court Attack: 'बेल इज ग्रांटेड... ट्रिगर दबाया, खेल खल्लास'; शिवाजीनगर कोर्ट गोळीबारापूर्वी अपलोड केलेली रील व्हायरल PuneCourtAttack ShivajinagarCourt PuneFiring ViralReel BreakingNews",
-     "Pune Court Attack: 'बेल इज ग्रांटेड... ट्रिगर दबाया, खेल खल्लास'; शिवाजीनगर कोर्ट गोळीबारापूर्वी अपलोड केलेली रील व्हायरल"
     ]
    ]
   },
@@ -250,8 +255,14 @@
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
    "ok": false,
-   "detail": "2 cases",
+   "detail": "4 cases",
    "bad": [
+    [
+     "Pune court attack planned within 48 hours; assailants allegedly paid to target Mandar Kiwale"
+    ],
+    [
+     "Pune Shivajinagar Court Mandar Kiwale Case: 2 गुंठ्यांचा भूखंड, अर्ध्या गुंठ्यावरुन बिनसलं; पहिले 2025 आणि आता 2026 मध्ये पुण्यात भयंकर घडलं, किवळे आणि चव्हाण यांच्यातील वाद काय?"
+    ],
     [
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
      "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
@@ -293,7 +304,7 @@
   "split_cases": 1,
   "judged_same_kept_apart": 9,
   "date_spread": 29,
-  "waiting_for_judge": 678,
+  "waiting_for_judge": 948,
   "pairs_judged": 9131,
   "pairs_judged_same": 5918,
   "judge_checked_by_expert": 2541,
@@ -302,11 +313,11 @@
   "area_disagreement": 43,
   "silent_days": 5,
   "source_gap_days": 67,
-  "unverified": 107,
+  "unverified": 113,
   "ruled_out_by_ai": 345,
   "future_times": 0,
-  "reports": 3563,
-  "cases": 1586
+  "reports": 3569,
+  "cases": 1585
  },
  "examples": {
   "split_cases": [
@@ -496,6 +507,14 @@
   ],
   "source_gaps": [
    {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
     "source": "toi",
     "days": 10,
     "examples": [
@@ -538,14 +557,6 @@
      "2026-09-25",
      "2026-10-01",
      "2026-10-11"
-    ]
-   },
-   {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
-     "2026-11-22"
     ]
    },
    {
