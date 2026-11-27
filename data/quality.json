@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T09:22:32.792Z",
+ "updated": "2026-11-27T09:39:19.715Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 2,
-  "judged_same_kept_apart": 9,
-  "date_spread": 26,
-  "waiting_for_judge": 26,
-  "pairs_judged": 10269,
-  "pairs_judged_same": 6917,
-  "judge_checked_by_expert": 2626,
+  "judged_same_kept_apart": 12,
+  "date_spread": 27,
+  "waiting_for_judge": 0,
+  "pairs_judged": 10388,
+  "pairs_judged_same": 6952,
+  "judge_checked_by_expert": 2625,
   "judge_overturned_by_expert": 1086,
   "non_incident_wording": 5,
-  "area_disagreement": 41,
-  "silent_days": 4,
-  "source_gap_days": 66,
+  "area_disagreement": 42,
+  "silent_days": 3,
+  "source_gap_days": 65,
   "unverified": 2,
-  "ruled_out_by_ai": 398,
+  "ruled_out_by_ai": 406,
   "future_times": 0,
-  "reports": 3677,
-  "cases": 1655
+  "reports": 3695,
+  "cases": 1661
  },
  "examples": {
   "split_cases": [
@@ -297,6 +297,14 @@
    ]
   ],
   "judged_same_kept_apart": [
+   [
+    "Pune News: Sinhagad Fort Sees Tourist Clash Amid Allegations Of Misconduct With Women",
+    "‘Why is she wearing shorts’: How family outing at Pune's Sinhagad Fort turned into assault"
+   ],
+   [
+    "Pune News: Sinhagad Fort Sees Tourist Clash Amid Allegations Of Misconduct With Women",
+    "‘Why is she wearing shorts’: How family outing at Pune's Sinhagad Fort turned into assault"
+   ],
    [
     "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
     "Pune: CCTV Captures Police Van Ploughing Into Parked Vehicles in Sadashiv Peth"
@@ -320,14 +328,6 @@
    [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
     "Police arrest 61-year-old for sexual assault of two minor sisters"
-   ],
-   [
-    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
-    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
-   ],
-   [
-    "Truck Bike Accident : रक्षाबंधनासाठी निघालेल्या कुटुंबावर काळाचा घाला! ट्रक-दुचाकीच्या अपघातात वडील-मुलीचा मृत्यू; आई गंभीर",
-    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
    ]
   ],
   "date_spread": [
@@ -450,7 +450,7 @@
    {
     "day": "2026-07-10",
     "incidents": 1,
-    "usual": 7
+    "usual": 6
    },
    {
     "day": "2026-07-22",
@@ -461,11 +461,6 @@
     "day": "2026-09-27",
     "incidents": 1,
     "usual": 7
-   },
-   {
-    "day": "2026-10-25",
-    "incidents": 2,
-    "usual": 8
    }
   ],
   "source_gaps": [
@@ -486,11 +481,11 @@
    },
    {
     "source": "pkn",
-    "days": 24,
+    "days": 23,
     "examples": [
+     "2026-10-05",
      "2026-10-09",
      "2026-10-11",
-     "2026-10-25",
      "2026-11-01",
      "2026-11-20",
      "2026-11-22"
