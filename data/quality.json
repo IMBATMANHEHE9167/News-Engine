@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T08:54:49.477Z",
+ "updated": "2026-11-27T09:22:32.792Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -69,6 +69,12 @@
   },
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case",
    "ok": true,
    "detail": "one case",
    "bad": []
@@ -238,7 +244,7 @@
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": true,
-   "detail": "connected: revenge murder of Shubham Chavan for which the victim was facing trial; revenge murder of a young man in Katraj earlier; same_accused murder of Shubham Chavan i",
+   "detail": "connected: retaliation attack on man outside court as revenge for earlier murder; revenge murder of Shubham Chavan for which the victim was facing trial; same_accused murd",
    "bad": []
   },
   {
@@ -262,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 2,
-  "judged_same_kept_apart": 12,
-  "date_spread": 27,
-  "waiting_for_judge": 421,
-  "pairs_judged": 9807,
-  "pairs_judged_same": 6569,
-  "judge_checked_by_expert": 2552,
-  "judge_overturned_by_expert": 1076,
+  "judged_same_kept_apart": 9,
+  "date_spread": 26,
+  "waiting_for_judge": 26,
+  "pairs_judged": 10269,
+  "pairs_judged_same": 6917,
+  "judge_checked_by_expert": 2626,
+  "judge_overturned_by_expert": 1086,
   "non_incident_wording": 5,
-  "area_disagreement": 42,
+  "area_disagreement": 41,
   "silent_days": 4,
   "source_gap_days": 66,
-  "unverified": 8,
-  "ruled_out_by_ai": 393,
+  "unverified": 2,
+  "ruled_out_by_ai": 398,
   "future_times": 0,
-  "reports": 3658,
-  "cases": 1636
+  "reports": 3677,
+  "cases": 1655
  },
  "examples": {
   "split_cases": [
@@ -320,7 +326,7 @@
     "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
    ],
    [
-    "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
+    "Truck Bike Accident : रक्षाबंधनासाठी निघालेल्या कुटुंबावर काळाचा घाला! ट्रक-दुचाकीच्या अपघातात वडील-मुलीचा मृत्यू; आई गंभीर",
     "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
    ]
   ],
@@ -464,6 +470,14 @@
   ],
   "source_gaps": [
    {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
     "source": "pud",
     "days": 1,
     "examples": [
@@ -488,14 +502,6 @@
     "examples": [
      "2026-11-19",
      "2026-11-21",
-     "2026-11-22"
-    ]
-   },
-   {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
      "2026-11-22"
     ]
    },
@@ -547,5 +553,5 @@
   ],
   "future_times": []
  },
- "passed": 43
+ "passed": 44
 }
