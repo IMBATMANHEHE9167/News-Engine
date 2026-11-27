@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-27T19:23:56.173Z",
- "total": 3856,
- "added": 6,
+ "updated": "2026-11-27T20:22:22.918Z",
+ "total": 3866,
+ "added": 10,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -88,7 +88,7 @@
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 2,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -178,7 +178,7 @@
    "ok": false,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": "HTTP 500"
   },
   {
    "id": "xpkn",
@@ -200,7 +200,7 @@
    "id": "xvb",
    "name": "Varad Bhatkhande (FPJ reporter) on X",
    "ok": true,
-   "found": 10,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -208,7 +208,7 @@
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 19,
+   "found": 34,
    "added": 0,
    "note": ""
   },
@@ -232,7 +232,7 @@
    "id": "xprp",
    "name": "Pune Rural Police on X",
    "ok": true,
-   "found": 2,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -304,7 +304,7 @@
    "id": "xabp",
    "name": "ABP Majha on X",
    "ok": true,
-   "found": 2,
+   "found": 0,
    "added": 0,
    "note": ""
   },

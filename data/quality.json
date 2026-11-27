@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T19:28:40.533Z",
+ "updated": "2026-11-27T20:24:04.165Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,10 +268,10 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "judged_same_kept_apart": 14,
+  "judged_same_kept_apart": 16,
   "date_spread": 25,
-  "waiting_for_judge": 1,
-  "pairs_judged": 11464,
+  "waiting_for_judge": 0,
+  "pairs_judged": 11478,
   "pairs_judged_same": 7643,
   "judge_checked_by_expert": 2947,
   "judge_overturned_by_expert": 1102,
@@ -280,10 +280,10 @@
   "silent_days": 3,
   "source_gap_days": 63,
   "unverified": 1,
-  "ruled_out_by_ai": 472,
+  "ruled_out_by_ai": 480,
   "future_times": 0,
-  "reports": 3856,
-  "cases": 1713
+  "reports": 3866,
+  "cases": 1716
  },
  "examples": {
   "split_cases": [
@@ -322,16 +322,16 @@
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
+    "Encroachment Inspector Abused, Kicked at Sinhagad Road Ward office; Man Booked",
+    "Pune: PMC Encroachment Inspector Assaulted Over Seized Material"
+   ],
+   [
+    "Encroachment Inspector Abused, Kicked at Sinhagad Road Ward office; Man Booked",
+    "Pune: PMC Encroachment Inspector Assaulted Over Seized Material"
+   ],
+   [
     "Pune: गुंतवणूक, नोकरीच्या आमिषाने पुण्यात लूट; विश्रामबाग, नऱ्हे आणि खराडीत गुन्हे दाखल; तिघांना ६१ लाखांना गंडा",
     "Pune Cyber Fraud : पुण्यात सायबर चोरट्यांचा कहर; पोलिस अधिकारी, शेअर बाजार व नोकरीच्या आमिषाने तिघांकडून ६१ लाखांची फसवणूक"
-   ],
-   [
-    "Silver crown stolen from Tulja Bhavani temple recovered",
-    "Crown theft case: Two accused arrested; crown, cash recovered"
-   ],
-   [
-    "IT firm’s Hinjewadi branch hired many freshers without projects, likely eyeing govt IT contracts: Police after Hinjewadi company CEO’s arrest",
-    "FITE seeks SIT probe into alleged job scams targeting freshers"
    ]
   ],
   "date_spread": [
