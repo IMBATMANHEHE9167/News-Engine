@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-27T08:28:45.094Z",
- "total": 3632,
- "added": 51,
+ "updated": "2026-11-27T08:46:30.425Z",
+ "total": 3658,
+ "added": 26,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -80,8 +80,8 @@
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 7,
-   "added": 1,
+   "found": 5,
+   "added": 0,
    "note": ""
   },
   {
@@ -112,7 +112,7 @@
    "id": "tv9",
    "name": "TV9 Marathi",
    "ok": true,
-   "found": 12,
+   "found": 13,
    "added": 1,
    "note": ""
   },
@@ -121,7 +121,7 @@
    "name": "ABP Majha",
    "ok": true,
    "found": 6,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -144,8 +144,8 @@
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 6,
+   "added": 1,
    "note": ""
   },
   {
@@ -168,8 +168,8 @@
    "id": "xptm",
    "name": "Pune Times Mirror on X",
    "ok": true,
-   "found": 27,
-   "added": 0,
+   "found": 28,
+   "added": 1,
    "note": ""
   },
   {
@@ -177,22 +177,22 @@
    "name": "Pune Pulse on X",
    "ok": true,
    "found": 15,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 17,
-   "added": 0,
+   "found": 18,
+   "added": 1,
    "note": ""
   },
   {
    "id": "xie",
    "name": "Express Pune on X",
    "ok": true,
-   "found": 2,
+   "found": 12,
    "added": 0,
    "note": ""
   },
@@ -200,7 +200,7 @@
    "id": "xvb",
    "name": "Varad Bhatkhande (FPJ reporter) on X",
    "ok": true,
-   "found": 10,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -208,7 +208,7 @@
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 19,
+   "found": 14,
    "added": 0,
    "note": ""
   },
@@ -216,7 +216,7 @@
    "id": "xcp",
    "name": "Pune Police Commissioner on X",
    "ok": true,
-   "found": 3,
+   "found": 8,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 5,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -232,7 +232,7 @@
    "id": "xprp",
    "name": "Pune Rural Police on X",
    "ok": true,
-   "found": 4,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -240,7 +240,7 @@
    "id": "xtrf",
    "name": "Pune Traffic Police on X",
    "ok": true,
-   "found": 3,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -304,7 +304,7 @@
    "id": "xabp",
    "name": "ABP Majha on X",
    "ok": true,
-   "found": 2,
+   "found": 6,
    "added": 0,
    "note": ""
   },

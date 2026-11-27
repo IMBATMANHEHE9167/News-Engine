@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T08:30:13.912Z",
+ "updated": "2026-11-27T08:54:49.477Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -63,32 +63,15 @@
   },
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
-   "ok": false,
-   "detail": "3 cases",
-   "bad": [
-    [
-     "Pune Court Attack: पोलिसांची चक्रे वेगाने फिरली अन् आठवा आरोपी सापडला;अंगझडतीत गावठी पिस्तुलाचे रिकामे मॅगझीनही जप्त"
-    ],
-    [
-     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
-     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
-   "ok": false,
-   "detail": "3 cases",
-   "bad": [
-    [
-     "Bopdev Ghat Accident : वडापाव खायचा राहून गेला... अन् मित्र कायमचा सोडून गेला! सिद्धेशचा मित्र राहुल बोरकरने सांगितली अपघातापूर्वीची हृदयद्रावक हकीकत",
-     "Three Trinity College Students Killed, Two Injured in Bopdev Ghat Accident",
-     "🚨 बोपदेव घाट अपघातातील मृत सिद्धेश्वर राजेच्या कुटुंबीयांची आर्त हाक; ‘शासनाकडून साधी विचारपूसही नाही!’ पुण्यातील बोपदेव घाट येथे भरधाव आयशर ट्रकने धडक दिल्याने झालेल्या भीषण अपघातात तीन तरुणांचा मृत्यू झाला. यामध्ये…"
-    ],
-    [
-     "Fatal Bopdev Ghat accident puts roadside bus stop safety under scanner"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out",
@@ -242,14 +225,9 @@
   },
   {
    "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा",
-     "Pune Crime News: आदल्या दिवशी अक्षय चव्हाणच्या घरी रचला कट, मध्यप्रेदशातून ५० हजारांना आणले पिस्तूल; मंदार किवळे हल्ला प्रकरणात मोठा खुलासा"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
@@ -260,7 +238,7 @@
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": true,
-   "detail": "connected: revenge murder of Shubham Chavan in Katraj a year earlier; revenge murder of a young man in Katraj earlier; same_accused murder of Shubham Chavan in 2025",
+   "detail": "connected: revenge murder of Shubham Chavan for which the victim was facing trial; revenge murder of a young man in Katraj earlier; same_accused murder of Shubham Chavan i",
    "bad": []
   },
   {
@@ -283,26 +261,30 @@
   }
  ],
  "detectors": {
-  "split_cases": 1,
-  "judged_same_kept_apart": 9,
-  "date_spread": 29,
-  "waiting_for_judge": 1060,
-  "pairs_judged": 8968,
-  "pairs_judged_same": 5864,
-  "judge_checked_by_expert": 2531,
-  "judge_overturned_by_expert": 1078,
+  "split_cases": 2,
+  "judged_same_kept_apart": 12,
+  "date_spread": 27,
+  "waiting_for_judge": 421,
+  "pairs_judged": 9807,
+  "pairs_judged_same": 6569,
+  "judge_checked_by_expert": 2552,
+  "judge_overturned_by_expert": 1076,
   "non_incident_wording": 5,
-  "area_disagreement": 43,
-  "silent_days": 5,
-  "source_gap_days": 67,
-  "unverified": 76,
-  "ruled_out_by_ai": 381,
+  "area_disagreement": 42,
+  "silent_days": 4,
+  "source_gap_days": 66,
+  "unverified": 8,
+  "ruled_out_by_ai": 393,
   "future_times": 0,
-  "reports": 3632,
-  "cases": 1585
+  "reports": 3658,
+  "cases": 1636
  },
  "examples": {
   "split_cases": [
+   [
+    "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi",
+    "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident"
+   ],
    [
     "Delivery partner held after fatal accident in Pune turns out to be murder",
     "Pedestrian dies in hit-and-run accident in Baner"
@@ -334,15 +316,22 @@
     "Police arrest 61-year-old for sexual assault of two minor sisters"
    ],
    [
-    "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident",
-    "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi"
-   ],
-   [
     "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
     "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
+   ],
+   [
+    "Raksha Bandhan Tragedy: Father, 14-Year-Old Daughter Killed as Truck Runs Over Bike Near Chakan",
+    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
    ]
   ],
   "date_spread": [
+   {
+    "t": "“Why Were You Looking at Me?” Minor Argument Turns Violent in PCMC; Young Man Slashed with Cutter . . A minor argument over a seemingly simple question “Why were you looking at me?” reportedly turned violent in…",
+    "days": [
+     "2026-11-21",
+     "2026-11-25"
+    ]
+   },
    {
     "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
     "days": [
@@ -359,13 +348,6 @@
      "2026-11-15",
      "2026-11-16",
      "2026-11-17"
-    ]
-   },
-   {
-    "t": "Ketan Agarwal Murder Case: Charge-Framing Hearing Adjourned to December 4 Due To Court Staff Strike",
-    "days": [
-     "2026-10-24",
-     "2026-10-31"
     ]
    },
    {
@@ -394,20 +376,18 @@
     ]
    },
    {
-    "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
-    "days": [
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-02",
-     "2026-11-04"
-    ]
-   },
-   {
     "t": "Pune: Four Suffer Burns After Man Throws Acid-Like Liquid at Friend’s Family in Yerawada",
     "days": [
      "2026-07-05",
      "2026-07-06",
      "2026-11-06"
+    ]
+   },
+   {
+    "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
+    "days": [
+     "2026-10-29",
+     "2026-11-07"
     ]
    }
   ],
@@ -472,38 +452,33 @@
     "usual": 7
    },
    {
-    "day": "2026-08-26",
-    "incidents": 2,
-    "usual": 8
-   },
-   {
     "day": "2026-09-27",
     "incidents": 1,
     "usual": 7
    },
    {
     "day": "2026-10-25",
-    "incidents": 1,
+    "incidents": 2,
     "usual": 8
    }
   ],
   "source_gaps": [
    {
-    "source": "pkn",
-    "days": 25,
+    "source": "pud",
+    "days": 1,
     "examples": [
-     "2026-10-11",
-     "2026-10-25",
-     "2026-10-28",
-     "2026-11-01",
-     "2026-11-20",
      "2026-11-22"
     ]
    },
    {
-    "source": "pud",
-    "days": 1,
+    "source": "pkn",
+    "days": 24,
     "examples": [
+     "2026-10-09",
+     "2026-10-11",
+     "2026-10-25",
+     "2026-11-01",
+     "2026-11-20",
      "2026-11-22"
     ]
    },
@@ -572,5 +547,5 @@
   ],
   "future_times": []
  },
- "passed": 40
+ "passed": 43
 }
