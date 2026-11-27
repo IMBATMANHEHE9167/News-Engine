@@ -1,15 +1,12 @@
 {
- "scanned": "2026-11-27T06:45:21.479Z",
+ "scanned": "2026-11-27T07:00:30.391Z",
  "every": 15,
- "sources_ok": 31,
+ "sources_ok": 34,
  "sources_failed": [
   "ie",
-  "lks",
-  "xpcc",
-  "xpcp",
-  "xpmp"
+  "lks"
  ],
- "reports": 346,
- "situations": 177,
- "new": 0
+ "reports": 347,
+ "situations": 178,
+ "new": 1
 }
