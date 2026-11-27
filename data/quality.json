@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T12:39:58.879Z",
+ "updated": "2026-11-27T13:41:17.922Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 2,
-  "judged_same_kept_apart": 13,
-  "date_spread": 28,
-  "waiting_for_judge": 1,
-  "pairs_judged": 10945,
-  "pairs_judged_same": 7313,
-  "judge_checked_by_expert": 2798,
-  "judge_overturned_by_expert": 1098,
+  "judged_same_kept_apart": 8,
+  "date_spread": 27,
+  "waiting_for_judge": 2,
+  "pairs_judged": 11193,
+  "pairs_judged_same": 7508,
+  "judge_checked_by_expert": 2848,
+  "judge_overturned_by_expert": 1102,
   "non_incident_wording": 6,
-  "area_disagreement": 43,
-  "silent_days": 2,
+  "area_disagreement": 42,
+  "silent_days": 3,
   "source_gap_days": 64,
-  "unverified": 5,
-  "ruled_out_by_ai": 442,
+  "unverified": 3,
+  "ruled_out_by_ai": 446,
   "future_times": 0,
-  "reports": 3778,
-  "cases": 1682
+  "reports": 3793,
+  "cases": 1690
  },
  "examples": {
   "split_cases": [
@@ -310,24 +310,24 @@
     "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
    ],
    [
-    "Youth Dies After Assault Linked to Anna Bhau Sathe Jayanti Dispute; 10 Detained, Including Five Minors",
-    "Two Arrested, Two Juveniles Detained in Pune Murder Case; Hunt On for Remaining Suspects"
-   ],
-   [
-    "Youth Dies After Assault Linked to Anna Bhau Sathe Jayanti Dispute; 10 Detained, Including Five Minors",
-    "Two Arrested, Two Juveniles Detained in Pune Murder Case; Hunt On for Remaining Suspects"
-   ],
-   [
-    "Turkish and Chinese-made pistols seized in Pune extortion case",
-    "Mother Sentenced to Double Life Imprisonment for Murdering Two Young Children in Pune"
-   ],
-   [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
+   ],
+   [
+    "Police arrest 61-year-old for sexual assault of two minor sisters",
+    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
+   ],
+   [
+    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
+    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
+   ],
+   [
+    "Truck Bike Accident : रक्षाबंधनासाठी निघालेल्या कुटुंबावर काळाचा घाला! ट्रक-दुचाकीच्या अपघातात वडील-मुलीचा मृत्यू; आई गंभीर",
+    "Four killed in separate road accidents in Pimpri Chinchwad | Pune News - The Times of India"
    ]
   ],
   "date_spread": [
@@ -431,22 +431,27 @@
     "reading": "Bhor"
    },
    {
-    "t": "Lohagad Murder Probe: Police Take Siya Goyal to Pune Spot Where Murder Was Allegedly Rehearsed",
+    "t": "Ketan Agarwal Killed Case : लुल्लानगर कॅफेत नेऊन चौकशी; तपासात महत्त्वाचे धागेदोरे शोधण्याचा पोलिसांचा प्रयत्न",
     "case_area": "Lonavala / Maval",
     "reading": "Wanowrie"
    },
    {
-    "t": "Pune Rural Police Take Sia Goyal to Site Near Lullanagar Where Lohagad Murder Plot Was Allegedly Rehearsed",
+    "t": "Chetan practised by pretending to push Siya Goyal: Inside the rehearsal before Ketan Agarwal's Lohagad Fort murder",
     "case_area": "Lonavala / Maval",
     "reading": "Wanowrie"
    },
    {
-    "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
-    "case_area": "Old city peths",
-    "reading": "Chikhali / Moshi"
+    "t": "‘I Didn’t Meet Siya’: Accused’s Father Speaks After Police Search at Pune Home",
+    "case_area": "Lonavala / Maval",
+    "reading": "Market Yard"
    }
   ],
   "silent_days": [
+   {
+    "day": "2026-07-06",
+    "incidents": 1,
+    "usual": 7
+   },
    {
     "day": "2026-07-22",
     "incidents": 1,
@@ -459,6 +464,26 @@
    }
   ],
   "source_gaps": [
+   {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "ptm",
+    "days": 15,
+    "examples": [
+     "2026-07-25",
+     "2026-08-15",
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10"
+    ]
+   },
    {
     "source": "skl",
     "days": 7,
@@ -493,14 +518,6 @@
     ]
    },
    {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "pud",
     "days": 1,
     "examples": [
@@ -526,18 +543,6 @@
      "2026-10-21",
      "2026-11-11",
      "2026-11-12"
-    ]
-   },
-   {
-    "source": "ptm",
-    "days": 15,
-    "examples": [
-     "2026-07-25",
-     "2026-08-15",
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10"
     ]
    }
   ],
