@@ -1,5 +1,5 @@
 {
- "scanned": "2026-11-27T17:30:24.605Z",
+ "scanned": "2026-11-27T17:45:22.124Z",
  "every": 15,
  "sources_ok": 29,
  "sources_failed": [
@@ -7,9 +7,9 @@
   "lks",
   "ppl",
   "ptm",
-  "xmet",
-  "xpcp",
-  "xppl"
+  "xie",
+  "xppl",
+  "xtv9"
  ],
  "reports": 380,
  "situations": 188,
