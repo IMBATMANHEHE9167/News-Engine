@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-28T03:23:10.265Z",
- "total": 4015,
- "added": 17,
- "removed": 1,
+ "updated": "2026-11-28T04:22:41.335Z",
+ "total": 4033,
+ "added": 18,
+ "removed": 0,
  "rules": 11,
  "history": {
   "reachedBack": "2026-05-18",
@@ -47,17 +47,17 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 22,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
    "found": 6,
-   "added": 2,
+   "added": 0,
    "note": ""
   },
   {
@@ -65,7 +65,7 @@
    "name": "Times of India",
    "ok": true,
    "found": 4,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
@@ -135,25 +135,25 @@
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 6,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
    "name": "Pudhari",
    "ok": true,
    "found": 5,
-   "added": 0,
+   "added": 1,
    "note": ""
   },
   {
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 6,
+   "added": 1,
    "note": ""
   },
   {
@@ -178,13 +178,13 @@
    "ok": false,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": "HTTP 500"
   },
   {
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 2,
+   "found": 15,
    "added": 0,
    "note": ""
   },
@@ -192,7 +192,7 @@
    "id": "xie",
    "name": "Express Pune on X",
    "ok": true,
-   "found": 5,
+   "found": 10,
    "added": 0,
    "note": ""
   },
@@ -208,7 +208,7 @@
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 19,
+   "found": 14,
    "added": 0,
    "note": ""
   },
@@ -216,7 +216,7 @@
    "id": "xcp",
    "name": "Pune Police Commissioner on X",
    "ok": true,
-   "found": 2,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 5,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -232,7 +232,7 @@
    "id": "xprp",
    "name": "Pune Rural Police on X",
    "ok": true,
-   "found": 4,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -240,7 +240,7 @@
    "id": "xtrf",
    "name": "Pune Traffic Police on X",
    "ok": true,
-   "found": 3,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -295,10 +295,10 @@
   {
    "id": "xlks",
    "name": "Loksatta on X",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xabp",

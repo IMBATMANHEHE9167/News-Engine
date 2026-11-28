@@ -2,7 +2,7 @@
  "day": "2026-11-27",
  "used": {
   "gemini-3.5-flash-lite": 415,
-  "gemini-3.1-flash-lite": 326,
+  "gemini-3.1-flash-lite": 336,
   "gemini-3.6-flash": 20,
   "gemini-3-flash-preview": 19,
   "gemini-3.5-flash": 3,
@@ -18,11 +18,11 @@
   "gemini-3.8-flash": true,
   "gemini-3-flash-preview": true,
   "gemini-flash-latest": true,
-  "gemini-3.7-flash": true
+  "gemini-3.7-flash": true,
+  "gemini-3.1-flash-lite": true,
+  "gemini-3.1-flash-lite-preview": true
  },
  "errors": [
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.1-flash-lite-preview: The read operation timed out",
   "gemini-3.1-flash-lite: The read operation timed out",
   "gemini-3.7-flash: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
@@ -32,7 +32,9 @@
   "gemini-flash-latest: daily limit after 0 requests",
   "gemini-3.7-flash: daily limit after 2 requests",
   "gemini-3.1-flash-lite-preview: The read operation timed out",
-  "gemini-3.1-flash-lite-preview: The read operation timed out"
+  "gemini-3.1-flash-lite-preview: The read operation timed out",
+  "gemini-3.1-flash-lite: daily limit after 336 requests",
+  "gemini-3.1-flash-lite-preview: daily limit after 84 requests"
  ],
  "models": {
   "readers": [
@@ -51,26 +53,28 @@
   ]
  },
  "caps": {
-  "gemini-3.5-flash-lite": 415
+  "gemini-3.5-flash-lite": 415,
+  "gemini-3.1-flash-lite": 336,
+  "gemini-3.1-flash-lite-preview": 84
  },
  "rest_fix": 1,
  "caps_fix": 1,
- "triaged": 5121,
+ "triaged": 5373,
  "lx_reset": 1,
  "xx_day": "2026-11-27",
  "last_run": {
-  "busy": 0,
-  "stop": "no model left today (allowance used or retired)"
+  "busy": 1,
+  "stop": "this run's share of the day's allowance used"
  },
  "read": 4012,
  "older": 3,
- "unread": 0,
+ "unread": 18,
  "second": 0,
  "expert": 12,
  "not_incident": 537,
- "updated": "2026-11-28T03:23:07.280Z",
+ "updated": "2026-11-28T04:22:39.545Z",
  "judged": 128,
  "audited": 2947,
  "overturned": 1102,
- "waiting": 0
+ "waiting": 88
 }
