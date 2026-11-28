@@ -279,8 +279,10 @@ class Session:
             self.state = {}
         today = pacific_day()
         if self.state.get('day') != today:
-            self.state = dict(day=today, used={}, rested={}, errors=[], models=self.state.get('models', {}),
-                              caps=self.state.get('caps', {}))
+            # A new day clears only the day's counts. Everything else is kept: 26-28 Nov 2026 the new day dropped the
+            # one-time markers below, so they ran again every day and wiped the learned limits; the pacing then planned
+            # on 500 a model (27 Nov: allowance spent by 03:54 IST) or 20 (28 Nov: 4 requests a run).
+            self.state = dict(self.state, day=today, used={}, rested={}, errors=[])
         self.state.setdefault('caps', {})
         if not self.state.get('rest_fix'):          # once (26 Nov 2026): models rested by a per-minute 429 are tried again;
             self.state['rested'] = {}               # one truly at its daily limit is rested again by its first answer
@@ -289,6 +291,12 @@ class Session:
             self.state['caps'] = {}
             self.state['rested'] = {}               # (the rests then were judged on a cut reply too)
             self.state['caps_fix'] = 1
+        if not self.state.get('caps_seed'):         # once (28 Nov 2026): the limits seen on 27 Nov, wiped by the bug above
+            for m, n in {'gemini-3.5-flash-lite': 415, 'gemini-3.1-flash-lite': 336, 'gemini-3.1-flash-lite-preview': 84,
+                         'gemini-flash-lite-latest': 10, 'gemini-3.5-flash': 3, 'gemini-3.7-flash': 2, 'gemini-3.8-flash': 1,
+                         'gemini-3.6-flash': 20, 'gemini-3-flash-preview': 19, 'gemini-flash-latest': 0}.items():
+                self.state['caps'].setdefault(m, n)
+            self.state['caps_seed'] = 1
         self.busy = {}          # "busy" answers per model this run
         self.cool = {}          # a busy model rests until this time, then is tried again (it is not out for the run)
         self.stop = None        # why reading stopped early, kept in llmstate so a slow run explains itself
