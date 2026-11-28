@@ -306,7 +306,10 @@ class Session:
         self.state['errors'] = (self.state.get('errors', []) + [str(msg)[:160]])[-12:]
 
     def limit(self, model, role):
-        return min(CFG['rpd'][role], self.state['caps'].get(model, CFG['rpd'][role]))
+        # A model whose daily limit is not learned yet counts for little in the pacing (rpd_new), never the nominal
+        # rpd: 27 Nov 2026 four added models were counted at 500 a day each, gave 1-10, and the pacing, planning on
+        # ~3,500 requests for ~900, spent the day's allowance by 03:54 IST; news then waited until the 13:30 reset.
+        return min(CFG['rpd'][role], self.state['caps'].get(model, CFG.get('rpd_new', {}).get(role, 20)))
 
     def pace(self, role):
         """How many requests of this role this run may make: its share of what is left today, per hour to the reset."""
@@ -357,8 +360,8 @@ class Session:
             self.retry = True
             if isinstance(e, Gone):
                 self.error('%s: not available, rested for today' % model)
-            elif self.state['used'].get(model, 0) >= 20:          # learned: this model's real daily limit
-                self.state['caps'][model] = self.state['used'][model]
+            else:                                   # learned: this model's real daily limit, however small (a limit
+                self.state['caps'][model] = self.state['used'].get(model, 0)    # under 20 was never kept before)
             self.error('%s: daily limit after %d requests' % (model, self.state['used'].get(model, 0)))
         except Busy:
             n = self.busy[model] = self.busy.get(model, 0) + 1
