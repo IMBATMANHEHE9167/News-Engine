@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T10:26:29.462Z",
+ "updated": "2026-11-28T11:29:31.354Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -69,9 +69,13 @@
   },
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Pune: Three College Students Dead After Truck Rams Into Group At Bopdev Ghat"
+    ]
+   ]
   },
   {
    "name": "Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case",
@@ -269,21 +273,21 @@
  "detectors": {
   "split_cases": 3,
   "judged_same_kept_apart": 22,
-  "date_spread": 31,
-  "waiting_for_judge": 0,
-  "pairs_judged": 12056,
-  "pairs_judged_same": 8147,
-  "judge_checked_by_expert": 3247,
-  "judge_overturned_by_expert": 1181,
+  "date_spread": 30,
+  "waiting_for_judge": 5,
+  "pairs_judged": 12099,
+  "pairs_judged_same": 8182,
+  "judge_checked_by_expert": 3322,
+  "judge_overturned_by_expert": 1211,
   "non_incident_wording": 6,
   "area_disagreement": 44,
   "silent_days": 2,
-  "source_gap_days": 59,
+  "source_gap_days": 58,
   "unverified": 0,
-  "ruled_out_by_ai": 563,
+  "ruled_out_by_ai": 566,
   "future_times": 0,
-  "reports": 4098,
-  "cases": 1777
+  "reports": 4111,
+  "cases": 1775
  },
  "examples": {
   "split_cases": [
@@ -307,7 +311,7 @@
    ],
    [
     "Fatal Bopdev Ghat accident puts roadside bus stop safety under scanner",
-    "Three engineering students killed, two critical as tempo ploughs into them at bus stop in Pune"
+    "Pune: Three College Students Dead After Truck Rams Into Group At Bopdev Ghat"
    ],
    [
     "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
@@ -318,8 +322,8 @@
     "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
    ],
    [
-    "Pune Crime : कारागृहातूनही आंदेकर टोळी सक्रिय; पुणे पोलिस आयुक्तांचे कारागृह प्रशासनाला कडक निर्बंधांचे पत्र",
-    "Five held, minor detained for attack on Vanraj murder suspect’s brother"
+    "Fatal Bopdev Ghat accident puts roadside bus stop safety under scanner",
+    "Pune: Three College Students Dead After Truck Rams Into Group At Bopdev Ghat"
    ],
    [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
@@ -463,25 +467,6 @@
   ],
   "source_gaps": [
    {
-    "source": "ptm",
-    "days": 15,
-    "examples": [
-     "2026-07-25",
-     "2026-08-15",
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10"
-    ]
-   },
-   {
-    "source": "pud",
-    "days": 1,
-    "examples": [
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "skl",
     "days": 5,
     "examples": [
@@ -501,6 +486,25 @@
      "2026-08-23",
      "2026-11-01",
      "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "ptm",
+    "days": 14,
+    "examples": [
+     "2026-07-18",
+     "2026-07-25",
+     "2026-08-15",
+     "2026-08-16",
+     "2026-09-07",
+     "2026-10-10"
+    ]
+   },
+   {
+    "source": "pud",
+    "days": 1,
+    "examples": [
      "2026-11-22"
     ]
    },
@@ -552,5 +556,5 @@
   ],
   "future_times": []
  },
- "passed": 44
+ "passed": 43
 }
