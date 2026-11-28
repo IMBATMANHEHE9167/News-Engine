@@ -2,11 +2,11 @@
  "day": "2026-11-27",
  "used": {
   "gemini-3.5-flash-lite": 415,
-  "gemini-3.1-flash-lite": 288,
+  "gemini-3.1-flash-lite": 296,
   "gemini-3.6-flash": 20,
   "gemini-3-flash-preview": 19,
   "gemini-3.5-flash": 3,
-  "gemini-3.1-flash-lite-preview": 72,
+  "gemini-3.1-flash-lite-preview": 80,
   "gemini-flash-lite-latest": 10,
   "gemini-3.8-flash": 1,
   "gemini-3.7-flash": 2
@@ -17,12 +17,10 @@
   "gemini-3.5-flash": true,
   "gemini-3.8-flash": true,
   "gemini-3-flash-preview": true,
-  "gemini-flash-latest": true
+  "gemini-flash-latest": true,
+  "gemini-3.7-flash": true
  },
  "errors": [
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3.8-flash: The read operation timed out",
-  "gemini-3.8-flash: daily limit after 1 requests",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3.1-flash-lite-preview: The read operation timed out",
   "gemini-3.1-flash-lite: The read operation timed out",
@@ -31,7 +29,10 @@
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
   "gemini-3-flash-preview: daily limit after 19 requests",
-  "gemini-flash-latest: daily limit after 0 requests"
+  "gemini-flash-latest: daily limit after 0 requests",
+  "gemini-3.7-flash: daily limit after 2 requests",
+  "gemini-3.1-flash-lite-preview: The read operation timed out",
+  "gemini-3.1-flash-lite-preview: The read operation timed out"
  ],
  "models": {
   "readers": [
@@ -54,22 +55,22 @@
  },
  "rest_fix": 1,
  "caps_fix": 1,
- "triaged": 4495,
+ "triaged": 4620,
  "lx_reset": 1,
  "xx_day": "2026-11-27",
  "last_run": {
-  "busy": 0,
+  "busy": 2,
   "stop": "no model left today (allowance used or retired)"
  },
- "read": 3968,
+ "read": 3982,
  "older": 3,
  "unread": 0,
- "second": 2,
+ "second": 1,
  "expert": 10,
- "not_incident": 524,
- "updated": "2026-11-28T00:23:57.440Z",
- "judged": 124,
+ "not_incident": 527,
+ "updated": "2026-11-28T01:32:27.900Z",
+ "judged": 125,
  "audited": 2947,
  "overturned": 1102,
- "waiting": 1
+ "waiting": 0
 }
