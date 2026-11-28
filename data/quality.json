@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T02:23:00.330Z",
+ "updated": "2026-11-28T03:24:58.845Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -269,10 +269,10 @@
  "detectors": {
   "split_cases": 3,
   "judged_same_kept_apart": 17,
-  "date_spread": 29,
+  "date_spread": 30,
   "waiting_for_judge": 0,
-  "pairs_judged": 11634,
-  "pairs_judged_same": 7714,
+  "pairs_judged": 11643,
+  "pairs_judged_same": 7720,
   "judge_checked_by_expert": 2947,
   "judge_overturned_by_expert": 1102,
   "non_incident_wording": 6,
@@ -280,10 +280,10 @@
   "silent_days": 2,
   "source_gap_days": 59,
   "unverified": 12,
-  "ruled_out_by_ai": 530,
+  "ruled_out_by_ai": 537,
   "future_times": 0,
-  "reports": 3999,
-  "cases": 1750
+  "reports": 4015,
+  "cases": 1754
  },
  "examples": {
   "split_cases": [
@@ -314,6 +314,10 @@
     "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
    ],
    [
+    "Pune News: 4,427 कोटी रुपये परदेशात पाठवल्याचा आरोप! पुण्यात 2 चार्टर्ड अकाउंटंट्सवर गुन्हा दाखल",
+    "Rs 4 Lakh Paid to Get Tenant Evicted, Flat Still Occupied; Three Booked in Pune"
+   ],
+   [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
@@ -328,10 +332,6 @@
    [
     "Encroachment Inspector Abused, Kicked at Sinhagad Road Ward office; Man Booked",
     "Pune: PMC Encroachment Inspector Assaulted Over Seized Material"
-   ],
-   [
-    "Pune: गुंतवणूक, नोकरीच्या आमिषाने पुण्यात लूट; विश्रामबाग, नऱ्हे आणि खराडीत गुन्हे दाखल; तिघांना ६१ लाखांना गंडा",
-    "Pune Cyber Fraud : पुण्यात सायबर चोरट्यांचा कहर; पोलिस अधिकारी, शेअर बाजार व नोकरीच्या आमिषाने तिघांकडून ६१ लाखांची फसवणूक"
    ]
   ],
   "date_spread": [

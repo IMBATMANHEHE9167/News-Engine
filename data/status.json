@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-28T02:21:34.811Z",
- "total": 3999,
- "added": 14,
- "removed": 0,
+ "updated": "2026-11-28T03:23:10.265Z",
+ "total": 4015,
+ "added": 17,
+ "removed": 1,
  "rules": 11,
  "history": {
   "reachedBack": "2026-05-18",
@@ -56,8 +56,8 @@
    "id": "ht",
    "name": "Hindustan Times",
    "ok": true,
-   "found": 5,
-   "added": 0,
+   "found": 6,
+   "added": 2,
    "note": ""
   },
   {
@@ -129,7 +129,7 @@
    "name": "Dainik Prabhat",
    "ok": true,
    "found": 1,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
@@ -168,7 +168,7 @@
    "id": "xptm",
    "name": "Pune Times Mirror on X",
    "ok": true,
-   "found": 8,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -184,7 +184,7 @@
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 15,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -192,7 +192,7 @@
    "id": "xie",
    "name": "Express Pune on X",
    "ok": true,
-   "found": 12,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -200,7 +200,7 @@
    "id": "xvb",
    "name": "Varad Bhatkhande (FPJ reporter) on X",
    "ok": true,
-   "found": 10,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -216,7 +216,7 @@
    "id": "xcp",
    "name": "Pune Police Commissioner on X",
    "ok": true,
-   "found": 3,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -280,7 +280,7 @@
    "id": "xlkm",
    "name": "Lokmat on X",
    "ok": true,
-   "found": 2,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -288,17 +288,17 @@
    "id": "xskl",
    "name": "Sakal on X",
    "ok": true,
-   "found": 0,
+   "found": 1,
    "added": 0,
    "note": ""
   },
   {
    "id": "xlks",
    "name": "Loksatta on X",
-   "ok": true,
+   "ok": false,
    "found": 0,
    "added": 0,
-   "note": ""
+   "note": "HTTP 404"
   },
   {
    "id": "xabp",
