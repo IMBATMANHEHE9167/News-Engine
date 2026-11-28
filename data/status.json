@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-28T01:32:29.317Z",
- "total": 3985,
+ "updated": "2026-11-28T02:21:34.811Z",
+ "total": 3999,
  "added": 14,
  "removed": 0,
  "rules": 11,
@@ -65,14 +65,14 @@
    "name": "Times of India",
    "ok": true,
    "found": 4,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 1,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -88,7 +88,7 @@
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 2,
+   "found": 0,
    "added": 0,
    "note": ""
   },
@@ -128,8 +128,8 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 6,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -167,10 +167,10 @@
   {
    "id": "xptm",
    "name": "Pune Times Mirror on X",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 8,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xppl",
@@ -178,13 +178,13 @@
    "ok": false,
    "found": 0,
    "added": 0,
-   "note": "HTTP 500"
+   "note": "HTTP 404"
   },
   {
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 2,
+   "found": 15,
    "added": 0,
    "note": ""
   },
@@ -208,7 +208,7 @@
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 34,
+   "found": 19,
    "added": 0,
    "note": ""
   },
@@ -216,7 +216,7 @@
    "id": "xcp",
    "name": "Pune Police Commissioner on X",
    "ok": true,
-   "found": 2,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -232,17 +232,17 @@
    "id": "xprp",
    "name": "Pune Rural Police on X",
    "ok": true,
-   "found": 1,
+   "found": 4,
    "added": 0,
    "note": ""
   },
   {
    "id": "xtrf",
    "name": "Pune Traffic Police on X",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 3,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xmet",
@@ -255,10 +255,10 @@
   {
    "id": "xmt3",
    "name": "Puneri Metro Line 3 on X",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xpmp",
@@ -280,17 +280,17 @@
    "id": "xlkm",
    "name": "Lokmat on X",
    "ok": true,
-   "found": 0,
+   "found": 2,
    "added": 0,
    "note": ""
   },
   {
    "id": "xskl",
    "name": "Sakal on X",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xlks",
@@ -304,17 +304,17 @@
    "id": "xabp",
    "name": "ABP Majha on X",
    "ok": true,
-   "found": 0,
+   "found": 2,
    "added": 0,
    "note": ""
   },
   {
    "id": "xtv9",
    "name": "TV9 Marathi on X",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   }
  ]
 }
