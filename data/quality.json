@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T23:26:45.121Z",
+ "updated": "2026-11-28T00:25:48.478Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -269,21 +269,21 @@
  "detectors": {
   "split_cases": 3,
   "judged_same_kept_apart": 16,
-  "date_spread": 26,
+  "date_spread": 28,
   "waiting_for_judge": 1,
-  "pairs_judged": 11543,
-  "pairs_judged_same": 7674,
+  "pairs_judged": 11592,
+  "pairs_judged_same": 7699,
   "judge_checked_by_expert": 2947,
   "judge_overturned_by_expert": 1102,
   "non_incident_wording": 6,
   "area_disagreement": 44,
-  "silent_days": 3,
+  "silent_days": 2,
   "source_gap_days": 61,
-  "unverified": 8,
-  "ruled_out_by_ai": 517,
+  "unverified": 12,
+  "ruled_out_by_ai": 524,
   "future_times": 0,
-  "reports": 3944,
-  "cases": 1735
+  "reports": 3971,
+  "cases": 1742
  },
  "examples": {
   "split_cases": [
@@ -384,18 +384,18 @@
     ]
    },
    {
+    "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
+    "days": [
+     "2026-09-24",
+     "2026-11-02"
+    ]
+   },
+   {
     "t": "Pune: Four Suffer Burns After Man Throws Acid-Like Liquid at Friend’s Family in Yerawada",
     "days": [
      "2026-07-05",
      "2026-07-06",
      "2026-11-06"
-    ]
-   },
-   {
-    "t": "Pune Drug Racket Busted In Lonikand, Seven Arrested With MD And Country-Made Pistols",
-    "days": [
-     "2026-10-29",
-     "2026-11-07"
     ]
    }
   ],
@@ -459,14 +459,21 @@
     "day": "2026-07-22",
     "incidents": 1,
     "usual": 8
-   },
-   {
-    "day": "2026-09-27",
-    "incidents": 2,
-    "usual": 8
    }
   ],
   "source_gaps": [
+   {
+    "source": "toi",
+    "days": 10,
+    "examples": [
+     "2026-08-16",
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-11",
+     "2026-11-12"
+    ]
+   },
    {
     "source": "skl",
     "days": 6,
@@ -534,18 +541,6 @@
      "2026-11-19",
      "2026-11-21",
      "2026-11-22"
-    ]
-   },
-   {
-    "source": "toi",
-    "days": 10,
-    "examples": [
-     "2026-08-16",
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-11",
-     "2026-11-12"
     ]
    },
    {
