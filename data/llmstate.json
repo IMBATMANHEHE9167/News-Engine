@@ -63,18 +63,18 @@
  "lx_reset": 1,
  "xx_day": "2026-11-27",
  "last_run": {
-  "busy": 1,
-  "stop": "this run's share of the day's allowance used"
+  "busy": 0,
+  "stop": "no model left today (allowance used or retired)"
  },
  "read": 4012,
  "older": 3,
- "unread": 18,
+ "unread": 28,
  "second": 0,
  "expert": 12,
  "not_incident": 537,
- "updated": "2026-11-28T04:22:39.545Z",
+ "updated": "2026-11-28T05:21:40.094Z",
  "judged": 128,
  "audited": 2947,
  "overturned": 1102,
- "waiting": 88
+ "waiting": 467
 }
