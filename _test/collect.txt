@@ -1,0 +1,46 @@
+[0;93m2026-11-28 08:39:03.275356588 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+ie   ERR found=0 new=0 HTTP 403
+ht   ok  found=6 new=0 
+toi  ok  found=4 new=0 
+ptm  ok  found=1 new=0 
+pkn  ok  found=6 new=0 
+ppl  ok  found=1 new=0 
+pcl  ok  found=1 new=0 
+fpj  ok  found=2 new=0 
+tv9  ok  found=14 new=0 
+abp  ok  found=5 new=0 
+prb  ok  found=1 new=0 
+lks  ERR found=0 new=0 HTTP 403
+pud  ok  found=5 new=0 
+lkm  ok  found=4 new=0 
+skl  ok  found=16 new=0 
+xptm ok  found=22 new=0 
+xppl ERR found=0 new=0 HTTP 404
+xpkn ERR found=0 new=0 HTTP 404
+xie  ok  found=7 new=0 
+xvb  ok  found=5 new=0 
+xpcp ok  found=14 new=0 
+xcp  ok  found=3 new=0 
+xpcc ok  found=5 new=0 
+xprp ok  found=4 new=0 
+xtrf ok  found=0 new=0 
+xmet ok  found=0 new=0 
+xmt3 ok  found=0 new=0 
+xpmp ok  found=0 new=0 
+xpmc ok  found=0 new=0 
+xlkm ok  found=2 new=0 
+xskl ok  found=1 new=0 
+xlks ok  found=0 new=0 
+xabp ok  found=1 new=0 
+xtv9 ok  found=0 new=0 
+ai gate: 3 turned away by the words today, 0 asked; history 12945 waiting, 0 asked; 0 let in as incidents
+llm: {"used": {"gemini-3.5-flash-lite": 4, "gemini-3.6-flash": 1, "gemini-3-flash-preview": 6}, "read": 4012, "older": 3, "unread": 46, "second": 0, "expert": 1, "not_incident": 542, "note": "no GEMINI_API_KEY secret: the LLM layer is off"}
+meaning fingerprints: on
+cases: 1798 from 3519 reports; 11639 pairs judged, 773 waiting for the judge
+total=4061 new=0 removed=0 incidents=1798
+organised crime: 787 tagged reports, andekar 230, bishnoi 87, ghaywal 72, mohol 56, marne 50, pathan 24, other 19, thombre 11, koyta 265
+analytics: city 7 problems, 0 surges, 2 series, 1 timing, 5 places
+quality: 42/44 tests pass; {"split_cases": 3, "judged_same_kept_apart": 17, "date_spread": 30, "waiting_for_judge": 773, "pairs_judged": 11639, "pairs_judged_same": 7716, "judge_checked_by_expert": 2947, "judge_overturned_by_expert": 1102, "non_incident_wording": 6, "area_disagreement": 44, "silent_days": 2, "source_gap_days": 59, "unverified": 47, "ruled_out_by_ai": 542, "future_times": 0, "reports": 4061, "cases": 1756}
+  FAIL Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case: 3 cases [["Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असलेल्या आणखी तिघांना अटक; आरोपींची संख्या आकारावर"], ["पुण्याच्या शिवाजीनगर कोर्टाबाहेरील हल्ला प्रकरणात आणखी तीन आरोपींना पोलिसांनी केली अटक"]]
+  FAIL Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case: 2 cases [["Two held on charge of raping woman at Kondhwa lodge"]]
+exit 0

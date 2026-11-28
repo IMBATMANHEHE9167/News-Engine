@@ -1,0 +1,453 @@
+compile ok
+[0;93m2026-11-28 08:35:31.541311372 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+reports 4061, judged 3519, ruled out by AI 542, unverified 47 (second 0, expert 1, unread 46)
+cases 1798 (counted 1625, unverified 42, developments only 133); pairs for the judge 773; build 2.1s
+before: 1798 incidents (1665 counted)
+quality: 42/44 tests pass; {"split_cases": 3, "judged_same_kept_apart": 17, "date_spread": 30, "waiting_for_judge": 773, "pairs_judged": 11639, "pairs_judged_same": 7716, "judge_checked_by_expert": 2947, "judge_overturned_by_expert": 1102, "non_incident_wording": 6, "area_disagreement": 44, "silent_days": 2, "source_gap_days": 59, "unverified": 47, "ruled_out_by_ai": 542, "future_times": 0, "reports": 4061, "cases": 1756}
+  FAIL Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case: 3 cases [["Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असलेल्या आणखी तिघांना अटक; आरोपींची संख्या आकारावर"], ["पुण्याच्या शिवाजीनगर कोर्टाबाहेरील हल्ला प्रकरणात आणखी तीन आरोपींना पोलिसांनी केली अटक"]]
+  FAIL Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case: 2 cases [["Two held on charge of raping woman at Kondhwa lodge"]]
+{
+ "updated": "2026-11-28T08:36:42.266Z",
+ "tests": [
+  {
+   "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Jambhulwadi multi-vehicle crash (near Katraj) is placed in the city, not Ambegaon taluka",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Talegaon Dhamdhere (Shirur taluka) is Pune Rural, not Talegaon Dabhade",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Drunk policeman molesting a woman (Chaturshringi, Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Talegaon woman booked under POCSO (Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "DIAT student who chose DRDO over a Rs 32 lakh job is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Ketan Agarwal murder (Lohagad Fort) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Kusgaon Budruk wife murder is not part of the Ketan Agarwal case",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "NDA: each shooting is one case (the expert judged the 11 Sep injury and the death reported on 17 Sep to be two incidents: \"second incident involving personnel in 10 days\")",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Trainee PSI dowry harassment is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
+   "ok": false,
+   "detail": "3 cases",
+   "bad": [
+    [
+     "Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असलेल्या आणखी तिघांना अटक; आरोपींची संख्या आकारावर"
+    ],
+    [
+     "पुण्याच्या शिवाजीनगर कोर्टाबाहेरील हल्ला प्रकरणात आणखी तीन आरोपींना पोलिसांनी केली अटक"
+    ]
+   ]
+  },
+  {
+   "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case",
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Two held on charge of raping woman at Kondhwa lodge"
+    ]
+   ]
+  },
+  {
+   "name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out",
+   "ok": true,
+   "detail": "counted",
+   "bad": []
+  },
+  {
+   "name": "Trainee PSI dowry harassment is a crime against women",
+   "ok": true,
+   "detail": "right type",
+   "bad": []
+  },
+  {
+   "name": "Kasba Ganpati temple donation-box theft is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Karegaon water-filter plant worker shot in place of his employer (29 Sep 2026) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Ranjangaon koyta attack over a stare (18 Sep 2026) is not the Karegaon shooting",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "Ranjangaon koyta attack whose victim died later is a murder",
+   "ok": true,
+   "detail": "right type",
+   "bad": []
+  },
+  {
+   "name": "PMRDA notice on the POCSO court building is not an incident",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  },
+  {
+   "name": "Kho-kho player's suicide is not a crime against women",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  },
+  {
+   "name": "ITI student stabbed at Gonwadi (Ambegaon taluka, Ghodegaon police; corrected 19 Nov 2026) is in Pune Rural",
+   "ok": true,
+   "detail": "right part of the district",
+   "bad": []
+  },
+  {
+   "name": "Special NDPS court set up is not an incident",
+   "ok": true,
+   "detail": "not counted",
+   "bad": []
+  },
+  {
+   "name": "Digital-arrest victim made to show his bedridden wife is one case (Indian Express, TOI)",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Digital-arrest victim threatened with murder: no one died",
+   "ok": true,
+   "detail": "no death marked",
+   "bad": []
+  },
+  {
+   "name": "Shiv Sena (UBT) leader Rekha Konde assault is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Rekha Konde assault is kept apart from the Bharati Vidyapeeth pistol arrest and a murder accused (TOI's \"two women assault each other on Tilak Road\" is the same scuffle, judged twice by the expert)",
+   "ok": true,
+   "detail": "kept apart",
+   "bad": []
+  },
+  {
+   "name": "Rekha Konde assault: no one died",
+   "ok": true,
+   "detail": "no death marked",
+   "bad": []
+  },
+  {
+   "name": "Shots fired at a businessman's SUV in Baramati is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "21-year-old posing as an IAS officer (Rs 35 lakh society fraud) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "MLC Prajakt Tanpure's Vimannagar flat burglary is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Rs 10 lakh extortion bid on a coaching institute official is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Wanowrie Rs 1.38 crore investment fraud by three people is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "MCOCA on the gang that fired at a dahi handi is under Organised crime",
+   "ok": true,
+   "detail": "listed",
+   "bad": []
+  },
+  {
+   "name": "Pune auto-rickshaw strike from 23 Nov (sit-in outside Pune RTO) is placed on the map",
+   "ok": true,
+   "detail": "placed",
+   "bad": []
+  },
+  {
+   "name": "GRP constable attacked at Pune railway station (knife or sickle, per paper) is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Narayangaon tamasha centre firing and the arrest of its main suspect are one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Ketan Agarwal murder (Lohagad Fort) is counted as an incident, though every report is a later development",
+   "ok": true,
+   "detail": "counted",
+   "bad": []
+  },
+  {
+   "name": "Pune court attack on Mandar Kivale (Nov 2026): every report, on X or in print, is one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Court attack: the Shubham Chavan revenge story, the lawyers' account (ABP) and the Shivajinagar court firing report are one case (founder, 25 Nov 2026)",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
+   "ok": true,
+   "detail": "connected: feud murder of a man in 2025; revenge murder of Shubham Chavan over a land dispute; same_accused murder case of Shubham Chavan in 2025 in which the victim was r",
+   "bad": []
+  },
+  {
+   "name": "Jejuri couple killed by an MSRTC bus (Nov 2026): the X post and the paper are one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Katraj LPG cylinder fire (Nov 2026): the X post and the paper are one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  },
+  {
+   "name": "Worker assaulted with a wooden tool over fruit-cart waste: an outlet's X post and its article are one case",
+   "ok": true,
+   "detail": "one case",
+   "bad": []
+  }
+ ],
+ "detectors": {
+  "split_cases": 3,
+  "judged_same_kept_apart": 17,
+  "date_spread": 30,
+  "waiting_for_judge": 773,
+  "pairs_judged": 11639,
+  "pairs_judged_same": 7716,
+  "judge_checked_by_expert": 2947,
+  "judge_overturned_by_expert": 1102,
+  "non_incident_wording": 6,
+  "area_disagreement": 44,
+  "silent_days": 2,
+  "source_gap_days": 59,
+  "unverified": 47,
+  "ruled_out_by_ai": 542,
+  "future_times": 0,
+  "reports": 4061,
+  "cases": 1756
+ },
+ "examples": {
+  "split_cases": [
+   [
+    "Senior citizen loses ₹32 lakh in digital arrest fraud",
+    "Pune Crime : बालेवाडीत कौटुंबिक वादातून सुनेला १० महिला बाउन्सर्सच्या मदतीने बेदम मारहाण"
+   ],
+   [
+    "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi",
+    "Pune: 25-Year-Old Dies in Balewadi-Mahalunge Road Crash; Mud, Dark Stretch Blamed for Accident"
+   ],
+   [
+    "Delivery partner held after fatal accident in Pune turns out to be murder",
+    "Pedestrian dies in hit-and-run accident in Baner"
+   ]
+  ],
+  "judged_same_kept_apart": [
+   [
+    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
+    "Police arrest 61-year-old for sexual assault of two minor sisters"
+   ],
+   [
+    "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
+    "Pune: CCTV Captures Police Van Ploughing Into Parked Vehicles in Sadashiv Peth"
+   ],
+   [
+    "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh",
+    "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
+   ],
+   [
+    "Pune News: 4,427 कोटी रुपये परदेशात पाठवल्याचा आरोप! पुण्यात 2 चार्टर्ड अकाउंटंट्सवर गुन्हा दाखल",
+    "Rs 4 Lakh Paid to Get Tenant Evicted, Flat Still Occupied; Three Booked in Pune"
+   ],
+   [
+    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
+    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
+   ],
+   [
+    "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
+    "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
+   ],
+   [
+    "Encroachment Inspector Abused, Kicked at Sinhagad Road Ward office; Man Booked",
+    "Pune: PMC Encroachment Inspector Assaulted Over Seized Material"
+   ],
+   [
+    "Encroachment Inspector Abused, Kicked at Sinhagad Road Ward office; Man Booked",
+    "Pune: PMC Encroachment Inspector Assaulted Over Seized Material"
+   ]
+  ],
+  "date_spread": [
+   {
+    "t": "“Why Were You Looking at Me?” Minor Argument Turns Violent in PCMC; Young Man Slashed with Cutter . . A minor argument over a seemingly simple question “Why were you looking at me?” reportedly turned violent in…",
+    "days": [
+     "2026-11-21",
+     "2026-11-25"
+    ]
+   },
+   {
+    "t": "Three killed as car crosses divider, rams stationary truck in Wagholi",
+    "days": [
+     "2026-09-05",
+     "2026-10-11",
+     "2026-11-23"
+    ]
+   },
+   {
+    "t": "Man killed over alleged molestation dispute; two held",
+    "days": [
+     "2026-07-02",
+     "2026-11-15",
+     "2026-11-16",
+     "2026-11-17"
+    ]
+   },
+   {
+    "t": "Moshi Woman and 9-Month-Old Baby Missing; Husband Files Kidnapping Complaint",
+    "days": [
+     "2026-08-09",
+     "2026-08-11",
+     "2026-11-15"
+    ]
+   },
+   {
+    "t": "Senior citizen loses ₹32 lakh in digital arrest fraud",
+    "days": [
+     "2026-10-06",
+     "2026-11-06"
+    ]
+   },
+   {
+    "t": "Two daily wage workers killed as bike hits parked container truck near Chandni Chowk in Pune",
+    "days": [
+     "2026-10-20",
+     "2026-10-31",
+     "2026-11-01",
+     "2026-11-09"
+    ]
+   },
+   {
+    "t": "Payal Zambare Dowry Death Case: Husband, In-Laws Remanded to Judicial Custody",
+    "days": [
+     "2026-09-24",
+     "2026-11-02"
+    ]
+   },
+   {
+    "t": "Pune: Four Suffer Burns After Man Throws Acid-Like Liquid at Friend’s Family in Yerawada",
+    "days": [
+     "2026-07-05",
+     "2026-07-06",
+     "2026-11-06"
+    ]
+   }
+  ],
+  "non_incident_wording": [
+   "A 71-year-old man was allegedly assaulted over a land ownership dispute in Pimple Gurav on the afternoon of November 22. According to the complaint, the accused laid claim to around five acres of land in Survey No.…",
+   "A 42-year-old worker, Sanjay Dhotre, died after alleged
+sample judge pairs:
+  Court cancels arrest warrants against Shetty, Khot in 2015 vandalism case
+    पुणे शिवाजीनगर कोर्टाबाहेरील गोळीबार व कोयता हल्ला प्रकरण; कटात सहभागी आणखी तिघांना अटक punepolice court crime
+  Court cancels arrest warrants against Shetty, Khot in 2015 vandalism case
+    Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असल
+  Court cancels arrest warrants against Shetty, Khot in 2015 vandalism case
+    Pune Court Attack: पुणे शिवाजीनगर कोर्टाबाहेरील गोळीबार व कोयता हल्ला प्रकरण; कटात सहभागी आणखी तिघांना अटक
+  Pune: Court Fines Nine For Creating Ruckus Inside Courtroom, Halting Proceedings For 10 Minutes
+    Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असल
+  Pune: Court Fines Nine For Creating Ruckus Inside Courtroom, Halting Proceedings For 10 Minutes
+    पुणे शिवाजीनगर कोर्टाबाहेरील गोळीबार व कोयता हल्ला प्रकरण; कटात सहभागी आणखी तिघांना अटक punepolice court crime
+  Nine fined for creating ruckus inside Pune courtroom
+    Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असल
+  Nine fined for creating ruckus inside Pune courtroom
+    पुणे शिवाजीनगर कोर्टाबाहेरील गोळीबार व कोयता हल्ला प्रकरण; कटात सहभागी आणखी तिघांना अटक punepolice court crime
+  Nine fined for creating ruckus inside Pune courtroom
+    Pune Court Attack: पुणे शिवाजीनगर कोर्टाबाहेरील गोळीबार व कोयता हल्ला प्रकरण; कटात सहभागी आणखी तिघांना अटक
+  A fire broke out in a domestic LPG cylinder at a house in Navin Vasahat area of Katraj on Monday evening. Fire
+    Railway Station Fire: दौंड रेल्वे स्थानकातील बंद कॅन्टीनला आग; फलाटापर्यंत अग्निशमन बंब पोहोचण्याचा मार्गच नाह
+  Supriya Sule : पुण्यातील कोर्टाबाहेरील हल्ल्यावर सुप्रिया सुळे संतापल्या; म्हणाल्या…, फडणवीसांनी पुण्याचं पालक
+    Pune Court Attack: पुणे शिवाजीनगर कोर्टाबाहेरील गोळीबार व कोयता हल्ला प्रकरण; कटात सहभागी आणखी तिघांना अटक
+  Supriya Sule : पुण्यातील कोर्टाबाहेरील हल्ल्यावर सुप्रिया सुळे संतापल्या; म्हणाल्या…, फडणवीसांनी पुण्याचं पालक
+    पुणे शिवाजीनगर कोर्टाबाहेरील गोळीबार व कोयता हल्ला प्रकरण; कटात सहभागी आणखी तिघांना अटक punepolice court crime
+  Supriya Sule : पुण्यातील कोर्टाबाहेरील हल्ल्यावर सुप्रिया सुळे संतापल्या; म्हणाल्या…, फडणवीसांनी पुण्याचं पालक
+    Pune Shivajinagar Court Attack: Three More Accused Arrested After Police Chase On Pune-Solapur Highway
+total 75.4s
+
+DIAG Digital arrest. victim made to show: 1 reports
+  axnrzv case=126 pub=2026-11-22 i=2026-10-28 ip=1 c=cyber a=aundh k=None o=None vn=0 an=0 Lo=None | ‘Digital arrest’ victim made to show bedridden wife, threatened with m
+      with 1pv0po6 2026-11-22 cyber | Retired state govt officer cheated of Rs 5 lakh in fake terror activities case
