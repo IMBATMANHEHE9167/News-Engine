@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T08:26:22.424Z",
+ "updated": "2026-11-28T08:34:22.756Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -64,11 +64,8 @@
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
    "ok": false,
-   "detail": "3 cases",
+   "detail": "2 cases",
    "bad": [
-    [
-     "Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असलेल्या आणखी तिघांना अटक; आरोपींची संख्या आकारावर"
-    ],
     [
      "पुण्याच्या शिवाजीनगर कोर्टाबाहेरील हल्ला प्रकरणात आणखी तीन आरोपींना पोलिसांनी केली अटक"
     ]
@@ -279,22 +276,22 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "judged_same_kept_apart": 17,
+  "judged_same_kept_apart": 9,
   "date_spread": 30,
-  "waiting_for_judge": 774,
-  "pairs_judged": 11639,
-  "pairs_judged_same": 7716,
-  "judge_checked_by_expert": 2947,
-  "judge_overturned_by_expert": 1102,
+  "waiting_for_judge": 729,
+  "pairs_judged": 11689,
+  "pairs_judged_same": 7756,
+  "judge_checked_by_expert": 3022,
+  "judge_overturned_by_expert": 1116,
   "non_incident_wording": 6,
   "area_disagreement": 44,
   "silent_days": 2,
   "source_gap_days": 59,
-  "unverified": 47,
-  "ruled_out_by_ai": 542,
+  "unverified": 46,
+  "ruled_out_by_ai": 543,
   "future_times": 0,
   "reports": 4061,
-  "cases": 1756
+  "cases": 1753
  },
  "examples": {
   "split_cases": [
@@ -325,10 +322,6 @@
     "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
    ],
    [
-    "Pune News: 4,427 कोटी रुपये परदेशात पाठवल्याचा आरोप! पुण्यात 2 चार्टर्ड अकाउंटंट्सवर गुन्हा दाखल",
-    "Rs 4 Lakh Paid to Get Tenant Evicted, Flat Still Occupied; Three Booked in Pune"
-   ],
-   [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
@@ -337,12 +330,16 @@
     "FDA Seizes Banned Tobacco, Pan Masala Worth ₹61.86 Lakh In Pune Raids"
    ],
    [
-    "Encroachment Inspector Abused, Kicked at Sinhagad Road Ward office; Man Booked",
-    "Pune: PMC Encroachment Inspector Assaulted Over Seized Material"
+    "Pune: गुंतवणूक, नोकरीच्या आमिषाने पुण्यात लूट; विश्रामबाग, नऱ्हे आणि खराडीत गुन्हे दाखल; तिघांना ६१ लाखांना गंडा",
+    "Cybercrooks pose as Mum cops to threaten techie with arrest, dupe her of Rs 14L"
    ],
    [
-    "Encroachment Inspector Abused, Kicked at Sinhagad Road Ward office; Man Booked",
-    "Pune: PMC Encroachment Inspector Assaulted Over Seized Material"
+    "Police arrest 61-year-old for sexual assault of two minor sisters",
+    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
+   ],
+   [
+    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
+    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
    ]
   ],
   "date_spread": [
