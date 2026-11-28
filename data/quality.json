@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T08:55:22.691Z",
+ "updated": "2026-11-28T09:29:28.843Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "judged_same_kept_apart": 9,
-  "date_spread": 30,
-  "waiting_for_judge": 65,
-  "pairs_judged": 11939,
-  "pairs_judged_same": 7990,
-  "judge_checked_by_expert": 3097,
-  "judge_overturned_by_expert": 1116,
+  "judged_same_kept_apart": 10,
+  "date_spread": 29,
+  "waiting_for_judge": 29,
+  "pairs_judged": 12008,
+  "pairs_judged_same": 8097,
+  "judge_checked_by_expert": 3172,
+  "judge_overturned_by_expert": 1122,
   "non_incident_wording": 6,
   "area_disagreement": 44,
   "silent_days": 2,
   "source_gap_days": 59,
-  "unverified": 29,
-  "ruled_out_by_ai": 549,
+  "unverified": 1,
+  "ruled_out_by_ai": 559,
   "future_times": 0,
-  "reports": 4067,
-  "cases": 1761
+  "reports": 4083,
+  "cases": 1776
  },
  "examples": {
   "split_cases": [
@@ -326,12 +326,12 @@
     "Cybercrooks pose as Mum cops to threaten techie with arrest, dupe her of Rs 14L"
    ],
    [
-    "Police arrest 61-year-old for sexual assault of two minor sisters",
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
+    "आष्टापुरात कृषी पंप चोरांचा धुमाकूळ",
+    "61-Year-Old Woman’s Gold Chain Snatched Amid Ganesh Visarjan Crowd Near Pune’s Belbaug Chowk"
    ],
    [
-    "Chakan Driver Held After Car Allegedly Rams Policeman, Police Vehicle During Escape",
-    "Criminal rams 5 vehicles during 20km Pune cop, held after 2-hour chase"
+    "Police arrest 61-year-old for sexual assault of two minor sisters",
+    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
    ]
   ],
   "date_spread": [
@@ -463,6 +463,18 @@
   ],
   "source_gaps": [
    {
+    "source": "ptm",
+    "days": 15,
+    "examples": [
+     "2026-07-25",
+     "2026-08-15",
+     "2026-08-16",
+     "2026-09-07",
+     "2026-09-14",
+     "2026-10-10"
+    ]
+   },
+   {
     "source": "pud",
     "days": 1,
     "examples": [
@@ -498,18 +510,6 @@
     "examples": [
      "2026-11-20",
      "2026-11-22"
-    ]
-   },
-   {
-    "source": "ptm",
-    "days": 15,
-    "examples": [
-     "2026-07-25",
-     "2026-08-15",
-     "2026-08-16",
-     "2026-09-07",
-     "2026-09-14",
-     "2026-10-10"
     ]
    },
    {
