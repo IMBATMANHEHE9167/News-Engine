@@ -26,9 +26,12 @@ jobs:
           key: fastembed-paraphrase-multilingual-minilm-l12-v2
       - run: pip install -q -r collector/requirements.txt
       - run: mkdir -p _test && (python -m py_compile collector/*.py && echo "compile ok" || echo "COMPILE FAILED") > _test/result.txt 2>&1 && DIAG="Digital arrest. victim made to show" python collector/selftest.py >> _test/result.txt 2>&1 || true
+      - run: (python collector/probe.py > _test/probe.txt 2>&1) || true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: (GEMINI_API_KEY= timeout 900 python collector/collect.py > _test/collect.txt 2>&1; echo "exit $?" >> _test/collect.txt) || true
       - run: |
           git config user.name "vidraksh-collector"
           git config user.email "actions@users.noreply.github.com"
-          git add -f _test/result.txt _test/collect.txt
+          git add -f _test/result.txt _test/collect.txt _test/probe.txt
           git commit -q -m "engine test result" && (git push -q || echo "a newer test was pushed meanwhile; this result is not saved")
