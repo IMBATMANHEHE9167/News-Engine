@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-28T09:24:54.853Z",
- "total": 4083,
- "added": 17,
- "removed": 1,
+ "updated": "2026-11-28T10:22:58.110Z",
+ "total": 4098,
+ "added": 15,
+ "removed": 0,
  "rules": 11,
  "history": {
   "reachedBack": "2026-05-18",
@@ -73,14 +73,14 @@
    "name": "Pune Times Mirror",
    "ok": true,
    "found": 2,
-   "added": 1,
+   "added": 0,
    "note": ""
   },
   {
    "id": "pkn",
    "name": "Punekar News",
    "ok": true,
-   "found": 6,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -152,7 +152,7 @@
    "id": "lkm",
    "name": "Lokmat",
    "ok": true,
-   "found": 4,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -184,7 +184,7 @@
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 16,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -200,7 +200,7 @@
    "id": "xvb",
    "name": "Varad Bhatkhande (FPJ reporter) on X",
    "ok": true,
-   "found": 10,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -208,7 +208,7 @@
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 19,
+   "found": 27,
    "added": 0,
    "note": ""
   },
@@ -216,7 +216,7 @@
    "id": "xcp",
    "name": "Pune Police Commissioner on X",
    "ok": true,
-   "found": 3,
+   "found": 6,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 2,
+   "found": 5,
    "added": 0,
    "note": ""
   },
@@ -240,7 +240,7 @@
    "id": "xtrf",
    "name": "Pune Traffic Police on X",
    "ok": true,
-   "found": 0,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -272,15 +272,15 @@
    "id": "xpmc",
    "name": "Pune Municipal Corporation on X",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
    "id": "xlkm",
    "name": "Lokmat on X",
    "ok": true,
-   "found": 2,
+   "found": 0,
    "added": 0,
    "note": ""
   },

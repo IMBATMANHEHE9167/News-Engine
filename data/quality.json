@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T09:29:28.843Z",
+ "updated": "2026-11-28T10:26:29.462Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -268,22 +268,22 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "judged_same_kept_apart": 10,
-  "date_spread": 29,
-  "waiting_for_judge": 29,
-  "pairs_judged": 12008,
-  "pairs_judged_same": 8097,
-  "judge_checked_by_expert": 3172,
-  "judge_overturned_by_expert": 1122,
+  "judged_same_kept_apart": 22,
+  "date_spread": 31,
+  "waiting_for_judge": 0,
+  "pairs_judged": 12056,
+  "pairs_judged_same": 8147,
+  "judge_checked_by_expert": 3247,
+  "judge_overturned_by_expert": 1181,
   "non_incident_wording": 6,
   "area_disagreement": 44,
   "silent_days": 2,
   "source_gap_days": 59,
-  "unverified": 1,
-  "ruled_out_by_ai": 559,
+  "unverified": 0,
+  "ruled_out_by_ai": 563,
   "future_times": 0,
-  "reports": 4083,
-  "cases": 1776
+  "reports": 4098,
+  "cases": 1777
  },
  "examples": {
   "split_cases": [
@@ -306,12 +306,20 @@
     "Police arrest 61-year-old for sexual assault of two minor sisters"
    ],
    [
+    "Fatal Bopdev Ghat accident puts roadside bus stop safety under scanner",
+    "Three engineering students killed, two critical as tempo ploughs into them at bus stop in Pune"
+   ],
+   [
     "Pune Accident: सदाशिव पेठेत पोलिसांच्या व्हॅनचा थरार! चार-पाच वाहनांना उडवले; सुदैवाने जीवितहानी टळली, चालक पोलिसांच्या ताब्यात",
     "Pune: CCTV Captures Police Van Ploughing Into Parked Vehicles in Sadashiv Peth"
    ],
    [
     "Six Held in Otur as Police Foil Major Dacoity Plot, Seize Stolen Vehicle and Weapons Worth Rs. 14.87 Lakh",
     "Villagers help police nab 4 of gang after SUV theft | Pune News - The Times of India"
+   ],
+   [
+    "Pune Crime : कारागृहातूनही आंदेकर टोळी सक्रिय; पुणे पोलिस आयुक्तांचे कारागृह प्रशासनाला कडक निर्बंधांचे पत्र",
+    "Five held, minor detained for attack on Vanraj murder suspect’s brother"
    ],
    [
     "Pune: FDA Seizes Banned Pan Masala and Tobacco Worth ₹40.95 Lakh in Fursungi",
@@ -324,14 +332,6 @@
    [
     "Pune: गुंतवणूक, नोकरीच्या आमिषाने पुण्यात लूट; विश्रामबाग, नऱ्हे आणि खराडीत गुन्हे दाखल; तिघांना ६१ लाखांना गंडा",
     "Cybercrooks pose as Mum cops to threaten techie with arrest, dupe her of Rs 14L"
-   ],
-   [
-    "आष्टापुरात कृषी पंप चोरांचा धुमाकूळ",
-    "61-Year-Old Woman’s Gold Chain Snatched Amid Ganesh Visarjan Crowd Near Pune’s Belbaug Chowk"
-   ],
-   [
-    "Police arrest 61-year-old for sexual assault of two minor sisters",
-    "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl"
    ]
   ],
   "date_spread": [
