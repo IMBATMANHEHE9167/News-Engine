@@ -68,13 +68,13 @@
  },
  "read": 4012,
  "older": 3,
- "unread": 32,
+ "unread": 37,
  "second": 0,
  "expert": 12,
  "not_incident": 537,
- "updated": "2026-11-28T06:21:11.975Z",
+ "updated": "2026-11-28T07:19:06.337Z",
  "judged": 128,
  "audited": 2947,
  "overturned": 1102,
- "waiting": 475
+ "waiting": 680
 }

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T06:22:57.510Z",
+ "updated": "2026-11-28T07:20:42.249Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -63,9 +63,13 @@
   },
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "पुण्याच्या शिवाजीनगर कोर्टाबाहेरील हल्ला प्रकरणात आणखी तीन आरोपींना पोलिसांनी केली अटक"
+    ]
+   ]
   },
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
@@ -270,7 +274,7 @@
   "split_cases": 3,
   "judged_same_kept_apart": 17,
   "date_spread": 30,
-  "waiting_for_judge": 475,
+  "waiting_for_judge": 680,
   "pairs_judged": 11643,
   "pairs_judged_same": 7720,
   "judge_checked_by_expert": 2947,
@@ -279,11 +283,11 @@
   "area_disagreement": 44,
   "silent_days": 2,
   "source_gap_days": 59,
-  "unverified": 44,
+  "unverified": 49,
   "ruled_out_by_ai": 537,
   "future_times": 0,
-  "reports": 4047,
-  "cases": 1754
+  "reports": 4052,
+  "cases": 1753
  },
  "examples": {
   "split_cases": [
@@ -463,6 +467,25 @@
   ],
   "source_gaps": [
    {
+    "source": "pkn",
+    "days": 19,
+    "examples": [
+     "2026-08-13",
+     "2026-08-15",
+     "2026-08-23",
+     "2026-11-01",
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "pud",
+    "days": 1,
+    "examples": [
+     "2026-11-22"
+    ]
+   },
+   {
     "source": "lkm",
     "days": 2,
     "examples": [
@@ -477,13 +500,6 @@
      "2026-11-15",
      "2026-11-17",
      "2026-11-21"
-    ]
-   },
-   {
-    "source": "pud",
-    "days": 1,
-    "examples": [
-     "2026-11-22"
     ]
    },
    {
@@ -522,18 +538,6 @@
     ]
    },
    {
-    "source": "pkn",
-    "days": 19,
-    "examples": [
-     "2026-08-13",
-     "2026-08-15",
-     "2026-08-23",
-     "2026-11-01",
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "xppl",
     "days": 3,
     "examples": [
@@ -552,5 +556,5 @@
   ],
   "future_times": []
  },
- "passed": 44
+ "passed": 43
 }
