@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T08:34:22.756Z",
+ "updated": "2026-11-28T08:55:22.691Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -63,13 +63,9 @@
   },
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "पुण्याच्या शिवाजीनगर कोर्टाबाहेरील हल्ला प्रकरणात आणखी तीन आरोपींना पोलिसांनी केली अटक"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Bopdev Ghat tempo crash into students at a bus stop (25 Nov 2026) is one case",
@@ -79,13 +75,9 @@
   },
   {
    "name": "Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case",
-   "ok": false,
-   "detail": "2 cases",
-   "bad": [
-    [
-     "Two held on charge of raping woman at Kondhwa lodge"
-    ]
-   ]
+   "ok": true,
+   "detail": "one case",
+   "bad": []
   },
   {
    "name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out",
@@ -252,7 +244,7 @@
   {
    "name": "Court attack on Mandar Kivale (25 Nov 2026) is recorded as connected to the earlier murder it avenged (founder)",
    "ok": true,
-   "detail": "connected: feud murder of a man in 2025; revenge murder of Shubham Chavan over a land dispute; same_accused murder case of Shubham Chavan in 2025 in which the victim was r",
+   "detail": "connected: revenge murder of a young man in Santoshnagar Ambegaon area; revenge murder of shubham chavan a year earlier; same_accused murder case in which the victim was p",
    "bad": []
   },
   {
@@ -278,20 +270,20 @@
   "split_cases": 3,
   "judged_same_kept_apart": 9,
   "date_spread": 30,
-  "waiting_for_judge": 729,
-  "pairs_judged": 11689,
-  "pairs_judged_same": 7756,
-  "judge_checked_by_expert": 3022,
+  "waiting_for_judge": 65,
+  "pairs_judged": 11939,
+  "pairs_judged_same": 7990,
+  "judge_checked_by_expert": 3097,
   "judge_overturned_by_expert": 1116,
   "non_incident_wording": 6,
   "area_disagreement": 44,
   "silent_days": 2,
   "source_gap_days": 59,
-  "unverified": 46,
-  "ruled_out_by_ai": 543,
+  "unverified": 29,
+  "ruled_out_by_ai": 549,
   "future_times": 0,
-  "reports": 4061,
-  "cases": 1753
+  "reports": 4067,
+  "cases": 1761
  },
  "examples": {
   "split_cases": [
@@ -560,5 +552,5 @@
   ],
   "future_times": []
  },
- "passed": 42
+ "passed": 44
 }
