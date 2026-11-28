@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T07:20:42.249Z",
+ "updated": "2026-11-28T08:26:22.424Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -64,8 +64,11 @@
   {
    "name": "Mandar Kiwale attacked outside Shivajinagar court (25 Nov 2026), heavily covered for days, is one case",
    "ok": false,
-   "detail": "2 cases",
+   "detail": "3 cases",
    "bad": [
+    [
+     "Pune Court Firing News: पुण्यातील शिवाजीनगर कोर्टाबाहेरील हल्लाची व्याप्ती वाढली; कर्नाटक गाठण्याची तयारीत असलेल्या आणखी तिघांना अटक; आरोपींची संख्या आकारावर"
+    ],
     [
      "पुण्याच्या शिवाजीनगर कोर्टाबाहेरील हल्ला प्रकरणात आणखी तीन आरोपींना पोलिसांनी केली अटक"
     ]
@@ -79,9 +82,13 @@
   },
   {
    "name": "Woman gang-raped at a Kondhwa lodge, two arrested (22 Nov 2026), reported under Kondhwa, NIBM and Yerawada, is one case",
-   "ok": true,
-   "detail": "one case",
-   "bad": []
+   "ok": false,
+   "detail": "2 cases",
+   "bad": [
+    [
+     "Two held on charge of raping woman at Kondhwa lodge"
+    ]
+   ]
   },
   {
    "name": "Indian Express 'Three engineering students killed' (page blocked, read from the headline) is counted, not ruled out",
@@ -274,20 +281,20 @@
   "split_cases": 3,
   "judged_same_kept_apart": 17,
   "date_spread": 30,
-  "waiting_for_judge": 680,
-  "pairs_judged": 11643,
-  "pairs_judged_same": 7720,
+  "waiting_for_judge": 774,
+  "pairs_judged": 11639,
+  "pairs_judged_same": 7716,
   "judge_checked_by_expert": 2947,
   "judge_overturned_by_expert": 1102,
   "non_incident_wording": 6,
   "area_disagreement": 44,
   "silent_days": 2,
   "source_gap_days": 59,
-  "unverified": 49,
-  "ruled_out_by_ai": 537,
+  "unverified": 47,
+  "ruled_out_by_ai": 542,
   "future_times": 0,
-  "reports": 4052,
-  "cases": 1753
+  "reports": 4061,
+  "cases": 1756
  },
  "examples": {
   "split_cases": [
@@ -467,39 +474,10 @@
   ],
   "source_gaps": [
    {
-    "source": "pkn",
-    "days": 19,
-    "examples": [
-     "2026-08-13",
-     "2026-08-15",
-     "2026-08-23",
-     "2026-11-01",
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
     "source": "pud",
     "days": 1,
     "examples": [
      "2026-11-22"
-    ]
-   },
-   {
-    "source": "lkm",
-    "days": 2,
-    "examples": [
-     "2026-11-20",
-     "2026-11-22"
-    ]
-   },
-   {
-    "source": "prb",
-    "days": 3,
-    "examples": [
-     "2026-11-15",
-     "2026-11-17",
-     "2026-11-21"
     ]
    },
    {
@@ -514,15 +492,23 @@
     ]
    },
    {
-    "source": "toi",
-    "days": 10,
+    "source": "pkn",
+    "days": 19,
     "examples": [
-     "2026-08-16",
-     "2026-08-17",
-     "2026-09-26",
-     "2026-10-21",
-     "2026-11-11",
-     "2026-11-12"
+     "2026-08-13",
+     "2026-08-15",
+     "2026-08-23",
+     "2026-11-01",
+     "2026-11-20",
+     "2026-11-22"
+    ]
+   },
+   {
+    "source": "lkm",
+    "days": 2,
+    "examples": [
+     "2026-11-20",
+     "2026-11-22"
     ]
    },
    {
@@ -535,6 +521,27 @@
      "2026-09-07",
      "2026-09-14",
      "2026-10-10"
+    ]
+   },
+   {
+    "source": "prb",
+    "days": 3,
+    "examples": [
+     "2026-11-15",
+     "2026-11-17",
+     "2026-11-21"
+    ]
+   },
+   {
+    "source": "toi",
+    "days": 10,
+    "examples": [
+     "2026-08-16",
+     "2026-08-17",
+     "2026-09-26",
+     "2026-10-21",
+     "2026-11-11",
+     "2026-11-12"
     ]
    },
    {
@@ -556,5 +563,5 @@
   ],
   "future_times": []
  },
- "passed": 43
+ "passed": 42
 }

@@ -1,40 +1,14 @@
 {
- "day": "2026-11-27",
+ "day": "2026-11-28",
  "used": {
-  "gemini-3.5-flash-lite": 415,
-  "gemini-3.1-flash-lite": 336,
-  "gemini-3.6-flash": 20,
-  "gemini-3-flash-preview": 19,
-  "gemini-3.5-flash": 3,
-  "gemini-3.1-flash-lite-preview": 84,
-  "gemini-flash-lite-latest": 10,
-  "gemini-3.8-flash": 1,
-  "gemini-3.7-flash": 2
+  "gemini-3.5-flash-lite": 4,
+  "gemini-3.6-flash": 1,
+  "gemini-3-flash-preview": 6
  },
- "rested": {
-  "gemini-3.5-flash-lite": true,
-  "gemini-flash-lite-latest": true,
-  "gemini-3.5-flash": true,
-  "gemini-3.8-flash": true,
-  "gemini-3-flash-preview": true,
-  "gemini-flash-latest": true,
-  "gemini-3.7-flash": true,
-  "gemini-3.1-flash-lite": true,
-  "gemini-3.1-flash-lite-preview": true
- },
+ "rested": {},
  "errors": [
-  "gemini-3.1-flash-lite: The read operation timed out",
-  "gemini-3.7-flash: The read operation timed out",
   "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: The read operation timed out",
-  "gemini-3-flash-preview: daily limit after 19 requests",
-  "gemini-flash-latest: daily limit after 0 requests",
-  "gemini-3.7-flash: daily limit after 2 requests",
-  "gemini-3.1-flash-lite-preview: The read operation timed out",
-  "gemini-3.1-flash-lite-preview: The read operation timed out",
-  "gemini-3.1-flash-lite: daily limit after 336 requests",
-  "gemini-3.1-flash-lite-preview: daily limit after 84 requests"
+  "gemini-3-flash-preview: The read operation timed out"
  ],
  "models": {
   "readers": [
@@ -52,29 +26,23 @@
    "gemini-flash-latest"
   ]
  },
- "caps": {
-  "gemini-3.5-flash-lite": 415,
-  "gemini-3.1-flash-lite": 336,
-  "gemini-3.1-flash-lite-preview": 84
- },
+ "caps": {},
  "rest_fix": 1,
  "caps_fix": 1,
- "triaged": 5373,
+ "triaged": 103,
  "lx_reset": 1,
- "xx_day": "2026-11-27",
+ "xx_day": "2026-11-28",
  "last_run": {
-  "busy": 0,
-  "stop": "no model left today (allowance used or retired)"
+  "busy": 1,
+  "stop": "nothing left to read, or this run's share used"
  },
  "read": 4012,
  "older": 3,
- "unread": 37,
+ "unread": 46,
  "second": 0,
- "expert": 12,
- "not_incident": 537,
- "updated": "2026-11-28T07:19:06.337Z",
- "judged": 128,
- "audited": 2947,
- "overturned": 1102,
- "waiting": 680
+ "expert": 1,
+ "not_incident": 542,
+ "updated": "2026-11-28T08:24:34.385Z",
+ "judged": 0,
+ "waiting": 774
 }
