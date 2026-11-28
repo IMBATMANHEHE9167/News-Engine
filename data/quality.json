@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T11:29:31.354Z",
+ "updated": "2026-11-28T12:32:46.901Z",
  "tests": [
   {
    "name": "Opium seized at Santoshnagar, Katraj (Nov 2026) is placed in the city, not Ambegaon taluka",
@@ -272,28 +272,28 @@
  ],
  "detectors": {
   "split_cases": 3,
-  "judged_same_kept_apart": 22,
-  "date_spread": 30,
-  "waiting_for_judge": 5,
-  "pairs_judged": 12099,
-  "pairs_judged_same": 8182,
-  "judge_checked_by_expert": 3322,
+  "judged_same_kept_apart": 24,
+  "date_spread": 31,
+  "waiting_for_judge": 3,
+  "pairs_judged": 12117,
+  "pairs_judged_same": 8187,
+  "judge_checked_by_expert": 3347,
   "judge_overturned_by_expert": 1211,
   "non_incident_wording": 6,
-  "area_disagreement": 44,
+  "area_disagreement": 49,
   "silent_days": 2,
   "source_gap_days": 58,
   "unverified": 0,
-  "ruled_out_by_ai": 566,
+  "ruled_out_by_ai": 571,
   "future_times": 0,
-  "reports": 4111,
-  "cases": 1775
+  "reports": 4123,
+  "cases": 1779
  },
  "examples": {
   "split_cases": [
    [
     "Senior citizen loses ₹32 lakh in digital arrest fraud",
-    "Pune Crime : बालेवाडीत कौटुंबिक वादातून सुनेला १० महिला बाउन्सर्सच्या मदतीने बेदम मारहाण"
+    "Pune: Woman Allegedly Forced Into Occult Ritual To ‘Remove’ Husband’s Manglik Dosha; Five Booked"
    ],
    [
     "26-Year-Old Rider Killed After Dumper Hits Two-Wheeler in Mhalunge-Balewadi",
@@ -307,7 +307,7 @@
   "judged_same_kept_apart": [
    [
     "Pimpri Chinchwad Police forms SIT to Probe Alleged Sexual Assault of 10-Year-Old Girl",
-    "Police arrest 61-year-old for sexual assault of two minor sisters"
+    "Pune: Woman Allegedly Forced Into Occult Ritual To ‘Remove’ Husband’s Manglik Dosha; Five Booked"
    ],
    [
     "Fatal Bopdev Ghat accident puts roadside bus stop safety under scanner",
@@ -467,6 +467,18 @@
   ],
   "source_gaps": [
    {
+    "source": "ptm",
+    "days": 14,
+    "examples": [
+     "2026-07-18",
+     "2026-07-25",
+     "2026-08-15",
+     "2026-08-16",
+     "2026-09-07",
+     "2026-10-10"
+    ]
+   },
+   {
     "source": "skl",
     "days": 5,
     "examples": [
@@ -487,18 +499,6 @@
      "2026-11-01",
      "2026-11-20",
      "2026-11-22"
-    ]
-   },
-   {
-    "source": "ptm",
-    "days": 14,
-    "examples": [
-     "2026-07-18",
-     "2026-07-25",
-     "2026-08-15",
-     "2026-08-16",
-     "2026-09-07",
-     "2026-10-10"
     ]
    },
    {
