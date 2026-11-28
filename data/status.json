@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-28T13:23:03.175Z",
- "total": 4142,
- "added": 19,
+ "updated": "2026-11-28T14:33:56.453Z",
+ "total": 4168,
+ "added": 26,
  "removed": 0,
  "rules": 11,
  "history": {
@@ -47,10 +47,10 @@
   {
    "id": "ie",
    "name": "Indian Express",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 22,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "ht",
@@ -72,7 +72,7 @@
    "id": "ptm",
    "name": "Pune Times Mirror",
    "ok": true,
-   "found": 0,
+   "found": 2,
    "added": 0,
    "note": ""
   },
@@ -88,7 +88,7 @@
    "id": "ppl",
    "name": "Pune Pulse",
    "ok": true,
-   "found": 0,
+   "found": 1,
    "added": 0,
    "note": ""
   },
@@ -128,17 +128,17 @@
    "id": "prb",
    "name": "Dainik Prabhat",
    "ok": true,
-   "found": 0,
-   "added": 0,
+   "found": 1,
+   "added": 1,
    "note": ""
   },
   {
    "id": "lks",
    "name": "Loksatta",
-   "ok": false,
-   "found": 0,
+   "ok": true,
+   "found": 3,
    "added": 0,
-   "note": "HTTP 403"
+   "note": ""
   },
   {
    "id": "pud",
@@ -160,15 +160,15 @@
    "id": "skl",
    "name": "Sakal",
    "ok": true,
-   "found": 18,
-   "added": 0,
+   "found": 19,
+   "added": 1,
    "note": ""
   },
   {
    "id": "xptm",
    "name": "Pune Times Mirror on X",
    "ok": true,
-   "found": 10,
+   "found": 15,
    "added": 0,
    "note": ""
   },
@@ -184,7 +184,7 @@
    "id": "xpkn",
    "name": "Punekar News on X",
    "ok": true,
-   "found": 17,
+   "found": 6,
    "added": 0,
    "note": ""
   },
@@ -192,7 +192,7 @@
    "id": "xie",
    "name": "Express Pune on X",
    "ok": true,
-   "found": 10,
+   "found": 7,
    "added": 0,
    "note": ""
   },
@@ -208,7 +208,7 @@
    "id": "xpcp",
    "name": "Pune City Police on X",
    "ok": true,
-   "found": 14,
+   "found": 34,
    "added": 0,
    "note": ""
   },
@@ -224,7 +224,7 @@
    "id": "xpcc",
    "name": "Pimpri Chinchwad Police on X",
    "ok": true,
-   "found": 2,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -232,7 +232,7 @@
    "id": "xprp",
    "name": "Pune Rural Police on X",
    "ok": true,
-   "found": 1,
+   "found": 4,
    "added": 0,
    "note": ""
   },
@@ -240,7 +240,7 @@
    "id": "xtrf",
    "name": "Pune Traffic Police on X",
    "ok": true,
-   "found": 1,
+   "found": 3,
    "added": 0,
    "note": ""
   },
@@ -263,18 +263,18 @@
   {
    "id": "xpmp",
    "name": "PMPML on X",
-   "ok": true,
-   "found": 0,
-   "added": 0,
-   "note": ""
-  },
-  {
-   "id": "xpmc",
-   "name": "Pune Municipal Corporation on X",
    "ok": false,
    "found": 0,
    "added": 0,
    "note": "HTTP 404"
+  },
+  {
+   "id": "xpmc",
+   "name": "Pune Municipal Corporation on X",
+   "ok": true,
+   "found": 1,
+   "added": 0,
+   "note": ""
   },
   {
    "id": "xlkm",
@@ -287,10 +287,10 @@
   {
    "id": "xskl",
    "name": "Sakal on X",
-   "ok": false,
+   "ok": true,
    "found": 0,
    "added": 0,
-   "note": "HTTP 404"
+   "note": ""
   },
   {
    "id": "xlks",
