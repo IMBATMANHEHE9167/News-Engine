@@ -1,5 +1,5 @@
 {
- "scanned": "2026-11-28T05:45:27.103Z",
+ "scanned": "2026-11-28T06:00:23.062Z",
  "every": 15,
  "sources_ok": 26,
  "sources_failed": [
@@ -8,13 +8,13 @@
   "ppl",
   "ptm",
   "xabp",
-  "xie",
-  "xmet",
+  "xpcc",
+  "xpmc",
   "xppl",
-  "xtv9",
-  "xvb"
+  "xprp",
+  "xtv9"
  ],
- "reports": 386,
- "situations": 191,
+ "reports": 387,
+ "situations": 192,
  "new": 1
 }
